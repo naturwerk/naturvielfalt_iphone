@@ -46,7 +46,6 @@
     [titles addObject:@"Benutzername"];
     [titles addObject:@"Passwort"];
     [titles addObject:@"Bilder Vorschau"];
-    [titles addObject:@"Organism vorladen"];
     
     [super viewDidLoad];
     
@@ -156,13 +155,6 @@
                 [(UISwitch *)cell.accessoryView setOn:showImages]; 
             }
             
-        } else if(indexPath.row == 3) {
-            
-            if([appSettings objectForKey:@"preloadOrganisms"] != nil) {
-                BOOL preloadImages = [[appSettings stringForKey:@"preloadOrganisms"] isEqualToString:@"on"];
-                [(UISwitch *)cell.accessoryView setOn:preloadImages]; 
-            }
-            
         }
         
         
@@ -191,10 +183,6 @@
 
         // Show images value
         [appSettings setObject:on forKey:@"showImages"];
-    } else if(indexPath.row == 3) {
-        
-        // Preload Organisms value
-        [appSettings setObject:on forKey:@"preloadOrganisms"];
     }
     
     [appSettings synchronize];

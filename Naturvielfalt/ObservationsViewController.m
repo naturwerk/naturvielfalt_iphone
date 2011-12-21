@@ -57,7 +57,8 @@
                                      target:self
                                      action: @selector(changeToFilterView)];
     
-    self.navigationItem.rightBarButtonItem = filterButton;
+    // FILTER BUTTON IS ATM DEACTIVATED, just uncomment to activate
+    // self.navigationItem.rightBarButtonItem = filterButton;
     [filterButton release];
     
     

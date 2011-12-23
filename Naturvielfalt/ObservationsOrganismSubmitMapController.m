@@ -53,6 +53,7 @@
     locationManager = [[CLLocationManager alloc] init];
     
     if(review) {
+        // RELOCATE button not implemented yet
         /*UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"Relocate"
                                                                        style:UIBarButtonItemStylePlain 
                                                                       target:self 
@@ -188,14 +189,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    /*
-    mapView = nil;
-    locationHelper = nil;
-    locationManager = nil;
-    currentLocation = nil;
-    observation = nil;
-     */
 }
 
 
@@ -203,14 +196,6 @@
 {
     [super dealloc];    
     
-    /*
-    [mapView release];
-    [locationHelper release];
-    [locationManager release];
-    [currentLocation release];
-    [observation release];
-    */
-     
     [self.mapView.userLocation removeObserver:self forKeyPath:@"location"];
     // [self.mapView removeFromSuperview];
     // self.mapView = nil;

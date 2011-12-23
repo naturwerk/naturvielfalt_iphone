@@ -328,10 +328,16 @@
     // German/Lat names
     if (displayGermanNames) {
         cell.textLabel.text = [organism getNameDe];
-        cell.detailTextLabel.text = organism.nameLat;
+        
+        if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
+            cell.detailTextLabel.text = organism.nameLat;            
+        }
     } else {
         cell.textLabel.text = organism.nameLat;
-        cell.detailTextLabel.text = [organism getNameDe];
+
+        if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
+            cell.detailTextLabel.text = [organism getNameDe];            
+        }
     }
     
     return cell;

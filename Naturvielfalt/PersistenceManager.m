@@ -320,7 +320,7 @@
                         FROM classification as c \
                         LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
                         WHERE (c.parent = %d AND c.class_level = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
-                        GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.name_de", parentId, classlevel];
+                        GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId, classlevel];
     
     sqlite3_stmt *statement;
     

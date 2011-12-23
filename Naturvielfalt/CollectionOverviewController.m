@@ -83,6 +83,8 @@
 - (void) sendRequestToServer 
 {
     NSURL *url = [NSURL URLWithString:@"http://devel.naturvielfalt.ch/webservice/submitData.php"];
+    
+    // OR for local testing
     // NSURL *url = [NSURL URLWithString:@"http://localhost/swissmon/application/webservice/submitData.php"];
     
     
@@ -94,36 +96,57 @@
     
     int i = 1;
 
+    if(counter == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Es wurden noch keine Beobachtungen gespeichert." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+        
+        return;
+    }
+
     
     BOOL successfulTransmission = true;
     
     for(Observation *ob in observations) {
         if(ob.submitToServer) {
             
-            NSLog(@"SUBMIT: %@", [ob.organism getNameDe]);
+            // NSLog(@"SUBMIT: %@", [ob.organism getNameDe]);
             
             NSString *text = [NSString stringWithFormat:@"Transferring %@", [ob.organism getNameDe]];
             float currProgress = (float)(counter/i);
 
             // Get username and password from the UserDefaults
             NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
-            NSString *username = @"deyf";
-            NSString *password = @"worscht";
+            
+            NSString *username = [NSString stringWithString:@""];             
+            NSString *password = [NSString stringWithString:@""];
+            
+            BOOL credentialsSetted = true;
             
             if([appSettings objectForKey:@"username"] != nil) {
                 username = [appSettings stringForKey:@"username"];
+            } else {
+                credentialsSetted = false;
             }
             
             if([appSettings objectForKey:@"password"] != nil) {
                 password = [appSettings stringForKey:@"password"];
+            } else {
+                credentialsSetted = false;
+            }
+            
+            if(!credentialsSetted) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Benutzername/Passwort wurde noch nicht gesetzt. Dies kann in den Einstellungen gesetzt werden." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+                [alert release]; 
+                
+                return;
             }
             
             
             ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
             [request setUsername:username];
             [request setPassword:password];
-            
-            // NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = @"dd.MM.yyyy";
@@ -148,8 +171,6 @@
                 // Creare PNG image
                 NSData *imageData = UIImagePNGRepresentation([ob.pictures objectAtIndex:0]);
                 
-                NSLog(@"IMAGE is in observation");
-                
                 // And add the png image into the request
                 [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"file"];
             }
@@ -165,8 +186,6 @@
             // [request setPostValue:comment forKey:@"comment"];
 
             successfulTransmission = [self submitData:ob withRequest:request withPersistenceManager:persistenceManager];
-        } else {
-            NSLog(@"Do NOT submit: %@", ob.organism.nameDe);
         }
         
         i++;
@@ -177,7 +196,7 @@
         [alert show];
         [alert release];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Beobachtungen wurden leider NICHT erfolgreich übertragen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Beobachtungen wurden leider NICHT erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
         [alert release];    }
 }
@@ -190,7 +209,7 @@
     if (!error) {
         NSString *response = [request responseString];
         
-        NSLog(@"Response: '%@'", response);
+        // NSLog(@"Response: '%@'", response);
         
         if([response isEqualToString:@"SUCCESS"]) {
         
@@ -215,10 +234,7 @@
         }
         
         return true;
-    } else {
-        
-        NSLog(@"ERROR cannot not even send it!!! %@", error);
-        
+    } else {        
         return false;
     }
 }
@@ -267,27 +283,6 @@
     [table reloadData];
 }
 
-/*
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-
-    persistenceManager = nil;
-    observations = nil;
-    observationsToSubmit = nil;
-    table = nil;
-}
-
-- (void) dealloc
-{
-    [super dealloc];
-
-    [persistenceManager release];
-    [observations release];
-    [observationsToSubmit release];
-    [table release];
-}
- */
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

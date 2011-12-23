@@ -451,7 +451,8 @@
                             
                 if([organism.genus length] == 0 || [organism.species length] == 0) {
                     if([[organism getNameDe] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
-                        [toRemove addObject:organism];   
+                        [toRemove addObject:organism]; 
+                        continue;
                     }
                 }
                 
@@ -483,7 +484,7 @@
             }
         }
         
-        if ([array count] == [toRemove count])
+        if ([array count] <= [toRemove count])
             [sectionsToRemove addObject:key];
 		
         [array removeObjectsInArray:toRemove];

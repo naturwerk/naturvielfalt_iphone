@@ -24,9 +24,6 @@
 // CONNECTION
 - (void) establishConnection
 {
-    
-    NSLog(@"Establish connection");
-    
     NSString *fileName = @"db.sqlite3";
     NSString *dbFilePath = [NSString stringWithFormat:@"%@/Documents/%@", NSHomeDirectory(), fileName];
     
@@ -41,8 +38,6 @@
         } else {
             NSLog(@"DB file successfully copied");
         }
-    } else {
-        NSLog(@"File already exists!!!!");
     }
     
     [fmngr release];
@@ -76,27 +71,19 @@
         sqlite3_close(database);
         NSAssert1(0, @"Error creating table: %s", errorMsg);
     }
-    
-    NSLog(@"/Establish connection");
 }
 
 - (void) closeConnection
 {
-    NSLog(@"Close connection");
-    
     // Disconnect link to database
     sqlite3_close(database);
-    
-    NSLog(@"/Close connection");
 }
 
 - (int *) saveObservation:(Observation *) observation
 {
     char *sql = "INSERT INTO observation (ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, IMAGE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt;
-    
-    NSLog(@"in saveObservation");
-    
+
     // Create date string
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
@@ -299,9 +286,6 @@
         sqlite3_finalize(statement);
     }
     
-    NSTimeInterval timestampStop = [[NSDate date] timeIntervalSince1970];
-    NSLog(@"/Get observations: %0.01f", timestampStop-timestampStart);
-    
     return observations;
 }
 
@@ -330,10 +314,6 @@
 // ORGANISMGROUPS
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel
 {
-    
-    NSTimeInterval timestampStart = [[NSDate date] timeIntervalSince1970];
-    
-    
     NSMutableArray *organismGroups = [[NSMutableArray alloc] init];
     
     NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id) \
@@ -366,9 +346,6 @@
         sqlite3_finalize(statement);
     }
     
-    NSTimeInterval timestampStop = [[NSDate date] timeIntervalSince1970];
-    NSLog(@"/Get organismGroups: %0.01f", timestampStop-timestampStart);
-    
     return organismGroups;
 }
 
@@ -381,13 +358,8 @@
     int count = 0;
     
     if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
-        
 		sqlite3_step(statement);		
-        
         count = sqlite3_column_int(statement, 0);
-        
-        NSLog(@"Count: %d", count);
-        
         sqlite3_finalize(statement);
     }
     
@@ -397,9 +369,6 @@
 // ORGANISMS
 - (NSMutableArray *) getAllOrganisms:(int) groupId
 {
-    
-    NSTimeInterval timestampStart = [[NSDate date] timeIntervalSince1970];
-    
     NSMutableArray *organisms = [[NSMutableArray alloc] init];
     
     NSString *query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc FROM organism AS o \
@@ -457,9 +426,6 @@
     } else {
         NSLog( @"Get organisms: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(database));
     }
-    
-    NSTimeInterval timestampStop = [[NSDate date] timeIntervalSince1970];
-    NSLog(@"/Get organisms: %0.01f", timestampStop-timestampStart);
     
     return organisms;
 }

@@ -12,7 +12,6 @@
 #import "SBJson.h"
 #import "OrganismGroup.h"
 #import "SwissCoordinates.h"
-#import "Settings.h"
 #import "InfoController.h"
 #import "PersistenceManager.h"
 #import "ObservationsOrganismSubmitController.h"
@@ -93,9 +92,6 @@
 
 - (void) infoPage
 {
-    
-    NSLog(@"INFO PAGE");
-    
     // Create the ObservationsOrganismViewController
     InfoController *infoController = [[InfoController alloc] 
                                                               initWithNibName:@"InfoController" 
@@ -178,7 +174,16 @@
     
     // Set detail label
     cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:13.0];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Arten", organismGroup.count];;
+    
+    NSString *detailTextLabel;
+    
+    if(organismGroup.count == 0) {
+        detailTextLabel = [NSString stringWithString:@"-->"];
+    } else {
+        detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
+    }
+    
+    cell.detailTextLabel.text = detailTextLabel;
     
     return cell;
 }
@@ -214,17 +219,16 @@
     PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
     [persistenceManager establishConnection];
     
-    NSLog(@"BEFORE");
-    // NSMutableArray *groups = [persistenceManager getAllOrganismGroups:currentSelectedOrganismGroup.organismGroupId withClasslevel:classlevel];
-    NSLog(@"AFTER");    
-    
     if([persistenceManager organismGroupHasChild:currentSelectedOrganismGroup.organismGroupId]) {
+        // If the organismGroup has subgroups call again OverviewController
+        
         overviewController.groupId = currentSelectedOrganismGroup.organismGroupId;
         overviewController.classlevel = classlevel + 1;
         
         [self.navigationController pushViewController:overviewController animated:TRUE];
     } else {
-        
+        // If the OrganismGroup does not have any subgroups 
+        // directly go to the detail page of an organism
         
         if(currentSelectedOrganismGroup.organismGroupId == 1000) {
             // Then its a not yet defined organism
@@ -263,8 +267,6 @@
         [organismController release];
         organismController = nil;
     }
-
-
 }
 
 
@@ -276,76 +278,15 @@
     [persistenceManager establishConnection];
     
     // Get all Root elements (Root elements have the id 3)
-    NSLog(@"groupid: %d, classlevel: %d", groupId, classlevel);
     self.listData = [persistenceManager getAllOrganismGroups:groupId withClasslevel:classlevel];
     
+    /*
+     NOCH NICHT IDENTIFIZIERTE ORGANISMEN not display atm..
     OrganismGroup *notDefinedOrganismGroup = [[OrganismGroup alloc] init];
     notDefinedOrganismGroup.organismGroupId = 1000;
     notDefinedOrganismGroup.name = @"Nicht identifizert";
     
     [self.listData addObject:notDefinedOrganismGroup];
-    
-    /*
-    // Create new SBJSON parser object
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    
-    // JSON Request url
-    NSURLRequest *request;
-    
-    NSString *model = [[UIDevice currentDevice] model];
-    
-    Settings *settings = [[Settings alloc] getSettings];
-    
-    
-    request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://devel.naturvielfalt.ch/api/organisms/"]];
-    // request = [NSURLRequest requestWithURL:[NSURL URLWithString:settings.urlWebservice]];
-    
-    // request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost/swissmon/application/api/organismgroups/"]];
-    
-    // Start activities (Displaying that the application is doing something)
-    UIApplication* app = [UIApplication sharedApplication];
-    app.networkActivityIndicatorVisible = true;
-    
-    
-    // Perform request and get JSON back as a NSData object
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    
-    // Get JSON as a NSString from NSData response
-    NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-    
-    // parse the JSON response into an object
-    // Here we're using NSArray since we're parsing an array of JSON status objects
-    NSArray *organismObject = [parser objectWithString:json_string error:nil];
-
-    // initialize array
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    
-    // Iterate over all organism groups
-    for(NSDictionary *dict in organismObject) {
-        NSInteger organismGroupId = [[dict objectForKey:@"inventory_type_id"] intValue];
-        NSString *name = [dict objectForKey:@"name"];
-        NSInteger count = [[dict objectForKey:@"count"] intValue];
-        
-        // create an organismgroup and fill it with the corresponding data
-        OrganismGroup *organismGroup = [[OrganismGroup alloc] init];
-        
-        organismGroup.organismGroupId = organismGroupId;
-        organismGroup.name = name;
-        organismGroup.count = count;
-
-        // add the created organism group
-        [array addObject:organismGroup];
-        
-        [organismGroup release];
-    }
-    
-    self.listData = array;
-    [array release];
-    
-    // Stop activities
-    app.networkActivityIndicatorVisible = false;
-    
-    [table reloadData];
      */
 }
 

@@ -16,7 +16,7 @@
 #import "MBProgressHUD.h"
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, locationHelper, accuracyText, family, persistenceManager, review;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,7 +54,8 @@
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.distanceFilter = 10.0f;
         
-        [locationManager startUpdatingLocation];
+        if(!review)
+            [locationManager startUpdatingLocation];
     }
     
     // Do any additional setup after loading the view from its nib.
@@ -85,14 +86,15 @@
     // Create the persistence manager
     persistenceManager = [[PersistenceManager alloc] init];
     
-    
-    // Reset values
-    observation.locationLocked = false;
-    observation.amount = @"1";
-    observation.accuracy = 0;
-    observation.comment = @"";
-    observation.pictures = [[NSMutableArray alloc] init];
-    observation.locationLocked = false;
+    if(!review) {
+        // Reset values
+        observation.locationLocked = false;
+        observation.amount = @"1";
+        observation.accuracy = 0;
+        observation.comment = @"";
+        observation.pictures = [[NSMutableArray alloc] init];
+        observation.locationLocked = false;
+    }
     
     [submitButton release];
     [title release];
@@ -176,6 +178,8 @@
                                      action: @selector(submitObservation)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
+    
+    [tableView reloadData];
 }
 
 
@@ -187,25 +191,6 @@
     // [self performSelector:@selector(discardLocationManager) onThread:[NSThread currentThread] withObject:nil waitUntilDone:NO];
     
     locationManager = nil;
-    locationHelper = nil;
-    
-    /*
-    organism = nil;
-    observation = nil;
-    nameDe = nil;
-    nameLat = nil;
-    family = nil;
-    tableView = nil;
-    accuracyImage = nil;
-    accuracyText = nil;
-    locationManager = nil;
-    locationHelper = nil;
-    
-    arrayKeys = nil;
-    arrayValues = nil;
-    
-    persistenceManager = nil;
-    */
 }
 
 - (void) dealloc 
@@ -213,25 +198,6 @@
     [super dealloc];
     
     [locationManager release];
-    [locationHelper release];
-    
-    /*
-    [organism release];
-    [observation release];
-    [nameDe release];
-    [nameLat release];
-    [family release];
-    [tableView release];
-    [accuracyImage release];
-    [accuracyText release];
-    [locationManager release];
-    [locationHelper release];
-    
-    [arrayKeys release];
-    [arrayValues release];
-    
-    [persistenceManager release];
-     */
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

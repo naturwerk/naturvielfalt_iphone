@@ -10,7 +10,6 @@
 #import "Organism.h"
 #import "Observation.h"
 #import <CoreLocation/CoreLocation.h>
-#import "LocationHelper.h"
 #import "PersistenceManager.h"
 
 @interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
@@ -23,7 +22,6 @@
     UIImage *accuracyImage;
     NSString *accuracyText;
     CLLocationManager *locationManager;
-    LocationHelper *locationHelper;
     
     NSArray *arrayKeys;
     NSArray *arrayValues;
@@ -42,7 +40,6 @@
 @property (nonatomic, retain) UIImage *accuracyImage;
 @property (nonatomic, retain) NSString *accuracyText;
 @property (nonatomic, retain) CLLocationManager *locationManager;
-@property (nonatomic, retain) LocationHelper *locationHelper;
 
 @property (nonatomic, assign) NSArray *arrayKeys;
 @property (nonatomic, assign) NSArray *arrayValues;

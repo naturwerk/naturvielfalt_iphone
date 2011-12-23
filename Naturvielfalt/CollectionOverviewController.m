@@ -11,7 +11,6 @@
 #import "ObservationsOrganismSubmitController.h"
 #import "MBProgressHUD.h"
 #import "ASIFormDataRequest.h"
-#import "Settings.h"
 
 @implementation CollectionOverviewController
 @synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, progressView;
@@ -174,44 +173,13 @@
     } 
     
     if(successfulTransmission) {
-        /*
-        // SUCCESSFUL
-        // Show progres hud
-        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-        [self.navigationController.view addSubview:hud];
-        
-        hud.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
-        
-        // Set custom view mode
-        hud.mode = MBProgressHUDModeCustomView;
-        
-        hud.delegate = self;
-        hud.labelText = @"Erfolgreich übermittelt";
-        
-        [hud show:YES];
-        [hud hide:YES afterDelay:2];
-        [hud show:NO];
-         */
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Erfolgreich" message:@"Beobachtungen wurden erfolgreich übertragen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
     } else {
-        // NOT SUCCESSFUL
-        // Show progres hud
-        /*
-        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-        [self.navigationController.view addSubview:hud];
-        
-        hud.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
-        
-        // Set custom view mode
-        hud.mode = MBProgressHUDModeCustomView;
-        
-        hud.delegate = self;
-        hud.labelText = @"NICHT erfolgreich übermittelt";
-        
-        [hud show:YES];
-        [hud hide:YES afterDelay:2];
-        [hud show:NO];
-         */
-    }
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Beobachtungen wurden leider NICHT erfolgreich übertragen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];    }
 }
 
 - (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request withPersistenceManager:(PersistenceManager *)persistenceManager {
@@ -222,26 +190,29 @@
     if (!error) {
         NSString *response = [request responseString];
         
-        // And Delete the observation form the database
-        // PersistenceManager create
-        persistenceManager = [[PersistenceManager alloc] init];
+        NSLog(@"Response: '%@'", response);
         
-        // Establish a connection
-        [persistenceManager establishConnection];
+        if([response isEqualToString:@"SUCCESS"]) {
         
-        // Delete submitted observation
-        [persistenceManager deleteObservation:ob.observationId];
-        
-        // Reload observations
-        observations = [persistenceManager getObservations];
-        
-        // Reload the table
-        [table reloadData];
-        
-        // Close connection
-        [persistenceManager closeConnection];   
-        
-        NSLog(@"Response: %@", response);
+            // And Delete the observation form the database
+            // PersistenceManager create
+            persistenceManager = [[PersistenceManager alloc] init];
+            
+            // Establish a connection
+            [persistenceManager establishConnection];
+            
+            // Delete submitted observation
+            [persistenceManager deleteObservation:ob.observationId];
+            
+            // Reload observations
+            observations = [persistenceManager getObservations];
+            
+            // Reload the table
+            [table reloadData];
+            
+            // Close connection
+            [persistenceManager closeConnection];   
+        }
         
         return true;
     } else {

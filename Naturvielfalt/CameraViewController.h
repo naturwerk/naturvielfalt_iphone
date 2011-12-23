@@ -2,7 +2,9 @@
 //  CameraViewController.h
 //  Camera
 //
-//  Created by Dave Mark on 12/16/10.
+//  Created by Dave Mark on 12/16/10. 
+//  Adapted by Robin Oster.
+//
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 

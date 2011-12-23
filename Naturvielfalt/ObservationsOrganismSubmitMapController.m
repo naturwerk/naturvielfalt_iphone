@@ -14,7 +14,7 @@
 #import "SwissCoordinates.h"
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, locationHelper, locationManager, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -134,7 +134,7 @@
 
 - (void) relocate 
 {
-    NSLog(@"RELOCATEEE!!!");
+   
 }
 
 - (void) returnBack 
@@ -236,7 +236,6 @@
         self.mapView.region = mapRegion;     
     }
     
-    NSLog(@"update position of the annotation");
     [annotation setCoordinate:newLocation.coordinate];
 }
 
@@ -254,20 +253,20 @@
     {
         case kCLErrorNetwork: // general, network-related error
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"please check your network connection or that you are not in airplane mode" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Kein Netzwerk vorhanden. Ev. im Flugmodus?" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
             [alert release];
         }
             break;
         case kCLErrorDenied:{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"user has denied to use current Location " delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"GPS wurde vom Benutzer für diese Applikation deaktiviert. " delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
             [alert release];
         }
             break;
         default:
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"unknown network error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unbekannter Netzwerk Error." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
             [alert release];
         }

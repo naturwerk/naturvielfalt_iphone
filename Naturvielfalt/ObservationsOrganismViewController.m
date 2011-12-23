@@ -13,7 +13,6 @@
 #import "Organism.h"
 #import "OrganismFlora.h"
 #import "OrganismFauna.h"
-#import "Settings.h"
 #import "OrganismGroup.h"
 
 @implementation ObservationsOrganismViewController
@@ -71,55 +70,11 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-
-    /*
-    listData = nil;
-    organismGroupName = nil;
-    table = nil;
-    search = nil;
-    
-    // FOR SEARCH and INDEXED TABLE
-    // Dictionaries
-    dictAllOrganismsDE = nil;
-    dictAllOrganismsLAT = nil;
-    dictOrganismsDE = nil;
-    dictOrganismsLAT = nil;
-    currDict = nil;
-    
-    // Keys
-    keysAllDE = nil;
-    keysAllLAT = nil;
-    keysDE = nil;
-    keysLAT = nil;
-    currKeys = nil;
-     */
 }
 
 - (void) dealloc
 {
     [super dealloc];
-    
-    /*
-    [listData release];
-    [organismGroupName release];
-    [table release];
-    [search release];
-    
-    // FOR SEARCH and INDEXED TABLE
-    // Dictionaries
-    [dictAllOrganismsDE release];
-    [dictAllOrganismsLAT release];
-    [dictOrganismsDE release];
-    [dictOrganismsLAT release];
-    [currDict release];
-    
-    // Keys
-    [keysAllDE release];
-    [keysAllLAT release];
-    [keysDE release];
-    [keysLAT release];
-    [currKeys release];
-     */
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -209,137 +164,6 @@
     // copy all keys into other array
     keysAllDE = [[NSMutableArray alloc] initWithArray:keysDE];
     keysAllLAT = [[NSMutableArray alloc] initWithArray:keysLAT];
-    
-    
-    
-    /*
-    // Create new SBJSON parser object
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    
-    // JSON Request url
-    NSURLRequest *request;
-    
-    NSString *url = [[NSString alloc] initWithFormat:@"http://devel.naturvielfalt.ch/api/organisms/%d", organismGroupId];
-    // NSString *url = [[NSString alloc] initWithFormat:@"http://localhost/swissmon/application/api/organismgroups/%d", organismGroupId];
-    request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-    [url release];
-    
-    // Perform request and get JSON back as a NSData object
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    
-    // Get JSON as a NSString from NSData response
-    NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-    
-    // parse the JSON response into an object
-    // Here we're using NSArray since we're parsing an array of JSON status objects
-    NSArray *organismObject = [parser objectWithString:json_string error:nil];
-    
-    // initialize array
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    
-    dictOrganismsDE = [[NSMutableDictionary alloc] init];
-    dictOrganismsLAT = [[NSMutableDictionary alloc] init];
-    keysDE = [[NSMutableArray alloc] init];
-    keysLAT = [[NSMutableArray alloc] init];
-    
-    // Iterate over all organism groups
-    for(NSDictionary *dict in organismObject) {
-        int organismId = [[dict objectForKey:@"id"] intValue];
-        NSString *nameDe = [dict objectForKey:@"name_de"];
-        NSString *genus;
-        NSString *species;
-        NSString *family;
-        
-        // Check if its flora or fauna
-        if(organismGroupId != 16) {
-            // FAUNA
-            genus = [dict objectForKey:@"genus"];
-            species = [dict objectForKey:@"species"];
-            family = [dict objectForKey:@"family"];
-            
-            OrganismFauna *organism = [[OrganismFauna alloc] init];
-            organism.organismGroupId = organismGroupId;
-            organism.organismId = organismId;
-            organism.nameDe = nameDe;
-            organism.genus = genus;
-            organism.species = species;
-            organism.family = family;
-            
-            // Special attribute for fauna
-            organism.cscfNr = [dict objectForKey:@"cscf_nr"];
-            organism.protectionCH = [dict objectForKey:@"protection_ch"];
-            
-            // add the created organism group
-            [array addObject:organism];
-            
-            // append to the dictionary
-            [self appendToDictionary:organism];
-        } else {
-            // FLORA
-            genus = [dict objectForKey:@"gattung"];
-            species = [dict objectForKey:@"art"];
-            family = [dict objectForKey:@"familie"];
-            
-            OrganismFlora *organism = [[OrganismFlora alloc] init];
-            organism.organismGroupId = organismGroupId;
-            organism.organismId = organismId;
-            organism.nameDe = nameDe;
-            organism.genus = genus;
-            organism.species = species;
-            organism.family = family;
-            
-            // Special attribute for flora
-            organism.isNeophyte = [[dict objectForKey:@"is_neophyte"] boolValue];
-            organism.status = [dict objectForKey:@"status"];
-            
-            // add the created organism group
-            [array addObject:organism];
-            
-            // append to the dictionary
-            [self appendToDictionary:organism];
-        }
-    } 
-    
-    // set array
-    self.listData = array;
-    [array release];
-    
-    // copy all values in other dictionary
-    dictAllOrganismsDE = [[NSMutableDictionary alloc] initWithDictionary:dictOrganismsDE];
-    dictAllOrganismsLAT = [[NSMutableDictionary alloc] initWithDictionary:dictOrganismsLAT];
-    
-    // SORT KEYS GERMAN
-    NSMutableArray *tempDE = [[NSMutableArray alloc] init];
-    
-    // Add all keys to the array
-    for(NSString *key in keysDE) {
-        [tempDE addObject:key];
-    }
-    
-    // Sort array
-    NSMutableArray *sortedKeysDE = [tempDE sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    keysDE = [[NSMutableArray alloc] initWithArray:sortedKeysDE];;
-    
-    
-    // SORT KEYS LATIN
-    NSMutableArray *tempLat = [[NSMutableArray alloc] init];
-    
-    // Add all keys to the array
-    for(NSString *key in keysLAT) {
-        [tempLat addObject:key];
-    }
-    
-    // Sort array
-    NSMutableArray *sortedKeysLAT = [tempLat sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    keysLAT = [[NSMutableArray alloc] initWithArray:sortedKeysLAT];
-    
-    // copy all keys into other array
-    keysAllDE = [[NSMutableArray alloc] initWithArray:keysDE];
-    keysAllLAT = [[NSMutableArray alloc] initWithArray:keysLAT];
-    
-    [parser release];
-     */
 }
 
 - (void) appendToDictionary:(Organism *)organism

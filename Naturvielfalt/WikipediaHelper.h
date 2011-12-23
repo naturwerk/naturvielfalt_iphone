@@ -12,8 +12,13 @@
     
 }
 
+// Fetches an wikipedia article from the wikipedia api
 - (NSString *) fetchWikipediaArticle:(NSString *)latName;
+
+// Returns the HTML page from an wikipedia article search by the latin name of the organism
 - (NSString *) getWikipediaHTMLPage:(NSString *)latName;
+
+// Return the Main image of an wikipedia article search by the latin name of the organism
 - (NSString *) getUrlOfMainImage:(NSString *)latName;
 
 @end

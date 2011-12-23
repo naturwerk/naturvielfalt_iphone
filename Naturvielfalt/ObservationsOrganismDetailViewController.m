@@ -116,31 +116,11 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    /*
-    nameDe = nil;
-    nameLat = nil;
-    family = nil;
-    keyOne = nil;
-    keyTwo = nil;
-    valueOne = nil;
-    valueTwo = nil;
-     */
 }
 
 - (void) dealloc
 {
     [super dealloc];
-    
-    /*
-    [nameDe release];
-    [nameLat release];
-    [family release];
-    [keyOne release];
-    [keyTwo release];
-    [valueOne release];
-    [valueTwo release];
-     */
 }
 
 - (void) submitObservation

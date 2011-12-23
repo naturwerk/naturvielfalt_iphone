@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "LocationHelper.h"
 #import "Observation.h"
 #import "DDAnnotation.h"
 
@@ -17,7 +16,6 @@
     IBOutlet MKMapView *mapView;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
-    LocationHelper *locationHelper;
     Observation *observation;
     DDAnnotation *annotation;
     
@@ -29,7 +27,6 @@
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 @property (nonatomic, retain) IBOutlet CLLocationManager *locationManager;
 @property (nonatomic, retain) CLLocation *currentLocation;
-@property (nonatomic, retain) IBOutlet LocationHelper *locationHelper;
 @property (nonatomic, retain) Observation *observation;
 @property (nonatomic, retain) DDAnnotation *annotation;
 @property (nonatomic, assign) BOOL review;

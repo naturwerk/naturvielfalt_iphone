@@ -54,14 +54,14 @@
     
     if(review) {
         // RELOCATE button not implemented yet
-        /*UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"Relocate"
+        UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"Relocate"
                                                                        style:UIBarButtonItemStylePlain 
                                                                       target:self 
                                                                       action:@selector(relocate)];
         
         self.navigationItem.rightBarButtonItem = relocate;
         [relocate release];
-        */
+        
 
         MKCoordinateRegion mapRegion = mapView.region;
         mapRegion.center = observation.location.coordinate;
@@ -135,7 +135,20 @@
 
 - (void) relocate 
 {
-   
+    if ([CLLocationManager locationServicesEnabled]) {
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        locationManager.distanceFilter = 1000.0f;
+        observation.locationLocked = false;
+        review = false;
+        
+        [locationManager startUpdatingLocation];
+        pinMoved = false;
+    }
+    
+    
+    self.mapView.showsUserLocation = YES;
+    
 }
 
 - (void) returnBack 

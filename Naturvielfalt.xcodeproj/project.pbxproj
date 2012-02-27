@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
+		27FC05F314A48D0300916B08 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05F114A48D0300916B08 /* MainWindow.xib */; };
 		CB08912B1430B67F00E846A1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891131430B67F00E846A1 /* NSObject+SBJson.m */; };
 		CB08912C1430B67F00E846A1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891161430B67F00E846A1 /* SBJsonParser.m */; };
 		CB08912D1430B67F00E846A1 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891181430B67F00E846A1 /* SBJsonStreamParser.m */; };
@@ -57,7 +59,6 @@
 		CBB7F632142B040A000150AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F630142B040A000150AF /* InfoPlist.strings */; };
 		CBB7F635142B040A000150AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CBB7F634142B040A000150AF /* main.m */; };
 		CBB7F638142B040A000150AF /* NaturvielfaltAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CBB7F637142B040A000150AF /* NaturvielfaltAppDelegate.m */; };
-		CBB7F63B142B040A000150AF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F639142B040A000150AF /* MainWindow.xib */; };
 		CBD2C2E6146987B9003F1B90 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD2C2E5146987B9003F1B90 /* MBProgressHUD.m */; };
 		CBD2C2EC146988B8003F1B90 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = CBD2C2EB146988B8003F1B90 /* 37x-Checkmark.png */; };
 		CBD9563B144807AB00890319 /* navigationbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CBD9563A144807AB00890319 /* navigationbar.png */; };
@@ -120,13 +121,14 @@
 		CBEBAA44147FE9F4009AC6C0 /* SettingsViewRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBEBAA42147FE9F2009AC6C0 /* SettingsViewRootController.m */; };
 		CBEBAA45147FE9F4009AC6C0 /* SettingsViewRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBEBAA43147FE9F3009AC6C0 /* SettingsViewRootController.xib */; };
 		CBED70321434A31400BC17A8 /* Organism.m in Sources */ = {isa = PBXBuildFile; fileRef = CBED70311434A31400BC17A8 /* Organism.m */; };
-		CBEDCF82149F977800E3F127 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = CBEDCF81149F977800E3F127 /* db.sqlite3 */; };
 		CBF9A2771445617B00954A63 /* ObservationsOrganismDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF9A2751445617B00954A63 /* ObservationsOrganismDetailViewController.m */; };
 		CBF9A2781445617B00954A63 /* ObservationsOrganismDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBF9A2761445617B00954A63 /* ObservationsOrganismDetailViewController.xib */; };
 		CBF9A27E144578F000954A63 /* 12-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = CBF9A27D144578F000954A63 /* 12-eye-white.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
+		27FC05F214A48D0300916B08 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		CB0891131430B67F00E846A1 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
@@ -205,7 +207,6 @@
 		CBB7F634142B040A000150AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CBB7F636142B040A000150AF /* NaturvielfaltAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NaturvielfaltAppDelegate.h; sourceTree = "<group>"; };
 		CBB7F637142B040A000150AF /* NaturvielfaltAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NaturvielfaltAppDelegate.m; sourceTree = "<group>"; };
-		CBB7F63A142B040A000150AF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		CBD2C2E4146987B9003F1B90 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		CBD2C2E5146987B9003F1B90 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		CBD2C2EB146988B8003F1B90 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
@@ -305,7 +306,6 @@
 		CBEBAA43147FE9F3009AC6C0 /* SettingsViewRootController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewRootController.xib; sourceTree = "<group>"; };
 		CBED70301434A31400BC17A8 /* Organism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Organism.h; sourceTree = "<group>"; };
 		CBED70311434A31400BC17A8 /* Organism.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Organism.m; sourceTree = "<group>"; };
-		CBEDCF81149F977800E3F127 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		CBF9A2741445617B00954A63 /* ObservationsOrganismDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationsOrganismDetailViewController.h; sourceTree = "<group>"; };
 		CBF9A2751445617B00954A63 /* ObservationsOrganismDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationsOrganismDetailViewController.m; sourceTree = "<group>"; };
 		CBF9A2761445617B00954A63 /* ObservationsOrganismDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsOrganismDetailViewController.xib; sourceTree = "<group>"; };
@@ -411,7 +411,7 @@
 		CB7AC23B149B9105001D315A /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				CBEDCF81149F977800E3F127 /* db.sqlite3 */,
+				27FC05EF14A4896800916B08 /* db.sqlite3 */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -576,7 +576,7 @@
 				CB08914D1431CD2800E846A1 /* Controller */,
 				CBB7F636142B040A000150AF /* NaturvielfaltAppDelegate.h */,
 				CBB7F637142B040A000150AF /* NaturvielfaltAppDelegate.m */,
-				CBB7F639142B040A000150AF /* MainWindow.xib */,
+				27FC05F114A48D0300916B08 /* MainWindow.xib */,
 				CBDE3DFC1430697100BC1F46 /* Resources */,
 				CBB7F62E142B040A000150AF /* Supporting Files */,
 			);
@@ -740,7 +740,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBB7F632142B040A000150AF /* InfoPlist.strings in Resources */,
-				CBB7F63B142B040A000150AF /* MainWindow.xib in Resources */,
 				CBB070C5143053E800D3D0B5 /* 12-eye.png in Resources */,
 				CBB070C71430542000D3D0B5 /* 19-gear.png in Resources */,
 				CBB070C91430542F00D3D0B5 /* 06-magnify.png in Resources */,
@@ -785,7 +784,8 @@
 				CBEBAA40147FE5A2009AC6C0 /* SettingsPasswordViewController.xib in Resources */,
 				CBEBAA45147FE9F4009AC6C0 /* SettingsViewRootController.xib in Resources */,
 				CB143231148639EC00BBA78D /* bildvorschaudeaktiviert.png in Resources */,
-				CBEDCF82149F977800E3F127 /* db.sqlite3 in Resources */,
+				27FC05F014A4896800916B08 /* db.sqlite3 in Resources */,
+				27FC05F314A48D0300916B08 /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -860,6 +860,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		27FC05F114A48D0300916B08 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				27FC05F214A48D0300916B08 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
 		CB14322C148616E700BBA78D /* CameraViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -884,14 +892,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		CBB7F639142B040A000150AF /* MainWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CBB7F63A142B040A000150AF /* en */,
-			);
-			name = MainWindow.xib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -899,7 +899,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -908,6 +909,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -916,13 +918,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -940,7 +944,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -958,7 +962,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

@@ -55,7 +55,7 @@
     
     
     // RELOCATE button not implemented yet
-    UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"Verwerfen"
+    UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"Eigene Position"
                                                                  style:UIBarButtonItemStylePlain 
                                                                 target:self 
                                                                 action:@selector(relocate)];
@@ -140,11 +140,11 @@
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.distanceFilter = 1000.0f;
-        observation.locationLocked = false;
-        review = false;
+        //observation.locationLocked = false;
+        //review = false;
         
         [locationManager startUpdatingLocation];
-        pinMoved = false;
+        //pinMoved = true;
     }
     
     
@@ -199,10 +199,10 @@
         
         shouldAdjustZoom = false;
         
-        [annotation setCoordinate:self.mapView.userLocation.coordinate];
+        //[annotation setCoordinate:self.mapView.userLocation.coordinate];
     }
 
-    if(!pinMoved)
+    if(!observation.locationLocked)
         [annotation setCoordinate:self.mapView.userLocation.coordinate];
 }
 
@@ -236,13 +236,15 @@
      if(!observation.locationLocked && !review) {
         // update observation value
         observation.location = newLocation;
+        observation.accuracy = observation.location.horizontalAccuracy;
+        [annotation setCoordinate:newLocation.coordinate];
         
         MKCoordinateRegion mapRegion = mapView.region;
         mapRegion.center = newLocation.coordinate;
         self.mapView.region = mapRegion;     
     }
     
-    [annotation setCoordinate:newLocation.coordinate];
+    
 }
 
 - (void) viewDidDisappear:(BOOL)animated 

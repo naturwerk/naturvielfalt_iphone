@@ -55,7 +55,7 @@
     
     
     // RELOCATE button not implemented yet
-    UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"Eigene Position"
+    UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"GPS"
                                                                  style:UIBarButtonItemStylePlain 
                                                                 target:self 
                                                                 action:@selector(relocate)];
@@ -137,6 +137,7 @@
 - (void) relocate 
 {
     if ([CLLocationManager locationServicesEnabled]) {
+        NSLog( @"start relocate");
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.distanceFilter = 1000.0f;
@@ -236,12 +237,13 @@
      if(!observation.locationLocked && !review) {
         // update observation value
         observation.location = newLocation;
-        observation.accuracy = observation.location.horizontalAccuracy;
+        observation.accuracy = (int)newLocation.horizontalAccuracy;
         [annotation setCoordinate:newLocation.coordinate];
         
         MKCoordinateRegion mapRegion = mapView.region;
         mapRegion.center = newLocation.coordinate;
-        self.mapView.region = mapRegion;     
+        self.mapView.region = mapRegion;    
+        NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
     }
     
     
@@ -312,7 +314,8 @@
     observation.locationLocked = true;
     
     observation.accuracy = 0;
-    
+    //observation.accuracy = (int)newLocation.horizontalAccuracy;
+    NSLog( @"set new location from annotation; accuracy: %d", observation.accuracy);
     pinMoved = true;
     
     

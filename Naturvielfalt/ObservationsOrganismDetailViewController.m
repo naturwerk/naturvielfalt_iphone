@@ -49,6 +49,7 @@
                                       action: @selector(submitObservation)];
                                     
     self.navigationItem.rightBarButtonItem = submitButton;
+    [submitButton release];
     
     // Set navigation bar title
     self.navigationItem.title = @"Details";

@@ -39,12 +39,13 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Zurück"
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Sichern"
                                                                    style:UIBarButtonItemStylePlain 
                                                                   target:self 
                                                                   action:@selector(returnBack)];
     
-    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.rightBarButtonItem = backButton;
     [backButton release];
     
     observation = [[[Observation alloc] init] getObservation];
@@ -52,16 +53,17 @@
     // Start locationManager
     locationManager = [[CLLocationManager alloc] init];
     
-    if(review) {
-        // RELOCATE button not implemented yet
-        UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"GPS Position"
-                                                                       style:UIBarButtonItemStylePlain 
-                                                                      target:self 
-                                                                      action:@selector(relocate)];
-        
-        self.navigationItem.rightBarButtonItem = relocate;
-        [relocate release];
-        
+    
+    // RELOCATE button not implemented yet
+    UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"Verwerfen"
+                                                                 style:UIBarButtonItemStylePlain 
+                                                                target:self 
+                                                                action:@selector(relocate)];
+    
+    self.navigationItem.leftBarButtonItem = relocate;
+    [relocate release];
+    
+    if(review || observation.locationLocked) {        
 
         MKCoordinateRegion mapRegion = mapView.region;
         mapRegion.center = observation.location.coordinate;
@@ -77,16 +79,15 @@
         [annotation setCoordinate:observation.location.coordinate];
         
         self.mapView.showsUserLocation = NO;  
+        
     } else {
+        
         if ([CLLocationManager locationServicesEnabled]) {
             locationManager.delegate = self;
             locationManager.desiredAccuracy = kCLLocationAccuracyBest;
             locationManager.distanceFilter = 1000.0f;
-            
             [locationManager startUpdatingLocation];
         }
-        
-        
         self.mapView.showsUserLocation = YES;        
     }
     
@@ -153,6 +154,7 @@
 
 - (void) returnBack 
 {
+    observation.locationLocked = true;
     // Change view back to submitController
     ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc] 
                                                                       initWithNibName:@"ObservationsOrganismSubmitController" 

@@ -54,7 +54,7 @@
     
     if(review) {
         // RELOCATE button not implemented yet
-        UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"Relocate"
+        UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"GPS Position"
                                                                        style:UIBarButtonItemStylePlain 
                                                                       target:self 
                                                                       action:@selector(relocate)];
@@ -167,8 +167,13 @@
     
     // PUSH
     [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-    [organismSubmitController release];
-    organismSubmitController = nil;
+    
+    // save the location
+    //[organismSubmitController submitObservation];
+    
+    // crash prepend, reference of released object
+    //[organismSubmitController release];
+    //organismSubmitController = nil;
 }
 
 - (void) viewDidAppear:(BOOL)animated 
@@ -210,6 +215,7 @@
     [super dealloc];    
     
     [self.mapView.userLocation removeObserver:self forKeyPath:@"location"];
+    [locationManager release];
     // [self.mapView removeFromSuperview];
     // self.mapView = nil;
 }

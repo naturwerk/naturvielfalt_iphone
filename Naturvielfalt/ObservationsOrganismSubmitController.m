@@ -47,17 +47,17 @@
     [super viewDidLoad];
     
     //just start locationmanager for first run
-    if(!observation.locationLocked){
-    // Start locationManager
-    locationManager = [[CLLocationManager alloc] init];
-    
-    if ([CLLocationManager locationServicesEnabled]) {
-        locationManager.delegate = self;
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        locationManager.distanceFilter = 10.0f;
+    if(!observation.locationLocked && !review){
+        // Start locationManager
+        locationManager = [[CLLocationManager alloc] init];
         
-        //if(!review)
-            [locationManager startUpdatingLocation];
+        if ([CLLocationManager locationServicesEnabled]) {
+            locationManager.delegate = self;
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+            locationManager.distanceFilter = 10.0f;
+            
+            //if(!review)
+                [locationManager startUpdatingLocation];
     }
     }
     
@@ -75,11 +75,12 @@
                                      action: @selector(submitObservation)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
-    
+    [submitButton release];
     
     // Set navigation bar title    
     NSString *title = [[NSString alloc] initWithString:@"Beobachtung"];
     self.navigationItem.title = title;
+    [title release];
         
     // Table init
     tableView.delegate = self;
@@ -91,16 +92,18 @@
     
     if(!review) {
         // Reset values
-        observation.locationLocked = false;
         observation.amount = @"1";
-        observation.accuracy = 0;
+        //observation.accuracy = 0;
         observation.comment = @"";
         observation.pictures = [[NSMutableArray alloc] init];
         observation.locationLocked = false;
+    }else {
+        [self updateAccuracyIcon: (int)observation.accuracy];
+        [tableView reloadData];
     }
     
-    [submitButton release];
-    [title release];
+
+    
 }
 
 - (void) prepareData 
@@ -181,6 +184,7 @@
                                      action: @selector(submitObservation)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
+    [submitButton release];
     
     [tableView reloadData];
 }
@@ -193,7 +197,9 @@
     if(locationManager){
         [locationManager stopUpdatingLocation];
         // [self performSelector:@selector(discardLocationManager) onThread:[NSThread currentThread] withObject:nil waitUntilDone:NO];
-        locationManager = nil;
+       
+        [locationManager release];
+         locationManager = nil;
     }
 }
 
@@ -202,8 +208,10 @@
     [super dealloc];
     
     if(locationManager){
+        [locationManager stopUpdatingLocation];
         [locationManager release];
     }
+    [persistenceManager release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -233,6 +241,7 @@
     } else {
         accuracyImage = red;
     }
+    accuracyText = [[NSString alloc] initWithFormat:@"%dm", accuracyValue];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -257,20 +266,20 @@
         
         // Update the Accuracy Image
         [self updateAccuracyIcon: (int)newLocation.horizontalAccuracy];
-        accuracyText = [[NSString alloc] initWithFormat:@"%dm", (int)(newLocation.horizontalAccuracy)];
-        
-        // reload the table with the new data
-        [tableView reloadData];
 
         // update the observation data object
         observation.location = newLocation;
         observation.accuracy = (int)newLocation.horizontalAccuracy;
+        NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
     } else {
         // Update the Accuracy Image
         //observation.accuracy = observation.location.horizontalAccuracy;
         [self updateAccuracyIcon: (int)observation.accuracy];
-        accuracyText = [[NSString alloc] initWithFormat:@"%dm", (int)(observation.accuracy)];
-    }
+        
+    } 
+    
+    // reload the table with the new data
+    [tableView reloadData];
 }
 
 // MARK: -

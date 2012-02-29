@@ -46,6 +46,8 @@
 {
     [super viewDidLoad];
     
+    //just start locationmanager for first run
+    if(!observation.locationLocked){
     // Start locationManager
     locationManager = [[CLLocationManager alloc] init];
     
@@ -54,8 +56,9 @@
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.distanceFilter = 10.0f;
         
-        if(!review)
+        //if(!review)
             [locationManager startUpdatingLocation];
+    }
     }
     
     // Do any additional setup after loading the view from its nib.
@@ -187,17 +190,20 @@
 {
     [super viewDidUnload];
 
-    [locationManager stopUpdatingLocation];
-    // [self performSelector:@selector(discardLocationManager) onThread:[NSThread currentThread] withObject:nil waitUntilDone:NO];
-    
-    locationManager = nil;
+    if(locationManager){
+        [locationManager stopUpdatingLocation];
+        // [self performSelector:@selector(discardLocationManager) onThread:[NSThread currentThread] withObject:nil waitUntilDone:NO];
+        locationManager = nil;
+    }
 }
 
 - (void) dealloc 
 {    
     [super dealloc];
     
-    [locationManager release];
+    if(locationManager){
+        [locationManager release];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -261,6 +267,7 @@
         observation.accuracy = (int)newLocation.horizontalAccuracy;
     } else {
         // Update the Accuracy Image
+        //observation.accuracy = observation.location.horizontalAccuracy;
         [self updateAccuracyIcon: (int)observation.accuracy];
         accuracyText = [[NSString alloc] initWithFormat:@"%dm", (int)(observation.accuracy)];
     }

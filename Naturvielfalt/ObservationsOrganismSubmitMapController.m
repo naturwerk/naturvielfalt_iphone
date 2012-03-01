@@ -129,6 +129,8 @@
     // Calculate swiss coordinates
     SwissCoordinates *swissCoordinates = [[SwissCoordinates alloc] init];
     NSMutableArray *arrayCoordinates = [swissCoordinates calculate:theCoordinate.longitude latitude:theCoordinate.latitude];
+    [swissCoordinates release];
+    
     annotation.subtitle = [NSString	stringWithFormat:@"CH03 (%.0f, %.0f) \n WGS84 (%.3f, %.3f)", [[arrayCoordinates objectAtIndex:0] doubleValue], [[arrayCoordinates objectAtIndex:1] doubleValue], theCoordinate.longitude, theCoordinate.latitude];
     
     return annotation;
@@ -147,7 +149,6 @@
         [locationManager startUpdatingLocation];
         //pinMoved = true;
     }
-    
     
     self.mapView.showsUserLocation = YES;
     
@@ -203,8 +204,10 @@
         //[annotation setCoordinate:self.mapView.userLocation.coordinate];
     }
 
-    if(!observation.locationLocked)
+    if(!observation.locationLocked){
         [annotation setCoordinate:self.mapView.userLocation.coordinate];
+        NSLog( @"set the pin to new pos");
+    }
 }
 
 - (void)viewDidUnload

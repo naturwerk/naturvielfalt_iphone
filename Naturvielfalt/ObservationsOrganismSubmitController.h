@@ -52,5 +52,6 @@
 - (void) prepareData;
 - (void) discardLocationManager;
 - (void) rowClicked:(NSIndexPath *)indexPath;
+- (void) submitObservation;
 
 @end

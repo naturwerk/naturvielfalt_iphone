@@ -45,6 +45,8 @@ static Observation *observation;
     [location release];
     [pictures release];
     [comment release];
+    [observation.pictures release];
+    [observation release];
 }
 
 - (NSString *) description

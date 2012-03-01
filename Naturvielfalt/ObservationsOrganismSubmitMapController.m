@@ -54,7 +54,7 @@
     locationManager = [[CLLocationManager alloc] init];
     
     
-    // RELOCATE button not implemented yet
+    // RELOCATE button
     UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"GPS"
                                                                  style:UIBarButtonItemStylePlain 
                                                                 target:self 
@@ -138,6 +138,10 @@
 
 - (void) relocate 
 {
+    self.navigationItem.leftBarButtonItem.action = @selector(GPSrelocate);
+    self.navigationItem.leftBarButtonItem.title = @"GPS setzen";
+    
+    
     if ([CLLocationManager locationServicesEnabled]) {
         NSLog( @"start relocate");
         locationManager.delegate = self;
@@ -153,7 +157,29 @@
     self.mapView.showsUserLocation = YES;
     
 }
-
+ 
+- (void) GPSrelocate{
+    
+    [locationManager stopUpdatingLocation];
+    
+    review = false;
+    observation.locationLocked = false;
+    
+    if ([CLLocationManager locationServicesEnabled]) {
+        NSLog( @"start relocate");
+        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        locationManager.distanceFilter = 1000.0f;
+        //observation.locationLocked = false;
+        //review = false;
+        
+        [locationManager startUpdatingLocation];
+        //pinMoved = true;
+    }
+    
+    self.mapView.showsUserLocation = YES;
+    
+}
 - (void) returnBack 
 {
     observation.locationLocked = true;

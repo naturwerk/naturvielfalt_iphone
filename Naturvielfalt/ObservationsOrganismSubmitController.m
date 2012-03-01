@@ -87,8 +87,7 @@
     
     [self prepareData];
     
-    // Create the persistence manager
-    persistenceManager = [[PersistenceManager alloc] init];
+    
     
     if(!review) {
         // Reset values
@@ -146,6 +145,9 @@
 
 - (void) submitObservation 
 {
+    // Create the persistence manager
+    persistenceManager = [[PersistenceManager alloc] init];
+    
     // Establish connection
     [persistenceManager establishConnection];
     
@@ -158,6 +160,7 @@
     
     // Close connection
     [persistenceManager closeConnection];
+    [persistenceManager release];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     [self.navigationController.view addSubview:hud];
@@ -211,7 +214,9 @@
         [locationManager stopUpdatingLocation];
         [locationManager release];
     }
-    [persistenceManager release];
+    
+    [arrayKeys release];
+    [arrayValues release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

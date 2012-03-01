@@ -10,7 +10,7 @@
 
 @implementation SwissCoordinates
 
-- (NSArray *) calculate:(double)longitude latitude:(double)latitude 
+- (NSMutableArray *) calculate:(double)longitude latitude:(double)latitude 
 {
     // PHI      -> LATITUDE
     // LAMBDA    -> LONGITUDE
@@ -48,6 +48,12 @@
     [returnArray addObject:latitudeNumber];
     
     return returnArray;
+}
+
+- (void) dealloc
+{
+    [super dealloc];
+    
 }
 
 @end

@@ -12,6 +12,6 @@
     
 }
 
-- (NSArray *) calculate:(double)longitude latitude:(double)latitude;
+- (NSMutableArray *) calculate:(double)longitude latitude:(double)latitude;
 
 @end

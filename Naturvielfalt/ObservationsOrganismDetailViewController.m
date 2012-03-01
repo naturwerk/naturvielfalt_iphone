@@ -112,6 +112,7 @@
         picture.image = [UIImage imageNamed:@"bildvorschaudeaktiviert.png"];
         imageAuthor.text = @"";
     }
+    [wikipediaHelper release];
 }
 
 - (void)viewDidUnload

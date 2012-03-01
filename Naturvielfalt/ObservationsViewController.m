@@ -266,6 +266,8 @@
         
         [organismController release];
         organismController = nil;
+        
+        [persistenceManager release];
     }
 }
 
@@ -280,6 +282,7 @@
     // Get all Root elements (Root elements have the id 3)
     self.listData = [persistenceManager getAllOrganismGroups:groupId withClasslevel:classlevel];
     
+    [persistenceManager release];
     /*
      NOCH NICHT IDENTIFIZIERTE ORGANISMEN not display atm..
     OrganismGroup *notDefinedOrganismGroup = [[OrganismGroup alloc] init];

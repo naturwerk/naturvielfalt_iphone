@@ -420,6 +420,7 @@
             }
             
             [organisms addObject:organism];
+            [organism release];
 		}
         
         sqlite3_finalize(statement);
@@ -428,6 +429,7 @@
     }
     
     return organisms;
+    //[organisms release];
 }
 
 @end

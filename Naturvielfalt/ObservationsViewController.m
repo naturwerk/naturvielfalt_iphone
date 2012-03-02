@@ -44,21 +44,21 @@
 - (void)viewDidLoad
 {
     // Parse the JSON from the Naturvielfalt Webservice (Get all organism groups)
-    [self loadFromWebsite];
+    [self loadOrganismusGroups];
     
     // NSMutableArray *organisms = [persistenceManager getAllOrganisms:31];
      
 
-    // Create filter button and add it to the NavigationBar
-    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] 
-                                     initWithTitle:@"Filter"
-                                     style:UIBarButtonItemStyleBordered
-                                     target:self
-                                     action: @selector(changeToFilterView)];
-    
-    // FILTER BUTTON IS ATM DEACTIVATED, just uncomment to activate
-    // self.navigationItem.rightBarButtonItem = filterButton;
-    [filterButton release];
+//    // Create filter button and add it to the NavigationBar
+//    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] 
+//                                     initWithTitle:@"Filter"
+//                                     style:UIBarButtonItemStyleBordered
+//                                     target:self
+//                                     action: @selector(changeToFilterView)];
+//    
+//    // FILTER BUTTON IS ATM DEACTIVATED, just uncomment to activate
+//    self.navigationItem.rightBarButtonItem = filterButton;
+//    [filterButton release];
     
     
     // Check if its the root element. Otherwise don't display the INFO Page
@@ -226,6 +226,9 @@
         overviewController.classlevel = classlevel + 1;
         
         [self.navigationController pushViewController:overviewController animated:TRUE];
+        [overviewController release];
+        overviewController = nil;
+        
     } else {
         // If the OrganismGroup does not have any subgroups 
         // directly go to the detail page of an organism
@@ -272,7 +275,7 @@
 }
 
 
--(void) loadFromWebsite 
+-(void) loadOrganismusGroups 
 {
     
     // Get all oranismGroups

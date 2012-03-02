@@ -29,8 +29,11 @@
     PersistenceManager *persistenceManager;
     
     BOOL review;
+    BOOL observationChanged;
 }
 
+
+@property (nonatomic, assign) BOOL observationChanged;
 @property (nonatomic, assign) Organism *organism;
 @property (nonatomic, assign) Observation *observation;
 @property (nonatomic, retain) IBOutlet UILabel *nameDe;
@@ -52,6 +55,6 @@
 - (void) prepareData;
 - (void) discardLocationManager;
 - (void) rowClicked:(NSIndexPath *)indexPath;
-- (void) submitObservation;
+- (void) saveObservation;
 
 @end

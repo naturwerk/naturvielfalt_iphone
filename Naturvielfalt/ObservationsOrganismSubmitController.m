@@ -181,7 +181,7 @@
                                      initWithTitle:@"Ändern"
                                      style:UIBarButtonItemStyleBordered
                                      target:self
-                                     action: @selector(submitObservation)];
+                                     action: @selector(saveObservation)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
     [submitButton release];

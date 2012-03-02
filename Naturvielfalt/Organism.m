@@ -23,7 +23,7 @@
 
 - (NSString *)getNameDe {
     // Only set the german name, genus and species if it exists    
-    NSString *nameDeValue = (nameDe == nil || nameDe == (id)[NSNull null] || [nameDe length] == 0) ? nameLat : [nameDe capitalizedString];
+    NSString *nameDeValue = (nameDe == nil || nameDe == (id)[NSNull null]) ? nameLat : [nameDe capitalizedString];
     
     return nameDeValue;
 }

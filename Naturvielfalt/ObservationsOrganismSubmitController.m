@@ -16,7 +16,7 @@
 #import "MBProgressHUD.h"
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,7 +36,7 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated 
-{    
+{
     [tableView reloadData];
 }
 
@@ -72,7 +72,7 @@
                                                             : @"Ändern"
                                      style:UIBarButtonItemStyleBordered
                                      target:self
-                                     action: @selector(submitObservation)];
+                                     action: @selector(saveObservation)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
     [submitButton release];
@@ -100,7 +100,7 @@
         [self updateAccuracyIcon: (int)observation.accuracy];
         [tableView reloadData];
     }
-    
+    //observationChanged = true;
 
     
 }
@@ -143,12 +143,9 @@
     arrayValues = [[NSArray alloc] initWithObjects:nowString, observation.author, observation.amount, @">", nil];
 }
 
-- (void) submitObservation 
+- (void) saveObservation 
 {
-    // Create the persistence manager
     persistenceManager = [[PersistenceManager alloc] init];
-    
-    // Establish connection
     [persistenceManager establishConnection];
     
     // Save observation
@@ -204,7 +201,10 @@
         [locationManager release];
          locationManager = nil;
     }
+
+
 }
+
 
 - (void) dealloc 
 {    
@@ -218,6 +218,7 @@
     [arrayKeys release];
     [arrayValues release];
 }
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

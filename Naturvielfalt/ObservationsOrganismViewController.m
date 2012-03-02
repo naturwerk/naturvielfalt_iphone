@@ -40,7 +40,7 @@
 
 - (void)viewDidLoad
 {
-    [self loadFromWebsite];
+    [self loadData];
     
     [super viewDidLoad];
     
@@ -118,7 +118,7 @@
 }
 
 
-- (void) loadFromWebsite 
+- (void) loadData 
 {
     
     // Init all needed dictionaries

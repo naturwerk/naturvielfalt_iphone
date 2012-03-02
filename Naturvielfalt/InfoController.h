@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InfoController : UIViewController
+@interface InfoController : UIViewController {
+    IBOutlet UILabel *label1;
+}
+
+@property (nonatomic, retain) IBOutlet UILabel *label1;
+
 
 @end

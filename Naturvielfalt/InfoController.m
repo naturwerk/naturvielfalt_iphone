@@ -9,6 +9,7 @@
 #import "InfoController.h"
 
 @implementation InfoController
+@synthesize label1;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,6 +37,8 @@
     // Set navigation bar title    
     NSString *title = [[NSString alloc] initWithString:@"Naturvielfalt"];
     self.navigationItem.title = title;
+    
+    label1.text = @"TEST";
 }
 
 - (void)viewDidUnload

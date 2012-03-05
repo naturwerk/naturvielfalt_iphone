@@ -9,11 +9,11 @@
 #import "ObservationsOrganismViewController.h"
 #import "ObservationsOrganismDetailViewController.h"
 #import "ObservationsOrganismSubmitController.h"
-#import "SBJson.h"
 #import "Organism.h"
 #import "OrganismFlora.h"
 #import "OrganismFauna.h"
 #import "OrganismGroup.h"
+#import "NSDictionary-MutableDeepCopy.h"
 
 @implementation ObservationsOrganismViewController
 @synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner;

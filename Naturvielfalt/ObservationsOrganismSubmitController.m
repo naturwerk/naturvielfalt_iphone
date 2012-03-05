@@ -310,19 +310,23 @@
             
             switch(indexPath.row) {
                 case 2:
+                {
                     customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
                     customCell.value.text = observation.amount;    
                     customCell.image.image = nil;
+                }
                     break;
                     
                 case 3:
+                {
                     customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
                     customCell.value.text = (observation.comment.length > 0) ? @"..." : @"";
                     customCell.image.image = nil;
-                    
+                }   
                     break;
                     
                 case 4:
+                {
                     customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
                     
                     NSString *picCount = [[NSString alloc] initWithFormat:@"%d", observation.pictures.count];
@@ -331,22 +335,25 @@
                     customCell.image.image = nil;
                     
                     [picCount release];
-                    
+                }   
                     break;
                     
                 case 5:
-                    
+                {
                     [self updateAccuracyIcon:observation.accuracy];
                     
                     customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
                     customCell.image.image = accuracyImage; // --------->
                     customCell.value.text = accuracyText;
+                }
                     break;
                     
                 default:
+                {
                     customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
                     customCell.value.text = @"";
                     customCell.image.image = nil;
+                }
                     break;
             }
             

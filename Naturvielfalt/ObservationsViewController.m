@@ -9,7 +9,6 @@
 #import "ObservationsViewController.h"
 #import "ObservationsOrganismViewController.h"
 #import "ObservationsOrganismFilterViewController.h"
-#import "SBJson.h"
 #import "OrganismGroup.h"
 #import "SwissCoordinates.h"
 #import "InfoController.h"
@@ -43,7 +42,7 @@
 
 - (void)viewDidLoad
 {
-    // Parse the JSON from the Naturvielfalt Webservice (Get all organism groups)
+    // Load the organism from the db
     [self loadOrganismusGroups];
     
     // NSMutableArray *organisms = [persistenceManager getAllOrganisms:31];

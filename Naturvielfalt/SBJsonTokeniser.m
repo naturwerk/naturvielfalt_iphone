@@ -32,8 +32,9 @@
 #import "SBJsonTokeniser.h"
 #import "SBJsonUTF8Stream.h"
 
-#define SBStringIsIllegalSurrogateHighCharacter(x) (((x) >= 0xd800) && ((x) <= 0xdfff))
-
+#define SBStringIsIllegalSurrogateHighCharacter(character) (((character) >= 0xD800UL) && ((character) <= 0xDFFFUL))
+#define SBStringIsSurrogateLowCharacter(character) ((character >= 0xDC00UL) && (character <= 0xDFFFUL))
+#define SBStringIsSurrogateHighCharacter(character) ((character >= 0xD800UL) && (character <= 0xDBFFUL))
 
 @implementation SBJsonTokeniser
 
@@ -50,6 +51,7 @@
 }
 
 - (void)dealloc {
+    [_error release];
     [_stream release];
     [super dealloc];
 }
@@ -142,30 +144,36 @@
         unichar ch;
         {
             NSMutableString *string = nil;
-            if (![_stream getSimpleString:&string])
-                return sbjson_token_eof;
+            @try {
+                if (![_stream getRetainedStringFragment:&string])
+                    return sbjson_token_eof;
             
-            if (!string) {
-                self.error = @"Broken Unicode encoding";
-                return sbjson_token_error;
-            }
+                if (!string) {
+                    self.error = @"Broken Unicode encoding";
+                    return sbjson_token_error;
+                }
+            
+                if (![_stream getUnichar:&ch]) {
+                    return sbjson_token_eof;
+                }
+            
+                if (acc) {
+                    [acc appendString:string];
+
+                } else if (ch == '"') {
+                    *token = [[string copy] autorelease];
+                    [_stream skip];
+                    return sbjson_token_string;
                 
-        
-            if (![_stream getUnichar:&ch])
-                return sbjson_token_eof;
-
-            if (acc) {
-                [acc appendString:string];
-            
-            } else if (ch == '"') {
-                *token = string;
-                [_stream skip];
-                return sbjson_token_string;
-
-            } else {
-                acc = [[string mutableCopy] autorelease];
+                } else {
+                    acc = [[string mutableCopy] autorelease];
+                }
+            }
+            @finally {
+                [string release];
             }
         }
+
         
         switch (ch) {
             case 0 ... 0x1F:
@@ -193,7 +201,7 @@
                         return sbjson_token_error;
                     }
 
-                    if (CFStringIsSurrogateHighCharacter(hi)) {
+                    if (SBStringIsSurrogateHighCharacter(hi)) {
                         unichar lo;
 
                         if (![_stream haveRemainingCharacters:6])
@@ -206,7 +214,7 @@
                             return sbjson_token_error;
                         }
 
-                        if (!CFStringIsSurrogateLowCharacter(lo)) {
+                        if (!SBStringIsSurrogateLowCharacter(lo)) {
                             self.error = @"Invalid low character in surrogate pair";
                             return sbjson_token_error;
                         }
@@ -256,7 +264,11 @@
             return sbjson_token_eof;
     }
 
+    unsigned long long mantissa = 0;
+    int mantissa_length = 0;
+    
     if (ch == '0') {
+        mantissa_length++;
         if (![_stream getNextUnichar:&ch])
             return sbjson_token_eof;
 
@@ -265,9 +277,6 @@
             return sbjson_token_error;
         }
     }
-
-    unsigned long long mantissa = 0;
-    int mantissa_length = 0;
 
     while ([digits characterIsMember:ch]) {
         mantissa *= 10;
@@ -320,26 +329,26 @@
                 return sbjson_token_eof;
         }
 
-        short exp = 0;
-        short exp_length = 0;
+        short explicit_exponent = 0;
+        short explicit_exponent_length = 0;
         while ([digits characterIsMember:ch]) {
-            exp *= 10;
-            exp += (ch - '0');
-            exp_length++;
+            explicit_exponent *= 10;
+            explicit_exponent += (ch - '0');
+            explicit_exponent_length++;
 
             if (![_stream getNextUnichar:&ch])
                 return sbjson_token_eof;
         }
 
-        if (exp_length == 0) {
+        if (explicit_exponent_length == 0) {
             self.error = @"No digits in exponent";
             return sbjson_token_error;
         }
 
         if (expIsNegative)
-            exponent -= exp;
+            exponent -= explicit_exponent;
         else
-            exponent += exp;
+            exponent += explicit_exponent;
     }
 
     if (!mantissa_length && isNegative) {

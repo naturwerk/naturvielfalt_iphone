@@ -14,7 +14,7 @@
     NSString *latName;
 }
 
-@property (nonatomic, retain) IBOutlet UIWebView *webView;
-@property (nonatomic, retain) NSString *latName;
+@property (nonatomic) IBOutlet UIWebView *webView;
+@property (nonatomic) NSString *latName;
 
 @end

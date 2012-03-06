@@ -24,10 +24,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -84,7 +80,6 @@
         
         // Switch the View & Controller
         [self.navigationController pushViewController:settingsUsernameController animated:TRUE];
-        [settingsUsernameController release];
         settingsUsernameController = nil;
     } else if(indexPath.row == 1) {
         // Password
@@ -98,7 +93,6 @@
         
         // Switch the View & Controller
         [self.navigationController pushViewController:settingsPasswordController animated:TRUE];
-        [settingsPasswordController release];
         settingsPasswordController = nil;
     }
 }
@@ -109,7 +103,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
     if(cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:simpleTableIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:simpleTableIdentifier];
     }
     
     
@@ -144,7 +138,7 @@
         }
         
     } else {
-        UISwitch *mySwitch = [[[UISwitch alloc] initWithFrame:CGRectZero] autorelease];
+        UISwitch *mySwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
         
         cell.accessoryView = mySwitch;
         

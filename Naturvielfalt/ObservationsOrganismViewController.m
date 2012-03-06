@@ -63,8 +63,6 @@
     // reload data again
     [table reloadData];
     
-    [title release];
-    [submitButton release];
 }
 
 - (void)viewDidUnload
@@ -72,16 +70,6 @@
     [super viewDidUnload];
 }
 
-- (void) dealloc
-{
-    [super dealloc];
-    [dictAllOrganismsDE release];
-    [dictAllOrganismsLAT release];
-    [keysAllDE release];
-    [keysAllLAT release];
-    [dictOrganismsDE release];
-    [dictOrganismsLAT release];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -133,7 +121,6 @@
     [persistenceManager establishConnection];
 
     NSMutableArray *organisms = [persistenceManager getAllOrganisms:organismGroupId];
-    [persistenceManager release];
     
     for(Organism *organism in organisms) {
         [self appendToDictionary:organism];
@@ -157,7 +144,6 @@
     NSMutableArray *sortedKeysDE = [tempDE sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     keysDE = [[NSMutableArray alloc] initWithArray:sortedKeysDE];;
     
-    [tempDE release];
     
     // SORT KEYS LATIN
     NSMutableArray *tempLat = [[NSMutableArray alloc] init];
@@ -170,7 +156,6 @@
     // Sort array
     NSMutableArray *sortedKeysLAT = [tempLat sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     keysLAT = [[NSMutableArray alloc] initWithArray:sortedKeysLAT];
-    [tempLat release];
     
     // copy all keys into other array
     keysAllDE = [[NSMutableArray alloc] initWithArray:keysDE];
@@ -203,7 +188,6 @@
             [newArray addObject:organism];
         
             [dictOrganismsDE setObject:newArray forKey:firstLetterDE];
-            [newArray release];
         } else {
             
             // Add the organism to the corresponding letter
@@ -237,7 +221,6 @@
             [newArray addObject:organism];
             
             [dictOrganismsLAT setObject:newArray forKey:firstLetterLAT];
-            [newArray release];
         } else {
             
             // Add the organism to the corresponding letter
@@ -270,7 +253,6 @@
     
         // Sort array
         NSArray *sortedArray = [arrKeys sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-        [arrKeys release];
     
         return sortedArray;
     } else {
@@ -326,7 +308,7 @@
 							 SectionsTableIdentifier];
     
     if(cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SectionsTableIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SectionsTableIdentifier];
     }
 	
     Organism *organism = [nameSection objectAtIndex:row];
@@ -394,7 +376,6 @@
     
     [spinner stopAnimating];
     
-    [organismDetailViewController release];
     organismDetailViewController = nil;
 }
 
@@ -434,7 +415,6 @@
         self.dictOrganismsLAT = alldictCopy;
     }
     
-    [alldictCopy release];
     
     NSMutableArray *keyArray = [[NSMutableArray alloc] init];
     [keyArray addObjectsFromArray:[[(displayGermanNames) ? self.dictAllOrganismsDE : self.dictAllOrganismsLAT allKeys] sortedArrayUsingSelector:@selector(compare:)]];
@@ -445,7 +425,6 @@
         self.keysLAT = keyArray;
     }
     
-    [keyArray release];
 }
 
 - (void)handleSearchForTerm:(NSString *)searchTerm {
@@ -502,10 +481,8 @@
             [sectionsToRemove addObject:key];
 		
         [array removeObjectsInArray:toRemove];
-        [toRemove release];
     }
     [[self getCurrentKey] removeObjectsInArray:sectionsToRemove];
-    [sectionsToRemove release];
     [table reloadData];
 }
 

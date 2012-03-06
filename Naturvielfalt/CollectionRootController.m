@@ -47,7 +47,6 @@
     // Load first Observations view controller
     [self pushViewController:viewController animated:YES];
     
-    [viewController release];
     viewController = nil;
 }
 
@@ -58,12 +57,6 @@
     collectionOverview = nil;
 }
 
-- (void) dealloc
-{
-    [super dealloc];
-    
-    [collectionOverview release];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

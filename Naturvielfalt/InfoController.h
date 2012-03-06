@@ -12,7 +12,7 @@
     IBOutlet UILabel *label1;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *label1;
+@property (nonatomic) IBOutlet UILabel *label1;
 
 
 @end

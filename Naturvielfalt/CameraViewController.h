@@ -23,13 +23,13 @@
     CGRect imageFrame;
     Observation *observation;
 }
-@property (nonatomic, retain) IBOutlet UIImageView *imageView;
-@property (nonatomic, retain) IBOutlet UIButton *takePictureButton;
-@property (nonatomic, retain) MPMoviePlayerController *moviePlayerController;
-@property (nonatomic, retain) UIImage *image;
-@property (nonatomic, retain) NSURL *movieURL;
+@property (nonatomic) IBOutlet UIImageView *imageView;
+@property (nonatomic) IBOutlet UIButton *takePictureButton;
+@property (nonatomic) MPMoviePlayerController *moviePlayerController;
+@property (nonatomic) UIImage *image;
+@property (nonatomic) NSURL *movieURL;
 @property (nonatomic, copy) NSString *lastChosenMediaType;
-@property (nonatomic, retain) Observation *observation;
+@property (nonatomic) Observation *observation;
 
 - (IBAction)shootPictureOrVideo:(id)sender;
 - (IBAction)selectExistingPictureOrVideo:(id)sender;

@@ -48,7 +48,6 @@
                                                                   action:@selector(saveUsername)];
     
     self.navigationItem.leftBarButtonItem = backButton;
-    [backButton release];
     
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
@@ -81,7 +80,6 @@
     
     // PUSH
     [self.navigationController pushViewController:settingsViewController animated:TRUE];
-    [settingsViewController release];
     settingsViewController = nil;
 }
 

@@ -17,9 +17,9 @@
     int classlevel;
 }
 
-@property (nonatomic, retain) NSMutableArray *listData;
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic) NSMutableArray *listData;
+@property (nonatomic) IBOutlet UITableView *table;
+@property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, assign) int groupId;
 @property (nonatomic, assign) int classlevel;
 

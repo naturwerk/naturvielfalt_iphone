@@ -46,7 +46,6 @@
                                                                   action:@selector(returnBack)];
     
     self.navigationItem.rightBarButtonItem = backButton;
-    [backButton release];
     
     observation = [[[Observation alloc] init] getObservation];
     
@@ -61,7 +60,6 @@
                                                                 action:@selector(relocate)];
     
     self.navigationItem.leftBarButtonItem = relocate;
-    [relocate release];
     
     if(review || observation.locationLocked) {        
 
@@ -110,7 +108,7 @@
     theCoordinate.longitude = observation.location.coordinate.longitude;
     theCoordinate.latitude = observation.location.coordinate.latitude;
 	
-	annotation = [[[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil] autorelease];
+	annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
 	annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getNameDe]];
     
     shouldAdjustZoom = YES;
@@ -129,7 +127,6 @@
     // Calculate swiss coordinates
     SwissCoordinates *swissCoordinates = [[SwissCoordinates alloc] init];
     NSMutableArray *arrayCoordinates = [swissCoordinates calculate:theCoordinate.longitude latitude:theCoordinate.latitude];
-    [swissCoordinates release];
     
     annotation.subtitle = [NSString	stringWithFormat:@"CH03 (%.0f, %.0f) \n WGS84 (%.3f, %.3f)", [[arrayCoordinates objectAtIndex:0] doubleValue], [[arrayCoordinates objectAtIndex:1] doubleValue], theCoordinate.longitude, theCoordinate.latitude];
     
@@ -191,6 +188,7 @@
     // Set the current displayed organism
     organismSubmitController.organism = observation.organism;
     
+    
     // Switch the View & Controller
     // POP
     [self.navigationController popViewControllerAnimated:TRUE];
@@ -244,10 +242,8 @@
 
 - (void) dealloc 
 {
-    [super dealloc];    
     
     [self.mapView.userLocation removeObserver:self forKeyPath:@"location"];
-    [locationManager release];
     // [self.mapView removeFromSuperview];
     // self.mapView = nil;
 }
@@ -294,20 +290,17 @@
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Kein Netzwerk vorhanden. Ev. im Flugmodus?" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
-            [alert release];
         }
             break;
         case kCLErrorDenied:{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"GPS wurde vom Benutzer für diese Applikation deaktiviert. " delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
-            [alert release];
         }
             break;
         default:
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unbekannter Netzwerk Error." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
-            [alert release];
         }
             break;
     }
@@ -333,11 +326,11 @@
 	
     // Get annotation and update the observation
 	DDAnnotation *anno = (DDAnnotation *)annotationView.annotation;
-    CLLocation *newLocation = [[[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(anno.coordinate.latitude, anno.coordinate.longitude)
+    CLLocation *newLocation = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(anno.coordinate.latitude, anno.coordinate.longitude)
                                                              altitude:observation.location.altitude
                                                    horizontalAccuracy:observation.location.horizontalAccuracy
                                                      verticalAccuracy:observation.location.verticalAccuracy
-                                                            timestamp:[NSDate date]] autorelease];
+                                                            timestamp:[NSDate date]];
     
     observation.location = newLocation;
     observation.locationLocked = true;

@@ -13,12 +13,5 @@
 @synthesize cscfNr;
 
 
-- (void) dealloc 
-{
-    [super dealloc];
-    
-    [protectionCH release];
-    [cscfNr release];
-}
 
 @end

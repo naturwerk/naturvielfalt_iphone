@@ -23,7 +23,6 @@
     NSString *url = [[NSString alloc] initWithFormat:@"http://de.wikipedia.org/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", latName];
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [url release];
     
     // Perform request and get JSON back as a NSData object
     NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
@@ -34,7 +33,6 @@
     // parse the JSON response into an object
     // Here we're using NSArray since we're parsing an array of JSON status objects
     NSDictionary *wikipediaResponseObject = [parser objectWithString:json_string error:nil];
-    [parser release];
     
     NSArray *htmlTemp = [[[wikipediaResponseObject objectForKey:@"query"] objectForKey:@"pages"] allValues];
     

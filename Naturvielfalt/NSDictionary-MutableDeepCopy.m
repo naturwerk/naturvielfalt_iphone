@@ -17,7 +17,6 @@
         if (oneCopy == nil)
             oneCopy = [oneValue copy];
         [returnDict setValue:oneCopy forKey:key];
-        [oneCopy release];
     }
     return returnDict;
 }

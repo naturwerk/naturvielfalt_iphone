@@ -75,12 +75,10 @@
                                      action: @selector(saveObservation)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
-    [submitButton release];
     
     // Set navigation bar title    
     NSString *title = [[NSString alloc] initWithString:@"Beobachtung"];
     self.navigationItem.title = title;
-    [title release];
         
     // Table init
     tableView.delegate = self;
@@ -108,7 +106,7 @@
 - (void) prepareData 
 {
     // Create new observation object, will late be used as data transfer object
-    observation = [[[Observation alloc] init] getObservation];
+    if(!observation) observation = [[[Observation alloc] init] getObservation];
     
     NSString *nowString;
     
@@ -136,7 +134,6 @@
     dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     nowString = [dateFormatter stringFromDate:observation.date];
-    [dateFormatter release];
       
     // Initialize keys/valu es
     arrayKeys = [[NSArray alloc] initWithObjects:@"Zeit", @"Erfasser", @"Anzahl", @"Bemerkung", @"Belegfotos", @"Genauigkeit", nil];
@@ -157,12 +154,11 @@
     
     // Close connection
     [persistenceManager closeConnection];
-    [persistenceManager release];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     [self.navigationController.view addSubview:hud];
     
-    hud.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     
     // Set custom view mode
     hud.mode = MBProgressHUDModeCustomView;
@@ -184,7 +180,6 @@
                                      action: @selector(saveObservation)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
-    [submitButton release];
     
     [tableView reloadData];
 }
@@ -198,7 +193,6 @@
         [locationManager stopUpdatingLocation];
         // [self performSelector:@selector(discardLocationManager) onThread:[NSThread currentThread] withObject:nil waitUntilDone:NO];
        
-        [locationManager release];
          locationManager = nil;
     }
 
@@ -208,15 +202,11 @@
 
 - (void) dealloc 
 {    
-    [super dealloc];
     
     if(locationManager){
         [locationManager stopUpdatingLocation];
-        [locationManager release];
     }
     
-    [arrayKeys release];
-    [arrayValues release];
 }
 
 
@@ -334,7 +324,6 @@
                     customCell.value.text = picCount;
                     customCell.image.image = nil;
                     
-                    [picCount release];
                 }   
                     break;
                     
@@ -362,7 +351,7 @@
     } else {
         // Use normal cell layout
         if (cell == nil) {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
         }
         
         // Set up the cell...
@@ -396,7 +385,6 @@
         
         // Switch the View & Controller
         [self.navigationController pushViewController:organismSubmitAmountController animated:TRUE];
-        [organismSubmitAmountController release];
         organismSubmitAmountController = nil;
         
     }  else if (indexPath.row == 3) {
@@ -410,7 +398,6 @@
         
         // Switch the View & Controller
         [self.navigationController pushViewController:organismSubmitCommentController animated:TRUE];
-        [organismSubmitCommentController release];
         organismSubmitCommentController = nil;
         
     } else if (indexPath.row == 4) {
@@ -425,7 +412,6 @@
         
         // Switch the View & Controller
         [self.navigationController pushViewController:organismSubmitCameraController animated:TRUE];
-        [organismSubmitCameraController release];
         organismSubmitCameraController = nil;
         
     } else if(indexPath.row == 5) {
@@ -441,7 +427,6 @@
         
         // Switch the View & Controller
         [self.navigationController pushViewController:organismSubmitMapController animated:TRUE];
-        [organismSubmitMapController release];
         organismSubmitMapController = nil;
     }
 }

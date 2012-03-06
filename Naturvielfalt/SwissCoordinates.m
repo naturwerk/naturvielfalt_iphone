@@ -50,10 +50,5 @@
     return returnArray;
 }
 
-- (void) dealloc
-{
-    [super dealloc];
-    
-}
 
 @end

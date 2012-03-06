@@ -49,7 +49,6 @@
                                       action: @selector(submitObservation)];
                                     
     self.navigationItem.rightBarButtonItem = submitButton;
-    [submitButton release];
     
     // Set navigation bar title
     self.navigationItem.title = @"Details";
@@ -112,7 +111,6 @@
         picture.image = [UIImage imageNamed:@"bildvorschaudeaktiviert.png"];
         imageAuthor.text = @"";
     }
-    [wikipediaHelper release];
 }
 
 - (void)viewDidUnload
@@ -120,10 +118,6 @@
     [super viewDidUnload];
 }
 
-- (void) dealloc
-{
-    [super dealloc];
-}
 
 - (void) submitObservation
 {
@@ -138,7 +132,6 @@
     
     // Switch the View & Controller
     [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-    [organismSubmitController release];
     organismSubmitController = nil;
 }
 
@@ -157,7 +150,6 @@
     
     // Switch the View & Controller
     [self.navigationController pushViewController:organismWikipediaController animated:TRUE];
-    [organismWikipediaController release];
     organismWikipediaController = nil;
 }
 

@@ -21,12 +21,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-    
-    [navi release];
-}
 
 - (void)didReceiveMemoryWarning
 {

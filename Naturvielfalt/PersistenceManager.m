@@ -40,7 +40,6 @@
         }
     }
     
-    [fmngr release];
     
     
     // Create link to database
@@ -420,7 +419,6 @@
             }
             
             [organisms addObject:organism];
-            [organism release];
 		}
         
         sqlite3_finalize(statement);

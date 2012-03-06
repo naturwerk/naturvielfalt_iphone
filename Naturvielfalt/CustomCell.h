@@ -15,8 +15,8 @@
     IBOutlet UIImageView *image;
 }
 
-@property (nonatomic,retain) IBOutlet UILabel *key;
-@property (nonatomic,retain) IBOutlet UILabel *value;
-@property (nonatomic,retain) IBOutlet UIImageView *image;
+@property (nonatomic) IBOutlet UILabel *key;
+@property (nonatomic) IBOutlet UILabel *value;
+@property (nonatomic) IBOutlet UIImageView *image;
 
 @end

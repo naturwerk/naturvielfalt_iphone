@@ -21,13 +21,13 @@
     IBOutlet UIProgressView *progressView;
 }
 
-@property (nonatomic, retain) PersistenceManager *persistenceManager;
-@property (nonatomic, retain) NSMutableArray *observations;
-@property (nonatomic, retain) NSMutableArray *observationsToSubmit;
+@property (nonatomic) PersistenceManager *persistenceManager;
+@property (nonatomic) NSMutableArray *observations;
+@property (nonatomic) NSMutableArray *observationsToSubmit;
 @property (nonatomic, assign) int *countObservations;
-@property (nonatomic, retain) IBOutlet UITableView *table;
-@property (nonatomic, retain) ASINetworkQueue *queue;
-@property (nonatomic, retain) IBOutlet UIProgressView *progressView;
+@property (nonatomic) IBOutlet UITableView *table;
+@property (nonatomic) ASINetworkQueue *queue;
+@property (nonatomic) IBOutlet UIProgressView *progressView;
 
 
 - (void) sendObservations;

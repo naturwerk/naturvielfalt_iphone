@@ -13,8 +13,8 @@
     NSString *password;
 }
 
-@property (nonatomic, retain) UITextField *textView;
-@property (nonatomic, retain) NSString *password;
+@property (nonatomic) UITextField *textView;
+@property (nonatomic) NSString *password;
 
 - (void) savePassword;
 

@@ -70,14 +70,12 @@
         UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
         
         [self.navigationItem setLeftBarButtonItem:modalButton animated:YES];
-        [modalButton release];
     }
     
     // Set the title of the Navigationbar
     NSString *title = [[NSString alloc] initWithString:@"Naturvielfalt"];
     self.navigationItem.title = title;
     
-    [title release];
     
     // Reload the table data
     [table reloadData];
@@ -98,7 +96,6 @@
 
     [self.navigationController pushViewController:infoController animated:TRUE];
     
-    [infoController release];
     infoController = nil;
 
 }
@@ -113,7 +110,6 @@
     // Switch the View & Controller
     [self.navigationController pushViewController:organismFilterController animated:TRUE];
     
-    [organismFilterController release];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -121,16 +117,6 @@
     [table reloadData];
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-    
-    /*
-    [listData release];
-    [spinner release];
-    [table release];
-     */
-}
 
 
 - (void)viewDidUnload
@@ -157,7 +143,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
     if(cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:simpleTableIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:simpleTableIdentifier];
     }
     
     // Set title
@@ -225,7 +211,6 @@
         overviewController.classlevel = classlevel + 1;
         
         [self.navigationController pushViewController:overviewController animated:TRUE];
-        [overviewController release];
         overviewController = nil;
         
     } else {
@@ -249,7 +234,6 @@
             
             // Switch the View & Controller
             [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-            [organismSubmitController release];
             organismSubmitController = nil;
             
             return;
@@ -266,10 +250,8 @@
         // Stop the spinner
         [spinner stopAnimating];
         
-        [organismController release];
         organismController = nil;
         
-        [persistenceManager release];
     }
 }
 
@@ -284,7 +266,6 @@
     // Get all Root elements (Root elements have the id 3)
     self.listData = [persistenceManager getAllOrganismGroups:groupId withClasslevel:classlevel];
     
-    [persistenceManager release];
     /*
      NOCH NICHT IDENTIFIZIERTE ORGANISMEN not display atm..
     OrganismGroup *notDefinedOrganismGroup = [[OrganismGroup alloc] init];

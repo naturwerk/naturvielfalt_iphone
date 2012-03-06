@@ -39,21 +39,21 @@
 
 @property (nonatomic, assign) NSInteger organismGroupId;
 @property (nonatomic, assign) BOOL displayGermanNames;
-@property (nonatomic, retain) NSMutableArray *listData;
-@property (nonatomic, retain) NSString *organismGroupName;
-@property (nonatomic, retain) UISearchBar *search;
-@property (nonatomic, retain) NSMutableDictionary *dictAllOrganismsDE;
-@property (nonatomic, retain) NSMutableDictionary *dictAllOrganismsLAT;
-@property (nonatomic, retain) NSMutableDictionary *dictOrganismsDE;
-@property (nonatomic, retain) NSMutableDictionary *dictOrganismsLAT;
-@property (nonatomic, retain) NSMutableDictionary *currDict;
-@property (nonatomic, retain) NSMutableArray *keysAllDE;
-@property (nonatomic, retain) NSMutableArray *keysAllLAT;
-@property (nonatomic, retain) NSMutableArray *keysDE;
-@property (nonatomic, retain) NSMutableArray *keysLAT;
-@property (nonatomic, retain) NSMutableArray *currKeys;
+@property (nonatomic) NSMutableArray *listData;
+@property (nonatomic) NSString *organismGroupName;
+@property (nonatomic) UISearchBar *search;
+@property (nonatomic) NSMutableDictionary *dictAllOrganismsDE;
+@property (nonatomic) NSMutableDictionary *dictAllOrganismsLAT;
+@property (nonatomic) NSMutableDictionary *dictOrganismsDE;
+@property (nonatomic) NSMutableDictionary *dictOrganismsLAT;
+@property (nonatomic) NSMutableDictionary *currDict;
+@property (nonatomic) NSMutableArray *keysAllDE;
+@property (nonatomic) NSMutableArray *keysAllLAT;
+@property (nonatomic) NSMutableArray *keysDE;
+@property (nonatomic) NSMutableArray *keysLAT;
+@property (nonatomic) NSMutableArray *currKeys;
 @property (nonatomic, assign) BOOL isSearching;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 - (void) loadFromWebsite;
 - (void) appendToDictionary:(Organism *)organism;

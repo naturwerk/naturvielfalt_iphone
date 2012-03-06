@@ -13,6 +13,6 @@
     IBOutlet UINavigationBar *navi;
 }
 
-@property (nonatomic, retain) IBOutlet UINavigationBar *navi;
+@property (nonatomic) IBOutlet UINavigationBar *navi;
 
 @end

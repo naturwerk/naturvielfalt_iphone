@@ -116,10 +116,6 @@
 }
 
 
-- (void) dealloc
-{
-    [super dealloc];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

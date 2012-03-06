@@ -23,17 +23,17 @@
     IBOutlet UILabel *imageAuthor;
 }
 
-@property (nonatomic, retain) Organism *organism;
-@property (nonatomic, retain) IBOutlet UILabel *nameDe;
-@property (nonatomic, retain) IBOutlet UILabel *nameLat;
-@property (nonatomic, retain) IBOutlet UILabel *family;
-@property (nonatomic, retain) IBOutlet UILabel *keyOne;
-@property (nonatomic, retain) IBOutlet UILabel *keyTwo;
-@property (nonatomic, retain) IBOutlet UILabel *valueOne;
-@property (nonatomic, retain) IBOutlet UILabel *valueTwo;
-@property (nonatomic, retain) IBOutlet UIButton *wikiButton;
-@property (nonatomic, retain) IBOutlet UIImageView *picture;
-@property (nonatomic, retain) IBOutlet UILabel *imageAuthor;
+@property (nonatomic) Organism *organism;
+@property (nonatomic) IBOutlet UILabel *nameDe;
+@property (nonatomic) IBOutlet UILabel *nameLat;
+@property (nonatomic) IBOutlet UILabel *family;
+@property (nonatomic) IBOutlet UILabel *keyOne;
+@property (nonatomic) IBOutlet UILabel *keyTwo;
+@property (nonatomic) IBOutlet UILabel *valueOne;
+@property (nonatomic) IBOutlet UILabel *valueTwo;
+@property (nonatomic) IBOutlet UIButton *wikiButton;
+@property (nonatomic) IBOutlet UIImageView *picture;
+@property (nonatomic) IBOutlet UILabel *imageAuthor;
 
 - (IBAction) wikipediaLinkClicked;
 

@@ -19,13 +19,6 @@
     [super setSelected:selected animated:animated];
 }
 
-- (void)dealloc {
-    [key release];
-    [value release];
-    [image release];
-    
-    [super dealloc];
-}
 
 
 @end

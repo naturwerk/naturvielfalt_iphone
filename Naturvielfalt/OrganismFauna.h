@@ -13,7 +13,7 @@
     NSString *cscfNr;
 }
 
-@property (nonatomic, retain) NSString *protectionCH;
-@property (nonatomic, retain) NSString *cscfNr;
+@property (nonatomic) NSString *protectionCH;
+@property (nonatomic) NSString *cscfNr;
 
 @end

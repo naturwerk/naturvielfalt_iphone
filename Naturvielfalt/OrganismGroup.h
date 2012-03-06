@@ -14,13 +14,13 @@
     NSInteger classlevel;
     NSString *name;
     NSInteger count;
-    NSMutableArray *childs;
+    NSMutableArray *__weak childs;
 }
 
-@property(nonatomic, retain) NSString *name;
+@property(nonatomic) NSString *name;
 @property(nonatomic, assign) NSInteger organismGroupId;
 @property(nonatomic, assign) NSInteger classlevel;
 @property(nonatomic, assign) NSInteger count;
-@property(nonatomic, assign) NSMutableArray *childs;
+@property(nonatomic, weak) NSMutableArray *childs;
 
 @end

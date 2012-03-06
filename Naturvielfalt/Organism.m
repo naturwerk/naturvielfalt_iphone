@@ -28,14 +28,5 @@
     return nameDeValue;
 }
 
-- (void) dealloc 
-{
-    [super dealloc];
-    
-    [nameDe release];
-    [genus release];
-    [species release];
-    [family release];
-}
 
 @end

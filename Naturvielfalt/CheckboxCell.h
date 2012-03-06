@@ -17,11 +17,11 @@
     IBOutlet UILabel *amount;
 }
 
-@property (nonatomic, retain) UIButton *checkbox;
-@property (nonatomic, retain) UIButton *remove;
-@property (nonatomic, retain) UILabel *name;
-@property (nonatomic, retain) UILabel *latName;
-@property (nonatomic, retain) UILabel *date;
-@property (nonatomic, retain) UILabel *amount;
+@property (nonatomic) UIButton *checkbox;
+@property (nonatomic) UIButton *remove;
+@property (nonatomic) UILabel *name;
+@property (nonatomic) UILabel *latName;
+@property (nonatomic) UILabel *date;
+@property (nonatomic) UILabel *amount;
 
 @end

@@ -12,10 +12,5 @@
 @implementation OrganismGroup
 @synthesize name, count, organismGroupId, classlevel, childs;
 
-- (void) dealloc {
-    [super dealloc];
-    
-    [name release];
-}
 
 @end

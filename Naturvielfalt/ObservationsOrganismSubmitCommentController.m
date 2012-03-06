@@ -49,7 +49,6 @@
                                                            action:@selector(saveComment)];
     
     self.navigationItem.leftBarButtonItem = backButton;
-    [backButton release];
     
     // Get Observation object
     Observation *observation = [[Observation alloc] getObservation];
@@ -79,7 +78,6 @@
     
     // PUSH
     [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-    [organismSubmitController release];
     organismSubmitController = nil;
 }
 
@@ -90,12 +88,6 @@
     // textView = nil;
 }
 
-- (void) dealloc
-{
-    [super dealloc];
-    
-    // [textView release];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

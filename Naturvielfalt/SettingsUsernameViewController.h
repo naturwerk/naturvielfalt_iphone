@@ -13,8 +13,8 @@
     NSString *username;
 }
 
-@property (nonatomic, retain) UITextField *textView;
-@property (nonatomic, retain) NSString *username;
+@property (nonatomic) UITextField *textView;
+@property (nonatomic) NSString *username;
 
 - (void) saveUsername;
 

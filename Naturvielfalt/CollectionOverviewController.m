@@ -99,7 +99,6 @@
     if(counter == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Es wurden noch keine Beobachtungen gespeichert." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
-        [alert release];
         
         return;
     }
@@ -138,7 +137,6 @@
             if(!credentialsSetted) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Benutzername/Passwort wurde noch nicht gesetzt. Dies kann in den Einstellungen gesetzt werden." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
                 [alert show];
-                [alert release]; 
                 
                 return;
             }
@@ -152,7 +150,6 @@
             dateFormatter.dateFormat = @"dd.MM.yyyy";
             [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
             NSString *dateString = [dateFormatter stringFromDate:ob.date];
-            [dateFormatter release];
             
             // Prepare data
             NSString *organism = [NSString stringWithFormat:@"%d", ob.organism.organismId];
@@ -194,11 +191,10 @@
     if(successfulTransmission) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Erfolgreich" message:@"Beobachtungen wurden erfolgreich übertragen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
-        [alert release];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Beobachtungen wurden leider NICHT erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
-        [alert release];    }
+            }
 }
 
 - (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request withPersistenceManager:(PersistenceManager *)persistenceManager {
@@ -262,6 +258,7 @@
     
     // Close the connection
     [persistenceManager closeConnection];
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated 
@@ -358,7 +355,6 @@
         dateFormatter.dateFormat = @"dd.MM.yyyy";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         NSString *nowString = [dateFormatter stringFromDate:observation.date];
-        [dateFormatter release];
         
         checkboxCell.name.text = [observation.organism getNameDe];
         checkboxCell.date.text = nowString;
@@ -413,12 +409,12 @@
     NSLog(@"Observation in CollectionOverView: %@", [observationShared getObservation]);
     
     // Set the current displayed organism
+    organismSubmitController.observation = observation;
     organismSubmitController.organism = observation.organism;
     organismSubmitController.review = YES;
     
     // Switch the View & Controller
     [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-    [organismSubmitController release];
     organismSubmitController = nil;
 }
 

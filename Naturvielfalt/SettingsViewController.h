@@ -14,8 +14,8 @@
     NSMutableArray *titles;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) NSMutableArray *titles;
+@property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) NSMutableArray *titles;
 
 
 @end

@@ -14,7 +14,7 @@
 }
 
 @property (nonatomic, assign) BOOL *isNeophyte;
-@property (nonatomic, retain) NSString *status;
+@property (nonatomic) NSString *status;
 
 
 @end

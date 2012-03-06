@@ -38,15 +38,8 @@ static Observation *observation;
 
 - (void) dealloc
 {
-    [super dealloc];    
     
-    [author release];
-    [date release];
-    [location release];
-    [pictures release];
-    [comment release];
-    [observation.pictures release];
-    [observation release];
+    observation.pictures;
 }
 
 - (NSString *) description
@@ -55,7 +48,6 @@ static Observation *observation;
     dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     NSString *dateString = [dateFormatter stringFromDate:date];
-    [dateFormatter release];
     
     NSString *output = [[NSString alloc] initWithFormat:@"[%d] _%d_ %d %@ %@ %@ %@ (%f, %f) #Pics: %d", 
                                                         observationId,

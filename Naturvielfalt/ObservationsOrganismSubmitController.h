@@ -13,8 +13,8 @@
 #import "PersistenceManager.h"
 
 @interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
-    Organism *organism;
-    Observation *observation;
+    Organism *__weak organism;
+    Observation *__weak observation;
     IBOutlet UILabel *nameDe;
     IBOutlet UILabel *nameLat;
     IBOutlet UILabel *family;
@@ -34,20 +34,20 @@
 
 
 @property (nonatomic, assign) BOOL observationChanged;
-@property (nonatomic, assign) Organism *organism;
-@property (nonatomic, assign) Observation *observation;
-@property (nonatomic, retain) IBOutlet UILabel *nameDe;
-@property (nonatomic, retain) IBOutlet UILabel *nameLat;
-@property (nonatomic, retain) IBOutlet UILabel *family;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) UIImage *accuracyImage;
-@property (nonatomic, retain) NSString *accuracyText;
-@property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, weak) Organism *organism;
+@property (nonatomic, weak) Observation *observation;
+@property (nonatomic) IBOutlet UILabel *nameDe;
+@property (nonatomic) IBOutlet UILabel *nameLat;
+@property (nonatomic) IBOutlet UILabel *family;
+@property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) UIImage *accuracyImage;
+@property (nonatomic) NSString *accuracyText;
+@property (nonatomic) CLLocationManager *locationManager;
 
-@property (nonatomic, assign) NSArray *arrayKeys;
-@property (nonatomic, assign) NSArray *arrayValues;
+@property (nonatomic) NSArray *arrayKeys;
+@property (nonatomic) NSArray *arrayValues;
 
-@property (nonatomic, retain) PersistenceManager *persistenceManager;
+@property (nonatomic) PersistenceManager *persistenceManager;
 
 @property (nonatomic, assign) BOOL review;
 

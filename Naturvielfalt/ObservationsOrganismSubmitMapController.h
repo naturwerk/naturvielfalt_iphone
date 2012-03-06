@@ -24,11 +24,11 @@
     BOOL pinMoved;
 }
 
-@property (nonatomic, retain) IBOutlet MKMapView *mapView;
-@property (nonatomic, retain) IBOutlet CLLocationManager *locationManager;
-@property (nonatomic, retain) CLLocation *currentLocation;
-@property (nonatomic, retain) Observation *observation;
-@property (nonatomic, retain) DDAnnotation *annotation;
+@property (nonatomic) IBOutlet MKMapView *mapView;
+@property (nonatomic) IBOutlet CLLocationManager *locationManager;
+@property (nonatomic) CLLocation *currentLocation;
+@property (nonatomic) Observation *observation;
+@property (nonatomic) DDAnnotation *annotation;
 @property (nonatomic, assign) BOOL review;
 @property (nonatomic, assign) BOOL shouldAdjustZoom;
 @property (nonatomic, assign) BOOL pinMoved;

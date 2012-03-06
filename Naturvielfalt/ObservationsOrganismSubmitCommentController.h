@@ -16,8 +16,8 @@
     Observation *observation;
 }
 
-@property (nonatomic, retain) UITextView *textView;
-@property (nonatomic, retain) Observation *observation; 
+@property (nonatomic) UITextView *textView;
+@property (nonatomic) Observation *observation; 
 
 - (void) saveComment;
 

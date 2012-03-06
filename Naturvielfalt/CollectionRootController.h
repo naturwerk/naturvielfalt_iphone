@@ -13,6 +13,6 @@
     UIViewController *collectionOverview;
 }
 
-@property (nonatomic, retain) UIViewController *collectionOverview;
+@property (nonatomic) UIViewController *collectionOverview;
 
 @end

@@ -16,9 +16,9 @@
     Observation *observation;
 }
 
-@property (nonatomic, retain) IBOutlet UIPickerView *picker;
-@property (nonatomic, retain) IBOutlet UITextField *amount;
-@property (nonatomic, retain) IBOutlet NSMutableArray *arrayValues;
-@property (nonatomic, retain) IBOutlet Observation *observation;
+@property (nonatomic) IBOutlet UIPickerView *picker;
+@property (nonatomic) IBOutlet UITextField *amount;
+@property (nonatomic) IBOutlet NSMutableArray *arrayValues;
+@property (nonatomic) IBOutlet Observation *observation;
 
 @end

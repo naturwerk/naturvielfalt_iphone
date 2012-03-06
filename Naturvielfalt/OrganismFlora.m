@@ -12,11 +12,5 @@
 @synthesize isNeophyte;
 @synthesize status;
 
-- (void) dealloc 
-{
-    [super dealloc];    
-    
-    [status release];
-}
 
 @end

@@ -38,13 +38,11 @@
     // Set navigation bar title    
     NSString *title = [[NSString alloc] initWithString:@"Wikipedia"];
     self.navigationItem.title = title;
-    [title release];
     
     // Load wikipedia html source code
     WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
     NSString *formatedHtmlSrc = [wikipediaHelper getWikipediaHTMLPage:latName];
     [webView loadHTMLString:formatedHtmlSrc baseURL:nil];
-    [wikipediaHelper release];
 }
 
 - (void)viewDidUnload

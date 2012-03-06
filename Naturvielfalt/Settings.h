@@ -13,8 +13,8 @@
     NSString *urlSubmitScript;
 }
 
-@property (nonatomic, retain) NSString *urlWebservice;
-@property (nonatomic, retain) NSString *urlSubmitScript;
+@property (nonatomic) NSString *urlWebservice;
+@property (nonatomic) NSString *urlSubmitScript;
 
 - (Settings *) getSettings;
 - (id)init;

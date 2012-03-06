@@ -70,16 +70,6 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     [super viewDidUnload];
 }
 
-- (void)dealloc {
-    [imageView release];
-    [takePictureButton release];
-    [moviePlayerController release];
-    [image release];
-    [movieURL release];
-    [lastChosenMediaType release];
-    
-    [super dealloc];
-}
 
 - (IBAction)shootPictureOrVideo:(id)sender {
     [self getMediaFromSource:UIImagePickerControllerSourceTypeCamera];
@@ -139,8 +129,8 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
         moviePlayerController.view.hidden = YES;
     } else if ([lastChosenMediaType isEqual:(NSString *)kUTTypeMovie]) {
         [self.moviePlayerController.view removeFromSuperview];
-        self.moviePlayerController = [[[MPMoviePlayerController alloc]
-									   initWithContentURL:movieURL] autorelease];
+        self.moviePlayerController = [[MPMoviePlayerController alloc]
+									   initWithContentURL:movieURL];
         moviePlayerController.view.frame = imageFrame;
         moviePlayerController.view.clipsToBounds = YES;
         [self.view addSubview:moviePlayerController.view];
@@ -162,7 +152,6 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
         picker.allowsEditing = YES;
         picker.sourceType = sourceType;
         [self presentModalViewController:picker animated:YES];
-        [picker release];
     }
     else {
         UIAlertView *alert = [[UIAlertView alloc] 
@@ -172,7 +161,6 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
                               cancelButtonTitle:@"Drat!" 
                               otherButtonTitles:nil];
         [alert show];
-        [alert release];
     }
 }
 

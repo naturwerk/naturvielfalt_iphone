@@ -313,18 +313,19 @@
 // ORGANISMGROUPS
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel
 {
+    NSDate *starttime = [NSDate date];
     NSMutableArray *organismGroups = [[NSMutableArray alloc] init];
     
     NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id) \
-                        FROM classification as c \
-                        LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
-                        WHERE (c.parent = %d AND c.class_level = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
-                        GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId, classlevel];
+                       FROM classification as c \
+                       LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
+                       WHERE (c.parent = %d AND c.class_level = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
+                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId, classlevel];
     
     sqlite3_stmt *statement;
     
     if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
-        
+       
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			
             int classificationId = sqlite3_column_int(statement, 0);
@@ -344,7 +345,9 @@
            
         sqlite3_finalize(statement);
     }
-    
+    NSDate *endtime = [NSDate date];
+    NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
+    NSLog(@"PersistenceManager: getAllOrganismGroups | running time: %f", executionTime);
     return organismGroups;
 }
 
@@ -368,22 +371,28 @@
 // ORGANISMS
 - (NSMutableArray *) getAllOrganisms:(int) groupId
 {
+    NSDate *starttime = [NSDate date];  
     NSMutableArray *organisms = [[NSMutableArray alloc] init];
     
-    NSString *query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc FROM organism AS o \
+    NSString *query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
+                       FROM organism AS o, \
+                       classification_taxon as ct, \
+                       classification as c \
+                       WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id and c.classification_id = %d", groupId];
+    // replaced sql query, because left join is very slow
+    //NSString *query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
+                       FROM organism AS o \
                        LEFT JOIN classification_taxon as ct ON ct.taxon_id = o.id \
                        LEFT JOIN classification as c ON c.classification_id = ct.classification_id \
                        WHERE c.classification_id = %d", groupId];
     
     sqlite3_stmt *statement;
     
-    if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
-        
+    if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {  
 		while (sqlite3_step(statement) == SQLITE_ROW) {
-
-            int organismId = sqlite3_column_int(statement, 0);
-            int organismGroupId = sqlite3_column_int(statement, 1);
             
+            
+            // need to check if they are Null!
             NSString *nameDe;
             NSString *nameLat;
             
@@ -402,13 +411,13 @@
             // Create OrganismGroup
             Organism *organism = [[Organism alloc] init];
             
-            organism.organismId = organismId;
-            organism.organismGroupId = organismGroupId;
+            organism.organismId = sqlite3_column_int(statement, 0);
+            organism.organismGroupId = sqlite3_column_int(statement, 1);
             organism.nameDe = nameDe;
             organism.nameLat = nameLat;
             
             // Split into species, genus
-            NSArray *firstSplit = [nameLat componentsSeparatedByString:@" "];
+            NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
             if([firstSplit count] > 2) {
                 NSString *genus = [firstSplit objectAtIndex:0];
@@ -416,16 +425,20 @@
                 
                 organism.genus = genus;
                 organism.species = species;
+            }else {
+                organism.genus = @"";
+                organism.species = @"";
             }
-            
             [organisms addObject:organism];
+            organism = nil;
 		}
-        
         sqlite3_finalize(statement);
     } else {
         NSLog( @"Get organisms: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(database));
     }
-    
+    NSDate *endtime = [NSDate date];
+    NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
+    NSLog(@"PersistenceManager: getAllOrganisms | running time: %f", executionTime);
     return organisms;
     //[organisms release];
 }

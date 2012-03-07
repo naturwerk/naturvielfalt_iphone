@@ -105,6 +105,7 @@
 
     
     BOOL successfulTransmission = true;
+    BOOL transmission_problem = false;
     
     for(Observation *ob in observations) {
         if(ob.submitToServer) {
@@ -160,7 +161,7 @@
             NSString *author = [NSString stringWithString:username];
             NSString *longitude = [NSString stringWithFormat:@"%f", ob.location.coordinate.longitude];
             NSString *latitude = [NSString stringWithFormat:@"%f", ob.location.coordinate.latitude];
-            // NSString *comment = [NSString stringWithFormat:@"%@", ob.comment];
+            NSString *comment = [NSString stringWithFormat:@"%@", ob.comment];
             
             // Upload image
             if([ob.pictures count] > 0) {
@@ -180,19 +181,20 @@
             [request setPostValue:author forKey:@"author"];
             [request setPostValue:longitude forKey:@"longitude"];
             [request setPostValue:latitude forKey:@"latitude"];
-            // [request setPostValue:comment forKey:@"comment"];
+            [request setPostValue:comment forKey:@"comment"];
 
             successfulTransmission = [self submitData:ob withRequest:request withPersistenceManager:persistenceManager];
+            if(!successfulTransmission) transmission_problem = true;
         }
         
         i++;
     } 
     
-    if(successfulTransmission) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Erfolgreich" message:@"Beobachtungen wurden erfolgreich übertragen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    if(!transmission_problem) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Erfolgreich" message:@"Alle Beobachtungen wurden erfolgreich übertragen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Beobachtungen wurden leider NICHT erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
             }
 }
@@ -205,7 +207,7 @@
     if (!error) {
         NSString *response = [request responseString];
         
-        // NSLog(@"Response: '%@'", response);
+        NSLog(@"Response: '%@'", response);
         
         if([response isEqualToString:@"SUCCESS"]) {
         
@@ -226,10 +228,10 @@
             [table reloadData];
             
             // Close connection
-            [persistenceManager closeConnection];   
+            [persistenceManager closeConnection];
+            return true;
         }
-        
-        return true;
+        return false;
     } else {        
         return false;
     }

@@ -41,7 +41,8 @@
     
     [titles addObject:@"Benutzername"];
     [titles addObject:@"Passwort"];
-    [titles addObject:@"Bilder Vorschau"];
+    [titles addObject:@"Wikipedia Bilder laden"];
+    [titles addObject:@"Wikipedia Artikel prüfen"];
     
     [super viewDidLoad];
     
@@ -150,6 +151,14 @@
             }
             
         }
+        if(indexPath.row == 3) {
+            
+            if([appSettings objectForKey:@"showWikipedia"] != nil) {
+                BOOL showWikipedia = [[appSettings stringForKey:@"showWikipedia"] isEqualToString:@"on"];
+                [(UISwitch *)cell.accessoryView setOn:showWikipedia]; 
+            }
+            
+        }
         
         
         [(UISwitch *)cell.accessoryView addTarget:self action:@selector(mySelector:)
@@ -174,10 +183,16 @@
     NSString *on = (aSwitch.on) ? @"on" : @"off";
     
     if(indexPath.row == 2) {
-
+        
         // Show images value
         [appSettings setObject:on forKey:@"showImages"];
     }
+    if(indexPath.row == 3) {
+        
+        // Show images value
+        [appSettings setObject:on forKey:@"showWikipedia"];
+    }
+    
     
     [appSettings synchronize];
     

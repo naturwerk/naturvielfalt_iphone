@@ -81,21 +81,28 @@
     }
     */
     
-    // Check if there is an Wikipedia entry, if there is not do not display the wiki button
+    NSString *latName = [NSString stringWithFormat:@"%@_%@", organism.genus, organism.species];
     WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
     
-    NSString *latName = [NSString stringWithFormat:@"%@_%@", organism.genus, organism.species];
-    
-    if([[wikipediaHelper getWikipediaHTMLPage:latName] isEqualToString:@""]) {
-        wikiButton.hidden = YES;
-    } else {
-        wikiButton.hidden = NO;
-    }
-     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
-    BOOL showImages = [[appSettings stringForKey:@"showImages"] isEqualToString:@"on"];
     
+    // Check if there is an Wikipedia entry, if there is not do not display the wiki button
+    BOOL showWikipedia = [[appSettings stringForKey:@"showWikipedia"] isEqualToString:@"on"];
+    if(showWikipedia){
+        NSLog(@"check wikipedia article");
+        if([[wikipediaHelper getWikipediaHTMLPage:latName] isEqualToString:@""]) {
+            wikiButton.hidden = YES;
+        } else {
+            wikiButton.hidden = NO;
+        }
+        NSLog(@"wiki end");
+    }else {
+        wikiButton.hidden = YES;
+    }
+    
+    BOOL showImages = [[appSettings stringForKey:@"showImages"] isEqualToString:@"on"];
     if(showImages) {
+        NSLog(@"check wikipedia image");
         // Fetch image data
         NSString *imageUrl = [wikipediaHelper getUrlOfMainImage:latName];
         
@@ -107,10 +114,12 @@
         } else {
             imageAuthor.text = @"";
         }
+        NSLog(@"wiki image end");
     } else {
         picture.image = [UIImage imageNamed:@"bildvorschaudeaktiviert.png"];
         imageAuthor.text = @"";
     }
+
 }
 
 - (void)viewDidUnload

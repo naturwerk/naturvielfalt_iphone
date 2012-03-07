@@ -12,18 +12,20 @@
 @synthesize organismId, organismGroupId, nameDe, genus, species, family, nameLat;
 
 -(NSString *)getLatName {
+    NSString *lat;
     
-    NSString *gen = (genus == nil || genus == (id)[NSNull null]) ? @"Kein" : [genus capitalizedString];
-    NSString *spec = (species == nil || species == (id)[NSNull null]) ? @"lateinischer Name" : species;
-    
-    NSString *lat = [NSString stringWithFormat:@"%@ %@", gen, spec];
-    
-    return lat;
+    if(genus == @""){
+        if(nameLat == @""){
+            return @"Kein lateinischer Name";
+        }
+        return nameLat;
+    }
+    return [NSString stringWithFormat:@"%@ %@", genus, species];
 }
 
 - (NSString *)getNameDe {
     // Only set the german name, genus and species if it exists    
-    NSString *nameDeValue = (nameDe == nil || nameDe == (id)[NSNull null]) ? nameLat : [nameDe capitalizedString];
+    NSString *nameDeValue = (nameDe == @"") ? nameLat : [nameDe capitalizedString];
     
     return nameDeValue;
 }

@@ -129,8 +129,6 @@
     // copy all values in other dictionary
     dictAllOrganismsDE = [[NSMutableDictionary alloc] initWithDictionary:dictOrganismsDE];
     dictAllOrganismsLAT = [[NSMutableDictionary alloc] initWithDictionary:dictOrganismsLAT];
-    //[dictOrganismsDE release];
-    //[dictOrganismsLAT release];
     
     // SORT KEYS GERMAN
     NSMutableArray *tempDE = [[NSMutableArray alloc] init];
@@ -230,9 +228,7 @@
             
             [dictOrganismsLAT setObject:arrayOrganisms forKey:firstLetterLAT];
         }
-    } 
-    
-    //[organism release];
+    }
 }
 
 
@@ -265,8 +261,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([[self getCurrentKey] count] == 0)
-        return 0;
+    
+    // show emtpy message
+    if ([[self getCurrentKey] count] == 0) return 1;
     
     NSString *key = [[self getCurrentKey] objectAtIndex:section];
     NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
@@ -300,16 +297,26 @@
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
 	
-    NSString *key = [[self getCurrentKey] objectAtIndex:section];
-    NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
-	
     static NSString *SectionsTableIdentifier = @"SectionsTableIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
 							 SectionsTableIdentifier];
-    
+
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SectionsTableIdentifier];
+    }    
+    
+    //show empty message
+    if ([[self getCurrentKey] count] == 0){
+        cell.textLabel.text = nil;
+        cell.detailTextLabel.text = NSLocalizedString(@"Keine Organismen gefunden", @"");
+        cell.detailTextLabel.textColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:16];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        return cell;
     }
+    
+    NSString *key = [[self getCurrentKey] objectAtIndex:section];
+    NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
 	
     Organism *organism = [nameSection objectAtIndex:row];
     
@@ -351,32 +358,40 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSUInteger section = [indexPath section];
-    NSUInteger row = [indexPath row];
     
-    NSString *key = [[self getCurrentKey] objectAtIndex:section];
-    NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
-    
-    // Get the selected row
-    Organism *currentSelectedOrganism = [nameSection objectAtIndex:row];
-    
-    // Create the ObservationsOrganismViewController
-    ObservationsOrganismDetailViewController *organismDetailViewController = [[ObservationsOrganismDetailViewController alloc] 
-                                                                              initWithNibName:@"ObservationsOrganismDetailViewController" 
-                                                                              bundle:[NSBundle mainBundle]];
-    
-    // set the organismGroupId so it know which inventory is selected
-    organismDetailViewController.organism = currentSelectedOrganism;
-    
-    // Start the spinner
-    [NSThread detachNewThreadSelector:@selector(threadStartAnimating:) toTarget:self withObject:nil];
-    
-    // Switch the View & Controller
-    [self.navigationController pushViewController:organismDetailViewController animated:TRUE];
-    
-    [spinner stopAnimating];
-    
-    organismDetailViewController = nil;
+    // if no data message ist displayed do nothing
+    if ([[self getCurrentKey] count] == 0){
+        NSLog(@"click on no data");
+    }else {
+            
+        NSLog(@"click on a organism");
+        NSUInteger section = [indexPath section];
+        NSUInteger row = [indexPath row];
+        
+        NSString *key = [[self getCurrentKey] objectAtIndex:section];
+        NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
+        
+        // Get the selected row
+        Organism *currentSelectedOrganism = [nameSection objectAtIndex:row];
+        
+        // Create the ObservationsOrganismViewController
+        ObservationsOrganismDetailViewController *organismDetailViewController = [[ObservationsOrganismDetailViewController alloc] 
+                                                                                  initWithNibName:@"ObservationsOrganismDetailViewController" 
+                                                                                  bundle:[NSBundle mainBundle]];
+        
+        // set the organismGroupId so it know which inventory is selected
+        organismDetailViewController.organism = currentSelectedOrganism;
+        
+        // Start the spinner
+        [NSThread detachNewThreadSelector:@selector(threadStartAnimating:) toTarget:self withObject:nil];
+        
+        // Switch the View & Controller
+        [self.navigationController pushViewController:organismDetailViewController animated:TRUE];
+        
+        [spinner stopAnimating];
+        
+        organismDetailViewController = nil;
+    }
 }
 
 

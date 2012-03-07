@@ -73,18 +73,24 @@
     // Fetch wikipedia article
     NSString *htmlSrc = [self fetchWikipediaArticle:latName];
     
-    // Otherwise images have an incorrect url
-    NSString *formatedHtmlSrc = [htmlSrc stringByReplacingOccurrencesOfString:@"//upload.wikimedia.org" withString:@"http://upload.wikimedia.org"];
-    
     if([htmlSrc isEqualToString:@""])
         return htmlSrc;
     
+    // Otherwise images have an incorrect url
+    NSString *formatedHtmlSrc = [htmlSrc stringByReplacingOccurrencesOfString:@"//upload.wikimedia.org" withString:@"http://upload.wikimedia.org"];
+
+    
     NSArray *splitonce = [formatedHtmlSrc componentsSeparatedByString:@"src=\""];
+    
+    // prevent out of bound exception
+    if([splitonce count] < 2) return @"";
 
     NSString *finalSplitString = [[NSString alloc]  initWithString:[splitonce objectAtIndex:1]];
     NSArray *finalSplit = [finalSplitString  componentsSeparatedByString:@"\""];
 
-
+    // prevent out of bound exception
+    if([finalSplit count] < 1) return @"";
+    
     NSString *imageURL = [[NSString alloc]  initWithString:[finalSplit objectAtIndex:0]];
     imageURL = [imageURL stringByTrimmingCharactersInSet:[NSCharacterSet  whitespaceCharacterSet]];
     
@@ -92,10 +98,15 @@
     // Check if its not the correct image (Sometimes there are articles where the first image is an icon..)
     if([imageURL isEqualToString:@"http://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Disambig-dark.svg/25px-Disambig-dark.svg.png"] || [imageURL isEqualToString:@"http://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Qsicon_L%C3%BCcke.svg/24px-Qsicon_L%C3%BCcke.svg.png"]) {
         
+        // prevent out of bound exception
+        if([splitonce count] < 3) return @"";
+        
         // Get the next image tag
         finalSplitString = [[NSString alloc]  initWithString:[splitonce objectAtIndex:2]];
-        
         finalSplit = [finalSplitString  componentsSeparatedByString:@"\""];
+        
+        // prevent out of bound exception
+        if([finalSplit count] < 1) return @"";
         
         imageURL = [[NSString alloc]  initWithString:[finalSplit objectAtIndex:0]];
         imageURL = [imageURL stringByTrimmingCharactersInSet:[NSCharacterSet  whitespaceCharacterSet]];

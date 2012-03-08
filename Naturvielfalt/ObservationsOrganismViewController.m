@@ -363,7 +363,11 @@
     if ([[self getCurrentKey] count] == 0){
         NSLog(@"click on no data");
     }else {
-            
+        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+        BOOL showWikipedia = [[appSettings stringForKey:@"showWikipedia"] isEqualToString:@"on"];
+        BOOL showImages = [[appSettings stringForKey:@"showImages"] isEqualToString:@"on"];
+        if(showImages || showWikipedia) [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        
         NSLog(@"click on a organism");
         NSUInteger section = [indexPath section];
         NSUInteger row = [indexPath row];

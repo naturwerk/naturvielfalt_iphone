@@ -74,8 +74,10 @@
     
     loadingHUD.delegate = self;
     loadingHUD.mode = MBProgressHUDModeCustomView;
-    loadingHUD.labelText = @"Loading";
+    loadingHUD.labelText = @"Bitte warten";
     loadingHUD.detailsLabelText = @"Daten werden übermittelt..";
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     [loadingHUD showWhileExecuting:@selector(sendRequestToServer) onTarget:self withObject:nil animated:YES];
 }
@@ -190,13 +192,15 @@
         i++;
     } 
     
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
     if(!transmission_problem) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Erfolgreich" message:@"Alle Beobachtungen wurden erfolgreich übertragen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
-            }
+    }
 }
 
 - (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request withPersistenceManager:(PersistenceManager *)persistenceManager {

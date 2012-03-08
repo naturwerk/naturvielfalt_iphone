@@ -33,6 +33,7 @@
 
 - (void)viewDidLoad
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [super viewDidLoad];
     
     // Set navigation bar title    
@@ -43,6 +44,7 @@
     WikipediaHelper *wikipediaHelper = [[WikipediaHelper alloc] init];
     NSString *formatedHtmlSrc = [wikipediaHelper getWikipediaHTMLPage:latName];
     [webView loadHTMLString:formatedHtmlSrc baseURL:nil];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)viewDidUnload

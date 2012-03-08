@@ -90,6 +90,7 @@
     BOOL showWikipedia = [[appSettings stringForKey:@"showWikipedia"] isEqualToString:@"on"];
     if(showWikipedia){
         NSLog(@"check wikipedia article");
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         if([[wikipediaHelper getWikipediaHTMLPage:latName] isEqualToString:@""]) {
             wikiButton.hidden = YES;
         } else {
@@ -103,6 +104,7 @@
     BOOL showImages = [[appSettings stringForKey:@"showImages"] isEqualToString:@"on"];
     if(showImages) {
         NSLog(@"check wikipedia image");
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         // Fetch image data
         NSString *imageUrl = [wikipediaHelper getUrlOfMainImage:latName];
         
@@ -120,6 +122,7 @@
         imageAuthor.text = @"";
     }
 
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)viewDidUnload
@@ -146,6 +149,12 @@
 
 - (void) wikipediaLinkClicked
 {
+    
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    BOOL showWikipedia = [[appSettings stringForKey:@"showWikipedia"] isEqualToString:@"on"];
+    BOOL showImages = [[appSettings stringForKey:@"showImages"] isEqualToString:@"on"];
+    if(showImages || showWikipedia) [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
     // Create the ObservationsOrganismViewController
     ObservationsOrganismDetailViewWikipediaController *organismWikipediaController = [[ObservationsOrganismDetailViewWikipediaController alloc] 
                                                                       initWithNibName:@"ObservationsOrganismDetailViewWikipediaController" 
@@ -167,5 +176,6 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
 
 @end

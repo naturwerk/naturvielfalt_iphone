@@ -119,7 +119,7 @@
     // Get all oranismGroups
     PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
     [persistenceManager establishConnection];
-
+    
     NSMutableArray *organisms = [persistenceManager getAllOrganisms:organismGroupId];
     
     for(Organism *organism in organisms) {
@@ -165,7 +165,7 @@
     // GERMAN NAME
     if([organism getNameDe].length > 0) {
         NSString *firstLetterDE = [[organism getNameDe] substringToIndex:1];
-         
+        
         // Put all "umlaute" under there belonging character
         // ä => a, ö => o, ü => u
         if([firstLetterDE isEqual:@"Ü"]) {
@@ -180,11 +180,11 @@
         if(! [keysDE containsObject:firstLetterDE]) {
             // Does not contain the key letter
             [keysDE addObject:[firstLetterDE uppercaseString]];
-        
+            
             NSMutableArray *newArray = [[NSMutableArray alloc] init];
-        
+            
             [newArray addObject:organism];
-        
+            
             [dictOrganismsDE setObject:newArray forKey:firstLetterDE];
         } else {
             
@@ -241,15 +241,15 @@
 {
     if(!isSearching) {
         NSMutableArray *arrKeys = [[NSMutableArray alloc] init];
-    
+        
         // Add all keys to the array
         for(NSString *key in [self getCurrentKey]) {
             [arrKeys addObject:key];
         }
-    
+        
         // Sort array
         NSArray *sortedArray = [arrKeys sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    
+        
         return sortedArray;
     } else {
         return nil;
@@ -300,7 +300,7 @@
     static NSString *SectionsTableIdentifier = @"SectionsTableIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
 							 SectionsTableIdentifier];
-
+    
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SectionsTableIdentifier];
     }    
@@ -337,7 +337,7 @@
         }
     } else {
         cell.textLabel.text = organism.nameLat;
-
+        
         if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
             cell.detailTextLabel.text = [organism getNameDe];            
         }
@@ -460,45 +460,35 @@
             
             // IF the genus or the species is null jump to next organism
             if(organism.genus != [NSNull null] && organism.species != [NSNull null]) {
-                            
-                if([organism.genus length] == 0 || [organism.species length] == 0) {
+                
+                if([organism.genus length] == 0 && [organism.species length] == 0) {
                     if([[organism getNameDe] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
-                        [toRemove addObject:organism]; 
+                        [toRemove addObject:organism];
                         continue;
                     }
                 }
-                
-                if ([[organism getNameDe] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound &&
-                    [organism.genus rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound &&
-                    [organism.species rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
-                    
-                    // Also check for the chunks
-                    if([chunks count] == 2 && ![self isEmptyString:[chunks objectAtIndex:0]] && 
-                                              ![self isEmptyString:[chunks objectAtIndex:1]] &&
-                                              [[chunks objectAtIndex:0] length] == 2 && 
-                                              [[chunks objectAtIndex:1] length] == 2) {
-     
-                        
-                        if([[organism.genus lowercaseString] characterAtIndex:0] != [[[chunks objectAtIndex:0] lowercaseString] characterAtIndex:0] || 
-                           [[organism.genus lowercaseString] characterAtIndex:1] != [[[chunks objectAtIndex:0] lowercaseString] characterAtIndex:1] ||
-                           [[organism.species lowercaseString] characterAtIndex:0] != [[[chunks objectAtIndex:1] lowercaseString] characterAtIndex:0] || 
-                           [[organism.species lowercaseString] characterAtIndex:1] != [[[chunks objectAtIndex:1] lowercaseString] characterAtIndex:1]) {
-                            
-                            // Remove organism
+                // Check if found in DE
+                if ([[organism getNameDe] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
+                    // if in searchterm is more than 1 term check genus&species
+                    if([chunks count] > 1 && [[chunks objectAtIndex:0] length] > 1 && [[chunks objectAtIndex:1] length] > 1) {
+                        if([organism.genus rangeOfString:[chunks objectAtIndex:0] options:NSCaseInsensitiveSearch].location == NSNotFound ||
+                           [organism.species rangeOfString:[chunks objectAtIndex:1] options:NSCaseInsensitiveSearch].location == NSNotFound) {
                             [toRemove addObject:organism];
                         }
-                    } else {
-                        [toRemove addObject:organism];    
+                        // else search just in the genus
+                    }else if([[chunks objectAtIndex:0] length] > 1 && 
+                             [organism.genus rangeOfString:[chunks objectAtIndex:0] options:NSCaseInsensitiveSearch].location == NSNotFound){
+                        [toRemove addObject:organism];
                     }
                 }
-            } else {
-                [toRemove addObject:organism];
+            }else{
+                [toRemove addObject:organism];    
             }
         }
         
         if ([array count] <= [toRemove count])
             [sectionsToRemove addObject:key];
-		
+        
         [array removeObjectsInArray:toRemove];
     }
     [[self getCurrentKey] removeObjectsInArray:sectionsToRemove];

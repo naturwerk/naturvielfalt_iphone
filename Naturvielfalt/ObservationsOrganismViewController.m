@@ -332,15 +332,15 @@
     if (displayGermanNames) {
         cell.textLabel.text = [organism getNameDe];
         
-        if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
+        //if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
             cell.detailTextLabel.text = organism.nameLat;            
-        }
+        //}
     } else {
         cell.textLabel.text = organism.nameLat;
         
-        if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
+        //if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
             cell.detailTextLabel.text = [organism getNameDe];            
-        }
+        //}
     }
     
     return cell;

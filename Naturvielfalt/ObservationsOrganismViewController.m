@@ -102,6 +102,11 @@
     self.navigationItem.rightBarButtonItem.title = (displayGermanNames) ? @"DE" : @"LAT";
     displayGermanNames = !displayGermanNames;
     
+    // take the search if is active
+    if(isSearching){
+        [self handleSearchForTerm:search.text];
+    }
+    
     [table reloadData];
 }
 

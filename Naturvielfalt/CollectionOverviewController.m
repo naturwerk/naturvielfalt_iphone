@@ -84,10 +84,12 @@
 
 - (void) sendRequestToServer 
 {
-    NSURL *url = [NSURL URLWithString:@"http://devel.naturvielfalt.ch/webservice/submitData.php"];
-    
+    // Old portal
+    //NSURL *url = [NSURL URLWithString:@"http://devel.naturvielfalt.ch/webservice/submitData.php"];
+    //new portal
+    NSURL *url = [NSURL URLWithString:@"http://www.naturvielfalt.ch/webservice/api"];
     // OR for local testing
-    // NSURL *url = [NSURL URLWithString:@"http://localhost/swissmon/application/webservice/submitData.php"];
+    //NSURL *url = [NSURL URLWithString:@"http://localhost:8888/naturvielfalt/naturvielfalt/webroot_drupal/webservice/api"];
     
     
     int counter = 0;
@@ -172,15 +174,15 @@
                 NSData *imageData = UIImagePNGRepresentation([ob.pictures objectAtIndex:0]);
                 
                 // And add the png image into the request
-                [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"file"];
+                [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
             }
                 
-            [request setPostValue:organism forKey:@"organism"];
-            [request setPostValue:organismGroupId forKey:@"type"];
+            [request setPostValue:organism forKey:@"organismn_id"];
+            [request setPostValue:organismGroupId forKey:@"organism_artgroup_id"];
             [request setPostValue:count forKey:@"count"];
             [request setPostValue:date forKey:@"date"];
             [request setPostValue:accuracy forKey:@"accuracy"];
-            [request setPostValue:author forKey:@"author"];
+            [request setPostValue:author forKey:@"observer"];
             [request setPostValue:longitude forKey:@"longitude"];
             [request setPostValue:latitude forKey:@"latitude"];
             [request setPostValue:comment forKey:@"comment"];

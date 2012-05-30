@@ -10,7 +10,7 @@
 #import "CollectionOverviewController.h"
 
 @implementation CheckboxCell
-@synthesize checkbox, name, latName, date, amount, remove;
+@synthesize checkbox, name, latName, date, amount, remove, image;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

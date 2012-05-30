@@ -14,7 +14,8 @@
     IBOutlet UILabel *name;
     IBOutlet UILabel *latName;
     IBOutlet UILabel *date;
-    IBOutlet UILabel *amount;
+    IBOutlet UILabel *amount;;
+    IBOutlet UIImageView *image;
 }
 
 @property (nonatomic) UIButton *checkbox;
@@ -23,5 +24,5 @@
 @property (nonatomic) UILabel *latName;
 @property (nonatomic) UILabel *date;
 @property (nonatomic) UILabel *amount;
-
+@property (nonatomic) IBOutlet UIImageView *image;
 @end

@@ -124,6 +124,7 @@
 		CBF9A2771445617B00954A63 /* ObservationsOrganismDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF9A2751445617B00954A63 /* ObservationsOrganismDetailViewController.m */; };
 		CBF9A2781445617B00954A63 /* ObservationsOrganismDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBF9A2761445617B00954A63 /* ObservationsOrganismDetailViewController.xib */; };
 		CBF9A27E144578F000954A63 /* 12-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = CBF9A27D144578F000954A63 /* 12-eye-white.png */; };
+		F619A26215766BE000F0C842 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = F619A26115766BDE00F0C842 /* blank.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -310,6 +311,7 @@
 		CBF9A2751445617B00954A63 /* ObservationsOrganismDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationsOrganismDetailViewController.m; sourceTree = "<group>"; };
 		CBF9A2761445617B00954A63 /* ObservationsOrganismDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsOrganismDetailViewController.xib; sourceTree = "<group>"; };
 		CBF9A27D144578F000954A63 /* 12-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12-eye-white.png"; sourceTree = "<group>"; };
+		F619A26115766BDE00F0C842 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -515,6 +517,7 @@
 				CB1D69001444463E003230B4 /* status-red.png */,
 				CB7FA21014335033006BD29D /* Default.png */,
 				CB7FA20E14334D8F006BD29D /* logo.114.png */,
+				F619A26115766BDE00F0C842 /* blank.png */,
 				CB7FA20B14334D7E006BD29D /* logo.57.png */,
 				CB5D4BD6146D77B00003377A /* checkbox_checked.png */,
 				CB472C36145E7E35003B5676 /* checkbox.gif */,
@@ -786,6 +789,7 @@
 				CB143231148639EC00BBA78D /* bildvorschaudeaktiviert.png in Resources */,
 				27FC05F014A4896800916B08 /* db.sqlite3 in Resources */,
 				27FC05F314A48D0300916B08 /* MainWindow.xib in Resources */,
+				F619A26215766BE000F0C842 /* blank.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

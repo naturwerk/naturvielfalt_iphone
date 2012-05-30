@@ -364,6 +364,14 @@
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         NSString *nowString = [dateFormatter stringFromDate:observation.date];
         
+        
+            
+        if(observation.pictures.count > 0){
+            checkboxCell.image.image = (UIImage *)[observation.pictures objectAtIndex:0];
+            NSLog(@"Image!: %@", [observation.organism getNameDe]);
+        }
+        
+        
         checkboxCell.name.text = [observation.organism getNameDe];
         checkboxCell.date.text = nowString;
         checkboxCell.amount.text = observation.amount;

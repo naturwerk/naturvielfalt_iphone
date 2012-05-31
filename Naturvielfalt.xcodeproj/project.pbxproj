@@ -129,7 +129,6 @@
 
 /* Begin PBXFileReference section */
 		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
-		27FC05F214A48D0300916B08 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		CB0891131430B67F00E846A1 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
@@ -162,8 +161,6 @@
 		CB1432201484D84500BBA78D /* DDAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotation.m; sourceTree = "<group>"; };
 		CB1432221484D86800BBA78D /* DDAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotationView.h; sourceTree = "<group>"; };
 		CB1432231484D86800BBA78D /* DDAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotationView.m; sourceTree = "<group>"; };
-		CB14322B148616E700BBA78D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CameraViewController.xib; sourceTree = "<group>"; };
-		CB14322E148616F600BBA78D /* en */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = en; path = en.lproj/CameraViewController.m; sourceTree = "<group>"; };
 		CB143230148639EC00BBA78D /* bildvorschaudeaktiviert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bildvorschaudeaktiviert.png; sourceTree = "<group>"; };
 		CB1432321486642200BBA78D /* SwissCoordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwissCoordinates.h; sourceTree = "<group>"; };
 		CB1432331486642200BBA78D /* SwissCoordinates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwissCoordinates.m; sourceTree = "<group>"; };
@@ -203,7 +200,6 @@
 		CBB7F629142B0409000150AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CBB7F62B142B0409000150AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Naturvielfalt-Info.plist"; sourceTree = "<group>"; };
-		CBB7F631142B040A000150AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CBB7F633142B040A000150AF /* Naturvielfalt-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Naturvielfalt-Prefix.pch"; sourceTree = "<group>"; };
 		CBB7F634142B040A000150AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CBB7F636142B040A000150AF /* NaturvielfaltAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NaturvielfaltAppDelegate.h; sourceTree = "<group>"; };
@@ -312,6 +308,10 @@
 		CBF9A2761445617B00954A63 /* ObservationsOrganismDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsOrganismDetailViewController.xib; sourceTree = "<group>"; };
 		CBF9A27D144578F000954A63 /* 12-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12-eye-white.png"; sourceTree = "<group>"; };
 		F619A26115766BDE00F0C842 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
+		F650DF881577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/CameraViewController.m; sourceTree = "<absolute>"; };
+		F650DF891577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/InfoPlist.strings; sourceTree = "<absolute>"; };
+		F650DF8A1577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/MainWindow.xib; sourceTree = "<absolute>"; };
+		F650DF8B1577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/CameraViewController.xib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -867,7 +867,7 @@
 		27FC05F114A48D0300916B08 /* MainWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				27FC05F214A48D0300916B08 /* en */,
+				F650DF8A1577759E00C25A9F /* de */,
 			);
 			name = MainWindow.xib;
 			sourceTree = "<group>";
@@ -875,7 +875,7 @@
 		CB14322C148616E700BBA78D /* CameraViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CB14322B148616E700BBA78D /* en */,
+				F650DF8B1577759E00C25A9F /* de */,
 			);
 			name = CameraViewController.xib;
 			sourceTree = "<group>";
@@ -883,7 +883,7 @@
 		CB14322F148616F600BBA78D /* CameraViewController.m */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CB14322E148616F600BBA78D /* en */,
+				F650DF881577759E00C25A9F /* de */,
 			);
 			name = CameraViewController.m;
 			sourceTree = "<group>";
@@ -891,7 +891,7 @@
 		CBB7F630142B040A000150AF /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				CBB7F631142B040A000150AF /* en */,
+				F650DF891577759E00C25A9F /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

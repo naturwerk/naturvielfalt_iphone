@@ -367,7 +367,20 @@
         
             
         if(observation.pictures.count > 0){
-            checkboxCell.image.image = (UIImage *)[observation.pictures objectAtIndex:0];
+            UIImage *original = (UIImage *)[observation.pictures objectAtIndex:0];
+            CGFloat scale = [UIScreen mainScreen].scale;
+            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+            
+            CGContextRef context = CGBitmapContextCreate(NULL, 26, 26, 8, 0, colorSpace, kCGImageAlphaPremultipliedFirst);
+            CGContextDrawImage(context,
+                               CGRectMake(0, 0, 26, 26 * scale),
+                               original.CGImage);
+            CGImageRef shrunken = CGBitmapContextCreateImage(context);
+            UIImage *final = [UIImage imageWithCGImage:shrunken];
+            
+            CGContextRelease(context);
+            CGImageRelease(shrunken);
+            checkboxCell.image.image = final;
             NSLog(@"Image!: %@", [observation.organism getNameDe]);
         }
         

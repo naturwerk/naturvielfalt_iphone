@@ -115,7 +115,7 @@
         }
     }
     
-    NSLog(@"SUUUUBMIIIIT: %@", observation);
+    NSLog(@"Insert observation in db: %@", observation);
     
     char *errorMsg;
     
@@ -169,6 +169,7 @@
         } else {
             sqlite3_bind_blob(stmt, 13, nil , -1, NULL);
         }
+        NSLog(@"Update observation in db: %@", observation);
     }
     
     char *errorMsg;
@@ -319,8 +320,14 @@
     NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id) \
                        FROM classification as c \
                        LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
-                       WHERE (c.parent = %d AND c.class_level = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
-                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId, classlevel];
+                       WHERE (c.parent = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
+                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId];
+//    Replaced original, because classlevel not needed... 
+//    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id) \
+//                       FROM classification as c \
+//                       LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
+//                       WHERE (c.parent = %d AND c.class_level = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
+//                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId, classlevel];
     
     sqlite3_stmt *statement;
     
@@ -347,7 +354,7 @@
     }
     NSDate *endtime = [NSDate date];
     NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
-    NSLog(@"PersistenceManager: getAllOrganismGroups | running time: %f", executionTime);
+    NSLog(@"PersistenceManager: getAllOrganismGroups(parentId: %i, classlevel: %i) | running time: %fs", parentId, classlevel, executionTime);
     return organismGroups;
 }
 
@@ -374,24 +381,26 @@
     NSDate *starttime = [NSDate date];  
     NSMutableArray *organisms = [[NSMutableArray alloc] init];
     
-    NSString *query = @"";
-    NSLog(@"group id: %i", groupId);
+    NSString *query;
     if(groupId == 3){
         query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
-                       FROM organism AS o, \
-                       classification_taxon as ct, \
-                       classification as c \
-                       WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id"];
-        NSLog( @"Get all organism");        
+                     FROM organism AS o \
+                     LEFT JOIN classification_taxon as ct ON ct.taxon_id = o.id"];
+        NSLog( @"Get all organism, group id: %i", groupId);        
     }else {
+//        query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
+//                       FROM organism AS o, \
+//                       classification_taxon as ct, \
+//                       classification as c \
+//                       WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id and c.classification_id = %d", groupId];
         query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
-                       FROM organism AS o, \
-                       classification_taxon as ct, \
-                       classification as c \
-                       WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id and c.classification_id = %d", groupId];
-        NSLog( @"Get single group");
+                       FROM classification_taxon ct\
+                       LEFT JOIN organism o ON o.id=ct.taxon_id\
+                       WHERE ct.classification_id = %i", groupId];
+
+        NSLog( @"Get single group, group id: %i", groupId);
     }
-    
+    //NSLog(@"query: %@", query);
     
     
     // replaced sql query, because left join is very slow
@@ -402,6 +411,7 @@
                        WHERE c.classification_id = %d", groupId];
     
     sqlite3_stmt *statement;
+    NSInteger numbersOfOrgansim = 0;
     
     if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {  
 		while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -411,17 +421,24 @@
             NSString *nameDe;
             NSString *nameLat;
             
-            if(sqlite3_column_text(statement, 2) == NULL) {
-                nameDe = [NSString stringWithString:@""];
-            } else {
-                nameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
-            }
-            
             if(sqlite3_column_text(statement, 3) == NULL) {
-                nameLat = [NSString stringWithString:@""];
+                //nameLat = [NSString stringWithString:@""];
+                // if no lat name, skip this
+                continue;
             } else {
                 nameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
             }
+            
+            if(sqlite3_column_text(statement, 2) == NULL) {
+                //nameDe = [NSString stringWithString:@""];
+                nameDe = nameLat;
+            } else {
+                nameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                if([nameDe length] == 0) nameDe = @"Keine Übersetzung vorhanden";
+            }
+            
+//            NSLog(@"name_de: '%@'", nameDe);
+//            NSLog(@"name_lat: %@", nameLat);
             
             // Create OrganismGroup
             Organism *organism = [[Organism alloc] init];
@@ -446,6 +463,7 @@
             }
             [organisms addObject:organism];
             organism = nil;
+            numbersOfOrgansim++;
 		}
         sqlite3_finalize(statement);
     } else {
@@ -453,7 +471,7 @@
     }
     NSDate *endtime = [NSDate date];
     NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
-    NSLog(@"PersistenceManager: getAllOrganisms | running time: %f", executionTime);
+    NSLog(@"PersistenceManager: getAllOrganisms(%i) | running time: %fs", numbersOfOrgansim, executionTime);
     return organisms;
     //[organisms release];
 }

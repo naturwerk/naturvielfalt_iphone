@@ -93,7 +93,9 @@
 
 - (NSMutableArray *) getCurrentKey
 {
+    //if([keysDE count] == 0) return keysLAT;
     return (displayGermanNames) ? keysDE : keysLAT;
+    
 }
 
 - (void) changeNameLanguage 
@@ -182,23 +184,21 @@
         }
         
         // Create Letter index if it doesn't already exist
-        if(! [keysDE containsObject:firstLetterDE]) {
+        if(![keysDE containsObject:firstLetterDE]) {
+            
             // Does not contain the key letter
             [keysDE addObject:[firstLetterDE uppercaseString]];
-            
             NSMutableArray *newArray = [[NSMutableArray alloc] init];
-            
             [newArray addObject:organism];
-            
             [dictOrganismsDE setObject:newArray forKey:firstLetterDE];
+            
         } else {
             
             // Add the organism to the corresponding letter
             NSMutableArray *arrayOrganisms = [dictOrganismsDE objectForKey:firstLetterDE];
-            
             [arrayOrganisms addObject:organism];
-            
             [dictOrganismsDE setObject:arrayOrganisms forKey:firstLetterDE];
+            
         }
     }
     
@@ -216,22 +216,20 @@
         
         // Create Letter index if it doesn't already exist
         if(! [keysLAT containsObject:firstLetterLAT]) {
+            
             // Does not contain the key letter
             [keysLAT addObject:[firstLetterLAT uppercaseString]];
-            
             NSMutableArray *newArray = [[NSMutableArray alloc] init];
-            
             [newArray addObject:organism];
-            
             [dictOrganismsLAT setObject:newArray forKey:firstLetterLAT];
+            
         } else {
             
             // Add the organism to the corresponding letter
             NSMutableArray *arrayOrganisms = [dictOrganismsLAT objectForKey:firstLetterLAT];
-            
             [arrayOrganisms addObject:organism];
-            
             [dictOrganismsLAT setObject:arrayOrganisms forKey:firstLetterLAT];
+            
         }
     }
 }
@@ -466,12 +464,14 @@
             // IF the genus or the species is null jump to next organism
             if(organism.genus != [NSNull null] && organism.species != [NSNull null]) {
                 
+                // if only the german name is available
                 if([organism.genus length] == 0 && [organism.species length] == 0) {
                     if([[organism getNameDe] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
                         [toRemove addObject:organism];
                         continue;
                     }
                 }
+            
                 // Check if found in DE
                 if ([[organism getNameDe] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
                     // if in searchterm is more than 1 term check genus&species

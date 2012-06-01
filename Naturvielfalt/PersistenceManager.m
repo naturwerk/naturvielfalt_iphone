@@ -374,11 +374,26 @@
     NSDate *starttime = [NSDate date];  
     NSMutableArray *organisms = [[NSMutableArray alloc] init];
     
-    NSString *query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
+    NSString *query = @"";
+    NSLog(@"group id: %i", groupId);
+    if(groupId == 3){
+        query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
+                       FROM organism AS o, \
+                       classification_taxon as ct, \
+                       classification as c \
+                       WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id"];
+        NSLog( @"Get all organism");        
+    }else {
+        query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
                        FROM organism AS o, \
                        classification_taxon as ct, \
                        classification as c \
                        WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id and c.classification_id = %d", groupId];
+        NSLog( @"Get single group");
+    }
+    
+    
+    
     // replaced sql query, because left join is very slow
     //NSString *query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
                        FROM organism AS o \

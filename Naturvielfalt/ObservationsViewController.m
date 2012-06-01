@@ -204,7 +204,8 @@
     PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
     [persistenceManager establishConnection];
     
-    if([persistenceManager organismGroupHasChild:currentSelectedOrganismGroup.organismGroupId]) {
+    if([persistenceManager organismGroupHasChild:currentSelectedOrganismGroup.organismGroupId] 
+                && currentSelectedOrganismGroup.organismGroupId != 3) {
         // If the organismGroup has subgroups call again OverviewController
         
         overviewController.groupId = currentSelectedOrganismGroup.organismGroupId;

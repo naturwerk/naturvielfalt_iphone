@@ -167,7 +167,7 @@
     hud.labelText = @"Gespeichert";
     
     [hud show:YES];
-    [hud hide:YES afterDelay:1];
+    //[hud hide:YES afterDelay:1];
     
     // Set review flag
     review = true;
@@ -182,6 +182,9 @@
     self.navigationItem.rightBarButtonItem = submitButton;
     
     [tableView reloadData];
+    [hud hide:true];
+    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
 }
 
 

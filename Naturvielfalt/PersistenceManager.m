@@ -383,9 +383,8 @@
     
     NSString *query;
     if(groupId == 3){
-        query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
-                     FROM organism AS o \
-                     LEFT JOIN classification_taxon as ct ON ct.taxon_id = o.id"];
+        query = [NSString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
+                     FROM organism"];
         NSLog( @"Get all organism, group id: %i", groupId);        
     }else {
 //        query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
@@ -393,9 +392,9 @@
 //                       classification_taxon as ct, \
 //                       classification as c \
 //                       WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id and c.classification_id = %d", groupId];
-        query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
+        query = [NSString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de, o.name_sc \
                        FROM classification_taxon ct\
-                       LEFT JOIN organism o ON o.id=ct.taxon_id\
+                       JOIN organism o ON o.organism_id=ct.taxon_id\
                        WHERE ct.classification_id = %i", groupId];
 
         NSLog( @"Get single group, group id: %i", groupId);

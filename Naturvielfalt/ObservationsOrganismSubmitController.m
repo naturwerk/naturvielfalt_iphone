@@ -16,7 +16,7 @@
 #import "MBProgressHUD.h"
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,6 +61,8 @@
     }
     }
     
+    if(!comeFromOrganism) comeFromOrganism = false;
+    
     // Do any additional setup after loading the view from its nib.
     nameDe.text = [organism getNameDe];
     nameLat.text = (organism.organismGroupId == 1000) ? @"" : [organism getLatName];
@@ -75,6 +77,14 @@
                                      action: @selector(saveObservation)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
+    
+    // Set top navigation bar button  
+    UIBarButtonItem *chancelButton = [[UIBarButtonItem alloc] 
+                                      initWithTitle:@"Abbrechen"
+                                      style:UIBarButtonItemStyleBordered
+                                      target:self
+                                      action: @selector(abortObsersation)];
+    self.navigationItem.leftBarButtonItem = chancelButton;
     
     // Set navigation bar title    
     NSString *title = [[NSString alloc] initWithString:@"Beobachtung"];
@@ -155,19 +165,20 @@
     // Close connection
     [persistenceManager closeConnection];
     
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-    [self.navigationController.view addSubview:hud];
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
+    [self.navigationController.parentViewController.view addSubview:hud];
     
-    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    hud.customView = image;
     
     // Set custom view mode
     hud.mode = MBProgressHUDModeCustomView;
     
-    hud.delegate = self;
-    hud.labelText = @"Gespeichert";
+    //hud.delegate = self;
+    hud.labelText = @"Beobachtung Gespeichert";
     
     [hud show:YES];
-    //[hud hide:YES afterDelay:1];
+    [hud hide:YES afterDelay:1.5];
     
     // Set review flag
     review = true;
@@ -180,13 +191,21 @@
                                      action: @selector(saveObservation)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
-    
     [tableView reloadData];
-    [hud hide:true];
+    //[hud hide:true];
+    
+    if(comeFromOrganism){
+        //TODO go back to the artgroup
+    }
+    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController pushViewController:self.parentViewController animated:TRUE];
+}
+
+- (void) abortObsersation
+{
     [self.navigationController popViewControllerAnimated:TRUE];
     [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
 }
-
 
 - (void)viewDidUnload
 {

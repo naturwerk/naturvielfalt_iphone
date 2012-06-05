@@ -29,6 +29,7 @@
     PersistenceManager *persistenceManager;
     
     BOOL review;
+    BOOL comeFromOrganism;
     BOOL observationChanged;
 }
 
@@ -50,6 +51,7 @@
 @property (nonatomic) PersistenceManager *persistenceManager;
 
 @property (nonatomic, assign) BOOL review;
+@property (nonatomic, assign) BOOL comeFromOrganism;
 
 - (void) updateAccuracyIcon:(int)accuracy;
 - (void) prepareData;

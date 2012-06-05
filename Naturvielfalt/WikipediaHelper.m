@@ -50,7 +50,7 @@
     NSString *htmlSrc = [self fetchWikipediaArticle:latName];
     
     if([htmlSrc isEqualToString:@""])
-        return htmlSrc;
+        return @"Artikel nicht gefunden";
     
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSURL *baseURL = [NSURL fileURLWithPath:path];

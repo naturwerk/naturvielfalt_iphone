@@ -9,11 +9,13 @@
 #import "ObservationsOrganismViewController.h"
 #import "ObservationsOrganismDetailViewController.h"
 #import "ObservationsOrganismSubmitController.h"
+#import "ObservationsOrganismDetailViewWikipediaController.h"
 #import "Organism.h"
 #import "OrganismFlora.h"
 #import "OrganismFauna.h"
 #import "OrganismGroup.h"
 #import "NSDictionary-MutableDeepCopy.h"
+#import "CustomOrganismCell.h"
 
 @implementation ObservationsOrganismViewController
 @synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner;
@@ -234,6 +236,47 @@
     }
 }
 
+- (IBAction) wikipediaLinkClicked:(id)sender
+{
+    [NSThread detachNewThreadSelector:@selector(threadStartAnimating:) toTarget:self withObject:nil];
+    UIButton *button = (UIButton *)sender;
+    UIView *accessoryView = (UIView *) button.superview;
+    UITableViewCell *cell = (UITableViewCell *)accessoryView.superview;
+    UITableView *tableView = (UITableView *)cell.superview;
+    NSIndexPath *indexPath = [tableView indexPathForCell:cell];
+    NSLog(@"wikibutton in row :%d", indexPath.row);
+    
+
+    NSUInteger section = [indexPath section];
+    NSUInteger row = [indexPath row];
+    
+    NSString *key = [[self getCurrentKey] objectAtIndex:section];
+    NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
+//    
+//    // Get the selected row
+    Organism *organism = [nameSection objectAtIndex:row];
+
+    NSLog(@"organism: %@", organism.nameDe);
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//    
+//    // Create the ObservationsOrganismViewController
+    ObservationsOrganismDetailViewWikipediaController *organismWikipediaController 
+                = [[ObservationsOrganismDetailViewWikipediaController alloc] initWithNibName:@"ObservationsOrganismDetailViewWikipediaController" bundle:[NSBundle mainBundle]];
+    
+    // Build the lat search name for the wikipedia search
+    NSString *latName = [[NSString alloc] initWithFormat:@"%@_%@", organism.genus, organism.species];
+    
+    // Set the latname on the controller
+    organismWikipediaController.latName = latName;
+    organismWikipediaController.organism = organism;
+    
+    // Switch the View & Controller
+    [self.navigationController pushViewController:organismWikipediaController animated:TRUE];
+    [spinner stopAnimating];
+    organismWikipediaController = nil;
+}
+
 
 
 
@@ -297,16 +340,35 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *cellIdentifier = @"CustomOrganismCell";
+    UITableViewCell *oCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
-	
-    static NSString *SectionsTableIdentifier = @"SectionsTableIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
-							 SectionsTableIdentifier];
+    
+    CustomOrganismCell *cell;
     
     if(cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SectionsTableIdentifier];
-    }    
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomOrganismCell" owner:self options:nil];
+        
+        for (id currentObject in topLevelObjects){
+            if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                cell =  (CustomOrganismCell *)currentObject;
+                break;
+            }
+        }
+    } else {
+        cell = (CustomOrganismCell *)cell;
+    }
+	
+//    static NSString *SectionsTableIdentifier = @"SectionsTableIdentifier";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
+//							 SectionsTableIdentifier];
+    
+//    if(cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SectionsTableIdentifier];
+//    }    
     
     //show empty message
     if ([[self getCurrentKey] count] == 0){
@@ -315,6 +377,7 @@
         cell.detailTextLabel.textColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7];
         cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:16];
         cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.wikiButton.hidden = true;
         return cell;
     }
     
@@ -346,6 +409,10 @@
         //}
     }
     
+//    cell.wikiButton.action = @selector(viewArticle:indexPath);
+//    cell.wikiButton.tag = indexPath.row;
+    [cell.wikiButton addTarget:self action:@selector(wikipediaLinkClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
 }
 
@@ -366,10 +433,10 @@
     if ([[self getCurrentKey] count] == 0){
         NSLog(@"click on no data");
     }else {
-        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
-        BOOL showWikipedia = [[appSettings stringForKey:@"showWikipedia"] isEqualToString:@"on"];
-        BOOL showImages = [[appSettings stringForKey:@"showImages"] isEqualToString:@"on"];
-        if(showImages || showWikipedia) [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+//        BOOL showWikipedia = [[appSettings stringForKey:@"showWikipedia"] isEqualToString:@"on"];
+//        BOOL showImages = [[appSettings stringForKey:@"showImages"] isEqualToString:@"on"];
+//        if(showImages || showWikipedia) [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
         NSLog(@"click on a organism");
         NSUInteger section = [indexPath section];
@@ -381,23 +448,38 @@
         // Get the selected row
         Organism *currentSelectedOrganism = [nameSection objectAtIndex:row];
         
+//        // Create the ObservationsOrganismViewController
+//        ObservationsOrganismDetailViewController *organismDetailViewController = [[ObservationsOrganismDetailViewController alloc] 
+//                                                                                  initWithNibName:@"ObservationsOrganismDetailViewController" 
+//                                                                                  bundle:[NSBundle mainBundle]];
+//        
+//        // set the organismGroupId so it know which inventory is selected
+//        organismDetailViewController.organism = currentSelectedOrganism;
+//        
+//        // Start the spinner
+//        [NSThread detachNewThreadSelector:@selector(threadStartAnimating:) toTarget:self withObject:nil];
+//        
+//        // Switch the View & Controller
+//        [self.navigationController pushViewController:organismDetailViewController animated:TRUE];
+//        
+//        [spinner stopAnimating];
+//        
+//        organismDetailViewController = nil;
+        
         // Create the ObservationsOrganismViewController
-        ObservationsOrganismDetailViewController *organismDetailViewController = [[ObservationsOrganismDetailViewController alloc] 
-                                                                                  initWithNibName:@"ObservationsOrganismDetailViewController" 
-                                                                                  bundle:[NSBundle mainBundle]];
+        ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc] 
+                                                                          initWithNibName:@"ObservationsOrganismSubmitController" 
+                                                                          bundle:[NSBundle mainBundle]];
         
-        // set the organismGroupId so it know which inventory is selected
-        organismDetailViewController.organism = currentSelectedOrganism;
-        
-        // Start the spinner
-        [NSThread detachNewThreadSelector:@selector(threadStartAnimating:) toTarget:self withObject:nil];
+        // Set the current displayed organism
+        organismSubmitController.organism = currentSelectedOrganism;
+        organismSubmitController.review = false;
+        organismSubmitController.comeFromOrganism = true;
         
         // Switch the View & Controller
-        [self.navigationController pushViewController:organismDetailViewController animated:TRUE];
+        [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+        organismSubmitController = nil;
         
-        [spinner stopAnimating];
-        
-        organismDetailViewController = nil;
     }
 }
 
@@ -521,7 +603,7 @@
 }
 
 - (void) threadStartAnimating:(id)data {
-    [spinner startAnimating];
+    [spinner startAnimating ];
 }
 
 @end

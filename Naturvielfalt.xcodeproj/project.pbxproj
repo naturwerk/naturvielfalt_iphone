@@ -125,6 +125,8 @@
 		CBF9A2781445617B00954A63 /* ObservationsOrganismDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBF9A2761445617B00954A63 /* ObservationsOrganismDetailViewController.xib */; };
 		CBF9A27E144578F000954A63 /* 12-eye-white.png in Resources */ = {isa = PBXBuildFile; fileRef = CBF9A27D144578F000954A63 /* 12-eye-white.png */; };
 		F619A26215766BE000F0C842 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = F619A26115766BDE00F0C842 /* blank.png */; };
+		F6640071157CAD770092A9D0 /* CustomOrganismCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6640070157CAD770092A9D0 /* CustomOrganismCell.m */; };
+		F664007B157CB5740092A9D0 /* CustomOrganismCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -312,6 +314,9 @@
 		F650DF891577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/InfoPlist.strings; sourceTree = "<absolute>"; };
 		F650DF8A1577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/MainWindow.xib; sourceTree = "<absolute>"; };
 		F650DF8B1577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/CameraViewController.xib; sourceTree = "<absolute>"; };
+		F664006F157CAD770092A9D0 /* CustomOrganismCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomOrganismCell.h; sourceTree = "<group>"; };
+		F6640070157CAD770092A9D0 /* CustomOrganismCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomOrganismCell.m; sourceTree = "<group>"; };
+		F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOrganismCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -494,6 +499,9 @@
 				CB18F9E0145A966700772E9B /* CheckboxCell.h */,
 				CB18F9E1145A966700772E9B /* CheckboxCell.m */,
 				CB18F9E2145A966700772E9B /* CheckboxCell.xib */,
+				F664006F157CAD770092A9D0 /* CustomOrganismCell.h */,
+				F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */,
+				F6640070157CAD770092A9D0 /* CustomOrganismCell.m */,
 				CBEBAA2B147CDCA5009AC6C0 /* WikipediaHelper.h */,
 				CBEBAA2C147CDCA5009AC6C0 /* WikipediaHelper.m */,
 				CB1432321486642200BBA78D /* SwissCoordinates.h */,
@@ -790,6 +798,7 @@
 				27FC05F014A4896800916B08 /* db.sqlite3 in Resources */,
 				27FC05F314A48D0300916B08 /* MainWindow.xib in Resources */,
 				F619A26215766BE000F0C842 /* blank.png in Resources */,
+				F664007B157CB5740092A9D0 /* CustomOrganismCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -858,6 +867,7 @@
 				CB1432241484D86800BBA78D /* DDAnnotationView.m in Sources */,
 				CB1432341486642200BBA78D /* SwissCoordinates.m in Sources */,
 				CB1EE5DA14893F3400FF286F /* Settings.m in Sources */,
+				F6640071157CAD770092A9D0 /* CustomOrganismCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -141,6 +141,7 @@
     // Set the current displayed organism
     organismSubmitController.organism = organism;
     organismSubmitController.review = false;
+    organismSubmitController.comeFromOrganism = true;
     
     // Switch the View & Controller
     [self.navigationController pushViewController:organismSubmitController animated:TRUE];

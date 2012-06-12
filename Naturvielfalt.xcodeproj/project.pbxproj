@@ -310,10 +310,10 @@
 		CBF9A2761445617B00954A63 /* ObservationsOrganismDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsOrganismDetailViewController.xib; sourceTree = "<group>"; };
 		CBF9A27D144578F000954A63 /* 12-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12-eye-white.png"; sourceTree = "<group>"; };
 		F619A26115766BDE00F0C842 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
-		F650DF881577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/CameraViewController.m; sourceTree = "<absolute>"; };
-		F650DF891577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/InfoPlist.strings; sourceTree = "<absolute>"; };
-		F650DF8A1577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/MainWindow.xib; sourceTree = "<absolute>"; };
-		F650DF8B1577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = /Applications/MAMP/htdocs/naturvielfalt/naturvielfalt_iphone/Naturvielfalt/de.lproj/CameraViewController.xib; sourceTree = "<absolute>"; };
+		F650DF881577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = de; path = de.lproj/CameraViewController.m; sourceTree = "<group>"; };
+		F650DF891577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F650DF8A1577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		F650DF8B1577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CameraViewController.xib; sourceTree = "<group>"; };
 		F664006F157CAD770092A9D0 /* CustomOrganismCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomOrganismCell.h; sourceTree = "<group>"; };
 		F6640070157CAD770092A9D0 /* CustomOrganismCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomOrganismCell.m; sourceTree = "<group>"; };
 		F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOrganismCell.xib; sourceTree = "<group>"; };

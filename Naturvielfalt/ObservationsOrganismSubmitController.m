@@ -178,7 +178,7 @@
     hud.labelText = @"Beobachtung Gespeichert";
     
     [hud show:YES];
-    [hud hide:YES afterDelay:1.5];
+    [hud hide:YES afterDelay:5];
     
     // Set review flag
     review = true;

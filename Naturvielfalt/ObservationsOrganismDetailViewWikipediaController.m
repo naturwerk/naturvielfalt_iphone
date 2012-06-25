@@ -8,7 +8,7 @@
 
 #import "ObservationsOrganismDetailViewWikipediaController.h"
 #import "ObservationsOrganismSubmitController.h"
-#import "WikipediaHelper.h";
+#import "WikipediaHelper.h"
 
 @implementation ObservationsOrganismDetailViewWikipediaController
 @synthesize webView, latName, organism;

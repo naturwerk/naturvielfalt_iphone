@@ -12,15 +12,15 @@
 
 @interface Observation : NSObject {
     NSInteger observationId;
-    Organism * organism;
+    Organism *organism;
     NSString *author;
     NSDate *date;
-    NSString * amount;
+    NSString *amount;
     CLLocation *location;
     NSInteger accuracy;
     NSMutableArray *pictures;
     NSString *comment;
-    BOOL *submitToServer;
+    BOOL submitToServer;
     BOOL *locationLocked;
 }
 
@@ -33,7 +33,7 @@
 @property (nonatomic, assign) NSInteger accuracy;
 @property (nonatomic) NSMutableArray *pictures;
 @property (nonatomic) NSString *comment;
-@property (nonatomic, assign) BOOL *submitToServer;
+@property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic, assign) BOOL *locationLocked;
 
 - (Observation *) getObservation;

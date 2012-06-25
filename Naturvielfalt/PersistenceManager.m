@@ -183,9 +183,7 @@
 
 
 - (NSMutableArray *) getObservations
-{
-    NSTimeInterval timestampStart = [[NSDate date] timeIntervalSince1970];
-    
+{    
     // All observations are stored in here
     NSMutableArray *observations = [[NSMutableArray alloc] init];
     
@@ -262,6 +260,7 @@
             
             
             NSString *amountString = [[NSString alloc] initWithFormat:@"%d", amount];
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:locationLat longitude:locationLon];
   
             // Create observation
             Observation *observation = [[Observation alloc] init];
@@ -270,7 +269,7 @@
             observation.author = author;
             observation.date = date;
             observation.amount = amountString;
-            observation.location = [[CLLocation alloc] initWithLatitude:locationLat longitude:locationLon];
+            observation.location = location;
             observation.accuracy = accuracy;
             observation.comment = comment;
             observation.submitToServer = true;
@@ -336,7 +335,7 @@
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			
             int classificationId = sqlite3_column_int(statement, 0);
-            int classLevel = sqlite3_column_int(statement, 1);
+            //int classLevel = sqlite3_column_int(statement, 1);
             NSString *groupName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
             int groupCount = sqlite3_column_int(statement, 3);
                
@@ -394,7 +393,7 @@
 //                       WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id and c.classification_id = %d", groupId];
         query = [NSString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de, o.name_sc \
                        FROM classification_taxon ct\
-                       JOIN organism o ON o.organism_id=ct.taxon_id\
+                       LEFT JOIN organism o ON o.organism_id=ct.taxon_id\
                        WHERE ct.classification_id = %i", groupId];
 
         NSLog( @"Get single group, group id: %i", groupId);

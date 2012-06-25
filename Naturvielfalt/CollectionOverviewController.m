@@ -113,11 +113,6 @@
     
     for(Observation *ob in observations) {
         if(ob.submitToServer) {
-            
-            // NSLog(@"SUBMIT: %@", [ob.organism getNameDe]);
-            
-            NSString *text = [NSString stringWithFormat:@"Transferring %@", [ob.organism getNameDe]];
-            float currProgress = (float)(counter/i);
 
             // Get username and password from the UserDefaults
             NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];

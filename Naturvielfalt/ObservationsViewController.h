@@ -23,7 +23,6 @@
 @property (nonatomic, assign) int groupId;
 @property (nonatomic, assign) int classlevel;
 
-- (void) loadFromWebsite;
-
+//- (void) loadFromWebsite;
 
 @end

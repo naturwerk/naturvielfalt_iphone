@@ -50,8 +50,8 @@
     
     self = [super init]; 
     if (self != nil) {
-        urlWebservice = [NSString stringWithString:@"http://devel.naturvielfalt.ch/swissmon/application/api/organismgroups/"];
-        urlSubmitScript = [NSString stringWithString:@"http://devel.naturvielfalt.ch/swissmon/webservice/submitData.php"];
+        urlWebservice = [NSString stringWithString:@"http://naturvielfalt.ch/swissmon/application/api/organismgroups/"];
+        urlSubmitScript = [NSString stringWithString:@"http://naturvielfalt.ch/swissmon/webservice/submitData.php"];
     } else {
         NSLog(@"Couldn't initialize object");
         return (self);

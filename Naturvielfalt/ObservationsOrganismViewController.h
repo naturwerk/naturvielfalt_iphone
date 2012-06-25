@@ -55,7 +55,6 @@
 @property (nonatomic, assign) BOOL isSearching;
 @property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
-- (void) loadFromWebsite;
 - (void) appendToDictionary:(Organism *)organism;
 - (void) resetSearch;
 - (void) handleSearchForTerm:(NSString *)searchTerm;

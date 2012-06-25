@@ -12,7 +12,6 @@
 @synthesize organismId, organismGroupId, nameDe, genus, species, family, nameLat;
 
 -(NSString *)getLatName {
-    NSString *lat;
     
     if(genus == @""){
         if(nameLat == @""){

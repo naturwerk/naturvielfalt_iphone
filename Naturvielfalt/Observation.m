@@ -18,13 +18,14 @@ static Observation *observation;
 {
     @synchronized(self)
     {
+        pictures = [[NSMutableArray alloc] init];
         if (!observation) {
             observation = [[Observation alloc] init];
             observation.locationLocked = false;
             observation.amount = @"1";
             observation.accuracy = 0;
             observation.comment = @"";
-            observation.pictures = [[NSMutableArray alloc] init];
+            observation.pictures = pictures;
         }
     
         return observation;
@@ -39,7 +40,7 @@ static Observation *observation;
 - (void) dealloc
 {
     
-    observation.pictures;
+    observation.pictures = nil;
 }
 
 - (NSString *) description

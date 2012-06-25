@@ -129,8 +129,8 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
         moviePlayerController.view.hidden = YES;
     } else if ([lastChosenMediaType isEqual:(NSString *)kUTTypeMovie]) {
         [self.moviePlayerController.view removeFromSuperview];
-        self.moviePlayerController = [[MPMoviePlayerController alloc]
-									   initWithContentURL:movieURL];
+        MPMoviePlayerController *mpController = [[MPMoviePlayerController alloc] initWithContentURL:movieURL];
+        self.moviePlayerController = mpController;
         moviePlayerController.view.frame = imageFrame;
         moviePlayerController.view.clipsToBounds = YES;
         [self.view addSubview:moviePlayerController.view];

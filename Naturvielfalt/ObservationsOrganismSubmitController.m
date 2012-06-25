@@ -95,14 +95,14 @@
     
     [self prepareData];
     
-    
+    NSMutableArray *pictures = [[NSMutableArray alloc] init];
     
     if(!review) {
         // Reset values
         observation.amount = @"1";
         //observation.accuracy = 0;
         observation.comment = @"";
-        observation.pictures = [[NSMutableArray alloc] init];
+        observation.pictures = pictures;
         observation.locationLocked = false;
     }else {
         [self updateAccuracyIcon: (int)observation.accuracy];

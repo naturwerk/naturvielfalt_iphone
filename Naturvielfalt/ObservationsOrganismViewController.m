@@ -26,6 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        //[NSThread detachNewThreadSelector:@selector(handleSearchForTerm:) toTarget:self withObject:nil];
     }
     return self;
 }
@@ -81,11 +82,13 @@
 
 
 - (void) viewDidAppear:(BOOL)animated {
+    //temporary disabled
+    
     // Reset search
-    [self resetSearch]; 
+    //[self resetSearch]; 
     
     // Table reload data
-    [table reloadData];
+    //[table reloadData];
 }
 
 - (NSMutableDictionary *) getCurrentDict 
@@ -149,7 +152,7 @@
     
     // Sort array
     NSMutableArray *sortedKeysDE = [tempDE sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    keysDE = [[NSMutableArray alloc] initWithArray:sortedKeysDE];;
+    keysDE = [[NSMutableArray alloc] initWithArray:sortedKeysDE];
     
     
     // SORT KEYS LATIN
@@ -340,10 +343,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *cellIdentifier = @"CustomOrganismCell";
-    UITableViewCell *oCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
+        
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
     
@@ -494,8 +494,17 @@
         [table reloadData];
         return;
     }
+    else if ([searchTerm length] < 3) {
+        return;
+    }
     [self handleSearchForTerm:searchTerm];
 }
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self handleSearchForTerm:searchBar.text];
+    [searchBar resignFirstResponder];
+}
+
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     isSearching = NO;
@@ -531,7 +540,7 @@
     
 }
 
-- (void)handleSearchForTerm:(NSString *)searchTerm {
+- (void)handleSearchForTerm:(NSString *)searchTerm {    
     NSMutableArray *sectionsToRemove = [[NSMutableArray alloc] init];
     [self resetSearch];
     
@@ -553,7 +562,7 @@
                         continue;
                     }
                 }
-            
+                
                 // Check if found in DE
                 if ([[organism getNameDe] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
                     // if in searchterm is more than 1 term check genus&species

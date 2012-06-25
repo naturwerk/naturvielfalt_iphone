@@ -9,7 +9,8 @@
 #import "InfoController.h"
 
 @implementation InfoController
-@synthesize label1;
+@synthesize lblPartner;
+@synthesize scrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,11 +35,31 @@
 {
     [super viewDidLoad];
     
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, self.view.frame.size.height + 20);
+    
     // Set navigation bar title    
     NSString *title = [[NSString alloc] initWithString:@"Naturvielfalt"];
     self.navigationItem.title = title;
     
-    label1.text = @"TEST";
+    NSString *partner = [[NSString alloc] initWithString:@"Unsere Partner:"];
+    self.lblPartner.font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
+    self.lblPartner.text = partner;
+    
+    //NSString *infoFlora = [[NSString alloc] initWithString:@"Info Flora(CRSF)"];
+    //self.lblInfoFlora.font = [UIFont fontWithName:@"Helvetica" size:14];
+    //self.lblInfoFlora.text = infoFlora;
+    
+    CGRect frameIMGView = CGRectMake(20, 250, 80, 80); // Replacing with your dimensions
+    UIView *VImages = [[UIView alloc] initWithFrame:frameIMGView];
+    
+    UIImage *imgInfoflora = [UIImage imageNamed:@"logo.infoflora.57.png"];
+    CGRect frameInfoflora = CGRectMake(0, 0, imgInfoflora.size.width, imgInfoflora.size.height); // Replacing with your dimensions
+    UIImageView *ivPartnerInfoflora = [[UIImageView alloc] initWithFrame:frameInfoflora];
+    ivPartnerInfoflora.image = imgInfoflora;
+    
+    
+    [VImages addSubview:ivPartnerInfoflora];
+    [self.view addSubview:VImages];
 }
 
 - (void)viewDidUnload

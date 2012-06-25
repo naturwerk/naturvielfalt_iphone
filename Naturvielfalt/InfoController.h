@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface InfoController : UIViewController {
-    IBOutlet UILabel *label1;
+    IBOutlet UILabel *lblPartner;
+    IBOutlet UIScrollView *scrollView;
 }
 
-@property (nonatomic) IBOutlet UILabel *label1;
-
+@property (nonatomic) IBOutlet UILabel *lblPartner;
+@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 
 @end

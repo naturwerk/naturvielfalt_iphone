@@ -169,13 +169,14 @@
     }
 	
     if (mode == MBProgressHUDModeDeterminate) {
-        self.indicator = [[MBRoundProgressView alloc] init];
+        MBRoundProgressView *mbrpView = [[MBRoundProgressView alloc] init];
+        self.indicator = mbrpView;
     }
     else if (mode == MBProgressHUDModeCustomView && self.customView != nil){
         self.indicator = self.customView;
     } else {
-		self.indicator = [[UIActivityIndicatorView alloc]
-						   initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        UIActivityIndicatorView *aiView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+		self.indicator = aiView;
         [(UIActivityIndicatorView *)indicator startAnimating];
 	}
 	

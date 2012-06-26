@@ -26,7 +26,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        NSThread *searchThread = [[NSThread alloc] initWithTarget:self selector:@selector(handleSearchForTerm:) object:nil];
+        [searchThread start];
         //[NSThread detachNewThreadSelector:@selector(handleSearchForTerm:) toTarget:self withObject:nil];
+        
     }
     return self;
 }

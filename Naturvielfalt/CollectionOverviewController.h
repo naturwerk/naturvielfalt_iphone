@@ -19,6 +19,7 @@
     IBOutlet UITableView *table;
     ASINetworkQueue *queue;
     IBOutlet UIProgressView *progressView;
+    NSOperationQueue *operationQueue;
 }
 
 @property (nonatomic) PersistenceManager *persistenceManager;
@@ -28,6 +29,7 @@
 @property (nonatomic) IBOutlet UITableView *table;
 @property (nonatomic) ASINetworkQueue *queue;
 @property (nonatomic) IBOutlet UIProgressView *progressView;
+@property (nonatomic) NSOperationQueue *operationQueue;
 
 
 - (void) sendObservations;

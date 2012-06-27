@@ -37,12 +37,6 @@ static Observation *observation;
     observation = ob;
 }
 
-- (void) dealloc
-{
-    
-    observation.pictures = nil;
-}
-
 - (NSString *) description
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

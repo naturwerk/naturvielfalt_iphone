@@ -13,7 +13,7 @@
 #import "ASIFormDataRequest.h"
 
 @implementation CollectionOverviewController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, progressView;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, progressView, operationQueue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,6 +61,8 @@
     self.navigationItem.leftBarButtonItem = editButton;
     
     // Reload the observations
+    operationQueue = [[NSOperationQueue alloc] init];
+    [operationQueue setMaxConcurrentOperationCount:1];
     [self reloadObservations];
     
     // Reload table
@@ -223,13 +225,7 @@
             [persistenceManager deleteObservation:ob.observationId];
             
             // Reload observations
-            observations = [persistenceManager getObservations];
-            
-            // Reload the table
-            [table reloadData];
-            
-            // Close connection
-            [persistenceManager closeConnection];
+            [self reloadObservations];
             return true;
         }
         return false;
@@ -243,11 +239,14 @@
     [self.table setEditing:!self.table.editing animated:YES];
 }
 
-- (void) reloadObservations
+- (void)beginLoadingObservations
 {
-    // Reset observations
-    observations = nil;
-    
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(synchronousLoadObservations) object:nil];
+    [operationQueue addOperation:operation];
+}
+
+- (void)synchronousLoadObservations
+{
     // PersistenceManager create
     persistenceManager = [[PersistenceManager alloc] init];
     
@@ -255,32 +254,43 @@
     [persistenceManager establishConnection];
     
     // Get all observations
-    observations = [persistenceManager getObservations];
+    NSMutableArray *arrNewObservations = [persistenceManager getObservations];
+    
+    [self performSelectorOnMainThread:@selector(didFinishLoadingObservations:) withObject:arrNewObservations waitUntilDone:NO];
+}
+
+- (void)didFinishLoadingObservations:(NSMutableArray *)arrNewObservations
+{
+    // Update the observation array
+    if(observations != nil)
+    {
+        if(arrNewObservations.count != observations.count) {    
+            observations = arrNewObservations; 
+        }
+    }
+    else {
+        observations = arrNewObservations; 
+    }
     
     countObservations = (int *)self.observations.count;
     
     // Close the connection
     [persistenceManager closeConnection];
     
+    [table reloadData];
+}
+
+- (void) reloadObservations
+{
+    // Reset observations
+    observations = nil;
+    
+    [self beginLoadingObservations];
 }
 
 - (void) viewWillAppear:(BOOL)animated 
 {
-    // PersistenceManager create
-    persistenceManager = [[PersistenceManager alloc] init];
-    
-    // Establish a connection
-    [persistenceManager establishConnection];
-    
-    // Update the observation array    
-    if([persistenceManager getObservations].count != observations.count) {    
-       [self reloadObservations]; 
-    }
-     
-    // Close the connection
-    [persistenceManager closeConnection];
-    
-    [table reloadData];
+    [self beginLoadingObservations];
 }
 
 

@@ -110,13 +110,14 @@ d2llIEVpbnplbGJlb2JhY2h0dW5nZW4genUgZXJmYXNzZW4gdW5kIHZlcndhbHRlbi4gA</string>
 								<string key="NSFrame">{{20, 210}, {274, 31}}</string>
 								<reference key="NSSuperview" ref="511858156"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Label</string>
+								<string key="IBUIText"/>
 								<reference key="IBUITextColor" ref="787501990"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>

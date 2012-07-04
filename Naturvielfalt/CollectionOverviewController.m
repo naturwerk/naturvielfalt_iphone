@@ -13,7 +13,7 @@
 #import "ASIFormDataRequest.h"
 
 @implementation CollectionOverviewController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, progressView, operationQueue;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, progressView, operationQueue, curIndex;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -89,10 +89,11 @@
     // Old portal
     //NSURL *url = [NSURL URLWithString:@"http://devel.naturvielfalt.ch/webservice/submitData.php"];
     //new portal
-    NSURL *url = [NSURL URLWithString:@"http://www.naturvielfalt.ch/webservice/api"];
+    NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api"];
     // OR for local testing
     //NSURL *url = [NSURL URLWithString:@"http://localhost:8888/naturvielfalt/naturvielfalt/webroot_drupal/webservice/api"];
     
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
     int counter = 0;
     for(Observation *ob in observations) {
@@ -147,6 +148,7 @@
             ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
             [request setUsername:username];
             [request setPassword:password];
+            [request setValidatesSecureCertificate: YES];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = @"dd.MM.yyyy";
@@ -197,9 +199,10 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Erfolgreich" message:@"Alle Beobachtungen wurden erfolgreich übertragen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     }
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request withPersistenceManager:(PersistenceManager *)persistenceManager {
@@ -256,20 +259,18 @@
     // Get all observations
     NSMutableArray *arrNewObservations = [persistenceManager getObservations];
     
-    [self performSelectorOnMainThread:@selector(didFinishLoadingObservations:) withObject:arrNewObservations waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(didFinishLoadingObservations:) withObject:arrNewObservations waitUntilDone:YES];
 }
 
 - (void)didFinishLoadingObservations:(NSMutableArray *)arrNewObservations
 {
-    // Update the observation array
-    if(observations != nil)
-    {
-        if(arrNewObservations.count != observations.count) {    
-            observations = arrNewObservations; 
+    if(observations != nil){
+        if([observations count] != [arrNewObservations count]){
+            observations = arrNewObservations;
         }
     }
     else {
-        observations = arrNewObservations; 
+        observations = arrNewObservations;
     }
     
     countObservations = (int *)self.observations.count;
@@ -277,7 +278,15 @@
     // Close the connection
     [persistenceManager closeConnection];
     
+    if(table.editing)
+       [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.curIndex] withRowAnimation:YES];
+    
     [table reloadData];
+    
+    // If there aren't any observations in the list. Stop the editing mode.
+    if([observations count] < 1) {
+        table.editing = FALSE;
+    }
 }
 
 - (void) reloadObservations
@@ -290,6 +299,7 @@
 
 - (void) viewWillAppear:(BOOL)animated 
 {
+    table.editing = FALSE;
     [self beginLoadingObservations];
 }
 
@@ -306,6 +316,7 @@
         
         CheckboxCell *cell = (CheckboxCell *)[tableView cellForRowAtIndexPath:indexPath];
         UIButton *button = cell.checkbox;
+        self.curIndex = indexPath;
         
         // Also delete it from the Database
         // Establish a connection
@@ -319,14 +330,6 @@
         
         // Reload the observations from the database and refresh the TableView
         [self reloadObservations];
-        
-        // If there aren't any observations in the list. Stop the editing mode.
-        if(observations.count < 1) {
-            tableView.editing = false;
-        }
-        
-        // delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
     }   
 }
 

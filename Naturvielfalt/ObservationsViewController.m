@@ -23,7 +23,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Root element has the id 3
-        groupId = 3;
+        groupId = 1;
         classlevel = 1;
     }
     
@@ -62,7 +62,7 @@
     
     // Check if its the root element. Otherwise don't display the INFO Page
     // Because we need the back button to get back to the overview page
-    if(groupId == 3) {
+    if(groupId == 1) {
         // Set info button
         UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
         [infoButton addTarget:self action:@selector(infoPage) forControlEvents:UIControlEventTouchUpInside];
@@ -205,7 +205,7 @@
     [persistenceManager establishConnection];
     
     if([persistenceManager organismGroupHasChild:currentSelectedOrganismGroup.organismGroupId] 
-                && currentSelectedOrganismGroup.organismGroupId != 3) {
+                && currentSelectedOrganismGroup.organismGroupId != 1) {
         // If the organismGroup has subgroups call again OverviewController
         
         overviewController.groupId = currentSelectedOrganismGroup.organismGroupId;

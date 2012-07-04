@@ -9,7 +9,6 @@
 #import "PersistenceManager.h"
 #import "OrganismGroup.h"
 #import "Organism.h"
-
 @implementation PersistenceManager
 @synthesize database;
 
@@ -20,6 +19,60 @@
     
     return [documentsDirectory stringByAppendingPathComponent:kFilename];
 }
+
+/*- (void) authUser {
+    
+    NSString *thePath = [[NSBundle mainBundle] pathForResource:@"testID" ofType:@"p12"];
+    
+    NSData *PKCS12Data = [[NSData alloc] initWithContentsOfFile:thePath];
+    
+    CFDataRef inPKCS12Data = (__bridge CFDataRef)PKCS12Data;
+    OSStatus status = noErr;
+    
+    SecIdentityRef myIdentity;
+    SecTrustRef myTrust;
+    status = [self extractIdentityAndTrust:inPKCS12Data withIdentity:&myIdentity andTrust:&myTrust];
+    
+    SecTrustResultType trustresult;
+    
+    //if(status == noErr){
+    //    status = SecTrustEvaluate(myTrust, &trustresult);
+    //}
+    
+    SecCertificateRef myReturnedCertificate = NULL;
+    
+    status = SecIdentityCopyCertificate (myIdentity, &myReturnedCertificate);
+    
+    CFStringRef certSummary = SecCertificateCopySubjectSummary (myReturnedCertificate);
+    NSString* summaryString = [[NSString alloc] initWithString:(__bridge NSString*)certSummary];
+    NSLog(@"CERTIFICATE SUMMARY: %@", summaryString);
+}*/
+
+/*- (OSStatus)extractIdentityAndTrust:(CFDataRef) inPKCS12Data withIdentity:(SecIdentityRef *) outIdentity andTrust:(SecTrustRef *) outTrust {
+    OSStatus securityError = errSecSuccess;
+    
+    CFStringRef password = CFSTR("1234");
+    const void *keys[] = { kSecImportExportPassphrase };
+    const void *values[] = { password };
+    CFDictionaryRef optionsDictionary = CFDictionaryCreate(NULL, keys, values, 1, NULL, NULL);
+    
+    CFArrayRef items = CFArrayCreate(NULL, 0, 0, NULL);
+    securityError = SecPKCS12Import(inPKCS12Data, optionsDictionary, &items);
+    
+    if(securityError == 0){
+        CFDictionaryRef myIdentityAndTrust = CFArrayGetValueAtIndex(items, 0);
+        const void *tempIdentity = NULL;
+        tempIdentity = CFDictionaryGetValue(myIdentityAndTrust, kSecImportItemIdentity);
+        *outIdentity = (SecIdentityRef)tempIdentity;
+        const void *tempTrust = NULL;
+        tempTrust = CFDictionaryGetValue(myIdentityAndTrust, kSecImportItemTrust);
+        *outTrust = (SecTrustRef)tempTrust;
+    }
+    
+    if (optionsDictionary)
+        CFRelease(optionsDictionary);
+    return securityError;
+}*/
 
 // CONNECTION
 - (void) establishConnection
@@ -187,7 +240,7 @@
     // All observations are stored in here
     NSMutableArray *observations = [[NSMutableArray alloc] init];
     
-    NSString *query = @"SELECT * FROM observation";
+    NSString *query = @"SELECT * FROM observation ORDER BY DATE DESC";
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
         
@@ -313,6 +366,7 @@
 // ORGANISMGROUPS
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel
 {
+    //[self authUser];
     NSDate *starttime = [NSDate date];
     NSMutableArray *organismGroups = [[NSMutableArray alloc] init];
     
@@ -320,7 +374,7 @@
                        FROM classification as c \
                        LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
                        WHERE (c.parent = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
-                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId];
+                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.name_de", parentId];
 //    Replaced original, because classlevel not needed... 
 //    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id) \
 //                       FROM classification as c \
@@ -351,6 +405,7 @@
            
         sqlite3_finalize(statement);
     }
+    
     NSDate *endtime = [NSDate date];
     NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
     NSLog(@"PersistenceManager: getAllOrganismGroups(parentId: %i, classlevel: %i) | running time: %fs", parentId, classlevel, executionTime);
@@ -381,7 +436,7 @@
     NSMutableArray *organisms = [[NSMutableArray alloc] init];
     
     NSString *query;
-    if(groupId == 3){
+    if(groupId == 1){
         query = [NSString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
                      FROM organism"];
         NSLog( @"Get all organism, group id: %i", groupId);        

@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Security/Security.h>
+#import <CoreFoundation/CoreFoundation.h>
 #import "Observation.h"
 #import <sqlite3.h>
 

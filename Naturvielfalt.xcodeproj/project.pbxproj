@@ -7,7 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		27BD674A158B65CE00AE6111 /* logo.infoflora.57.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BD6749158B65CE00AE6111 /* logo.infoflora.57.png */; };
+		2730A12715A31AF400F416D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12615A31AF300F416D9 /* Security.framework */; };
+		2730A12915A31AFC00F416D9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12815A31AFC00F416D9 /* CoreFoundation.framework */; };
+		2730A12B15A31E7E00F416D9 /* testID.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 2730A12A15A31E7E00F416D9 /* testID.p12 */; };
+		27746D07159B103900672970 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D02159B103900672970 /* Icon-72.png */; };
+		27746D08159B103900672970 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D03159B103900672970 /* Icon-Small-50.png */; };
+		27746D09159B103900672970 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D04159B103900672970 /* Icon-Small.png */; };
+		27746D0A159B103900672970 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D05159B103900672970 /* Icon.png */; };
+		27746D0B159B103900672970 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 27746D06159B103900672970 /* iTunesArtwork */; };
+		27746D10159B1F9D00672970 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0E159B1F9D00672970 /* Icon-Small@2x.png */; };
+		27746D11159B1F9D00672970 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0F159B1F9D00672970 /* Icon@2x.png */; };
+		27B84514159B223500818BCE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B84513159B223500818BCE /* Default@2x.png */; };
+		27B84516159B230C00818BCE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27B84515159B230C00818BCE /* Entitlements.plist */; };
 		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
 		27FC05F314A48D0300916B08 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05F114A48D0300916B08 /* MainWindow.xib */; };
 		CB08912B1430B67F00E846A1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891131430B67F00E846A1 /* NSObject+SBJson.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -42,8 +53,6 @@
 		CB472C38145E7E35003B5676 /* checkbox.gif in Resources */ = {isa = PBXBuildFile; fileRef = CB472C36145E7E35003B5676 /* checkbox.gif */; };
 		CB472C3C145E87A7003B5676 /* papierkorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CB472C3B145E87A7003B5676 /* papierkorb.png */; };
 		CB5D4BD7146D77B00003377A /* checkbox_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5D4BD6146D77B00003377A /* checkbox_checked.png */; };
-		CB7FA20C14334D7E006BD29D /* logo.57.png in Resources */ = {isa = PBXBuildFile; fileRef = CB7FA20B14334D7E006BD29D /* logo.57.png */; };
-		CB7FA20F14334D8F006BD29D /* logo.114.png in Resources */ = {isa = PBXBuildFile; fileRef = CB7FA20E14334D8F006BD29D /* logo.114.png */; };
 		CB7FA21114335033006BD29D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CB7FA21014335033006BD29D /* Default.png */; };
 		CB7FA21914335154006BD29D /* ObservationsOrganismViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB7FA21714335154006BD29D /* ObservationsOrganismViewController.m */; };
 		CB7FA21A14335154006BD29D /* ObservationsOrganismViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB7FA21814335154006BD29D /* ObservationsOrganismViewController.xib */; };
@@ -131,7 +140,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		27BD6749158B65CE00AE6111 /* logo.infoflora.57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.infoflora.57.png; sourceTree = SOURCE_ROOT; };
+		2730A12615A31AF300F416D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		2730A12815A31AFC00F416D9 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		2730A12A15A31E7E00F416D9 /* testID.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testID.p12; sourceTree = "<group>"; };
+		27746D02159B103900672970 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = SOURCE_ROOT; };
+		27746D03159B103900672970 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = SOURCE_ROOT; };
+		27746D04159B103900672970 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = SOURCE_ROOT; };
+		27746D05159B103900672970 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = SOURCE_ROOT; };
+		27746D06159B103900672970 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = SOURCE_ROOT; };
+		27746D0E159B1F9D00672970 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = SOURCE_ROOT; };
+		27746D0F159B1F9D00672970 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = SOURCE_ROOT; };
+		27B84513159B223500818BCE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
+		27B84515159B230C00818BCE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
@@ -185,8 +205,6 @@
 		CB472C36145E7E35003B5676 /* checkbox.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = checkbox.gif; sourceTree = "<group>"; };
 		CB472C3B145E87A7003B5676 /* papierkorb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = papierkorb.png; sourceTree = "<group>"; };
 		CB5D4BD6146D77B00003377A /* checkbox_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked.png; sourceTree = "<group>"; };
-		CB7FA20B14334D7E006BD29D /* logo.57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.57.png; path = ../logo.57.png; sourceTree = "<group>"; };
-		CB7FA20E14334D8F006BD29D /* logo.114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.114.png; path = ../logo.114.png; sourceTree = "<group>"; };
 		CB7FA21014335033006BD29D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		CB7FA21614335154006BD29D /* ObservationsOrganismViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationsOrganismViewController.h; sourceTree = "<group>"; };
 		CB7FA21714335154006BD29D /* ObservationsOrganismViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationsOrganismViewController.m; sourceTree = "<group>"; };
@@ -326,6 +344,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2730A12915A31AFC00F416D9 /* CoreFoundation.framework in Frameworks */,
+				2730A12715A31AF400F416D9 /* Security.framework in Frameworks */,
 				CBEBAA2014763B22009AC6C0 /* SystemConfiguration.framework in Frameworks */,
 				CBDDB5871459814C007E48AB /* libsqlite3.0.dylib in Frameworks */,
 				CBEBAA2214763B36009AC6C0 /* libz.dylib in Frameworks */,
@@ -517,7 +537,6 @@
 		CBB070C2143053D500D3D0B5 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				27BD6749158B65CE00AE6111 /* logo.infoflora.57.png */,
 				CB143230148639EC00BBA78D /* bildvorschaudeaktiviert.png */,
 				CBD2C2EB146988B8003F1B90 /* 37x-Checkmark.png */,
 				CBEBAA2E147E44AC009AC6C0 /* keinbildvorhanden.png */,
@@ -527,9 +546,7 @@
 				CB1D68FF1444463E003230B4 /* status-orange.png */,
 				CB1D69001444463E003230B4 /* status-red.png */,
 				CB7FA21014335033006BD29D /* Default.png */,
-				CB7FA20E14334D8F006BD29D /* logo.114.png */,
 				F619A26115766BDE00F0C842 /* blank.png */,
-				CB7FA20B14334D7E006BD29D /* logo.57.png */,
 				CB5D4BD6146D77B00003377A /* checkbox_checked.png */,
 				CB472C36145E7E35003B5676 /* checkbox.gif */,
 				CBE340F41462D09300985B12 /* checkmark.png */,
@@ -568,6 +585,8 @@
 			children = (
 				CBDDB5861459814A007E48AB /* libsqlite3.0.dylib */,
 				CBEBAA2114763B36009AC6C0 /* libz.dylib */,
+				2730A12815A31AFC00F416D9 /* CoreFoundation.framework */,
+				2730A12615A31AF300F416D9 /* Security.framework */,
 				CBEBAA1F14763B22009AC6C0 /* SystemConfiguration.framework */,
 				CBEBA9F6147636F0009AC6C0 /* CFNetwork.framework */,
 				CBDDB557145533B7007E48AB /* QuartzCore.framework */,
@@ -604,6 +623,7 @@
 				CBB7F630142B040A000150AF /* InfoPlist.strings */,
 				CBB7F633142B040A000150AF /* Naturvielfalt-Prefix.pch */,
 				CBB7F634142B040A000150AF /* main.m */,
+				27B84515159B230C00818BCE /* Entitlements.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -649,6 +669,15 @@
 		CBDE3DFC1430697100BC1F46 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2730A12A15A31E7E00F416D9 /* testID.p12 */,
+				27B84513159B223500818BCE /* Default@2x.png */,
+				27746D0E159B1F9D00672970 /* Icon-Small@2x.png */,
+				27746D0F159B1F9D00672970 /* Icon@2x.png */,
+				27746D02159B103900672970 /* Icon-72.png */,
+				27746D03159B103900672970 /* Icon-Small-50.png */,
+				27746D04159B103900672970 /* Icon-Small.png */,
+				27746D05159B103900672970 /* Icon.png */,
+				27746D06159B103900672970 /* iTunesArtwork */,
 				CB7AC23B149B9105001D315A /* Database */,
 				CBEBAA23147A7E04009AC6C0 /* External Libraries */,
 				CBB070C2143053D500D3D0B5 /* images */,
@@ -761,8 +790,6 @@
 				CBDE3DEC1430625400BC1F46 /* ObservationsViewController.xib in Resources */,
 				CBDE3DF61430671B00BC1F46 /* WhoKnowsItViewController.xib in Resources */,
 				CBDE3DFB1430673900BC1F46 /* SettingsViewController.xib in Resources */,
-				CB7FA20C14334D7E006BD29D /* logo.57.png in Resources */,
-				CB7FA20F14334D8F006BD29D /* logo.114.png in Resources */,
 				CB7FA21114335033006BD29D /* Default.png in Resources */,
 				CB7FA21A14335154006BD29D /* ObservationsOrganismViewController.xib in Resources */,
 				CB26166414337B2200C30425 /* ObservationsRootController.xib in Resources */,
@@ -802,7 +829,16 @@
 				27FC05F314A48D0300916B08 /* MainWindow.xib in Resources */,
 				F619A26215766BE000F0C842 /* blank.png in Resources */,
 				F664007B157CB5740092A9D0 /* CustomOrganismCell.xib in Resources */,
-				27BD674A158B65CE00AE6111 /* logo.infoflora.57.png in Resources */,
+				27746D07159B103900672970 /* Icon-72.png in Resources */,
+				27746D08159B103900672970 /* Icon-Small-50.png in Resources */,
+				27746D09159B103900672970 /* Icon-Small.png in Resources */,
+				27746D0A159B103900672970 /* Icon.png in Resources */,
+				27746D0B159B103900672970 /* iTunesArtwork in Resources */,
+				27746D10159B1F9D00672970 /* Icon-Small@2x.png in Resources */,
+				27746D11159B1F9D00672970 /* Icon@2x.png in Resources */,
+				27B84514159B223500818BCE /* Default@2x.png in Resources */,
+				27B84516159B230C00818BCE /* Entitlements.plist in Resources */,
+				2730A12B15A31E7E00F416D9 /* testID.p12 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -913,6 +949,57 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		27746D0C159B186D00672970 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Cyrill Bonjour";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cyrill Bonjour";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_MODE_FLAG = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		27746D0D159B186D00672970 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc";
+		};
 		CBB7F648142B040A000150AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -928,13 +1015,15 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_MODE_FLAG = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
-				VALIDATE_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -950,14 +1039,16 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_MODE_FLAG = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
-				VALIDATE_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -978,11 +1069,12 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
-				VALIDATE_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1002,10 +1094,11 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
-				VALIDATE_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1018,6 +1111,7 @@
 			buildConfigurations = (
 				CBB7F648142B040A000150AF /* Debug */,
 				CBB7F649142B040A000150AF /* Release */,
+				27746D0C159B186D00672970 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1027,6 +1121,7 @@
 			buildConfigurations = (
 				CBB7F64B142B040A000150AF /* Debug */,
 				CBB7F64C142B040A000150AF /* Release */,
+				27746D0D159B186D00672970 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

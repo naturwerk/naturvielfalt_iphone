@@ -25,11 +25,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
-        NSThread *searchThread = [[NSThread alloc] initWithTarget:self selector:@selector(handleSearchForTerm:) object:nil];
-        [searchThread start];
-        //[NSThread detachNewThreadSelector:@selector(handleSearchForTerm:) toTarget:self withObject:nil];
-        
+        // Custom initialization        
     }
     return self;
 }
@@ -116,7 +112,7 @@
     if(isSearching){
         [self handleSearchForTerm:search.text];
     }
-    
+    [table reloadSectionIndexTitles];
     [table reloadData];
 }
 
@@ -155,7 +151,7 @@
     
     // Sort array
     NSMutableArray *sortedKeysDE = [tempDE sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-    keysDE = [[NSMutableArray alloc] initWithArray:sortedKeysDE];
+    keysDE = [[NSMutableArray alloc] initWithArray:sortedKeysDE];;
     
     
     // SORT KEYS LATIN
@@ -338,7 +334,6 @@
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [search resignFirstResponder];
     isSearching = NO;
-    search.text = @"";
     
     [tableView reloadData];
     
@@ -346,6 +341,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *cellIdentifier = @"CustomOrganismCell";
+    UITableViewCell *oCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
@@ -420,7 +418,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    NSString *key = [keysDE objectAtIndex:index];
+    NSString *key = [[self getCurrentKey] objectAtIndex:index];
     
     if (key == UITableViewIndexSearch) {
         [tableView setContentOffset:CGPointZero animated:NO];
@@ -432,6 +430,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+        
     // if no data message ist displayed do nothing
     if ([[self getCurrentKey] count] == 0){
         NSLog(@"click on no data");
@@ -500,6 +499,7 @@
     else if ([searchTerm length] < 3) {
         return;
     }
+    [[self getCurrentKey] removeAllObjects];
     [self handleSearchForTerm:searchTerm];
 }
 
@@ -591,6 +591,7 @@
         [array removeObjectsInArray:toRemove];
     }
     [[self getCurrentKey] removeObjectsInArray:sectionsToRemove];
+    [table reloadSectionIndexTitles];
     [table reloadData];
 }
 

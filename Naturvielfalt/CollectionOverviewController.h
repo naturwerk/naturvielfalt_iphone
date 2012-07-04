@@ -20,6 +20,7 @@
     ASINetworkQueue *queue;
     IBOutlet UIProgressView *progressView;
     NSOperationQueue *operationQueue;
+    NSIndexPath *curIndex;
 }
 
 @property (nonatomic) PersistenceManager *persistenceManager;
@@ -30,6 +31,7 @@
 @property (nonatomic) ASINetworkQueue *queue;
 @property (nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic) NSOperationQueue *operationQueue;
+@property (nonatomic) NSIndexPath *curIndex;
 
 
 - (void) sendObservations;

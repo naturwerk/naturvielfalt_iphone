@@ -41,14 +41,10 @@
     NSString *title = [[NSString alloc] initWithString:@"Naturvielfalt"];
     self.navigationItem.title = title;
     
-    NSString *partner = [[NSString alloc] initWithString:@"Unsere Partner:"];
+    //Adding Partner Logos
+    /*NSString *partner = [[NSString alloc] initWithString:@"Unsere Partner:"];
     self.lblPartner.font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
     self.lblPartner.text = partner;
-    
-    //NSString *infoFlora = [[NSString alloc] initWithString:@"Info Flora(CRSF)"];
-    //self.lblInfoFlora.font = [UIFont fontWithName:@"Helvetica" size:14];
-    //self.lblInfoFlora.text = infoFlora;
-    
     CGRect frameIMGView = CGRectMake(20, 250, 80, 80); // Replacing with your dimensions
     UIView *VImages = [[UIView alloc] initWithFrame:frameIMGView];
     
@@ -59,7 +55,7 @@
     
     
     [VImages addSubview:ivPartnerInfoflora];
-    [self.view addSubview:VImages];
+    [self.view addSubview:VImages];*/
 }
 
 - (void)viewDidUnload

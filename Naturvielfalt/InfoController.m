@@ -11,6 +11,7 @@
 @implementation InfoController
 @synthesize lblPartner;
 @synthesize scrollView;
+@synthesize infoText;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,11 +36,18 @@
 {
     [super viewDidLoad];
     
-    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, self.view.frame.size.height + 20);
-    
     // Set navigation bar title    
     NSString *title = [[NSString alloc] initWithString:@"Naturvielfalt"];
     self.navigationItem.title = title;
+    
+    infoText.text = @"Naturvielfalt (www.naturvielfalt.ch) bietet ein vielseitiges Informations- und Erfassungsportal für Flora und Fauna in der Schweiz und Umgebung.\nErstellen Sie ein Konto um Beobachtungen zu erfassen und verwalten.\n\nDieses App wurde vom Verein Naturwerk (www.naturwerk.info) aus Brugg entwickelt.\nDer Verein für Mensch, Natur und Arbeit übernimmt gemeinnützige Aufgaben im Bereich Umwelt-, Natur- und Artenschutz, die von öffentlichem Interesse sind.\n\nDurch die Unterstützung dieser App fördern Sie praktische Artenschutzprojekte sowie die Weiterentwicklung der Applikation.\n\nBei Feedback oder für technischen Support wenden Sie sich bitte an info@naturvielfalt.ch.\n\n© 2012 Naturwerk";
+    CGRect infoFrame;
+    infoFrame = infoText.frame;
+    infoFrame.size.height = [infoText contentSize].height + 20;
+    infoText.frame = infoFrame;
+    infoText.showsVerticalScrollIndicator = NO;
+    
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, [infoText contentSize].height + 50);
     
     //Adding Partner Logos
     /*NSString *partner = [[NSString alloc] initWithString:@"Unsere Partner:"];

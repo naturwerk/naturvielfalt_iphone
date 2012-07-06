@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
+   LastUpgradeVersion = "0430"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CBB7F622142B0409000150AF"
                BuildableName = "Naturvielfalt.app"
-               BlueprintName = "Naturvielfalt"
+               BlueprintName = "NaturvielfaltLite"
                ReferencedContainer = "container:Naturvielfalt.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,14 +34,14 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CBB7F622142B0409000150AF"
             BuildableName = "Naturvielfalt.app"
-            BlueprintName = "Naturvielfalt"
+            BlueprintName = "NaturvielfaltLite"
             ReferencedContainer = "container:Naturvielfalt.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
    <LaunchAction
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.GDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug"
@@ -52,7 +53,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CBB7F622142B0409000150AF"
             BuildableName = "Naturvielfalt.app"
-            BlueprintName = "Naturvielfalt"
+            BlueprintName = "NaturvielfaltLite"
             ReferencedContainer = "container:Naturvielfalt.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -70,7 +71,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CBB7F622142B0409000150AF"
             BuildableName = "Naturvielfalt.app"
-            BlueprintName = "Naturvielfalt"
+            BlueprintName = "NaturvielfaltLite"
             ReferencedContainer = "container:Naturvielfalt.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

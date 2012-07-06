@@ -163,7 +163,8 @@
     NSString *detailTextLabel;
     
     if(organismGroup.count == 0) {
-        detailTextLabel = [NSString stringWithString:@"-->"];
+        detailTextLabel = [NSString stringWithString:@"→"];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:24.0];
     } else {
         detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
     }

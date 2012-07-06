@@ -13,13 +13,14 @@
 #import "ASIFormDataRequest.h"
 
 @implementation CollectionOverviewController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, progressView, operationQueue, curIndex;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, progressView, operationQueue, curIndex, doSubmit;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        doSubmit = FALSE;
     }
     
     return self;
@@ -46,7 +47,7 @@
                                      initWithTitle:@"Übermitteln"
                                      style:UIBarButtonItemStyleBordered
                                      target:self
-                                     action: @selector(sendObservations)];
+                                     action: @selector(sendObservationsDialog)];
     
     self.navigationItem.rightBarButtonItem = filterButton;
     
@@ -69,6 +70,44 @@
     [table reloadData];
 }
 
+//Check if there is an active WiFi connection
+- (BOOL) connectedToWiFi{
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.google.com"];
+	
+	NetworkStatus internetStatus = [r currentReachabilityStatus];	
+	
+	bool result = false;
+	
+	if (internetStatus == ReachableViaWiFi)
+	{
+	    result = true;	
+	} 
+	
+	return result;
+}
+
+- (void) sendObservationsDialog{
+    doSubmit = TRUE;
+    if([self connectedToWiFi]){
+        [self sendObservations];
+    }
+    else {
+        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:@"Beobachtungen übermitteln?" 
+                                                        message:@"Sind Sie sicher, dass Sie ihre Beobachtungen über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen." delegate:self cancelButtonTitle:@"Cancel"otherButtonTitles:@"OK", nil];
+        [submitAlert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(doSubmit){
+        if (buttonIndex == 1){
+            [self sendObservations];
+        }
+        doSubmit = FALSE;
+    }
+}
+
+
 - (void) sendObservations
 {
     MBProgressHUD *loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
@@ -86,6 +125,8 @@
 
 - (void) sendRequestToServer 
 {
+    
+    
     // Old portal
     //NSURL *url = [NSURL URLWithString:@"http://devel.naturvielfalt.ch/webservice/submitData.php"];
     //new portal

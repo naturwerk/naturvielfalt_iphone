@@ -11,9 +11,12 @@
 @interface InfoController : UIViewController {
     IBOutlet UILabel *lblPartner;
     IBOutlet UIScrollView *scrollView;
+    IBOutlet UITextView *infoText;
+    
 }
 
 @property (nonatomic) IBOutlet UILabel *lblPartner;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property (nonatomic) IBOutlet UITextView *infoText;
 
 @end

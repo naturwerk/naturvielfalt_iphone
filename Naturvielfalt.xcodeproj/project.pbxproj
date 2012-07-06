@@ -140,6 +140,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		271479CA15A57EFD00414C5E /* Naturvielfalt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Naturvielfalt.entitlements; sourceTree = "<group>"; };
 		2730A12615A31AF300F416D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2730A12815A31AFC00F416D9 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2730A12A15A31E7E00F416D9 /* testID.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testID.p12; sourceTree = "<group>"; };
@@ -217,7 +218,7 @@
 		CBB070C61430542000D3D0B5 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		CBB070C81430542F00D3D0B5 /* 06-magnify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-magnify.png"; sourceTree = "<group>"; };
 		CBB070CA1430544600D3D0B5 /* 84-lightbulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "84-lightbulb.png"; sourceTree = "<group>"; };
-		CBB7F623142B0409000150AF /* Naturvielfalt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Naturvielfalt.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBB7F623142B0409000150AF /* NaturvielfaltLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NaturvielfaltLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBB7F627142B0409000150AF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CBB7F629142B0409000150AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CBB7F62B142B0409000150AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -575,7 +576,7 @@
 		CBB7F624142B0409000150AF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CBB7F623142B0409000150AF /* Naturvielfalt.app */,
+				CBB7F623142B0409000150AF /* NaturvielfaltLite.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -604,6 +605,7 @@
 		CBB7F62D142B0409000150AF /* Naturvielfalt */ = {
 			isa = PBXGroup;
 			children = (
+				271479CA15A57EFD00414C5E /* Naturvielfalt.entitlements */,
 				CB8095C514431AFC003D3764 /* Helper */,
 				CB08914E1431CD4E00E846A1 /* Model */,
 				CB08914D1431CD2800E846A1 /* Controller */,
@@ -738,9 +740,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CBB7F622142B0409000150AF /* Naturvielfalt */ = {
+		CBB7F622142B0409000150AF /* NaturvielfaltLite */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CBB7F64A142B040A000150AF /* Build configuration list for PBXNativeTarget "Naturvielfalt" */;
+			buildConfigurationList = CBB7F64A142B040A000150AF /* Build configuration list for PBXNativeTarget "NaturvielfaltLite" */;
 			buildPhases = (
 				CBB7F61F142B0409000150AF /* Sources */,
 				CBB7F620142B0409000150AF /* Frameworks */,
@@ -750,9 +752,9 @@
 			);
 			dependencies = (
 			);
-			name = Naturvielfalt;
+			name = NaturvielfaltLite;
 			productName = Naturvielfalt;
-			productReference = CBB7F623142B0409000150AF /* Naturvielfalt.app */;
+			productReference = CBB7F623142B0409000150AF /* NaturvielfaltLite.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -760,6 +762,9 @@
 /* Begin PBXProject section */
 		CBB7F61A142B0409000150AF /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
 			buildConfigurationList = CBB7F61D142B0409000150AF /* Build configuration list for PBXProject "Naturvielfalt" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -772,7 +777,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CBB7F622142B0409000150AF /* Naturvielfalt */,
+				CBB7F622142B0409000150AF /* NaturvielfaltLite */,
 			);
 		};
 /* End PBXProject section */
@@ -1116,7 +1121,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CBB7F64A142B040A000150AF /* Build configuration list for PBXNativeTarget "Naturvielfalt" */ = {
+		CBB7F64A142B040A000150AF /* Build configuration list for PBXNativeTarget "NaturvielfaltLite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CBB7F64B142B040A000150AF /* Debug */,

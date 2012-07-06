@@ -10,6 +10,7 @@
 #import "PersistenceManager.h"
 #import "ASIFormDataRequest.h"
 #import "ASINetworkQueue.h"
+#import "Reachability.h"
 
 @interface CollectionOverviewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     PersistenceManager *persistenceManager;
@@ -21,6 +22,7 @@
     IBOutlet UIProgressView *progressView;
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
+    BOOL *doSubmit;
 }
 
 @property (nonatomic) PersistenceManager *persistenceManager;
@@ -32,12 +34,14 @@
 @property (nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic) NSOperationQueue *operationQueue;
 @property (nonatomic) NSIndexPath *curIndex;
+@property (nonatomic) BOOL *doSubmit;
 
 
 - (void) sendObservations;
 - (void) sendRequestToServer;
 - (void) reloadObservations;
 - (void) removeObservations;
+- (BOOL) connectedToWiFi;
 - (void) checkboxEvent:(UIButton *)sender;
 - (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request withPersistenceManager:(PersistenceManager *)persistenceManager;
 

@@ -139,21 +139,34 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *simpleTableIdentifier = @"SimpleTableIdentifier";
+    static NSString *cautionIconIdentifier = @"CautionIconIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    UITableViewCell *cell;
     
-    if(cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:simpleTableIdentifier];
-    }
-    
-    // Set title
     NSInteger row = [indexPath row];
+    OrganismGroup *organismGroup = [listData objectAtIndex:row];
+    
+    //For cells with custom Objects(e.g. Icon) a separate Identifier must be set (sounds yodaish)
+    if(organismGroup.organismGroupId == 29){
+        cell = [tableView dequeueReusableCellWithIdentifier:cautionIconIdentifier];
+    
+        if(cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cautionIconIdentifier];
+        }
+    }
+    else {
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        
+        if(cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:simpleTableIdentifier];
+        }
+    }
     
     // display an image at every row
     UIImage *icon = [UIImage imageNamed:@"12-eye.png"];
     cell.imageView.image = icon;
     
-    OrganismGroup *organismGroup = [listData objectAtIndex:row];
     cell.textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14.0];
     cell.textLabel.text = organismGroup.name;
     
@@ -167,11 +180,14 @@
         cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:24.0];
     } else {
         if (organismGroup.organismGroupId == 29) {
-            detailTextLabel = [NSString stringWithFormat:@"! %d Arten !", organismGroup.count];
+            //detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
+            //UIImageView *cautionView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+            //UIImage *iconCaution = [UIImage imageNamed:@"15-warning.png"];
+            //[cautionView setImage:iconCaution];
+            //[cell setAccessoryView:cautionView];
+            cell.imageView.image = [UIImage imageNamed:@"15-warning.png"];
         }
-        else {
-            detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
-        }
+        detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
     }
     
     cell.detailTextLabel.text = detailTextLabel;

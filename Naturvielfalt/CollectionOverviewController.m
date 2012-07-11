@@ -432,6 +432,9 @@
             checkboxCell.image.image = final;
             NSLog(@"Image!: %@", [observation.organism getNameDe]);
         }
+        else {
+            checkboxCell.image.image = [UIImage imageNamed:@"blank.png"];
+        }
         
         
         checkboxCell.name.text = [observation.organism getNameDe];

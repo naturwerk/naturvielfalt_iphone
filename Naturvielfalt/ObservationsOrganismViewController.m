@@ -131,7 +131,9 @@
     PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
     [persistenceManager establishConnection];
     
-    NSMutableArray *organisms = [persistenceManager getAllOrganisms:organismGroupId];
+    NSMutableArray *organisms;
+    
+    organisms = [persistenceManager getAllOrganisms:organismGroupId];
     
     for(Organism *organism in organisms) {
         [self appendToDictionary:organism];

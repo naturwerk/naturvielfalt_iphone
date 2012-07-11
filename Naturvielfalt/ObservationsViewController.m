@@ -166,7 +166,12 @@
         detailTextLabel = [NSString stringWithString:@"→"];
         cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:24.0];
     } else {
-        detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
+        if (organismGroup.organismGroupId == 29) {
+            detailTextLabel = [NSString stringWithFormat:@"! %d Arten !", organismGroup.count];
+        }
+        else {
+            detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
+        }
     }
     
     cell.detailTextLabel.text = detailTextLabel;
@@ -265,7 +270,7 @@
     PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
     [persistenceManager establishConnection];
     
-    // Get all Root elements (Root elements have the id 3)
+    // Get all Root elements (Root elements have the id 1)
     self.listData = [persistenceManager getAllOrganismGroups:groupId withClasslevel:classlevel];
     
     /*

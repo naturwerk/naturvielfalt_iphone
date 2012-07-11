@@ -36,6 +36,7 @@
 - (BOOL) organismGroupHasChild:(int) groupId;
 
 // Organisms
+- (NSMutableArray *) getOrganisms:(int) groupId withCustomFilter:(NSString *)filter;
 - (NSMutableArray *) getAllOrganisms:(int) groupId;
 
 

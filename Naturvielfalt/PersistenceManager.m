@@ -370,11 +370,11 @@
     NSDate *starttime = [NSDate date];
     NSMutableArray *organismGroups = [[NSMutableArray alloc] init];
     
-    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id) \
+    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id), c.position \
                        FROM classification as c \
                        LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
                        WHERE (c.parent = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
-                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.name_de", parentId];
+                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId];
 //    Replaced original, because classlevel not needed... 
 //    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id) \
 //                       FROM classification as c \
@@ -430,29 +430,39 @@
 }
 
 // ORGANISMS
-- (NSMutableArray *) getAllOrganisms:(int) groupId
+- (NSMutableArray *) getOrganisms:(int) groupId withCustomFilter:(NSString *)filter
 {
     NSDate *starttime = [NSDate date];  
     NSMutableArray *organisms = [[NSMutableArray alloc] init];
     
-    NSString *query;
+    NSMutableString *query;
     if(groupId == 1){
-        query = [NSString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
+        query = [NSMutableString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
                      FROM organism"];
         NSLog( @"Get all organism, group id: %i", groupId);        
-    }else {
+    }  
+    else {
 //        query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
 //                       FROM organism AS o, \
 //                       classification_taxon as ct, \
 //                       classification as c \
 //                       WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id and c.classification_id = %d", groupId];
-        query = [NSString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de, o.name_sc \
+        query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
                        FROM classification_taxon ct\
-                       LEFT JOIN organism o ON o.organism_id=ct.taxon_id\
-                       WHERE ct.classification_id = %i", groupId];
+                       LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
+        
+        //Append Filter to query
+        if([filter length] != 0){
+            [query appendString:filter];
+        }
+        else {
+            [query appendFormat:@" WHERE ct.classification_id = %i", groupId];
+        }
 
         NSLog( @"Get single group, group id: %i", groupId);
     }
+    
+    NSLog( @"DA QUERY: %@", query);  
     //NSLog(@"query: %@", query);
     
     
@@ -527,6 +537,13 @@
     NSLog(@"PersistenceManager: getAllOrganisms(%i) | running time: %fs", numbersOfOrgansim, executionTime);
     return organisms;
     //[organisms release];
+}
+
+- (NSMutableArray *) getAllOrganisms:(int) groupId
+{
+    NSMutableArray *allOrganisms;
+    allOrganisms =[self getOrganisms:groupId withCustomFilter:@""];
+    return allOrganisms;
 }
 
 @end

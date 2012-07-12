@@ -20,60 +20,6 @@
     return [documentsDirectory stringByAppendingPathComponent:kFilename];
 }
 
-/*- (void) authUser {
-    
-    NSString *thePath = [[NSBundle mainBundle] pathForResource:@"testID" ofType:@"p12"];
-    
-    NSData *PKCS12Data = [[NSData alloc] initWithContentsOfFile:thePath];
-    
-    CFDataRef inPKCS12Data = (__bridge CFDataRef)PKCS12Data;
-    OSStatus status = noErr;
-    
-    SecIdentityRef myIdentity;
-    SecTrustRef myTrust;
-    status = [self extractIdentityAndTrust:inPKCS12Data withIdentity:&myIdentity andTrust:&myTrust];
-    
-    SecTrustResultType trustresult;
-    
-    //if(status == noErr){
-    //    status = SecTrustEvaluate(myTrust, &trustresult);
-    //}
-    
-    SecCertificateRef myReturnedCertificate = NULL;
-    
-    status = SecIdentityCopyCertificate (myIdentity, &myReturnedCertificate);
-    
-    CFStringRef certSummary = SecCertificateCopySubjectSummary (myReturnedCertificate);
-    NSString* summaryString = [[NSString alloc] initWithString:(__bridge NSString*)certSummary];
-    NSLog(@"CERTIFICATE SUMMARY: %@", summaryString);
-}*/
-
-/*- (OSStatus)extractIdentityAndTrust:(CFDataRef) inPKCS12Data withIdentity:(SecIdentityRef *) outIdentity andTrust:(SecTrustRef *) outTrust {
-    OSStatus securityError = errSecSuccess;
-    
-    CFStringRef password = CFSTR("1234");
-    const void *keys[] = { kSecImportExportPassphrase };
-    const void *values[] = { password };
-    CFDictionaryRef optionsDictionary = CFDictionaryCreate(NULL, keys, values, 1, NULL, NULL);
-    
-    CFArrayRef items = CFArrayCreate(NULL, 0, 0, NULL);
-    securityError = SecPKCS12Import(inPKCS12Data, optionsDictionary, &items);
-    
-    if(securityError == 0){
-        CFDictionaryRef myIdentityAndTrust = CFArrayGetValueAtIndex(items, 0);
-        const void *tempIdentity = NULL;
-        tempIdentity = CFDictionaryGetValue(myIdentityAndTrust, kSecImportItemIdentity);
-        *outIdentity = (SecIdentityRef)tempIdentity;
-        const void *tempTrust = NULL;
-        tempTrust = CFDictionaryGetValue(myIdentityAndTrust, kSecImportItemTrust);
-        *outTrust = (SecTrustRef)tempTrust;
-    }
-    
-    if (optionsDictionary)
-        CFRelease(optionsDictionary);
-    return securityError;
-}*/
-
 // CONNECTION
 - (void) establishConnection
 {
@@ -331,8 +277,6 @@
             
             // Add observation to the observation array
             [observations addObject:observation];
-
-            // NSLog(@"%d %d %@ %@ %@ %d %d %@ %f %f %d", observationId, organismId, organismNameDe, author, date, amount, accuracy, comment, locationLat, locationLon, accuracy);
 		}
         
         sqlite3_finalize(statement);
@@ -370,17 +314,11 @@
     NSDate *starttime = [NSDate date];
     NSMutableArray *organismGroups = [[NSMutableArray alloc] init];
     
-    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id), c.position \
+    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.name_de, COUNT(ct.taxon_id), c.position \
                        FROM classification as c \
                        LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
                        WHERE (c.parent = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
-                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId];
-//    Replaced original, because classlevel not needed... 
-//    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.class_level, c.name_de, COUNT(ct.taxon_id) \
-//                       FROM classification as c \
-//                       LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
-//                       WHERE (c.parent = %d AND c.class_level = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
-//                       GROUP BY c.classification_id, c.class_level, c.name_de ORDER BY c.position", parentId, classlevel];
+                       GROUP BY c.classification_id, c.name_de ORDER BY c.position", parentId];
     
     sqlite3_stmt *statement;
     
@@ -389,9 +327,8 @@
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			
             int classificationId = sqlite3_column_int(statement, 0);
-            //int classLevel = sqlite3_column_int(statement, 1);
-            NSString *groupName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
-            int groupCount = sqlite3_column_int(statement, 3);
+            NSString *groupName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+            int groupCount = sqlite3_column_int(statement, 2);
                
             // Create OrganismGroup
             OrganismGroup *organismGroup = [[OrganismGroup alloc] init];
@@ -442,11 +379,6 @@
         NSLog( @"Get all organism, group id: %i", groupId);        
     }  
     else {
-//        query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
-//                       FROM organism AS o, \
-//                       classification_taxon as ct, \
-//                       classification as c \
-//                       WHERE ct.taxon_id = o.id and c.classification_id = ct.classification_id and c.classification_id = %d", groupId];
         query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
                        FROM classification_taxon ct\
                        LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
@@ -462,16 +394,7 @@
         NSLog( @"Get single group, group id: %i", groupId);
     }
     
-    NSLog( @"DA QUERY: %@", query);  
-    //NSLog(@"query: %@", query);
-    
-    
-    // replaced sql query, because left join is very slow
-    //NSString *query = [NSString stringWithFormat:@"SELECT DISTINCT ct.taxon_id, o.inventory_type_id, o.name_de, o.name_sc \
-                       FROM organism AS o \
-                       LEFT JOIN classification_taxon as ct ON ct.taxon_id = o.id \
-                       LEFT JOIN classification as c ON c.classification_id = ct.classification_id \
-                       WHERE c.classification_id = %d", groupId];
+    NSLog( @"DA QUERY: %@", query);
     
     sqlite3_stmt *statement;
     NSInteger numbersOfOrgansim = 0;
@@ -493,15 +416,11 @@
             }
             
             if(sqlite3_column_text(statement, 2) == NULL) {
-                //nameDe = [NSString stringWithString:@""];
                 nameDe = nameLat;
             } else {
                 nameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
                 if([nameDe length] == 0) nameDe = @"Keine Übersetzung vorhanden";
             }
-            
-//            NSLog(@"name_de: '%@'", nameDe);
-//            NSLog(@"name_lat: %@", nameLat);
             
             // Create OrganismGroup
             Organism *organism = [[Organism alloc] init];
@@ -536,7 +455,6 @@
     NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
     NSLog(@"PersistenceManager: getAllOrganisms(%i) | running time: %fs", numbersOfOrgansim, executionTime);
     return organisms;
-    //[organisms release];
 }
 
 - (NSMutableArray *) getAllOrganisms:(int) groupId

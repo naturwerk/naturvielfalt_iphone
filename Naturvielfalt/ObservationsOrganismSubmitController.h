@@ -55,7 +55,6 @@
 
 - (void) updateAccuracyIcon:(int)accuracy;
 - (void) prepareData;
-- (void) discardLocationManager;
 - (void) rowClicked:(NSIndexPath *)indexPath;
 - (void) saveObservation;
 

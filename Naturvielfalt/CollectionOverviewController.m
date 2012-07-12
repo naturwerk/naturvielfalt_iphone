@@ -47,7 +47,7 @@
                                      initWithTitle:@"Übermitteln"
                                      style:UIBarButtonItemStyleBordered
                                      target:self
-                                     action: @selector(sendObservationsDialog)];
+                                     action: @selector(alertOnSendObservationsDialog)];
     
     self.navigationItem.rightBarButtonItem = filterButton;
     
@@ -86,7 +86,8 @@
 	return result;
 }
 
-- (void) sendObservationsDialog{
+//fires an alert if not connected to WiFi
+- (void) alertOnSendObservationsDialog{
     doSubmit = TRUE;
     if([self connectedToWiFi]){
         [self sendObservations];
@@ -125,14 +126,8 @@
 
 - (void) sendRequestToServer 
 {
-    
-    
-    // Old portal
-    //NSURL *url = [NSURL URLWithString:@"http://devel.naturvielfalt.ch/webservice/submitData.php"];
     //new portal
     NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api"];
-    // OR for local testing
-    //NSURL *url = [NSURL URLWithString:@"http://localhost:8888/naturvielfalt/naturvielfalt/webroot_drupal/webservice/api"];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
@@ -145,9 +140,8 @@
     int i = 1;
 
     if(counter == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Es wurden noch keine Beobachtungen gespeichert." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Es wurden noch keine Beobachtungen gespeichert oder keine wurde ausgewählt." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
-        
         return;
     }
 
@@ -435,7 +429,6 @@
         else {
             checkboxCell.image.image = [UIImage imageNamed:@"blank.png"];
         }
-        
         
         checkboxCell.name.text = [observation.organism getNameDe];
         checkboxCell.date.text = nowString;

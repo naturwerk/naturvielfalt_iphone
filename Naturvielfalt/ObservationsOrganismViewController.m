@@ -7,12 +7,9 @@
 //
 
 #import "ObservationsOrganismViewController.h"
-#import "ObservationsOrganismDetailViewController.h"
 #import "ObservationsOrganismSubmitController.h"
 #import "ObservationsOrganismDetailViewWikipediaController.h"
 #import "Organism.h"
-#import "OrganismFlora.h"
-#import "OrganismFauna.h"
 #import "OrganismGroup.h"
 #import "NSDictionary-MutableDeepCopy.h"
 #import "CustomOrganismCell.h"
@@ -81,13 +78,6 @@
 
 
 - (void) viewDidAppear:(BOOL)animated {
-    //temporary disabled
-    
-    // Reset search
-    //[self resetSearch]; 
-    
-    // Table reload data
-    //[table reloadData];
 }
 
 - (NSMutableDictionary *) getCurrentDict 
@@ -256,15 +246,15 @@
     
     NSString *key = [[self getCurrentKey] objectAtIndex:section];
     NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
-//    
-//    // Get the selected row
+    
+    // Get the selected row
     Organism *organism = [nameSection objectAtIndex:row];
 
     NSLog(@"organism: %@", organism.nameDe);
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    
-//    // Create the ObservationsOrganismViewController
+
+    // Create the ObservationsOrganismViewController
     ObservationsOrganismDetailViewWikipediaController *organismWikipediaController 
                 = [[ObservationsOrganismDetailViewWikipediaController alloc] initWithNibName:@"ObservationsOrganismDetailViewWikipediaController" bundle:[NSBundle mainBundle]];
     
@@ -364,14 +354,6 @@
     } else {
         cell = (CustomOrganismCell *)cell;
     }
-	
-//    static NSString *SectionsTableIdentifier = @"SectionsTableIdentifier";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
-//							 SectionsTableIdentifier];
-    
-//    if(cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SectionsTableIdentifier];
-//    }    
     
     //show empty message
     if ([[self getCurrentKey] count] == 0){
@@ -436,12 +418,7 @@
     // if no data message ist displayed do nothing
     if ([[self getCurrentKey] count] == 0){
         NSLog(@"click on no data");
-    }else {
-//        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
-//        BOOL showWikipedia = [[appSettings stringForKey:@"showWikipedia"] isEqualToString:@"on"];
-//        BOOL showImages = [[appSettings stringForKey:@"showImages"] isEqualToString:@"on"];
-//        if(showImages || showWikipedia) [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        
+    }else {        
         NSLog(@"click on a organism");
         NSUInteger section = [indexPath section];
         NSUInteger row = [indexPath row];
@@ -451,24 +428,6 @@
         
         // Get the selected row
         Organism *currentSelectedOrganism = [nameSection objectAtIndex:row];
-        
-//        // Create the ObservationsOrganismViewController
-//        ObservationsOrganismDetailViewController *organismDetailViewController = [[ObservationsOrganismDetailViewController alloc] 
-//                                                                                  initWithNibName:@"ObservationsOrganismDetailViewController" 
-//                                                                                  bundle:[NSBundle mainBundle]];
-//        
-//        // set the organismGroupId so it know which inventory is selected
-//        organismDetailViewController.organism = currentSelectedOrganism;
-//        
-//        // Start the spinner
-//        [NSThread detachNewThreadSelector:@selector(threadStartAnimating:) toTarget:self withObject:nil];
-//        
-//        // Switch the View & Controller
-//        [self.navigationController pushViewController:organismDetailViewController animated:TRUE];
-//        
-//        [spinner stopAnimating];
-//        
-//        organismDetailViewController = nil;
         
         // Create the ObservationsOrganismViewController
         ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc] 

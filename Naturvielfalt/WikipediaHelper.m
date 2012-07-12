@@ -50,7 +50,6 @@
     if([htmlSrc isEqualToString:@""])
         return @"Artikel nicht gefunden";
         
-    // NSString *formatedHtmlSrc = [htmlSrc stringByReplacingOccurrencesOfString:@"h3" withString:@"h2"];
     NSString *formatedHtmlSrc = [htmlSrc stringByReplacingOccurrencesOfString:@"/wiki/" withString:@"http://de.wikipedia.org/wiki/"];
     formatedHtmlSrc = [formatedHtmlSrc stringByReplacingOccurrencesOfString:@"<a href=\"http://de.wikipedia.org/wiki\"" withString:@"<a target=\"blank\" href=\"http://de.wikipedia.org/wiki\""];
     formatedHtmlSrc = [formatedHtmlSrc stringByReplacingOccurrencesOfString:@"//upload.wikimedia.org" withString:@"http://upload.wikimedia.org"];

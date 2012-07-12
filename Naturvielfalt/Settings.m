@@ -37,7 +37,6 @@
     self = [super init]; 
     if (self != nil) {
         urlWebservice = [NSString stringWithString:@"http://localhost/swissmon/application/api/organismgroups/"];
-        
         urlSubmitScript = [NSString stringWithString:@"http://localhost/swissmon/webservice/submitData.php"];
     } else {
         NSLog(@"Couldn't initialize object");

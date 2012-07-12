@@ -144,11 +144,8 @@
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.distanceFilter = 1000.0f;
-        //observation.locationLocked = false;
-        //review = false;
         
         [locationManager startUpdatingLocation];
-        //pinMoved = true;
     }
     
     self.mapView.showsUserLocation = YES;
@@ -167,11 +164,8 @@
         locationManager.delegate = self;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.distanceFilter = 1000.0f;
-        //observation.locationLocked = false;
-        //review = false;
         
         [locationManager startUpdatingLocation];
-        //pinMoved = true;
     }
     
     self.mapView.showsUserLocation = YES;
@@ -195,13 +189,6 @@
     
     // PUSH
     [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-    
-    // save the location
-    //[organismSubmitController submitObservation];
-    
-    // crash prepend, reference of released object
-    //[organismSubmitController release];
-    //organismSubmitController = nil;
 }
 
 - (void) viewDidAppear:(BOOL)animated 
@@ -224,8 +211,6 @@
         [self.mapView setRegion:region animated:YES];
         
         shouldAdjustZoom = false;
-        
-        //[annotation setCoordinate:self.mapView.userLocation.coordinate];
     }
 
     if(!observation.locationLocked){
@@ -242,10 +227,7 @@
 
 - (void) dealloc 
 {
-    
     [self.mapView.userLocation removeObserver:self forKeyPath:@"location"];
-    // [self.mapView removeFromSuperview];
-    // self.mapView = nil;
 }
 
 
@@ -336,7 +318,7 @@
     observation.locationLocked = true;
     
     observation.accuracy = 0;
-    //observation.accuracy = (int)newLocation.horizontalAccuracy;
+    
     NSLog( @"set new location from annotation; accuracy: %d", observation.accuracy);
     pinMoved = true;
     
@@ -363,12 +345,6 @@
 	} else {
 		// Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
 		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mapView];
-        
-		if ([draggablePinView isKindOfClass:[DDAnnotationView class]]) {
-			// draggablePinView is DDAnnotationView on iOS 3.
-		} else {
-			// draggablePinView instance will be built-in draggable MKPinAnnotationView when running on iOS 4.
-		}
 	}		
 	
 	return draggablePinView;

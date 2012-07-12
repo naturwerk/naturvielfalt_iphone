@@ -213,7 +213,6 @@
 
     if(locationManager){
         [locationManager stopUpdatingLocation];
-        // [self performSelector:@selector(discardLocationManager) onThread:[NSThread currentThread] withObject:nil waitUntilDone:NO];
        
          locationManager = nil;
     }

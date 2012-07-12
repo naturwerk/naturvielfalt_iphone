@@ -48,22 +48,6 @@
     infoText.showsVerticalScrollIndicator = NO;
     
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, [infoText contentSize].height + 50);
-    
-    //Adding Partner Logos
-    /*NSString *partner = [[NSString alloc] initWithString:@"Unsere Partner:"];
-    self.lblPartner.font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
-    self.lblPartner.text = partner;
-    CGRect frameIMGView = CGRectMake(20, 250, 80, 80); // Replacing with your dimensions
-    UIView *VImages = [[UIView alloc] initWithFrame:frameIMGView];
-    
-    UIImage *imgInfoflora = [UIImage imageNamed:@"logo.infoflora.57.png"];
-    CGRect frameInfoflora = CGRectMake(0, 0, imgInfoflora.size.width, imgInfoflora.size.height); // Replacing with your dimensions
-    UIImageView *ivPartnerInfoflora = [[UIImageView alloc] initWithFrame:frameInfoflora];
-    ivPartnerInfoflora.image = imgInfoflora;
-    
-    
-    [VImages addSubview:ivPartnerInfoflora];
-    [self.view addSubview:VImages];*/
 }
 
 - (void)viewDidUnload

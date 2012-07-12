@@ -76,9 +76,6 @@
                                                                                       initWithNibName:@"SettingsUsernameViewController" 
                                                                                       bundle:[NSBundle mainBundle]];
         
-        
-        // settingsUsernameController.username = ;
-        
         // Switch the View & Controller
         [self.navigationController pushViewController:settingsUsernameController animated:TRUE];
         settingsUsernameController = nil;
@@ -88,9 +85,6 @@
         SettingsPasswordViewController *settingsPasswordController = [[SettingsPasswordViewController alloc] 
                                                                       initWithNibName:@"SettingsPasswordViewController" 
                                                                       bundle:[NSBundle mainBundle]];
-        
-        
-        // settingsUsernameController.username = ;
         
         // Switch the View & Controller
         [self.navigationController pushViewController:settingsPasswordController animated:TRUE];
@@ -195,9 +189,6 @@
     
     
     [appSettings synchronize];
-    
-    // Set the text of the label in your cell
-    // NSLog(aSwitch.on ? @"Active" : @"Disabled");
 }
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

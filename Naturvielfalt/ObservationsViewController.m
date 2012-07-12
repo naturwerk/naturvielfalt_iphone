@@ -8,7 +8,6 @@
 
 #import "ObservationsViewController.h"
 #import "ObservationsOrganismViewController.h"
-#import "ObservationsOrganismFilterViewController.h"
 #import "OrganismGroup.h"
 #import "SwissCoordinates.h"
 #import "InfoController.h"
@@ -22,7 +21,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Root element has the id 3
+        // Root element has the id 1
         groupId = 1;
         classlevel = 1;
     }
@@ -44,21 +43,6 @@
 {
     // Load the organism from the db
     [self loadOrganismusGroups];
-    
-    // NSMutableArray *organisms = [persistenceManager getAllOrganisms:31];
-     
-
-//    // Create filter button and add it to the NavigationBar
-//    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] 
-//                                     initWithTitle:@"Filter"
-//                                     style:UIBarButtonItemStyleBordered
-//                                     target:self
-//                                     action: @selector(changeToFilterView)];
-//    
-//    // FILTER BUTTON IS ATM DEACTIVATED, just uncomment to activate
-//    self.navigationItem.rightBarButtonItem = filterButton;
-//    [filterButton release];
-    
     
     // Check if its the root element. Otherwise don't display the INFO Page
     // Because we need the back button to get back to the overview page
@@ -100,18 +84,6 @@
 
 }
 
-- (void) changeToFilterView 
-{
-    // Create the ObservationsOrganismViewController
-    ObservationsOrganismFilterViewController *organismFilterController = [[ObservationsOrganismFilterViewController alloc] 
-                                                                    initWithNibName:@"ObservationsOrganismFilterViewController" 
-                                                                    bundle:[NSBundle mainBundle]];
-        
-    // Switch the View & Controller
-    [self.navigationController pushViewController:organismFilterController animated:TRUE];
-    
-}
-
 -(void) viewDidAppear:(BOOL)animated {
     
     [table reloadData];
@@ -122,12 +94,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    /*
-    self.listData = nil;
-    self.spinner = nil;
-    self.table = nil;
-    */
 }
 
 
@@ -139,30 +105,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *simpleTableIdentifier = @"SimpleTableIdentifier";
-    static NSString *cautionIconIdentifier = @"CautionIconIdentifier";
+    //static NSString *cautionIconIdentifier = @"CautionIconIdentifier";
     
     UITableViewCell *cell;
     
     NSInteger row = [indexPath row];
     OrganismGroup *organismGroup = [listData objectAtIndex:row];
     
-    //For cells with custom Objects(e.g. Icon) a separate Identifier must be set (sounds yodaish)
-    if(organismGroup.organismGroupId == 29){
-        cell = [tableView dequeueReusableCellWithIdentifier:cautionIconIdentifier];
+    cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
-        if(cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cautionIconIdentifier];
-        }
+    if(cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:simpleTableIdentifier];
     }
-    else {
-        
-        cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-        
-        if(cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:simpleTableIdentifier];
-        }
-    }
-    
     // display an image at every row
     UIImage *icon = [UIImage imageNamed:@"12-eye.png"];
     cell.imageView.image = icon;
@@ -179,12 +133,8 @@
         detailTextLabel = [NSString stringWithString:@"→"];
         cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:24.0];
     } else {
+        //changing icons for custom artgroups
         if (organismGroup.organismGroupId == 29) {
-            //detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
-            //UIImageView *cautionView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-            //UIImage *iconCaution = [UIImage imageNamed:@"15-warning.png"];
-            //[cautionView setImage:iconCaution];
-            //[cell setAccessoryView:cautionView];
             cell.imageView.image = [UIImage imageNamed:@"15-warning.png"];
         }
         detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
@@ -228,8 +178,8 @@
     
     if([persistenceManager organismGroupHasChild:currentSelectedOrganismGroup.organismGroupId] 
                 && currentSelectedOrganismGroup.organismGroupId != 1) {
-        // If the organismGroup has subgroups call again OverviewController
         
+        // If the organismGroup has subgroups call again OverviewController        
         overviewController.groupId = currentSelectedOrganismGroup.organismGroupId;
         overviewController.classlevel = classlevel + 1;
         
@@ -288,15 +238,6 @@
     
     // Get all Root elements (Root elements have the id 1)
     self.listData = [persistenceManager getAllOrganismGroups:groupId withClasslevel:classlevel];
-    
-    /*
-     NOCH NICHT IDENTIFIZIERTE ORGANISMEN not display atm..
-    OrganismGroup *notDefinedOrganismGroup = [[OrganismGroup alloc] init];
-    notDefinedOrganismGroup.organismGroupId = 1000;
-    notDefinedOrganismGroup.name = @"Nicht identifizert";
-    
-    [self.listData addObject:notDefinedOrganismGroup];
-     */
 }
 
 - (void) threadStartAnimating:(id)data {

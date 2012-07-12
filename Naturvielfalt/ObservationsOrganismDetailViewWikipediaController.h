@@ -13,12 +13,10 @@
     Organism *organism;
     UIWebView *webView;
     NSString *latName;
-    IBOutlet UIActivityIndicatorView *spinner;
 }
 
 @property (nonatomic) Organism *organism;
 @property (nonatomic, retain) UIWebView *webView;
 @property (nonatomic) NSString *latName;
-@property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @end

@@ -74,7 +74,7 @@
     sqlite3_close(dbStatic);
 }
 
-- (int *) saveObservation:(Observation *) observation
+- (long long int) saveObservation:(Observation *) observation
 {
     char *sql = "INSERT INTO observation (ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, IMAGE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt;
@@ -282,7 +282,7 @@
     return observations;
 }
 
-- (void) deleteObservation:(int)observationId
+- (void) deleteObservation:(long long int)observationId
 {
     sqlite3_stmt* statement;
 

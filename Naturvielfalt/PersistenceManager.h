@@ -32,9 +32,9 @@
 - (void) closeConnection;
 
 // Observations
-- (int *) saveObservation:(Observation *) observation;
+- (long long int) saveObservation:(Observation *) observation;
 - (void) updateObservation:(Observation *) observation;
-- (void) deleteObservation:(int)observationId;
+- (void) deleteObservation:(long long int)observationId;
 - (NSMutableArray *) getObservations;
 
 // Organismgroups;

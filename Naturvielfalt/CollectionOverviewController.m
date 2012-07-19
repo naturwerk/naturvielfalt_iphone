@@ -460,7 +460,7 @@
     NSNumber *number = [NSNumber numberWithInt:button.tag];
     
     for(Observation *ob in observations) {
-        if(ob.observationId == [number intValue]) {
+        if(ob.observationId == [number longLongValue]) {
             ob.submitToServer = !ob.submitToServer;
         }
     }

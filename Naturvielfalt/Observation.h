@@ -11,7 +11,7 @@
 #import "Organism.h"
 
 @interface Observation : NSObject {
-    NSInteger observationId;
+    long long int observationId;
     Organism *organism;
     NSString *author;
     NSDate *date;
@@ -24,7 +24,7 @@
     BOOL *locationLocked;
 }
 
-@property (nonatomic, assign) NSInteger observationId;
+@property (nonatomic, assign) long long int observationId;
 @property (nonatomic) Organism *organism;
 @property (nonatomic) NSString *author;
 @property (nonatomic) NSDate *date;

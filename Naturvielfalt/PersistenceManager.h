@@ -3,7 +3,7 @@
 //  Naturvielfalt
 //
 //  Created by Robin Oster on 27.10.11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Naturwerk. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -13,13 +13,19 @@
 #import <sqlite3.h>
 
 
-#define kFilename @"db.sqlite3"
+#define kFilenameUser @"user.sqlite3"
+#define kFilenameStatic @"db.sqlite3"
+
 
 @interface PersistenceManager : NSObject {
-    sqlite3 *database;
+    // the db connection for organism and organism groups (static data)
+    sqlite3 *dbStatic;
+    // the db connection for observations. (user data)
+    sqlite3 *dbUser;
 }
 
-@property (nonatomic, assign) sqlite3 *database;
+@property (nonatomic, assign) sqlite3 *dbStatic;
+@property (nonatomic, assign) sqlite3 *dbUser;
 
 // Connection
 - (void) establishConnection;

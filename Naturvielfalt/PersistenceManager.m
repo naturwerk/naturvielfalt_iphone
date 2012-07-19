@@ -10,41 +10,37 @@
 #import "OrganismGroup.h"
 #import "Organism.h"
 @implementation PersistenceManager
-@synthesize database;
+@synthesize dbStatic;
+@synthesize dbUser;
 
-
-- (NSString *)dataFilePath {
+- (NSString *)userDataFilePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0] ;
-    
-    return [documentsDirectory stringByAppendingPathComponent:kFilename];
+    return [documentsDirectory stringByAppendingPathComponent:kFilenameUser];
+}
+
+- (NSString *)staticDataFilePath {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:kFilenameStatic ofType:nil]; 
+    return filePath;
 }
 
 // CONNECTION
 - (void) establishConnection
 {
-    NSString *fileName = @"db.sqlite3";
-    NSString *dbFilePath = [NSString stringWithFormat:@"%@/Documents/%@", NSHomeDirectory(), fileName];
     
-    NSFileManager *fmngr = [[NSFileManager alloc] init];
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:nil];
-    NSError *error;
-    
-    if(![fmngr fileExistsAtPath:dbFilePath]) {
-        if(![fmngr copyItemAtPath:filePath toPath:dbFilePath error:&error]) {
-            // handle the error
-            NSLog(@"Error creating the database: %@", [error description]);
-        } else {
-            NSLog(@"DB file successfully copied");
-        }
+    // Create link to user database
+    if (sqlite3_open([[self userDataFilePath] UTF8String], &dbUser) != SQLITE_OK) {
+        sqlite3_close(dbUser);
+        NSAssert(0, @"Failed to open user database");
     }
     
-    
-    
-    // Create link to database
-    if (sqlite3_open([[self dataFilePath] UTF8String], &database) != SQLITE_OK) {
-        sqlite3_close(database);
-        NSAssert(0, @"Failed to open database");
+    // create link to static database
+    NSString *staticPath = [self staticDataFilePath];
+    NSLog(@"%s", [staticPath UTF8String]);
+    int state = sqlite3_open([staticPath UTF8String], &dbStatic);
+    if (state != SQLITE_OK) {
+        sqlite3_close(dbStatic);
+        NSAssert(0, @"Failed to open static database");
     }
 	
     // Create TABLE (At the moment IMAGE BLOB is missing..)
@@ -65,8 +61,8 @@
     
     char *errorMsg;
     
-    if (sqlite3_exec (database, [createSQL UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
-        sqlite3_close(database);
+    if (sqlite3_exec (dbUser, [createSQL UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
+        sqlite3_close(dbUser);
         NSAssert1(0, @"Error creating table: %s", errorMsg);
     }
 }
@@ -74,7 +70,8 @@
 - (void) closeConnection
 {
     // Disconnect link to database
-    sqlite3_close(database);
+    sqlite3_close(dbUser);
+    sqlite3_close(dbStatic);
 }
 
 - (int *) saveObservation:(Observation *) observation
@@ -89,7 +86,7 @@
     NSString *formattedDate = [dateFormatter stringFromDate:observation.date];
         
     // Put the data into the insert statement
-    if (sqlite3_prepare_v2(database, sql, -1, &stmt, nil) == SQLITE_OK) {
+    if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_int(stmt, 1, observation.organism.organismId);
         sqlite3_bind_int(stmt, 2, observation.organism.organismGroupId);
         sqlite3_bind_text(stmt, 3, [[observation.organism getNameDe] UTF8String], -1, NULL);
@@ -124,7 +121,7 @@
     
     sqlite3_finalize(stmt);
     
-    return sqlite3_last_insert_rowid(database);
+    return sqlite3_last_insert_rowid(dbUser);
 }
 
 
@@ -144,7 +141,7 @@
     NSString *formattedDate = [dateFormatter stringFromDate:observation.date];
  
     // Put the data into the insert statement
-    if (sqlite3_prepare_v2(database, sql, -1, &stmt, nil) == SQLITE_OK) {
+    if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_int(stmt, 1, observation.organism.organismId);
         sqlite3_bind_int(stmt, 2, observation.organism.organismGroupId);
         sqlite3_bind_text(stmt, 3, [[observation.organism getNameDe] UTF8String], -1, NULL);
@@ -188,7 +185,7 @@
     
     NSString *query = @"SELECT * FROM observation ORDER BY DATE DESC";
     sqlite3_stmt *statement;
-    if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
         
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			
@@ -292,14 +289,14 @@
     // Create Query String.
     NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM observation WHERE ID = '%d'", observationId];
     
-    if( sqlite3_prepare_v2(database, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
+    if( sqlite3_prepare_v2(dbUser, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
         if( sqlite3_step(statement) == SQLITE_DONE) {
             NSLog(@"Observation deleted!");
         } else {
-            NSLog(@"DeleteFromDataBase: Failed from sqlite3_step. Error is:  %s", sqlite3_errmsg(database) );
+            NSLog(@"DeleteFromDataBase: Failed from sqlite3_step. Error is:  %s", sqlite3_errmsg(dbUser) );
         }
     } else {
-        NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(database) );
+        NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
     }
     
     // Finalize and close database.
@@ -322,7 +319,7 @@
     
     sqlite3_stmt *statement;
     
-    if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+    if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
        
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			
@@ -341,7 +338,9 @@
 		}
            
         sqlite3_finalize(statement);
-    }
+    } else {
+        
+    }    
     
     NSDate *endtime = [NSDate date];
     NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
@@ -357,7 +356,7 @@
 
     int count = 0;
     
-    if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+    if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
 		sqlite3_step(statement);		
         count = sqlite3_column_int(statement, 0);
         sqlite3_finalize(statement);
@@ -399,7 +398,7 @@
     sqlite3_stmt *statement;
     NSInteger numbersOfOrgansim = 0;
     
-    if (sqlite3_prepare_v2(database, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {  
+    if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {  
 		while (sqlite3_step(statement) == SQLITE_ROW) {
             
             
@@ -449,7 +448,7 @@
 		}
         sqlite3_finalize(statement);
     } else {
-        NSLog( @"Get organisms: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(database));
+        NSLog( @"Get organisms: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbStatic));
     }
     NSDate *endtime = [NSDate date];
     NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];

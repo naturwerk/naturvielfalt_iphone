@@ -239,7 +239,7 @@
             organism.family = organismFamily;
 
             // Split the lat name into two pieces
-            NSMutableArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+            NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
             
             if([latNames count] == 2) {
                 organism.genus = [latNames objectAtIndex:0];

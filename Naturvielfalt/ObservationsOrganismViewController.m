@@ -142,7 +142,7 @@
     }
     
     // Sort array
-    NSMutableArray *sortedKeysDE = [tempDE sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSArray *sortedKeysDE = [tempDE sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     keysDE = [[NSMutableArray alloc] initWithArray:sortedKeysDE];;
     
     
@@ -155,7 +155,7 @@
     }
     
     // Sort array
-    NSMutableArray *sortedKeysLAT = [tempLat sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSArray *sortedKeysLAT = [tempLat sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
     keysLAT = [[NSMutableArray alloc] initWithArray:sortedKeysLAT];
     
     // copy all keys into other array

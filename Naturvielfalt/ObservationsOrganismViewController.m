@@ -518,7 +518,7 @@
         for (Organism *organism in array) {
             
             // IF the genus or the species is null jump to next organism
-            if(organism.genus != [NSNull null] && organism.species != [NSNull null]) {
+            if(organism.genus != nil && organism.species != nil) {
                 
                 // if only the german name is available
                 if([organism.genus length] == 0 && [organism.species length] == 0) {

@@ -3,7 +3,7 @@
 //  Naturvielfalt
 //
 //  Created by Robin Oster on 26.10.11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Naturwerk. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -11,8 +11,9 @@
 #import "ASIFormDataRequest.h"
 #import "ASINetworkQueue.h"
 #import "Reachability.h"
+#import "MBProgressHUD.h"
 
-@interface CollectionOverviewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface CollectionOverviewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate> {
     PersistenceManager *persistenceManager;
     NSMutableArray *observations;
     NSMutableArray *observationsToSubmit;
@@ -22,7 +23,7 @@
     IBOutlet UIProgressView *progressView;
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
-    BOOL *doSubmit;
+    BOOL doSubmit;
 }
 
 @property (nonatomic) PersistenceManager *persistenceManager;
@@ -34,7 +35,7 @@
 @property (nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic) NSOperationQueue *operationQueue;
 @property (nonatomic) NSIndexPath *curIndex;
-@property (nonatomic) BOOL *doSubmit;
+@property (nonatomic) BOOL doSubmit;
 
 
 - (void) sendObservations;

@@ -40,8 +40,8 @@
         urlSubmitScript = [NSString stringWithString:@"http://localhost/swissmon/webservice/submitData.php"];
     } else {
         NSLog(@"Couldn't initialize object");
-        return (self);
     }
+    return (self);
 }
 
 - (id)initWithServer {
@@ -53,8 +53,8 @@
         urlSubmitScript = [NSString stringWithString:@"http://naturvielfalt.ch/swissmon/webservice/submitData.php"];
     } else {
         NSLog(@"Couldn't initialize object");
-        return (self);
-    }    
+    }
+    return (self);
 }
 
 @end

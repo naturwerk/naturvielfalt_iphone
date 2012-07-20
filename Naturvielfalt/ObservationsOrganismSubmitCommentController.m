@@ -50,9 +50,6 @@
     
     self.navigationItem.leftBarButtonItem = backButton;
     
-    // Get Observation object
-    Observation *observation = [[Observation alloc] getObservation];
-    
     // Load the current observation comment into the textview
     textView.text = observation.comment;
 }

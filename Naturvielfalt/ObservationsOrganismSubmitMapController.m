@@ -14,7 +14,7 @@
 #import "SwissCoordinates.h"
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -114,7 +114,7 @@
     shouldAdjustZoom = YES;
     
     // Calculate swiss coordinates
-    annotation = [self adaptPinSubtitle:annotation withCoordinate:theCoordinate];
+    annotation = [self adaptPinSubtitle: theCoordinate];
     
     pinMoved = false;
     
@@ -122,7 +122,7 @@
 	[self.mapView addAnnotation:annotation];	
 }
 
-- (DDAnnotation *) adaptPinSubtitle:(DDAnnotation *)annotation withCoordinate:(CLLocationCoordinate2D)theCoordinate
+- (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate
 {
     // Calculate swiss coordinates
     SwissCoordinates *swissCoordinates = [[SwissCoordinates alloc] init];
@@ -295,10 +295,8 @@
 // NOTE: DDAnnotationCoordinateDidChangeNotification won't fire in iOS 4, use -mapView:annotationView:didChangeDragState:fromOldState: instead.
 - (void)coordinateChanged_:(NSNotification *)notification {
 	
-	DDAnnotation *annotation = notification.object;
-    
-    // Calculate swiss coordinates
-    annotation = [self adaptPinSubtitle:annotation withCoordinate:annotation.coordinate];
+	// Calculate swiss coordinates
+    annotation = [self adaptPinSubtitle:annotation.coordinate];
 }
 
 #pragma mark -
@@ -324,16 +322,16 @@
     
     
     if (oldState == MKAnnotationViewDragStateDragging) {
-		DDAnnotation *annotation = (DDAnnotation *)annotationView.annotation;
+		annotation = (DDAnnotation *)annotationView.annotation;
         
         // Calculate swiss coordinates
-        annotation = [self adaptPinSubtitle:annotation withCoordinate:annotation.coordinate];
+        annotation = [self adaptPinSubtitle:annotation.coordinate];
 	}
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annot {
 	
-    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+    if ([annot isKindOfClass:[MKUserLocation class]]) {
         return nil;		
 	}
 	
@@ -341,10 +339,10 @@
 	MKAnnotationView *draggablePinView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
 	
 	if (draggablePinView) {
-		draggablePinView.annotation = annotation;
+		draggablePinView.annotation = annot;
 	} else {
 		// Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
-		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mapView];
+		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier mapView:self.mapView];
 	}		
 	
 	return draggablePinView;

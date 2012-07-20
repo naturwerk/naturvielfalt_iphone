@@ -51,10 +51,10 @@
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     
-    NSString *password = @"";
-    
     if([appSettings objectForKey:@"password"] != nil) {
         password = [appSettings stringForKey:@"password"];
+    } else {
+        password = @"";
     }
     
     textView.text = password;

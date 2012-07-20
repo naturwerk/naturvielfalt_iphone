@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "PersistenceManager.h"
 
-@interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
+@interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>  {
     Organism *__weak organism;
     Observation *__weak observation;
     IBOutlet UILabel *nameDe;

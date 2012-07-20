@@ -52,11 +52,11 @@
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     
-    NSString *username = @"";
-    
     if([appSettings objectForKey:@"username"] != nil) {
         username = [appSettings stringForKey:@"username"];
-    }
+    } else {
+        username = @"";
+    }    
     
     textView.text = username;
 }

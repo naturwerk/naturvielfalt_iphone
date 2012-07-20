@@ -12,7 +12,7 @@
 #import "Observation.h"
 #import "DDAnnotation.h"
 
-@interface ObservationsOrganismSubmitMapController : UIViewController <CLLocationManagerDelegate> {    
+@interface ObservationsOrganismSubmitMapController : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate> {    
     IBOutlet MKMapView *mapView;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
@@ -34,7 +34,7 @@
 @property (nonatomic, assign) BOOL pinMoved;
 
 
-- (DDAnnotation *) adaptPinSubtitle:(DDAnnotation *)annotation withCoordinate:(CLLocationCoordinate2D)theCoordinate;
+- (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate;
 - (void) returnBack;
 - (void) relocate;
 

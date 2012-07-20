@@ -21,7 +21,7 @@
     NSMutableArray *pictures;
     NSString *comment;
     BOOL submitToServer;
-    BOOL *locationLocked;
+    BOOL locationLocked;
 }
 
 @property (nonatomic, assign) long long int observationId;
@@ -34,7 +34,7 @@
 @property (nonatomic) NSMutableArray *pictures;
 @property (nonatomic) NSString *comment;
 @property (nonatomic, assign) BOOL submitToServer;
-@property (nonatomic, assign) BOOL *locationLocked;
+@property (nonatomic, assign) BOOL locationLocked;
 
 - (Observation *) getObservation;
 - (void) setObservation:(Observation *)observation;

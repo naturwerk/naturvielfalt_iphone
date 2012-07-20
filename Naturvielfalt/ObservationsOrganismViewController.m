@@ -124,6 +124,7 @@
     NSMutableArray *organisms;
     
     organisms = [persistenceManager getAllOrganisms:organismGroupId];
+    [persistenceManager closeConnection];
     
     for(Organism *organism in organisms) {
         [self appendToDictionary:organism];

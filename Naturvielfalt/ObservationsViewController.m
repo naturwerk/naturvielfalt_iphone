@@ -172,17 +172,16 @@
     organismController.organismGroupId = currentSelectedOrganismGroup.organismGroupId;
     organismController.organismGroupName = currentSelectedOrganismGroup.name;
     
-    // Get all organismGroups
+    // Find out if this organism group has at least one child
     PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
     [persistenceManager establishConnection];
+    BOOL hasChild = [persistenceManager organismGroupHasChild:currentSelectedOrganismGroup.organismGroupId];
+    [persistenceManager closeConnection];
     
-    if([persistenceManager organismGroupHasChild:currentSelectedOrganismGroup.organismGroupId] 
-                && currentSelectedOrganismGroup.organismGroupId != 1) {
-        
-        // If the organismGroup has subgroups call again OverviewController        
+    // If the organismGroup has subgroups call again OverviewController
+    if( hasChild && currentSelectedOrganismGroup.organismGroupId != 1) {
         overviewController.groupId = currentSelectedOrganismGroup.organismGroupId;
         overviewController.classlevel = classlevel + 1;
-        
         [self.navigationController pushViewController:overviewController animated:TRUE];
         overviewController = nil;
         
@@ -238,6 +237,8 @@
     
     // Get all Root elements (Root elements have the id 1)
     self.listData = [persistenceManager getAllOrganismGroups:groupId withClasslevel:classlevel];
+    
+    [persistenceManager closeConnection];
 }
 
 - (void) threadStartAnimating:(id)data {

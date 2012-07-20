@@ -22,7 +22,7 @@
         // Custom initialization
         doSubmit = FALSE;
     }
-    
+    persistenceManager = [[PersistenceManager alloc] init];
     return self;
 }
 
@@ -279,14 +279,13 @@
 
 - (void)synchronousLoadObservations
 {
-    // PersistenceManager create
-    persistenceManager = [[PersistenceManager alloc] init];
-    
     // Establish a connection
     [persistenceManager establishConnection];
     
     // Get all observations
     NSMutableArray *arrNewObservations = [persistenceManager getObservations];
+    
+    [persistenceManager closeConnection];
     
     [self performSelectorOnMainThread:@selector(didFinishLoadingObservations:) withObject:arrNewObservations waitUntilDone:YES];
 }
@@ -303,9 +302,6 @@
     }
     
     countObservations = (int *)self.observations.count;
-    
-    // Close the connection
-    [persistenceManager closeConnection];
     
     if(table.editing)
        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.curIndex] withRowAnimation:YES];

@@ -43,7 +43,7 @@
 - (void) removeObservations;
 - (BOOL) connectedToWiFi;
 - (void) checkboxEvent:(UIButton *)sender;
-- (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request withPersistenceManager:(PersistenceManager *)persistenceManager;
+- (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request;
 
 
 @end

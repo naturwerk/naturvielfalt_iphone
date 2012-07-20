@@ -221,7 +221,7 @@
             [request setPostValue:latitude forKey:@"latitude"];
             [request setPostValue:comment forKey:@"comment"];
 
-            successfulTransmission = [self submitData:ob withRequest:request withPersistenceManager:persistenceManager];
+            successfulTransmission = [self submitData:ob withRequest:request];
             if(!successfulTransmission) transmission_problem = true;
         }
         
@@ -240,7 +240,7 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
-- (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request withPersistenceManager:(PersistenceManager *)persistenceManager {
+- (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request {
     
     [request startSynchronous];
     
@@ -253,15 +253,9 @@
         if([response isEqualToString:@"SUCCESS"]) {
         
             // And Delete the observation form the database
-            // PersistenceManager create
-            persistenceManager = [[PersistenceManager alloc] init];
-            
-            // Establish a connection
             [persistenceManager establishConnection];
-            
-            // Delete submitted observation
             [persistenceManager deleteObservation:ob.observationId];
-            
+            [persistenceManager closeConnection];
             // Reload observations
             [self reloadObservations];
             return true;

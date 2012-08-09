@@ -31,6 +31,9 @@
 - (void) establishConnection;
 - (void) closeConnection;
 
+// helper for the connection method
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL;
+
 // Observations
 - (long long int) saveObservation:(Observation *) observation;
 - (void) updateObservation:(Observation *) observation;

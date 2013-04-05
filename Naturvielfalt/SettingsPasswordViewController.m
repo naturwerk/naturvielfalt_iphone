@@ -36,7 +36,7 @@
     [super viewDidLoad];
 
     // Set navigation bar title    
-    NSString *title = [[NSString alloc] initWithString:@"Passwort"];
+    NSString *title = @"Passwort";
     self.navigationItem.title = title;
     
     // Make the textfield get focus

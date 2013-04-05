@@ -47,7 +47,7 @@
     [super viewDidLoad];
     
     // Set the title of the Navigationbar
-    NSString *title = [[NSString alloc] initWithString:@"Einstellungen"];
+    NSString *title = @"Einstellungen";
     self.navigationItem.title = title;
 }
 

@@ -320,7 +320,7 @@
     sqlite3_stmt* statement;
 
     // Create Query String.
-    NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM observation WHERE ID = '%d'", observationId];
+    NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM observation WHERE ID = '%lld'", observationId];
     
     if( sqlite3_prepare_v2(dbUser, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
         if( sqlite3_step(statement) == SQLITE_DONE) {

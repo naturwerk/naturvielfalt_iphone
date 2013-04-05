@@ -37,7 +37,7 @@
     [super viewDidLoad];
     
     // Set navigation bar title    
-    NSString *title = [[NSString alloc] initWithString:@"Naturvielfalt"];
+    NSString *title = @"Naturvielfalt";
     self.navigationItem.title = title;
     
     infoText.text = @"Naturvielfalt (www.naturvielfalt.ch) bietet ein vielseitiges Informations- und Erfassungsportal für Flora und Fauna in der Schweiz und Umgebung.\nErstellen Sie ein Konto um Beobachtungen zu erfassen und verwalten.\n\nDieses App wurde vom Verein Naturwerk (www.naturwerk.info) aus Brugg entwickelt.\nDer Verein für Mensch, Natur und Arbeit übernimmt gemeinnützige Aufgaben im Bereich Umwelt-, Natur- und Artenschutz, die von öffentlichem Interesse sind.\n\nDurch die Unterstützung dieser App fördern Sie praktische Artenschutzprojekte sowie die Weiterentwicklung der Applikation.\n\nBei Feedback oder für technischen Support wenden Sie sich bitte an info@naturvielfalt.ch.\n\n© 2012 Naturwerk";

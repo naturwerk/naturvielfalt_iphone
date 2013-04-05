@@ -18,8 +18,8 @@ static Observation *observation;
 {
     @synchronized(self)
     {
-        pictures = [[NSMutableArray alloc] init];
         if (!observation) {
+            pictures = [[NSMutableArray alloc] init];
             observation = [[Observation alloc] init];
             observation.locationLocked = false;
             observation.amount = @"1";

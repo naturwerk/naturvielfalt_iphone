@@ -100,7 +100,7 @@
     
     
     // Set navigation bar title    
-    NSString *title = [[NSString alloc] initWithString:@"Lokalisierung"];
+    NSString *title = @"Lokalisierung";
     self.navigationItem.title = title;
     
     CLLocationCoordinate2D theCoordinate;
@@ -122,8 +122,37 @@
 	[self.mapView addAnnotation:annotation];	
 }
 
+- (IBAction)setPin:(id)sender {
+    // Sets the pin in the middle of the hairline cross
+    NSLog(@"%@: Set pin in the middle of hairline cross", self.class);
+    MKCoordinateRegion mapRegion = mapView.region;
+    NSLog(@"New coordinates: longitude - %g latitude - %g", mapRegion.center.longitude, mapRegion.center.latitude);
+    
+    [annotation setCoordinate:mapRegion.center];
+    
+    // Get annotation and update the observation
+	DDAnnotation *anno = annotation;
+    CLLocation *newLocation = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(anno.coordinate.latitude, anno.coordinate.longitude)
+                                                            altitude:observation.location.altitude
+                                                  horizontalAccuracy:observation.location.horizontalAccuracy
+                                                    verticalAccuracy:observation.location.verticalAccuracy
+                                                           timestamp:[NSDate date]];
+    
+    observation.location = newLocation;
+    observation.locationLocked = YES;
+    
+    observation.accuracy = 0;
+    
+    NSLog( @"set new location from annotation; accuracy: %d", observation.accuracy);
+    pinMoved = true;
+    
+    // Calculate swiss coordinates
+    annotation = [self adaptPinSubtitle:annotation.coordinate];
+}
+
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate
 {
+    NSLog(@"adaptPinSubtitle");
     // Calculate swiss coordinates
     SwissCoordinates *swissCoordinates = [[SwissCoordinates alloc] init];
     NSMutableArray *arrayCoordinates = [swissCoordinates calculate:theCoordinate.longitude latitude:theCoordinate.latitude];
@@ -199,6 +228,7 @@
 // Listen to change in the userLocation
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context 
 {    
+    NSLog(@"observeValueForKeyPath");
     if(shouldAdjustZoom) {   
         MKCoordinateRegion region;
         region.center = self.mapView.userLocation.coordinate;  
@@ -241,6 +271,7 @@
 #pragma mark CLLocationManagerDelegate Methods
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    NSLog(@"locationManager didUpdateToLocation");
      if(!observation.locationLocked && !review) {
         // update observation value
         observation.location = newLocation;
@@ -294,7 +325,7 @@
 
 // NOTE: DDAnnotationCoordinateDidChangeNotification won't fire in iOS 4, use -mapView:annotationView:didChangeDragState:fromOldState: instead.
 - (void)coordinateChanged_:(NSNotification *)notification {
-	
+	NSLog(@"coordinateChanged");
 	// Calculate swiss coordinates
     annotation = [self adaptPinSubtitle:annotation.coordinate];
 }
@@ -303,7 +334,8 @@
 #pragma mark MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState {
-	
+	NSLog(@"didChangeDragState");
+    
     // Get annotation and update the observation
 	DDAnnotation *anno = (DDAnnotation *)annotationView.annotation;
     CLLocation *newLocation = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(anno.coordinate.latitude, anno.coordinate.longitude)
@@ -330,7 +362,8 @@
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annot {
-	
+	NSLog(@"viewForAnnotation");
+    
     if ([annot isKindOfClass:[MKUserLocation class]]) {
         return nil;		
 	}

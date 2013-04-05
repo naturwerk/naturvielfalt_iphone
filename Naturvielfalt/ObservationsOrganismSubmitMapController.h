@@ -33,6 +33,7 @@
 @property (nonatomic, assign) BOOL shouldAdjustZoom;
 @property (nonatomic, assign) BOOL pinMoved;
 
+- (IBAction)setPin:(id)sender;
 
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate;
 - (void) returnBack;

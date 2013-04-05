@@ -20,6 +20,13 @@
 		27B84516159B230C00818BCE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27B84515159B230C00818BCE /* Entitlements.plist */; };
 		27C5847C15AD7D770085F719 /* 15-warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C5847B15AD7D770085F719 /* 15-warning.png */; };
 		27D2B028170F0B5C00D6815B /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B027170F0B5C00D6815B /* Area.m */; };
+		27D2B033170F0CA200D6815B /* AreasRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B02B170F0CA200D6815B /* AreasRootController.m */; };
+		27D2B034170F0CA200D6815B /* AreasRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B02C170F0CA200D6815B /* AreasRootController.xib */; };
+		27D2B035170F0CA200D6815B /* AreasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B02E170F0CA200D6815B /* AreasViewController.m */; };
+		27D2B036170F0CA200D6815B /* AreasViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B02F170F0CA200D6815B /* AreasViewController.xib */; };
+		27D2B037170F0CA200D6815B /* AreasSubmitController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B031170F0CA200D6815B /* AreasSubmitController.m */; };
+		27D2B038170F0CA200D6815B /* AreasSubmitController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B032170F0CA200D6815B /* AreasSubmitController.xib */; };
+		27D2B03A170F0E5A00D6815B /* ObservationsOrganismSubmitMapController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B039170F0E5A00D6815B /* ObservationsOrganismSubmitMapController.xib */; };
 		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
 		27FC05F314A48D0300916B08 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05F114A48D0300916B08 /* MainWindow.xib */; };
 		CB08912B1430B67F00E846A1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891131430B67F00E846A1 /* NSObject+SBJson.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -74,7 +81,6 @@
 		CBD2C2EC146988B8003F1B90 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = CBD2C2EB146988B8003F1B90 /* 37x-Checkmark.png */; };
 		CBD9563B144807AB00890319 /* navigationbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CBD9563A144807AB00890319 /* navigationbar.png */; };
 		CBDDB521144C6F81007E48AB /* ObservationsOrganismSubmitMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDDB51F144C6F81007E48AB /* ObservationsOrganismSubmitMapController.m */; };
-		CBDDB522144C6F81007E48AB /* ObservationsOrganismSubmitMapController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBDDB520144C6F81007E48AB /* ObservationsOrganismSubmitMapController.xib */; };
 		CBDDB532144D66C8007E48AB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBDDB531144D66C8007E48AB /* MobileCoreServices.framework */; };
 		CBDDB534144D66F0007E48AB /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBDDB533144D66EF007E48AB /* MediaPlayer.framework */; };
 		CBDDB539144D76BB007E48AB /* ObservationsOrganismSubmitAmountController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDDB537144D76BB007E48AB /* ObservationsOrganismSubmitAmountController.m */; };
@@ -147,6 +153,16 @@
 		27C5847B15AD7D770085F719 /* 15-warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "15-warning.png"; sourceTree = "<group>"; };
 		27D2B026170F0B5C00D6815B /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Area.h; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/Area.h; sourceTree = "<group>"; };
 		27D2B027170F0B5C00D6815B /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Area.m; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/Area.m; sourceTree = "<group>"; };
+		27D2B02A170F0CA200D6815B /* AreasRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AreasRootController.h; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/AreasRootController.h; sourceTree = "<group>"; };
+		27D2B02B170F0CA200D6815B /* AreasRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AreasRootController.m; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/AreasRootController.m; sourceTree = "<group>"; };
+		27D2B02C170F0CA200D6815B /* AreasRootController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AreasRootController.xib; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/AreasRootController.xib; sourceTree = "<group>"; };
+		27D2B02D170F0CA200D6815B /* AreasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AreasViewController.h; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/AreasViewController.h; sourceTree = "<group>"; };
+		27D2B02E170F0CA200D6815B /* AreasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AreasViewController.m; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/AreasViewController.m; sourceTree = "<group>"; };
+		27D2B02F170F0CA200D6815B /* AreasViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AreasViewController.xib; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/AreasViewController.xib; sourceTree = "<group>"; };
+		27D2B030170F0CA200D6815B /* AreasSubmitController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AreasSubmitController.h; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/AreasSubmitController.h; sourceTree = "<group>"; };
+		27D2B031170F0CA200D6815B /* AreasSubmitController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AreasSubmitController.m; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/AreasSubmitController.m; sourceTree = "<group>"; };
+		27D2B032170F0CA200D6815B /* AreasSubmitController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AreasSubmitController.xib; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/AreasSubmitController.xib; sourceTree = "<group>"; };
+		27D2B039170F0E5A00D6815B /* ObservationsOrganismSubmitMapController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ObservationsOrganismSubmitMapController.xib; path = ../../../../Desktop/naturvielfalt_iphone_copy_marcoweber/Naturvielfalt/ObservationsOrganismSubmitMapController.xib; sourceTree = "<group>"; };
 		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
@@ -227,7 +243,6 @@
 		CBD9563A144807AB00890319 /* navigationbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar.png; sourceTree = "<group>"; };
 		CBDDB51E144C6F81007E48AB /* ObservationsOrganismSubmitMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationsOrganismSubmitMapController.h; sourceTree = "<group>"; };
 		CBDDB51F144C6F81007E48AB /* ObservationsOrganismSubmitMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationsOrganismSubmitMapController.m; sourceTree = "<group>"; };
-		CBDDB520144C6F81007E48AB /* ObservationsOrganismSubmitMapController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsOrganismSubmitMapController.xib; sourceTree = "<group>"; };
 		CBDDB531144D66C8007E48AB /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		CBDDB533144D66EF007E48AB /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		CBDDB536144D76BB007E48AB /* ObservationsOrganismSubmitAmountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationsOrganismSubmitAmountController.h; sourceTree = "<group>"; };
@@ -346,6 +361,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		27D2B029170F0C9000D6815B /* Areas */ = {
+			isa = PBXGroup;
+			children = (
+				27D2B02A170F0CA200D6815B /* AreasRootController.h */,
+				27D2B02B170F0CA200D6815B /* AreasRootController.m */,
+				27D2B02C170F0CA200D6815B /* AreasRootController.xib */,
+				27D2B02D170F0CA200D6815B /* AreasViewController.h */,
+				27D2B02E170F0CA200D6815B /* AreasViewController.m */,
+				27D2B02F170F0CA200D6815B /* AreasViewController.xib */,
+				27D2B030170F0CA200D6815B /* AreasSubmitController.h */,
+				27D2B031170F0CA200D6815B /* AreasSubmitController.m */,
+				27D2B032170F0CA200D6815B /* AreasSubmitController.xib */,
+			);
+			name = Areas;
+			sourceTree = "<group>";
+		};
 		CB08910F1430B66B00E846A1 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,6 +413,7 @@
 		CB08914D1431CD2800E846A1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				27D2B029170F0C9000D6815B /* Areas */,
 				CBEBA947147298E8009AC6C0 /* Info */,
 				CB7FA215143350A4006BD29D /* Observations */,
 				CBDDB56414582893007E48AB /* Collection */,
@@ -606,7 +638,7 @@
 			children = (
 				CBDDB51E144C6F81007E48AB /* ObservationsOrganismSubmitMapController.h */,
 				CBDDB51F144C6F81007E48AB /* ObservationsOrganismSubmitMapController.m */,
-				CBDDB520144C6F81007E48AB /* ObservationsOrganismSubmitMapController.xib */,
+				27D2B039170F0E5A00D6815B /* ObservationsOrganismSubmitMapController.xib */,
 				CBDDB536144D76BB007E48AB /* ObservationsOrganismSubmitAmountController.h */,
 				CBDDB537144D76BB007E48AB /* ObservationsOrganismSubmitAmountController.m */,
 				CBDDB538144D76BB007E48AB /* ObservationsOrganismSubmitAmountController.xib */,
@@ -765,7 +797,6 @@
 				CBF9A27E144578F000954A63 /* 12-eye-white.png in Resources */,
 				CBD9563B144807AB00890319 /* navigationbar.png in Resources */,
 				CBE89106144C488100E8B559 /* CustomCell.xib in Resources */,
-				CBDDB522144C6F81007E48AB /* ObservationsOrganismSubmitMapController.xib in Resources */,
 				CBDDB53A144D76BB007E48AB /* ObservationsOrganismSubmitAmountController.xib in Resources */,
 				CBDDB547144DA639007E48AB /* ObservationsOrganismSubmitCommentController.xib in Resources */,
 				CB14322A148616E700BBA78D /* CameraViewController.xib in Resources */,
@@ -802,6 +833,10 @@
 				27B84514159B223500818BCE /* Default@2x.png in Resources */,
 				27B84516159B230C00818BCE /* Entitlements.plist in Resources */,
 				27C5847C15AD7D770085F719 /* 15-warning.png in Resources */,
+				27D2B034170F0CA200D6815B /* AreasRootController.xib in Resources */,
+				27D2B036170F0CA200D6815B /* AreasViewController.xib in Resources */,
+				27D2B038170F0CA200D6815B /* AreasSubmitController.xib in Resources */,
+				27D2B03A170F0E5A00D6815B /* ObservationsOrganismSubmitMapController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,6 +902,9 @@
 				CB1EE5DA14893F3400FF286F /* Settings.m in Sources */,
 				F6640071157CAD770092A9D0 /* CustomOrganismCell.m in Sources */,
 				27D2B028170F0B5C00D6815B /* Area.m in Sources */,
+				27D2B033170F0CA200D6815B /* AreasRootController.m in Sources */,
+				27D2B035170F0CA200D6815B /* AreasViewController.m in Sources */,
+				27D2B037170F0CA200D6815B /* AreasSubmitController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

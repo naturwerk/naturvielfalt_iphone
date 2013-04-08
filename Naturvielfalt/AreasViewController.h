@@ -9,8 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+
+typedef enum DrawMode{
+    POINT = 0,
+    LINE = 1,
+    LINE_FH = 2,
+    POLYGON = 3,
+    POLYGON_FH = 4
+}DrawMode;
  
-@interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate> {
+@interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate> {
     IBOutlet MKMapView *mapView;
     MKOverlayView *overlayView;
     CLLocationManager *locationManager;
@@ -20,13 +28,21 @@
     MKPolygonView *polygonView;
     NSMutableArray *longitudeArray;
     NSMutableArray *latitudeArray;
+    DrawMode currentDrawMode;
+    UIActionSheet *modeOptions;
     
     BOOL review;
     BOOL shouldAdjustZoom;
 }
+@property (weak, nonatomic) IBOutlet UIButton *undoButton;
+@property (weak, nonatomic) IBOutlet UIButton *setButton;
+@property (weak, nonatomic) IBOutlet UIButton *modeButton;
+@property (weak, nonatomic) IBOutlet UIButton *gpsButton;
+@property (weak, nonatomic) IBOutlet UIImageView *hairlinecross;
 
 - (IBAction)setPoint:(id)sender;
-- (IBAction)redo:(id)sender;
+- (IBAction)undo:(id)sender;
+- (IBAction)showModeOptions:(id)sender;
 
 
 

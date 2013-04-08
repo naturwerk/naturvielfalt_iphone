@@ -97,6 +97,11 @@
 - (void)viewDidUnload
 {
     mapView = nil;
+    [self setUndoButton:nil];
+    [self setSetButton:nil];
+    [self setModeButton:nil];
+    [self setGpsButton:nil];
+    [self setHairlinecross:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -197,10 +202,20 @@
     NSLog(@"add Point: longitude - %g latitude - %g", mapRegion.center.longitude, mapRegion.center.latitude);
     NSLog(@"numOfPoints: %ld", (unsigned long)longitudeArray.count);
     
+    switch (currentDrawMode) {
+        case POINT: NSLog(@"draw a point");
+            break;
+            
+        case LINE: NSLog(@"draw a line");
+            break;
+            
+        case POLYGON: NSLog(@"draw a polygon");
+            break;
+    }
+    
     if (longitudeArray.count > 2) {
-        // draw a marker sign for the first point
-        [mapView removeOverlay:polygon];
         
+        [mapView removeOverlay:polygon];
         points = malloc(sizeof(CLLocationCoordinate2D) * longitudeArray.count);
         
         for (int index = 0; index < longitudeArray.count; index++) {
@@ -218,11 +233,72 @@
 
 }
 
-- (IBAction)redo:(id)sender {
+- (IBAction)undo:(id)sender {
+}
+
+- (IBAction)showModeOptions:(id)sender {
+    
+    if (!modeOptions) {
+        modeOptions = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Pin",@"Linie",@"Linie (free-hand)", @"Polygon", @"Polygon (free-hand)", nil];
+        modeOptions.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    }
+    [modeOptions showInView:self.view];
 }
 
 #pragma mark
-#pragma CLLocationManagerDelegate Methodes
+#pragma UIActionSheetDelegate Methods
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (buttonIndex) {
+        case 0:
+            currentDrawMode = POINT;
+            _hairlinecross.hidden = NO;
+            _undoButton.hidden = NO;
+            _setButton.hidden = NO;
+            _modeButton.hidden = YES;
+            NSLog(@"current draw mode: Point");
+            break;
+        case 1:
+            currentDrawMode = LINE;
+            _hairlinecross.hidden = NO;
+            _undoButton.hidden = NO;
+            _setButton.hidden = NO;
+            _modeButton.hidden = YES;
+            NSLog(@"current draw mode: Line");
+            break;
+        case 2:
+            currentDrawMode = LINE_FH;
+            _undoButton.hidden = NO;
+            _setButton.hidden = NO;
+            _modeButton.hidden = YES;
+            NSLog(@"current draw mode: Line fh");
+            break;
+        case 3:
+            currentDrawMode = POLYGON;
+            _hairlinecross.hidden = NO;
+            _undoButton.hidden = NO;
+            _setButton.hidden = NO;
+            _modeButton.hidden = YES;
+            NSLog(@"current draw mode: Polygon");
+            break;
+        case 4:
+            currentDrawMode = POLYGON_FH;
+            _undoButton.hidden = NO;
+            _setButton.hidden = NO;
+            _modeButton.hidden = YES;
+            NSLog(@"current draw mode: Polygon fh");
+            break;
+        case 5:
+            NSLog(@"cancel pressed");
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark
+#pragma CLLocationManagerDelegate Methods
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     
 }

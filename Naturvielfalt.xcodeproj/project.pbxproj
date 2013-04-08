@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2716C2451712979800175C61 /* location_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 2716C2441712979800175C61 /* location_pin.png */; };
 		2730A12715A31AF400F416D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12615A31AF300F416D9 /* Security.framework */; };
 		2730A12915A31AFC00F416D9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12815A31AFC00F416D9 /* CoreFoundation.framework */; };
 		27746D07159B103900672970 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D02159B103900672970 /* Icon-72.png */; };
@@ -141,6 +142,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2716C2441712979800175C61 /* location_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_pin.png; sourceTree = "<group>"; };
 		2730A12615A31AF300F416D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2730A12815A31AFC00F416D9 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		27746D02159B103900672970 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = SOURCE_ROOT; };
@@ -539,6 +541,7 @@
 				27C5847B15AD7D770085F719 /* 15-warning.png */,
 				CB143230148639EC00BBA78D /* bildvorschaudeaktiviert.png */,
 				CBD2C2EB146988B8003F1B90 /* 37x-Checkmark.png */,
+				2716C2441712979800175C61 /* location_pin.png */,
 				CBEBAA2E147E44AC009AC6C0 /* keinbildvorhanden.png */,
 				CBEBAA24147BF503009AC6C0 /* wikipedia.png */,
 				CBD9563A144807AB00890319 /* navigationbar.png */,
@@ -845,6 +848,7 @@
 				27D2B062170F162F00D6815B /* AreasViewController.xib in Resources */,
 				27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */,
 				27D2B06D170F1B4400D6815B /* hairelinecross.png in Resources */,
+				2716C2451712979800175C61 /* location_pin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

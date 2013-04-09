@@ -12,6 +12,7 @@
 #import "Observation.h"
 #import "DDAnnotation.h"
 
+
 @interface ObservationsOrganismSubmitMapController : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate> {    
     IBOutlet MKMapView *mapView;
     CLLocationManager *locationManager;

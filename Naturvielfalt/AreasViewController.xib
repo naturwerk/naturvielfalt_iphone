@@ -153,7 +153,7 @@
 					<object class="IBUIButton" id="303888767">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{2, 311}, {73, 37}}</string>
+						<string key="NSFrame">{{20, 311}, {37, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="127696005"/>
@@ -170,6 +170,10 @@
 							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="324640241"/>
+						<object class="NSCustomResource" key="IBUINormalImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">84-lightbulb.png</string>
+						</object>
 						<reference key="IBUIFontDescription" ref="276366524"/>
 						<reference key="IBUIFont" ref="558530309"/>
 					</object>
@@ -278,6 +282,15 @@
 					</object>
 					<int key="connectionID">23</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">relocate:</string>
+						<reference key="source" ref="303888767"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">24</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -295,8 +308,8 @@
 							<reference ref="378821354"/>
 							<reference ref="801899079"/>
 							<reference ref="127696005"/>
-							<reference ref="303888767"/>
 							<reference ref="219105673"/>
+							<reference ref="303888767"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -335,6 +348,7 @@
 						<int key="objectID">14</int>
 						<reference key="object" ref="219105673"/>
 						<reference key="parent" ref="191373211"/>
+						<string key="objectName">Button - mode options</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">19</int>
@@ -360,7 +374,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">23</int>
+			<int key="maxID">24</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -368,11 +382,16 @@
 					<string key="className">AreasViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="relocate:">id</string>
 						<string key="setPoint:">id</string>
 						<string key="showModeOptions:">id</string>
 						<string key="undo:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="relocate:">
+							<string key="name">relocate:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="setPoint:">
 							<string key="name">setPoint:</string>
 							<string key="candidateClassName">id</string>
@@ -432,6 +451,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="84-lightbulb.png">{14, 21}</string>
 			<string key="hairelinecross.png">{60, 60}</string>
 			<string key="location_pin.png">{16, 16}</string>
 		</dictionary>

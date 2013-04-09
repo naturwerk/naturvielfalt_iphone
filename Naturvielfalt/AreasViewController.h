@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "DDAnnotation.h"
 
 typedef enum DrawMode{
     POINT = 0,
@@ -24,7 +25,12 @@ typedef enum DrawMode{
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     MKMapPoint *points;
+    MKCircle *circle;
     MKPolygon *polygon;
+    MKPolyline *line;
+    DDAnnotation *annotation;
+    MKCircleView *circleView;
+    MKPolylineView *lineView;
     MKPolygonView *polygonView;
     NSMutableArray *longitudeArray;
     NSMutableArray *latitudeArray;
@@ -32,6 +38,7 @@ typedef enum DrawMode{
     UIActionSheet *modeOptions;
     
     BOOL review;
+    BOOL undo;
     BOOL shouldAdjustZoom;
 }
 @property (weak, nonatomic) IBOutlet UIButton *undoButton;
@@ -43,6 +50,7 @@ typedef enum DrawMode{
 - (IBAction)setPoint:(id)sender;
 - (IBAction)undo:(id)sender;
 - (IBAction)showModeOptions:(id)sender;
+- (IBAction)relocate:(id)sender;
 
 
 

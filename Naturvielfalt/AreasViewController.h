@@ -28,6 +28,7 @@ typedef enum DrawMode{
     MKCircle *circle;
     MKPolygon *polygon;
     MKPolyline *line;
+    UIBezierPath *currentPath;
     DDAnnotation *annotation;
     MKCircleView *circleView;
     MKPolylineView *lineView;

@@ -7,10 +7,33 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Area.h"
+#import "PersistenceManager.h"
 
-@interface AreasSubmitController : UIViewController <UITableViewDelegate> {
+@interface AreasSubmitController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+    
+    Area *area;
+    PersistenceManager *persistenceManager;
+    NSArray *arrayKeys;
+    NSArray *arrayValues;
+    
     BOOL review;
     IBOutlet UITableView *tableView;
 }
+
+@property (nonatomic, assign) BOOL areaChanged;
+@property (nonatomic) Area *area;
+@property (nonatomic) IBOutlet UITableView *tableView;
+
+@property (nonatomic) NSArray *arrayKeys;
+@property (nonatomic) NSArray *arrayValues;
+
+@property (nonatomic) PersistenceManager *persistenceManager;
+@property (nonatomic, assign) BOOL review;
+
+
+- (void) prepareData;
+- (void) rowClicked:(NSIndexPath *)indexPath;
+- (void) saveArea;
 
 @end

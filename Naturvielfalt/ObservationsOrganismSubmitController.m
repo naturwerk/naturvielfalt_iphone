@@ -58,7 +58,7 @@
             
             //if(!review)
                 [locationManager startUpdatingLocation];
-    }
+        }
     }
     
     if(!comeFromOrganism) comeFromOrganism = false;
@@ -104,13 +104,11 @@
         observation.comment = @"";
         observation.pictures = pictures;
         observation.locationLocked = false;
-    }else {
+    } else {
         [self updateAccuracyIcon: (int)observation.accuracy];
         [tableView reloadData];
     }
     //observationChanged = true;
-
-    
 }
 
 - (void) prepareData 

@@ -337,6 +337,28 @@
 }    
 
 
+// AREAS
+- (long long int) saveArea:(Area *) area {
+    return 1;
+}
+
+- (void) updateArea:(Area *) area {
+    
+}
+
+- (void) deleteArea:(long long int) areaId {
+    
+}
+
+- (NSMutableArray *) getAreas {
+    return nil;
+}
+
+- (NSMutableArray *) getObservationsFromArea:(long long)areaId {
+    return nil;
+}
+
+
 // ORGANISMGROUPS
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel
 {

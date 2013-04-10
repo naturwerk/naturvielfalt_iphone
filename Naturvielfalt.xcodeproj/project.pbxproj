@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		2716C2451712979800175C61 /* location_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 2716C2441712979800175C61 /* location_pin.png */; };
+		272D3A671714172300588328 /* AreasSubmitNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A651714172300588328 /* AreasSubmitNameController.m */; };
+		272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A661714172300588328 /* AreasSubmitNameController.xib */; };
+		272D3A6C1714176D00588328 /* AreasSubmitDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */; };
+		272D3A6D1714176D00588328 /* AreasSubmitDescriptionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A6B1714176D00588328 /* AreasSubmitDescriptionController.xib */; };
+		272D3A71171417B500588328 /* AreasSubmitInventoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6F171417B500588328 /* AreasSubmitInventoryController.m */; };
+		272D3A72171417B500588328 /* AreasSubmitInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A70171417B500588328 /* AreasSubmitInventoryController.xib */; };
+		272D3A781714542400588328 /* AreasSubmitInventoryNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A761714542400588328 /* AreasSubmitInventoryNameController.m */; };
+		272D3A791714542400588328 /* AreasSubmitInventoryNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A771714542400588328 /* AreasSubmitInventoryNameController.xib */; };
+		272D3A7D1714543E00588328 /* AreasSubmitInventoryDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A7B1714543E00588328 /* AreasSubmitInventoryDescriptionController.m */; };
+		272D3A7E1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A7C1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib */; };
 		2730A12715A31AF400F416D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12615A31AF300F416D9 /* Security.framework */; };
 		2730A12915A31AFC00F416D9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12815A31AFC00F416D9 /* CoreFoundation.framework */; };
 		27746D07159B103900672970 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D02159B103900672970 /* Icon-72.png */; };
@@ -143,6 +153,21 @@
 
 /* Begin PBXFileReference section */
 		2716C2441712979800175C61 /* location_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_pin.png; sourceTree = "<group>"; };
+		272D3A641714172300588328 /* AreasSubmitNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNameController.h; sourceTree = "<group>"; };
+		272D3A651714172300588328 /* AreasSubmitNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNameController.m; sourceTree = "<group>"; };
+		272D3A661714172300588328 /* AreasSubmitNameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNameController.xib; sourceTree = "<group>"; };
+		272D3A691714176D00588328 /* AreasSubmitDescriptionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitDescriptionController.h; sourceTree = "<group>"; };
+		272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitDescriptionController.m; sourceTree = "<group>"; };
+		272D3A6B1714176D00588328 /* AreasSubmitDescriptionController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitDescriptionController.xib; sourceTree = "<group>"; };
+		272D3A6E171417B500588328 /* AreasSubmitInventoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitInventoryController.h; sourceTree = "<group>"; };
+		272D3A6F171417B500588328 /* AreasSubmitInventoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitInventoryController.m; sourceTree = "<group>"; };
+		272D3A70171417B500588328 /* AreasSubmitInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryController.xib; sourceTree = "<group>"; };
+		272D3A751714542400588328 /* AreasSubmitInventoryNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitInventoryNameController.h; sourceTree = "<group>"; };
+		272D3A761714542400588328 /* AreasSubmitInventoryNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitInventoryNameController.m; sourceTree = "<group>"; };
+		272D3A771714542400588328 /* AreasSubmitInventoryNameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryNameController.xib; sourceTree = "<group>"; };
+		272D3A7A1714543E00588328 /* AreasSubmitInventoryDescriptionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitInventoryDescriptionController.h; sourceTree = "<group>"; };
+		272D3A7B1714543E00588328 /* AreasSubmitInventoryDescriptionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitInventoryDescriptionController.m; sourceTree = "<group>"; };
+		272D3A7C1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryDescriptionController.xib; sourceTree = "<group>"; };
 		2730A12615A31AF300F416D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2730A12815A31AFC00F416D9 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		27746D02159B103900672970 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = SOURCE_ROOT; };
@@ -367,18 +392,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		272D3A631714168500588328 /* SubmitHelper */ = {
+			isa = PBXGroup;
+			children = (
+				272D3A641714172300588328 /* AreasSubmitNameController.h */,
+				272D3A651714172300588328 /* AreasSubmitNameController.m */,
+				272D3A661714172300588328 /* AreasSubmitNameController.xib */,
+				272D3A691714176D00588328 /* AreasSubmitDescriptionController.h */,
+				272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */,
+				272D3A6B1714176D00588328 /* AreasSubmitDescriptionController.xib */,
+				272D3A6E171417B500588328 /* AreasSubmitInventoryController.h */,
+				272D3A6F171417B500588328 /* AreasSubmitInventoryController.m */,
+				272D3A70171417B500588328 /* AreasSubmitInventoryController.xib */,
+				272D3A74171453FA00588328 /* inventoryHelper */,
+			);
+			name = SubmitHelper;
+			sourceTree = "<group>";
+		};
+		272D3A74171453FA00588328 /* inventoryHelper */ = {
+			isa = PBXGroup;
+			children = (
+				272D3A751714542400588328 /* AreasSubmitInventoryNameController.h */,
+				272D3A761714542400588328 /* AreasSubmitInventoryNameController.m */,
+				272D3A771714542400588328 /* AreasSubmitInventoryNameController.xib */,
+				272D3A7A1714543E00588328 /* AreasSubmitInventoryDescriptionController.h */,
+				272D3A7B1714543E00588328 /* AreasSubmitInventoryDescriptionController.m */,
+				272D3A7C1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib */,
+			);
+			name = inventoryHelper;
+			sourceTree = "<group>";
+		};
 		27D2B029170F0C9000D6815B /* Areas */ = {
 			isa = PBXGroup;
 			children = (
 				27D2B054170F162F00D6815B /* AreasRootController.h */,
 				27D2B055170F162F00D6815B /* AreasRootController.m */,
 				27D2B056170F162F00D6815B /* AreasRootController.xib */,
-				27D2B057170F162F00D6815B /* AreasSubmitController.h */,
-				27D2B058170F162F00D6815B /* AreasSubmitController.m */,
-				27D2B059170F162F00D6815B /* AreasSubmitController.xib */,
 				27D2B05A170F162F00D6815B /* AreasViewController.h */,
 				27D2B05B170F162F00D6815B /* AreasViewController.m */,
 				27D2B05C170F162F00D6815B /* AreasViewController.xib */,
+				27D2B057170F162F00D6815B /* AreasSubmitController.h */,
+				27D2B058170F162F00D6815B /* AreasSubmitController.m */,
+				27D2B059170F162F00D6815B /* AreasSubmitController.xib */,
+				272D3A631714168500588328 /* SubmitHelper */,
 			);
 			name = Areas;
 			sourceTree = "<group>";
@@ -849,6 +905,11 @@
 				27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */,
 				27D2B06D170F1B4400D6815B /* hairelinecross.png in Resources */,
 				2716C2451712979800175C61 /* location_pin.png in Resources */,
+				272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */,
+				272D3A6D1714176D00588328 /* AreasSubmitDescriptionController.xib in Resources */,
+				272D3A72171417B500588328 /* AreasSubmitInventoryController.xib in Resources */,
+				272D3A791714542400588328 /* AreasSubmitInventoryNameController.xib in Resources */,
+				272D3A7E1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -917,6 +978,11 @@
 				27D2B061170F162F00D6815B /* AreasViewController.m in Sources */,
 				27D2B065170F165D00D6815B /* Area.m in Sources */,
 				27D2B068170F17C500D6815B /* CameraViewController.m in Sources */,
+				272D3A671714172300588328 /* AreasSubmitNameController.m in Sources */,
+				272D3A6C1714176D00588328 /* AreasSubmitDescriptionController.m in Sources */,
+				272D3A71171417B500588328 /* AreasSubmitInventoryController.m in Sources */,
+				272D3A781714542400588328 /* AreasSubmitInventoryNameController.m in Sources */,
+				272D3A7D1714543E00588328 /* AreasSubmitInventoryDescriptionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

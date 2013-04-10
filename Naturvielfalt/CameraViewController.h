@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "Observation.h"
+#import "Area.h"
 
 @interface CameraViewController : UIViewController
 <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
@@ -30,7 +31,7 @@
 @property (nonatomic) NSURL *movieURL;
 @property (nonatomic, copy) NSString *lastChosenMediaType;
 @property (nonatomic) Observation *observation;
-
+@property (nonatomic) Area *area;
 - (IBAction)shootPictureOrVideo:(id)sender;
 - (IBAction)selectExistingPictureOrVideo:(id)sender;
 @end

@@ -110,11 +110,13 @@
 }
 
 - (void) cancelPressed {
+    NSLog(@"cancel current drawing!");
     currentDrawMode = nil;
     [mapView removeAnnotations:mapView.annotations];
-    [mapView removeOverlay:overlayView.overlay];
+    [mapView removeOverlays:mapView.overlays];
     longitudeArray = nil;
     latitudeArray = nil;
+    [mapView setScrollEnabled:YES];
     [self showStartModeAppearance];
 }
 
@@ -138,7 +140,7 @@
 - (IBAction)setPoint:(id)sender {
     NSLog(@"setPoint");
     
-    [mapView removeOverlay:overlayView.overlay];
+    [mapView removeOverlays:mapView.overlays];
     _undoButton.enabled = YES;
     
     switch (currentDrawMode) {
@@ -210,7 +212,6 @@
     line = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
     [mapView addOverlay:line];
     
-
     [self drawStartPoint];
     
     undo = NO;
@@ -248,7 +249,8 @@
         polygon = [MKPolygon polygonWithPoints:points count:longitudeArray.count];
         [mapView addOverlay:polygon];
     }
-        
+    
+    [self drawStartPoint];
     undo = NO;
 }
 
@@ -273,8 +275,7 @@
             break;
             
         case LINE:
-
-            [mapView removeOverlay:overlayView.overlay];
+            [mapView removeOverlay:line];
             [longitudeArray removeLastObject];
             [latitudeArray removeLastObject];
             // set hairline cross to the last location
@@ -291,8 +292,9 @@
             
         case LINE_FH:
             break;
+            
         case POLYGON:
-            [mapView removeOverlay:overlayView.overlay];
+            [mapView removeOverlay:polygon];
             [longitudeArray removeLastObject];
             [latitudeArray removeLastObject];
             // set hairline cross to the last location
@@ -306,6 +308,7 @@
             undo = YES;
             [self drawPolygon];
             break;
+            
         case POLYGON_FH:
             break;
     }
@@ -335,7 +338,7 @@
 - (IBAction)showModeOptions:(id)sender {
     
     if (!modeOptions) {
-        modeOptions = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Pin",@"Linie",@"Linie (free-hand)", @"Polygon", @"Polygon (free-hand)", nil];
+        modeOptions = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Pin",@"Linie",/*@"Linie (free-hand)",*/ @"Polygon", /*@"Polygon (free-hand)",*/ nil];
         modeOptions.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     }
     [modeOptions showFromTabBar:self.tabBarController.tabBar];
@@ -375,6 +378,36 @@
 }
 
 #pragma mark
+#pragma Event handling for free-hand mode
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    NSLog(@"touch began");
+    NSSet *allTouches = [event allTouches];
+    
+    for (UITouch *touch in allTouches) {
+        CGPoint location = [touch locationInView:touch.view];
+            NSLog(@"touch point: longi - %f lati - %f", location.x, location.y);
+    }
+
+
+
+    currentPath = [UIBezierPath bezierPath];
+    currentPath.lineWidth = 3;
+
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"touch moved");
+    UITouch *touch = [touches anyObject];
+    [currentPath addLineToPoint:[touch locationInView:mapView]];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"touch ended");
+}
+
+#pragma mark
 #pragma UIActionSheetDelegate Methods
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
@@ -389,22 +422,23 @@
             [self showEditModeAppearance];
             NSLog(@"current draw mode: Line");
             break;
-        case 2:
+        /*case 2:
             currentDrawMode = LINE_FH;
+            [mapView setScrollEnabled:NO];
             [self showFreeHandModeAppearance];
             NSLog(@"current draw mode: Line fh");
-            break;
-        case 3:
+            break;*/
+        case 2:
             currentDrawMode = POLYGON;
             [self showEditModeAppearance];
             NSLog(@"current draw mode: Polygon");
             break;
-        case 4:
+        /*case 4:
             currentDrawMode = POLYGON_FH;
             [self showFreeHandModeAppearance];
             NSLog(@"current draw mode: Polygon fh");
-            break;
-        case 5:
+            break;*/
+        case 3:
             NSLog(@"cancel pressed");
             break;
             
@@ -422,13 +456,14 @@
 #pragma mark
 #pragma mark MKMapViewDelegate
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
-    NSLog(@"mapView viewForOverlay");
+
 
     if(!overlayView) {
         overlayView = nil;
     }
     
     if(overlay == polygon) {
+        NSLog(@"mapView viewForOverlay - Polygon");
         polygonView = [[MKPolygonView alloc] initWithPolygon:polygon];
         polygonView.fillColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1f];
         polygonView.strokeColor = [UIColor blueColor];
@@ -437,29 +472,24 @@
         overlayView = polygonView;
         
     } else if (overlay == line) {
+        NSLog(@"mapView viewForOverlay - Line");
         lineView = [[MKPolylineView alloc] initWithPolyline:line];
         lineView.strokeColor = [UIColor blueColor];
         lineView.lineWidth = 3;
         lineView.lineDashPattern = [NSArray arrayWithObjects:[NSNumber numberWithFloat:12], [NSNumber numberWithFloat:8], nil];
         overlayView = lineView;
+        
     } else if (overlay == circle) {
+        NSLog(@"mapView viewForOverlay - Circle (Start-Point)");
         circleView = [[MKCircleView alloc] initWithCircle:circle];
         circleView.fillColor = [UIColor whiteColor];
-        circleView.strokeColor = [UIColor blackColor];
+        circleView.strokeColor = [UIColor blueColor];
         circleView.lineWidth = 3;
         overlayView = circleView;
     }
     return overlayView;
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-    
-    /*MKPinAnnotationView *pav = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
-    
-    pav.pinColor = MKPinAnnotationColorGreen;
-    return pav;*/
-    return nil;
-}
 
 
 @end

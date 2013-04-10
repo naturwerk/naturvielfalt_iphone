@@ -44,6 +44,11 @@
 		27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB14322C148616E700BBA78D /* CameraViewController.xib */; };
 		27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06A170F18D000D6815B /* Default-568h@2x.png */; };
 		27D2B06D170F1B4400D6815B /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06C170F1B4400D6815B /* hairelinecross.png */; };
+		27F7842B1715472D00081A1F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784261715472D00081A1F /* 19-gear.png */; };
+		27F7842C1715472D00081A1F /* 12-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784271715472D00081A1F /* 12-eye.png */; };
+		27F7842D1715472D00081A1F /* 151-telescope.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784281715472D00081A1F /* 151-telescope.png */; };
+		27F7842E1715472D00081A1F /* 103-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784291715472D00081A1F /* 103-map.png */; };
+		27F7842F1715472D00081A1F /* 33-cabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7842A1715472D00081A1F /* 33-cabinet.png */; };
 		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
 		CB08912B1430B67F00E846A1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891131430B67F00E846A1 /* NSObject+SBJson.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB08912C1430B67F00E846A1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891161430B67F00E846A1 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -81,8 +86,6 @@
 		CB8095B61435A1DC003D3764 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8095B51435A1DC003D3764 /* MapKit.framework */; };
 		CB8095B91435A1F0003D3764 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8095B81435A1F0003D3764 /* CoreLocation.framework */; };
 		CB8095C814431B3B003D3764 /* LocationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8095C714431B3B003D3764 /* LocationHelper.m */; };
-		CBB070C5143053E800D3D0B5 /* 12-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB070C4143053E800D3D0B5 /* 12-eye.png */; };
-		CBB070C71430542000D3D0B5 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB070C61430542000D3D0B5 /* 19-gear.png */; };
 		CBB070C91430542F00D3D0B5 /* 06-magnify.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB070C81430542F00D3D0B5 /* 06-magnify.png */; };
 		CBB070CB1430544600D3D0B5 /* 84-lightbulb.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB070CA1430544600D3D0B5 /* 84-lightbulb.png */; };
 		CBB7F628142B0409000150AF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB7F627142B0409000150AF /* UIKit.framework */; };
@@ -104,7 +107,6 @@
 		CBDDB558145533BB007E48AB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBDDB557145533B7007E48AB /* QuartzCore.framework */; };
 		CBDDB55F14555883007E48AB /* NSDictionary-MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDDB55E14555882007E48AB /* NSDictionary-MutableDeepCopy.m */; };
 		CBDDB561145827C3007E48AB /* 40-inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = CBDDB560145827C2007E48AB /* 40-inbox.png */; };
-		CBDDB56314582879007E48AB /* 33-cabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = CBDDB56214582879007E48AB /* 33-cabinet.png */; };
 		CBDDB568145829EB007E48AB /* CollectionRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDDB566145829EB007E48AB /* CollectionRootController.m */; };
 		CBDDB569145829EB007E48AB /* CollectionRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBDDB567145829EB007E48AB /* CollectionRootController.xib */; };
 		CBDDB56D14582A53007E48AB /* CollectionOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDDB56B14582A53007E48AB /* CollectionOverviewController.m */; };
@@ -198,6 +200,11 @@
 		27D2B067170F17C500D6815B /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		27D2B06A170F18D000D6815B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		27D2B06C170F1B4400D6815B /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
+		27F784261715472D00081A1F /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
+		27F784271715472D00081A1F /* 12-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12-eye.png"; sourceTree = "<group>"; };
+		27F784281715472D00081A1F /* 151-telescope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "151-telescope.png"; sourceTree = "<group>"; };
+		27F784291715472D00081A1F /* 103-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "103-map.png"; sourceTree = "<group>"; };
+		27F7842A1715472D00081A1F /* 33-cabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "33-cabinet.png"; sourceTree = "<group>"; };
 		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
@@ -259,8 +266,6 @@
 		CB8095B81435A1F0003D3764 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		CB8095C614431B3B003D3764 /* LocationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationHelper.h; sourceTree = "<group>"; };
 		CB8095C714431B3B003D3764 /* LocationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationHelper.m; sourceTree = "<group>"; };
-		CBB070C4143053E800D3D0B5 /* 12-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12-eye.png"; sourceTree = "<group>"; };
-		CBB070C61430542000D3D0B5 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		CBB070C81430542F00D3D0B5 /* 06-magnify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-magnify.png"; sourceTree = "<group>"; };
 		CBB070CA1430544600D3D0B5 /* 84-lightbulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "84-lightbulb.png"; sourceTree = "<group>"; };
 		CBB7F623142B0409000150AF /* NaturvielfaltLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NaturvielfaltLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -291,7 +296,6 @@
 		CBDDB55D14555882007E48AB /* NSDictionary-MutableDeepCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary-MutableDeepCopy.h"; sourceTree = "<group>"; };
 		CBDDB55E14555882007E48AB /* NSDictionary-MutableDeepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary-MutableDeepCopy.m"; sourceTree = "<group>"; };
 		CBDDB560145827C2007E48AB /* 40-inbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "40-inbox.png"; sourceTree = "<group>"; };
-		CBDDB56214582879007E48AB /* 33-cabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "33-cabinet.png"; sourceTree = "<group>"; };
 		CBDDB565145829EB007E48AB /* CollectionRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionRootController.h; sourceTree = "<group>"; };
 		CBDDB566145829EB007E48AB /* CollectionRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionRootController.m; sourceTree = "<group>"; };
 		CBDDB567145829EB007E48AB /* CollectionRootController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionRootController.xib; sourceTree = "<group>"; };
@@ -607,6 +611,11 @@
 				CB7FA21014335033006BD29D /* Default.png */,
 				F619A26115766BDE00F0C842 /* blank.png */,
 				27D2B06C170F1B4400D6815B /* hairelinecross.png */,
+				27F784261715472D00081A1F /* 19-gear.png */,
+				27F784271715472D00081A1F /* 12-eye.png */,
+				27F784281715472D00081A1F /* 151-telescope.png */,
+				27F784291715472D00081A1F /* 103-map.png */,
+				27F7842A1715472D00081A1F /* 33-cabinet.png */,
 				CB5D4BD6146D77B00003377A /* checkbox_checked.png */,
 				CB472C36145E7E35003B5676 /* checkbox.gif */,
 				CBE340F41462D09300985B12 /* checkmark.png */,
@@ -614,10 +623,7 @@
 				CBB070CA1430544600D3D0B5 /* 84-lightbulb.png */,
 				CB472C3B145E87A7003B5676 /* papierkorb.png */,
 				CBB070C81430542F00D3D0B5 /* 06-magnify.png */,
-				CBB070C61430542000D3D0B5 /* 19-gear.png */,
-				CBB070C4143053E800D3D0B5 /* 12-eye.png */,
 				CBF9A27D144578F000954A63 /* 12-eye-white.png */,
-				CBDDB56214582879007E48AB /* 33-cabinet.png */,
 				CBDDB560145827C2007E48AB /* 40-inbox.png */,
 			);
 			name = images;
@@ -847,8 +853,6 @@
 			files = (
 				27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */,
 				CBB7F632142B040A000150AF /* InfoPlist.strings in Resources */,
-				CBB070C5143053E800D3D0B5 /* 12-eye.png in Resources */,
-				CBB070C71430542000D3D0B5 /* 19-gear.png in Resources */,
 				CBB070C91430542F00D3D0B5 /* 06-magnify.png in Resources */,
 				CBB070CB1430544600D3D0B5 /* 84-lightbulb.png in Resources */,
 				CBDE3DEC1430625400BC1F46 /* ObservationsViewController.xib in Resources */,
@@ -866,7 +870,6 @@
 				CBDDB53A144D76BB007E48AB /* ObservationsOrganismSubmitAmountController.xib in Resources */,
 				CBDDB547144DA639007E48AB /* ObservationsOrganismSubmitCommentController.xib in Resources */,
 				CBDDB561145827C3007E48AB /* 40-inbox.png in Resources */,
-				CBDDB56314582879007E48AB /* 33-cabinet.png in Resources */,
 				CBDDB569145829EB007E48AB /* CollectionRootController.xib in Resources */,
 				CBDDB56E14582A53007E48AB /* CollectionOverviewController.xib in Resources */,
 				CB18F9E4145A966700772E9B /* CheckboxCell.xib in Resources */,
@@ -910,6 +913,11 @@
 				272D3A72171417B500588328 /* AreasSubmitInventoryController.xib in Resources */,
 				272D3A791714542400588328 /* AreasSubmitInventoryNameController.xib in Resources */,
 				272D3A7E1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib in Resources */,
+				27F7842B1715472D00081A1F /* 19-gear.png in Resources */,
+				27F7842C1715472D00081A1F /* 12-eye.png in Resources */,
+				27F7842D1715472D00081A1F /* 151-telescope.png in Resources */,
+				27F7842E1715472D00081A1F /* 103-map.png in Resources */,
+				27F7842F1715472D00081A1F /* 33-cabinet.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

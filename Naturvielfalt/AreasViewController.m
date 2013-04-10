@@ -41,12 +41,13 @@
     
     
     // Cancel button
-    UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:@"Abbrechen"
+    _cancel = [[UIBarButtonItem alloc] initWithTitle:@"Abbrechen"
                                                                  style:UIBarButtonItemStylePlain 
                                                                 target:self 
                                                                 action:@selector(cancelPressed)];
+    _cancel.enabled = NO;
     
-    self.navigationItem.leftBarButtonItem = cancel;
+    self.navigationItem.leftBarButtonItem = _cancel;
 
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager.delegate = self;
@@ -92,6 +93,10 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void) prepareData {
+    
+}
+
 - (void) saveArea {
     NSLog(@"saveArea");
     
@@ -111,12 +116,24 @@
 
 - (void) cancelPressed {
     NSLog(@"cancel current drawing!");
-    currentDrawMode = nil;
-    [mapView removeAnnotations:mapView.annotations];
-    [mapView removeOverlays:mapView.overlays];
-    longitudeArray = nil;
-    latitudeArray = nil;
-    [mapView setScrollEnabled:YES];
+    
+    if (longitudeArray.count > 0) {
+       // remove polygon or line
+        if (currentDrawMode != POINT) {
+            // Remove startPoint from map
+            [mapView removeAnnotation:annotationView.annotation];
+            [mapView removeOverlay:overlayView.overlay];
+        } else {
+            // Remove pin from map
+            [mapView removeAnnotation:pinAnnotationView.annotation];
+        }
+        
+        [longitudeArray removeAllObjects];
+        [latitudeArray removeAllObjects];
+    }
+    
+    //[mapView setScrollEnabled:YES];
+    _cancel.enabled = NO;
     [self showStartModeAppearance];
 }
 
@@ -137,11 +154,17 @@
     }
 }
 
+// Action Method, when the "setzen" button was pressed
 - (IBAction)setPoint:(id)sender {
     NSLog(@"setPoint");
     
-    [mapView removeOverlays:mapView.overlays];
+    // remove polygon or line
+    if (currentDrawMode != POINT) {
+        [mapView removeOverlay:overlayView.overlay];
+    }
+    
     _undoButton.enabled = YES;
+    _cancel.enabled = YES;
     
     switch (currentDrawMode) {
         case POINT:
@@ -165,6 +188,7 @@
     }
 }
 
+// draw a single point (PIN)
 - (void) drawPoint {
     if (!latitudeArray) {
         latitudeArray = [[NSMutableArray alloc] init];
@@ -177,11 +201,14 @@
     [longitudeArray addObject:longi];
     [latitudeArray addObject:lati];
     // Sets the pin in the middle of the hairline cross
-    if (!annotation) {
-        annotation = [[DDAnnotation alloc] init];
+    if (!pinAnnotation) {
+        pinAnnotation = [[DDAnnotation alloc] init];
+        pinAnnotation.title = @"Test title";
     }
-    [annotation setCoordinate:mapRegion.center];
-    [mapView addAnnotation:annotation];
+
+    [mapView removeAnnotation:pinAnnotation];
+    [pinAnnotation setCoordinate:mapRegion.center];
+    [mapView addAnnotation:pinAnnotation];
 }
 
 - (void) drawLine {
@@ -251,15 +278,21 @@
     }
     
     [self drawStartPoint];
+    
     undo = NO;
 }
 
+// Set an annotation for the start point
 - (void) drawStartPoint {
+    NSLog(@"draw start point");
     CLLocationCoordinate2D coordinate;
     coordinate.longitude = [(NSNumber*)longitudeArray[0] doubleValue];
     coordinate.latitude = [(NSNumber*)latitudeArray[0] doubleValue];
-    circle = [MKCircle circleWithCenterCoordinate:coordinate radius:10.0];
-    [mapView addOverlay:circle];
+    if (!startPoint) {
+        startPoint = [[DDAnnotation alloc] init];
+    }
+    [startPoint setCoordinate:coordinate];
+    [mapView addAnnotation:startPoint];
 }
 
 - (IBAction)undo:(id)sender {
@@ -269,7 +302,7 @@
     
     switch (currentDrawMode) {
         case POINT:
-            [mapView removeAnnotation:annotation];
+            [mapView removeAnnotation:pinAnnotation];
             [longitudeArray removeLastObject];
             [latitudeArray removeLastObject];
             break;
@@ -380,7 +413,7 @@
 #pragma mark
 #pragma Event handling for free-hand mode
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+/*- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     NSLog(@"touch began");
     NSSet *allTouches = [event allTouches];
@@ -405,7 +438,7 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     NSLog(@"touch ended");
-}
+}*/
 
 #pragma mark
 #pragma UIActionSheetDelegate Methods
@@ -433,7 +466,7 @@
             [self showEditModeAppearance];
             NSLog(@"current draw mode: Polygon");
             break;
-        /*case 4:
+        /*case 3:
             currentDrawMode = POLYGON_FH;
             [self showFreeHandModeAppearance];
             NSLog(@"current draw mode: Polygon fh");
@@ -479,15 +512,73 @@
         lineView.lineDashPattern = [NSArray arrayWithObjects:[NSNumber numberWithFloat:12], [NSNumber numberWithFloat:8], nil];
         overlayView = lineView;
         
-    } else if (overlay == circle) {
-        NSLog(@"mapView viewForOverlay - Circle (Start-Point)");
-        circleView = [[MKCircleView alloc] initWithCircle:circle];
-        circleView.fillColor = [UIColor whiteColor];
-        circleView.strokeColor = [UIColor blueColor];
-        circleView.lineWidth = 3;
-        overlayView = circleView;
     }
     return overlayView;
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)map viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    NSLog(@"mapView viewForAnnotation");
+    annotationViewID = @"annotationViewID";
+    pinAnnotationViewID = @"pinAnnotationViewID";
+    
+    switch (currentDrawMode) {
+        
+        case POINT:
+            NSLog(@"annotation for POINT Mode");
+            pinAnnotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinAnnotationViewID];
+            
+            if (pinAnnotationView == nil)
+            {
+                NSLog(@"set pin settings (Color, animates, etc.)");
+                pinAnnotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pinAnnotationViewID];
+                pinAnnotationView.pinColor = MKPinAnnotationColorGreen;
+                pinAnnotationView.animatesDrop = YES;
+                pinAnnotationView.canShowCallout = YES;
+                
+                UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+                pinAnnotationView.rightCalloutAccessoryView = rightButton;
+            }
+            pinAnnotationView.annotation = annotation;
+            
+            return pinAnnotationView;
+            break;
+            
+        case LINE:
+            NSLog(@"annotation for LINE Mode");
+            annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:annotationViewID];
+            
+            if (annotationView == nil)
+            {
+                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:annotationViewID];
+            }
+            
+            annotationView.image = [UIImage imageNamed:@"startPoint.png"];
+            break;
+        
+        case POLYGON:
+            NSLog(@"annotation for POLYGON Mode");
+            annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:annotationViewID];
+            
+            if (annotationView == nil)
+            {
+                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:annotationViewID];
+            }
+            
+            annotationView.image = [UIImage imageNamed:@"startPoint.png"];
+            break;
+            
+        default:
+            break;
+    }
+    
+
+    
+    // Doesn't work vor MKPinAnnotationView, only vor MKAnnotationView!
+    //annotationView.image = [UIImage imageNamed:@"symbol-line.png"];
+    annotationView.annotation = annotation;
+    
+    return annotationView;
 }
 
 

@@ -42,17 +42,20 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{320, 367}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="378821354"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<int key="IBMKMapType">1</int>
 					</object>
 					<object class="IBUIImageView" id="378821354">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">-2147483356</int>
 						<string key="NSFrame">{{130, 154}, {60, 60}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="303888767"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -67,6 +70,7 @@
 						<int key="NSvFlags">-2147483356</int>
 						<string key="NSFrame">{{163, 311}, {72, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="219105673"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -102,6 +106,7 @@
 						<int key="NSvFlags">-2147483356</int>
 						<string key="NSFrame">{{83, 311}, {72, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="801899079"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -125,6 +130,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{263, 311}, {37, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -139,7 +145,7 @@
 						<reference key="IBUINormalTitleShadowColor" ref="324640241"/>
 						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">location_pin.png</string>
+							<string key="NSResourceName">07-map-marker.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="276366524"/>
 						<reference key="IBUIFont" ref="558530309"/>
@@ -149,6 +155,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{20, 311}, {37, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="127696005"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -156,7 +163,6 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">GPS</string>
 						<reference key="IBUIHighlightedTitleColor" ref="211424622"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
@@ -165,7 +171,7 @@
 						<reference key="IBUINormalTitleShadowColor" ref="324640241"/>
 						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">84-lightbulb.png</string>
+							<string key="NSResourceName">193-locaction-arrow.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="276366524"/>
 						<reference key="IBUIFont" ref="558530309"/>
@@ -173,6 +179,7 @@
 				</array>
 				<string key="NSFrame">{{0, 64}, {320, 367}}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="608090217"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -443,9 +450,9 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="84-lightbulb.png">{14, 21}</string>
+			<string key="07-map-marker.png">{26, 26}</string>
+			<string key="193-locaction-arrow.png">{26, 26}</string>
 			<string key="hairelinecross.png">{60, 60}</string>
-			<string key="location_pin.png">{16, 16}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

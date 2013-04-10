@@ -12,11 +12,11 @@
 #import "DDAnnotation.h"
 
 typedef enum DrawMode{
-    POINT = 0,
-    LINE = 1,
-    LINE_FH = 2,
-    POLYGON = 3,
-    POLYGON_FH = 4
+    POINT = 1,
+    LINE = 2,
+    LINE_FH = 3,
+    POLYGON = 4,
+    POLYGON_FH = 5
 }DrawMode;
  
 @interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate> {
@@ -25,12 +25,15 @@ typedef enum DrawMode{
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     MKMapPoint *points;
-    MKCircle *circle;
     MKPolygon *polygon;
     MKPolyline *line;
     UIBezierPath *currentPath;
-    DDAnnotation *annotation;
-    MKCircleView *circleView;
+    NSString *annotationViewID;
+    NSString *pinAnnotationViewID;
+    DDAnnotation *pinAnnotation;
+    DDAnnotation *startPoint;
+    MKPinAnnotationView *pinAnnotationView;
+    MKAnnotationView *annotationView;
     MKPolylineView *lineView;
     MKPolygonView *polygonView;
     NSMutableArray *longitudeArray;
@@ -42,6 +45,8 @@ typedef enum DrawMode{
     BOOL undo;
     BOOL shouldAdjustZoom;
 }
+
+@property (nonatomic) IBOutlet UIBarButtonItem * cancel;
 @property (weak, nonatomic) IBOutlet UIButton *undoButton;
 @property (weak, nonatomic) IBOutlet UIButton *setButton;
 @property (weak, nonatomic) IBOutlet UIButton *modeButton;
@@ -52,8 +57,7 @@ typedef enum DrawMode{
 - (IBAction)undo:(id)sender;
 - (IBAction)showModeOptions:(id)sender;
 - (IBAction)relocate:(id)sender;
-
-
+- (void) prepareData;
 
 
 @end

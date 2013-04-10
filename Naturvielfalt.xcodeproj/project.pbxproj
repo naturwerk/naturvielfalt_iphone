@@ -43,12 +43,18 @@
 		27D2B068170F17C500D6815B /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B067170F17C500D6815B /* CameraViewController.m */; };
 		27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB14322C148616E700BBA78D /* CameraViewController.xib */; };
 		27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06A170F18D000D6815B /* Default-568h@2x.png */; };
-		27D2B06D170F1B4400D6815B /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06C170F1B4400D6815B /* hairelinecross.png */; };
 		27F7842B1715472D00081A1F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784261715472D00081A1F /* 19-gear.png */; };
 		27F7842C1715472D00081A1F /* 12-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784271715472D00081A1F /* 12-eye.png */; };
 		27F7842D1715472D00081A1F /* 151-telescope.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784281715472D00081A1F /* 151-telescope.png */; };
 		27F7842E1715472D00081A1F /* 103-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784291715472D00081A1F /* 103-map.png */; };
 		27F7842F1715472D00081A1F /* 33-cabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7842A1715472D00081A1F /* 33-cabinet.png */; };
+		27F784351715699800081A1F /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784301715699800081A1F /* hairelinecross.png */; };
+		27F784381715699800081A1F /* 193-locaction-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784331715699800081A1F /* 193-locaction-arrow.png */; };
+		27F7843D17156F4200081A1F /* symbol-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7843A17156F4200081A1F /* symbol-line.png */; };
+		27F7843E17156F4200081A1F /* symbol-polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7843B17156F4200081A1F /* symbol-polygon.png */; };
+		27F7843F17156F4200081A1F /* symbol-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7843C17156F4200081A1F /* symbol-pin.png */; };
+		27F7844117156FD000081A1F /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7844017156FD000081A1F /* 07-map-marker.png */; };
+		27F784431715882100081A1F /* startPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784421715882100081A1F /* startPoint.png */; };
 		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
 		CB08912B1430B67F00E846A1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891131430B67F00E846A1 /* NSObject+SBJson.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB08912C1430B67F00E846A1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891161430B67F00E846A1 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -199,12 +205,18 @@
 		27D2B064170F165D00D6815B /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Area.m; sourceTree = "<group>"; };
 		27D2B067170F17C500D6815B /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		27D2B06A170F18D000D6815B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
-		27D2B06C170F1B4400D6815B /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
 		27F784261715472D00081A1F /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		27F784271715472D00081A1F /* 12-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12-eye.png"; sourceTree = "<group>"; };
 		27F784281715472D00081A1F /* 151-telescope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "151-telescope.png"; sourceTree = "<group>"; };
 		27F784291715472D00081A1F /* 103-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "103-map.png"; sourceTree = "<group>"; };
 		27F7842A1715472D00081A1F /* 33-cabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "33-cabinet.png"; sourceTree = "<group>"; };
+		27F784301715699800081A1F /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
+		27F784331715699800081A1F /* 193-locaction-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "193-locaction-arrow.png"; sourceTree = "<group>"; };
+		27F7843A17156F4200081A1F /* symbol-line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-line.png"; sourceTree = "<group>"; };
+		27F7843B17156F4200081A1F /* symbol-polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-polygon.png"; sourceTree = "<group>"; };
+		27F7843C17156F4200081A1F /* symbol-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-pin.png"; sourceTree = "<group>"; };
+		27F7844017156FD000081A1F /* 07-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker.png"; sourceTree = "<group>"; };
+		27F784421715882100081A1F /* startPoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startPoint.png; sourceTree = "<group>"; };
 		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
@@ -605,12 +617,18 @@
 				CBEBAA2E147E44AC009AC6C0 /* keinbildvorhanden.png */,
 				CBEBAA24147BF503009AC6C0 /* wikipedia.png */,
 				CBD9563A144807AB00890319 /* navigationbar.png */,
+				27F784421715882100081A1F /* startPoint.png */,
 				CB1D68FE1444463E003230B4 /* status-green.png */,
+				27F784301715699800081A1F /* hairelinecross.png */,
+				27F7844017156FD000081A1F /* 07-map-marker.png */,
+				27F784331715699800081A1F /* 193-locaction-arrow.png */,
 				CB1D68FF1444463E003230B4 /* status-orange.png */,
 				CB1D69001444463E003230B4 /* status-red.png */,
 				CB7FA21014335033006BD29D /* Default.png */,
+				27F7843A17156F4200081A1F /* symbol-line.png */,
+				27F7843B17156F4200081A1F /* symbol-polygon.png */,
+				27F7843C17156F4200081A1F /* symbol-pin.png */,
 				F619A26115766BDE00F0C842 /* blank.png */,
-				27D2B06C170F1B4400D6815B /* hairelinecross.png */,
 				27F784261715472D00081A1F /* 19-gear.png */,
 				27F784271715472D00081A1F /* 12-eye.png */,
 				27F784281715472D00081A1F /* 151-telescope.png */,
@@ -906,7 +924,6 @@
 				27D2B060170F162F00D6815B /* AreasSubmitController.xib in Resources */,
 				27D2B062170F162F00D6815B /* AreasViewController.xib in Resources */,
 				27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */,
-				27D2B06D170F1B4400D6815B /* hairelinecross.png in Resources */,
 				2716C2451712979800175C61 /* location_pin.png in Resources */,
 				272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */,
 				272D3A6D1714176D00588328 /* AreasSubmitDescriptionController.xib in Resources */,
@@ -918,6 +935,13 @@
 				27F7842D1715472D00081A1F /* 151-telescope.png in Resources */,
 				27F7842E1715472D00081A1F /* 103-map.png in Resources */,
 				27F7842F1715472D00081A1F /* 33-cabinet.png in Resources */,
+				27F784351715699800081A1F /* hairelinecross.png in Resources */,
+				27F784381715699800081A1F /* 193-locaction-arrow.png in Resources */,
+				27F7843D17156F4200081A1F /* symbol-line.png in Resources */,
+				27F7843E17156F4200081A1F /* symbol-polygon.png in Resources */,
+				27F7843F17156F4200081A1F /* symbol-pin.png in Resources */,
+				27F7844117156FD000081A1F /* 07-map-marker.png in Resources */,
+				27F784431715882100081A1F /* startPoint.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

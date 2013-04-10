@@ -308,7 +308,6 @@
             // Add observation to the observation array
             [observations addObject:observation];
 		}
-        
         sqlite3_finalize(statement);
     }
     

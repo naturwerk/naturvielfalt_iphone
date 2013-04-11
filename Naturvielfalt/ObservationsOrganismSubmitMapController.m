@@ -182,7 +182,7 @@
 }
  
 - (void) GPSrelocate{
-    
+    NSLog(@"GPSrelocate");
     [locationManager stopUpdatingLocation];
     
     review = false;

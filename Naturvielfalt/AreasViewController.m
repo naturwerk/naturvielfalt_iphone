@@ -83,6 +83,7 @@
     [self setModeButton:nil];
     [self setGpsButton:nil];
     [self setHairlinecross:nil];
+    locationManager = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -137,26 +138,10 @@
     [self showStartModeAppearance];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if (shouldAdjustZoom) {
-        MKCoordinateRegion region;
-        region.center = mapView.userLocation.coordinate;
-        
-        MKCoordinateSpan span;
-        span.latitudeDelta  = 0.005; // Change these values to change the zoom
-        span.longitudeDelta = 0.005;
-        region.span = span;
-        
-        [mapView setRegion:region animated:YES];
-        
-        shouldAdjustZoom = false;
-    }
-}
-
 // Action Method, when the "setzen" button was pressed
 - (IBAction)setPoint:(id)sender {
     NSLog(@"setPoint");
+    _undoButton.enabled = YES;
     
     // remove polygon or line
     if (currentDrawMode != POINT) {
@@ -164,7 +149,6 @@
     }
     
     _undoButton.enabled = YES;
-    _cancel.enabled = YES;
     
     switch (currentDrawMode) {
         case POINT:
@@ -194,7 +178,8 @@
         latitudeArray = [[NSMutableArray alloc] init];
         longitudeArray = [[NSMutableArray alloc] init];
     }
-    
+    [longitudeArray removeAllObjects];
+    [latitudeArray removeAllObjects];
     MKCoordinateRegion mapRegion = mapView.region;
     NSNumber *longi = [NSNumber numberWithDouble:mapRegion.center.longitude];
     NSNumber *lati = [NSNumber numberWithDouble:mapRegion.center.latitude];
@@ -299,6 +284,7 @@
     MKCoordinateRegion region;
     MKCoordinateSpan span;
     CLLocationCoordinate2D cll;
+    BOOL isOnlyOnePoint = NO;
     
     switch (currentDrawMode) {
         case POINT:
@@ -309,42 +295,71 @@
             
         case LINE:
             [mapView removeOverlay:line];
+            isOnlyOnePoint = [self deleteStartPoint];
             [longitudeArray removeLastObject];
             [latitudeArray removeLastObject];
-            // set hairline cross to the last location
-            span.latitudeDelta = 0.005;
-            span.longitudeDelta = 0.005;
-            cll.latitude = [(NSNumber*)latitudeArray.lastObject doubleValue];
-            cll.longitude = [(NSNumber*)longitudeArray.lastObject doubleValue];
-            region.span = span;
-            region.center = cll;
-            [mapView setRegion:region animated:YES];
-            undo = YES;
-            [self drawLine];
+
+            if (!isOnlyOnePoint) {
+                // set hairline cross to the last location
+                span.latitudeDelta = 0.005;
+                span.longitudeDelta = 0.005;
+                cll.latitude = [(NSNumber*)latitudeArray.lastObject doubleValue];
+                cll.longitude = [(NSNumber*)longitudeArray.lastObject doubleValue];
+                region.span = span;
+                region.center = cll;
+                [mapView setRegion:region animated:YES];
+                undo = YES;
+                [self drawLine];
+            }
             break;
             
         case LINE_FH:
             break;
             
         case POLYGON:
-            [mapView removeOverlay:polygon];
+            [mapView removeOverlay:overlayView.overlay];
+            isOnlyOnePoint = [self deleteStartPoint];
             [longitudeArray removeLastObject];
             [latitudeArray removeLastObject];
-            // set hairline cross to the last location
-            span.latitudeDelta = 0.005;
-            span.longitudeDelta = 0.005;
-            cll.latitude = [(NSNumber*)latitudeArray.lastObject doubleValue];
-            cll.longitude = [(NSNumber*)longitudeArray.lastObject doubleValue];
-            region.span = span;
-            region.center = cll;
-            [mapView setRegion:region animated:YES];
-            undo = YES;
-            [self drawPolygon];
+
+            if (!isOnlyOnePoint) {
+                // set hairline cross to the last location
+                span.latitudeDelta = 0.005;
+                span.longitudeDelta = 0.005;
+                cll.latitude = [(NSNumber*)latitudeArray.lastObject doubleValue];
+                cll.longitude = [(NSNumber*)longitudeArray.lastObject doubleValue];
+                region.span = span;
+                region.center = cll;
+                [mapView setRegion:region animated:YES];
+                undo = YES;
+                [self drawPolygon];
+            }
+
             break;
             
         case POLYGON_FH:
             break;
     }
+    
+    [self checkForUndo];
+}
+
+// checks if the undo button should be enabled or not
+- (void) checkForUndo {
+    if (longitudeArray.count > 0) {
+        _undoButton.enabled = YES;
+        return;
+    }
+    _undoButton.enabled = NO;
+}
+
+- (BOOL) deleteStartPoint {
+    if (longitudeArray.count == 1) {
+        NSLog(@"delete start point");
+        [mapView removeAnnotation:startPoint];
+        return YES;
+    }
+    return NO;
 }
 
 - (void) showEditModeAppearance {
@@ -388,8 +403,8 @@
         [locationManager startUpdatingLocation];
     }
     
+    shouldAdjustZoom = YES;
     mapView.showsUserLocation = YES;
-
 }
 
 - (void) GPSrelocate {
@@ -478,12 +493,32 @@
         default:
             break;
     }
+    _cancel.enabled = YES;
 }
 
 #pragma mark
 #pragma CLLocationManagerDelegate Methods
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     
+}
+
+// Listen to change in the userLocation
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSLog(@"observeValueForKeyPath gps oberservation");
+    if(shouldAdjustZoom) {
+        MKCoordinateRegion region;
+        region.center = mapView.userLocation.coordinate;
+        
+        MKCoordinateSpan span;
+        span.latitudeDelta  = 0.005; // Change these values to change the zoom
+        span.longitudeDelta = 0.005;
+        region.span = span;
+        
+        [mapView setRegion:region animated:YES];
+        mapView.showsUserLocation = YES;
+        shouldAdjustZoom = false;
+    }
 }
 
 #pragma mark
@@ -522,8 +557,11 @@
     annotationViewID = @"annotationViewID";
     pinAnnotationViewID = @"pinAnnotationViewID";
     
+    if ([annotation class] == MKUserLocation.class) {
+        return nil;
+    }
+    
     switch (currentDrawMode) {
-        
         case POINT:
             NSLog(@"annotation for POINT Mode");
             pinAnnotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinAnnotationViewID];
@@ -571,8 +609,6 @@
         default:
             break;
     }
-    
-
     
     // Doesn't work vor MKPinAnnotationView, only vor MKAnnotationView!
     //annotationView.image = [UIImage imageNamed:@"symbol-line.png"];

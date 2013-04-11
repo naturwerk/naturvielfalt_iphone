@@ -16,7 +16,7 @@ typedef enum DrawMode{
     LINE = 2,
     LINE_FH = 3,
     POLYGON = 4,
-    POLYGON_FH = 5
+    POLYGON_FH = 5,
 }DrawMode;
  
 @interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate> {

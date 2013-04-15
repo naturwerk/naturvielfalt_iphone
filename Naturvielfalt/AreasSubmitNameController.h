@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "Area.h"
 
-@interface AreasSubmitNameController : UIViewController
+@interface AreasSubmitNameController : UIViewController {
+    
+    Area *area;
+    IBOutlet UITextView *textView;
+}
 
 @property (nonatomic) Area *area;
 

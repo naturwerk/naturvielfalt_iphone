@@ -46,7 +46,8 @@ typedef enum DrawMode{
     BOOL shouldAdjustZoom;
 }
 
-@property (nonatomic) IBOutlet UIBarButtonItem * cancel;
+@property (nonatomic) IBOutlet UIBarButtonItem * cancelButton;
+@property (nonatomic) IBOutlet UIBarButtonItem * saveButton;
 @property (weak, nonatomic) IBOutlet UIButton *undoButton;
 @property (weak, nonatomic) IBOutlet UIButton *setButton;
 @property (weak, nonatomic) IBOutlet UIButton *modeButton;

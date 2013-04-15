@@ -29,25 +29,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Sichern"
+    _saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Sichern"
                                                                    style:UIBarButtonItemStylePlain 
                                                                   target:self 
                                                                   action:@selector(saveArea)];
     
-    self.navigationItem.rightBarButtonItem = saveButton;
+    _saveButton.enabled = NO;
+    self.navigationItem.rightBarButtonItem = _saveButton;
     
     // Start locationManager
     locationManager = [[CLLocationManager alloc] init];
     
     
     // Cancel button
-    _cancel = [[UIBarButtonItem alloc] initWithTitle:@"Abbrechen"
+    _cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Abbrechen"
                                                                  style:UIBarButtonItemStylePlain 
                                                                 target:self 
                                                                 action:@selector(cancelPressed)];
-    _cancel.enabled = NO;
+    _cancelButton.enabled = NO;
     
-    self.navigationItem.leftBarButtonItem = _cancel;
+    self.navigationItem.leftBarButtonItem = _cancelButton;
 
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager.delegate = self;
@@ -134,7 +135,7 @@
     }
     
     //[mapView setScrollEnabled:YES];
-    _cancel.enabled = NO;
+    _cancelButton.enabled = NO;
     [self showStartModeAppearance];
 }
 
@@ -148,16 +149,16 @@
         [mapView removeOverlay:overlayView.overlay];
     }
     
-    _undoButton.enabled = YES;
-    
     switch (currentDrawMode) {
         case POINT:
             NSLog(@"draw a point");
+            _saveButton.enabled = YES;
             [self drawPoint];
             break;
             
         case LINE: NSLog(@"draw a line");
             [self drawLine];
+            [self checkForSaving];
             break;
             
         case LINE_FH: NSLog(@"draw a line free-hand");
@@ -165,6 +166,7 @@
             
         case POLYGON: NSLog(@"draw a polygon");
             [self drawPolygon];
+            [self checkForSaving];
             break;
             
         case POLYGON_FH: NSLog(@"draw a polygon free-hand");
@@ -291,6 +293,7 @@
             [mapView removeAnnotation:pinAnnotation];
             [longitudeArray removeLastObject];
             [latitudeArray removeLastObject];
+            _saveButton.enabled = NO;
             break;
             
         case LINE:
@@ -342,10 +345,12 @@
     }
     
     [self checkForUndo];
+    [self checkForSaving];
 }
 
 // checks if the undo button should be enabled or not
 - (void) checkForUndo {
+    
     if (longitudeArray.count > 0) {
         _undoButton.enabled = YES;
         return;
@@ -353,10 +358,31 @@
     _undoButton.enabled = NO;
 }
 
+- (void) checkForSaving {
+    
+    switch (currentDrawMode) {
+        case LINE:
+            if (longitudeArray.count > 1) {
+                _saveButton.enabled = YES;
+                return;
+            }
+            _saveButton.enabled = NO;
+            break;
+        case POLYGON:
+            if (longitudeArray.count > 2) {
+                _saveButton.enabled = YES;
+                return;
+            }
+            _saveButton.enabled = NO;
+            break;
+    }
+}
+
 - (BOOL) deleteStartPoint {
     if (longitudeArray.count == 1) {
         NSLog(@"delete start point");
         [mapView removeAnnotation:startPoint];
+        _saveButton.enabled = NO;
         return YES;
     }
     return NO;
@@ -370,6 +396,7 @@
 }
 
 - (void) showStartModeAppearance {
+    _saveButton.enabled = NO;
     _hairlinecross.hidden = YES;
     _undoButton.hidden = YES;
     _setButton.hidden = YES;
@@ -493,7 +520,7 @@
         default:
             break;
     }
-    _cancel.enabled = YES;
+    _cancelButton.enabled = YES;
 }
 
 #pragma mark
@@ -533,7 +560,7 @@
     if(overlay == polygon) {
         NSLog(@"mapView viewForOverlay - Polygon");
         polygonView = [[MKPolygonView alloc] initWithPolygon:polygon];
-        polygonView.fillColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1f];
+        polygonView.fillColor = [UIColor colorWithRed:0 green:0 blue:255/255.0 alpha:0.3f];
         polygonView.strokeColor = [UIColor blueColor];
         polygonView.lineDashPattern = [NSArray arrayWithObjects:[NSNumber numberWithFloat:12], [NSNumber numberWithFloat:8], nil];
         polygonView.lineWidth = 3;

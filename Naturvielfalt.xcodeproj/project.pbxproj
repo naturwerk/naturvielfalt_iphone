@@ -13,7 +13,6 @@
 		272D3A6C1714176D00588328 /* AreasSubmitDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */; };
 		272D3A6D1714176D00588328 /* AreasSubmitDescriptionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A6B1714176D00588328 /* AreasSubmitDescriptionController.xib */; };
 		272D3A71171417B500588328 /* AreasSubmitInventoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6F171417B500588328 /* AreasSubmitInventoryController.m */; };
-		272D3A72171417B500588328 /* AreasSubmitInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A70171417B500588328 /* AreasSubmitInventoryController.xib */; };
 		272D3A781714542400588328 /* AreasSubmitInventoryNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A761714542400588328 /* AreasSubmitInventoryNameController.m */; };
 		272D3A791714542400588328 /* AreasSubmitInventoryNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A771714542400588328 /* AreasSubmitInventoryNameController.xib */; };
 		272D3A7D1714543E00588328 /* AreasSubmitInventoryDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A7B1714543E00588328 /* AreasSubmitInventoryDescriptionController.m */; };
@@ -43,6 +42,16 @@
 		27D2B068170F17C500D6815B /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B067170F17C500D6815B /* CameraViewController.m */; };
 		27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB14322C148616E700BBA78D /* CameraViewController.xib */; };
 		27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06A170F18D000D6815B /* Default-568h@2x.png */; };
+		27F114D3171BCF960017DAF0 /* AreasSubmitNewInventoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F114D1171BCF960017DAF0 /* AreasSubmitNewInventoryController.m */; };
+		27F114D4171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114D2171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib */; };
+		27F114D9171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F114D7171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.m */; };
+		27F114DA171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114D8171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.xib */; };
+		27F114E7171BFDAC0017DAF0 /* CustomInventoryAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F114E6171BFDAC0017DAF0 /* CustomInventoryAddCell.m */; };
+		27F114E9171BFDCD0017DAF0 /* CustomInventoryAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114E8171BFDCD0017DAF0 /* CustomInventoryAddCell.xib */; };
+		27F399611716BBF7000433F7 /* Inventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F399601716BBF7000433F7 /* Inventory.m */; };
+		27F3996A1716ECCB000433F7 /* CustomObservationAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F399681716ECCB000433F7 /* CustomObservationAddCell.m */; };
+		27F3996B1716ECCB000433F7 /* CustomObservationAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F399691716ECCB000433F7 /* CustomObservationAddCell.xib */; };
+		27F3996D1716F5B0000433F7 /* AreasSubmitInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */; };
 		27F7842B1715472D00081A1F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784261715472D00081A1F /* 19-gear.png */; };
 		27F7842C1715472D00081A1F /* 12-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784271715472D00081A1F /* 12-eye.png */; };
 		27F7842D1715472D00081A1F /* 151-telescope.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784281715472D00081A1F /* 151-telescope.png */; };
@@ -169,7 +178,6 @@
 		272D3A6B1714176D00588328 /* AreasSubmitDescriptionController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitDescriptionController.xib; sourceTree = "<group>"; };
 		272D3A6E171417B500588328 /* AreasSubmitInventoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitInventoryController.h; sourceTree = "<group>"; };
 		272D3A6F171417B500588328 /* AreasSubmitInventoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitInventoryController.m; sourceTree = "<group>"; };
-		272D3A70171417B500588328 /* AreasSubmitInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryController.xib; sourceTree = "<group>"; };
 		272D3A751714542400588328 /* AreasSubmitInventoryNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitInventoryNameController.h; sourceTree = "<group>"; };
 		272D3A761714542400588328 /* AreasSubmitInventoryNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitInventoryNameController.m; sourceTree = "<group>"; };
 		272D3A771714542400588328 /* AreasSubmitInventoryNameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryNameController.xib; sourceTree = "<group>"; };
@@ -205,6 +213,21 @@
 		27D2B064170F165D00D6815B /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Area.m; sourceTree = "<group>"; };
 		27D2B067170F17C500D6815B /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		27D2B06A170F18D000D6815B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		27F114D0171BCF960017DAF0 /* AreasSubmitNewInventoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNewInventoryController.h; sourceTree = "<group>"; };
+		27F114D1171BCF960017DAF0 /* AreasSubmitNewInventoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNewInventoryController.m; sourceTree = "<group>"; };
+		27F114D2171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNewInventoryController.xib; sourceTree = "<group>"; };
+		27F114D6171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitInvetoryObservationController.h; sourceTree = "<group>"; };
+		27F114D7171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitInvetoryObservationController.m; sourceTree = "<group>"; };
+		27F114D8171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInvetoryObservationController.xib; sourceTree = "<group>"; };
+		27F114E5171BFDAC0017DAF0 /* CustomInventoryAddCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomInventoryAddCell.h; sourceTree = "<group>"; };
+		27F114E6171BFDAC0017DAF0 /* CustomInventoryAddCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomInventoryAddCell.m; sourceTree = "<group>"; };
+		27F114E8171BFDCD0017DAF0 /* CustomInventoryAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomInventoryAddCell.xib; sourceTree = "<group>"; };
+		27F3995F1716BBF7000433F7 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
+		27F399601716BBF7000433F7 /* Inventory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inventory.m; sourceTree = "<group>"; };
+		27F399671716ECCA000433F7 /* CustomObservationAddCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObservationAddCell.h; sourceTree = "<group>"; };
+		27F399681716ECCB000433F7 /* CustomObservationAddCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObservationAddCell.m; sourceTree = "<group>"; };
+		27F399691716ECCB000433F7 /* CustomObservationAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomObservationAddCell.xib; sourceTree = "<group>"; };
+		27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryController.xib; sourceTree = "<group>"; };
 		27F784261715472D00081A1F /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		27F784271715472D00081A1F /* 12-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12-eye.png"; sourceTree = "<group>"; };
 		27F784281715472D00081A1F /* 151-telescope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "151-telescope.png"; sourceTree = "<group>"; };
@@ -419,23 +442,21 @@
 				272D3A6B1714176D00588328 /* AreasSubmitDescriptionController.xib */,
 				272D3A6E171417B500588328 /* AreasSubmitInventoryController.h */,
 				272D3A6F171417B500588328 /* AreasSubmitInventoryController.m */,
-				272D3A70171417B500588328 /* AreasSubmitInventoryController.xib */,
-				272D3A74171453FA00588328 /* inventoryHelper */,
+				27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */,
+				272D3A74171453FA00588328 /* submitInventoryHelper */,
 			);
 			name = SubmitHelper;
 			sourceTree = "<group>";
 		};
-		272D3A74171453FA00588328 /* inventoryHelper */ = {
+		272D3A74171453FA00588328 /* submitInventoryHelper */ = {
 			isa = PBXGroup;
 			children = (
-				272D3A751714542400588328 /* AreasSubmitInventoryNameController.h */,
-				272D3A761714542400588328 /* AreasSubmitInventoryNameController.m */,
-				272D3A771714542400588328 /* AreasSubmitInventoryNameController.xib */,
-				272D3A7A1714543E00588328 /* AreasSubmitInventoryDescriptionController.h */,
-				272D3A7B1714543E00588328 /* AreasSubmitInventoryDescriptionController.m */,
-				272D3A7C1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib */,
+				27F114D0171BCF960017DAF0 /* AreasSubmitNewInventoryController.h */,
+				27F114D1171BCF960017DAF0 /* AreasSubmitNewInventoryController.m */,
+				27F114D2171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib */,
+				27F114D5171BD0140017DAF0 /* submitNewInventoryHelper */,
 			);
-			name = inventoryHelper;
+			name = submitInventoryHelper;
 			sourceTree = "<group>";
 		};
 		27D2B029170F0C9000D6815B /* Areas */ = {
@@ -453,6 +474,22 @@
 				272D3A631714168500588328 /* SubmitHelper */,
 			);
 			name = Areas;
+			sourceTree = "<group>";
+		};
+		27F114D5171BD0140017DAF0 /* submitNewInventoryHelper */ = {
+			isa = PBXGroup;
+			children = (
+				272D3A751714542400588328 /* AreasSubmitInventoryNameController.h */,
+				272D3A761714542400588328 /* AreasSubmitInventoryNameController.m */,
+				272D3A771714542400588328 /* AreasSubmitInventoryNameController.xib */,
+				272D3A7A1714543E00588328 /* AreasSubmitInventoryDescriptionController.h */,
+				272D3A7B1714543E00588328 /* AreasSubmitInventoryDescriptionController.m */,
+				272D3A7C1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib */,
+				27F114D6171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.h */,
+				27F114D7171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.m */,
+				27F114D8171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.xib */,
+			);
+			name = submitNewInventoryHelper;
 			sourceTree = "<group>";
 		};
 		CB08910F1430B66B00E846A1 /* JSON */ = {
@@ -511,6 +548,8 @@
 				CBED70311434A31400BC17A8 /* Organism.m */,
 				CBDDB53F144D9E96007E48AB /* Observation.h */,
 				CBDDB540144D9E96007E48AB /* Observation.m */,
+				27F3995F1716BBF7000433F7 /* Inventory.h */,
+				27F399601716BBF7000433F7 /* Inventory.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -591,12 +630,18 @@
 				CBE89101144C487300E8B559 /* CustomCell.h */,
 				CBE89102144C487300E8B559 /* CustomCell.m */,
 				CBE89105144C488100E8B559 /* CustomCell.xib */,
+				27F114E5171BFDAC0017DAF0 /* CustomInventoryAddCell.h */,
+				27F114E6171BFDAC0017DAF0 /* CustomInventoryAddCell.m */,
+				27F114E8171BFDCD0017DAF0 /* CustomInventoryAddCell.xib */,
+				27F399671716ECCA000433F7 /* CustomObservationAddCell.h */,
+				27F399681716ECCB000433F7 /* CustomObservationAddCell.m */,
+				27F399691716ECCB000433F7 /* CustomObservationAddCell.xib */,
 				CB18F9E0145A966700772E9B /* CheckboxCell.h */,
 				CB18F9E1145A966700772E9B /* CheckboxCell.m */,
 				CB18F9E2145A966700772E9B /* CheckboxCell.xib */,
 				F664006F157CAD770092A9D0 /* CustomOrganismCell.h */,
-				F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */,
 				F6640070157CAD770092A9D0 /* CustomOrganismCell.m */,
+				F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */,
 				CBEBAA2B147CDCA5009AC6C0 /* WikipediaHelper.h */,
 				CBEBAA2C147CDCA5009AC6C0 /* WikipediaHelper.m */,
 				CB1432321486642200BBA78D /* SwissCoordinates.h */,
@@ -845,7 +890,7 @@
 		CBB7F61A142B0409000150AF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = CBB7F61D142B0409000150AF /* Build configuration list for PBXProject "Naturvielfalt" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -927,7 +972,6 @@
 				2716C2451712979800175C61 /* location_pin.png in Resources */,
 				272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */,
 				272D3A6D1714176D00588328 /* AreasSubmitDescriptionController.xib in Resources */,
-				272D3A72171417B500588328 /* AreasSubmitInventoryController.xib in Resources */,
 				272D3A791714542400588328 /* AreasSubmitInventoryNameController.xib in Resources */,
 				272D3A7E1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib in Resources */,
 				27F7842B1715472D00081A1F /* 19-gear.png in Resources */,
@@ -942,6 +986,11 @@
 				27F7843F17156F4200081A1F /* symbol-pin.png in Resources */,
 				27F7844117156FD000081A1F /* 07-map-marker.png in Resources */,
 				27F784431715882100081A1F /* startPoint.png in Resources */,
+				27F3996B1716ECCB000433F7 /* CustomObservationAddCell.xib in Resources */,
+				27F3996D1716F5B0000433F7 /* AreasSubmitInventoryController.xib in Resources */,
+				27F114D4171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib in Resources */,
+				27F114DA171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.xib in Resources */,
+				27F114E9171BFDCD0017DAF0 /* CustomInventoryAddCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1015,6 +1064,11 @@
 				272D3A71171417B500588328 /* AreasSubmitInventoryController.m in Sources */,
 				272D3A781714542400588328 /* AreasSubmitInventoryNameController.m in Sources */,
 				272D3A7D1714543E00588328 /* AreasSubmitInventoryDescriptionController.m in Sources */,
+				27F399611716BBF7000433F7 /* Inventory.m in Sources */,
+				27F3996A1716ECCB000433F7 /* CustomObservationAddCell.m in Sources */,
+				27F114D3171BCF960017DAF0 /* AreasSubmitNewInventoryController.m in Sources */,
+				27F114D9171BD0D10017DAF0 /* AreasSubmitInvetoryObservationController.m in Sources */,
+				27F114E7171BFDAC0017DAF0 /* CustomInventoryAddCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,6 +1099,10 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cyrill Bonjour";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cyrill Bonjour";
@@ -1052,6 +1110,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_MODE_FLAG = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
@@ -1096,6 +1155,10 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1105,6 +1168,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_MODE_FLAG = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
@@ -1123,12 +1187,17 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cyrill Bonjour";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cyrill Bonjour";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_MODE_FLAG = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;

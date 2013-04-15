@@ -7,12 +7,14 @@
 //
 
 #import "AreasSubmitNameController.h"
+#import "AreasSubmitController.h"
 
 @interface AreasSubmitNameController ()
 
 @end
 
 @implementation AreasSubmitNameController
+@synthesize area;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,7 +28,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    // Set navigation bar title
+    NSString *title = @"Gebietsname";
+    self.navigationItem.title = title;
+    
+    // Make the textfield get focus
+    [textView becomeFirstResponder];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Speichern"
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(saveAreaName)];
+    
+    self.navigationItem.leftBarButtonItem = backButton;
+    
+    // Load the current observation comment into the textview
+    textView.text = area.areaName;
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,4 +53,30 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) saveAreaName
+{
+    // Save the description
+    area.areaName = textView.text;
+    
+    
+    // Change view back to submitController
+    AreasSubmitController *areasSubmitController = [[AreasSubmitController alloc]
+                                                    initWithNibName:@"AreasSubmitController"
+                                                    bundle:[NSBundle mainBundle]];
+    
+    
+    // Switch the View & Controller
+    
+    // POP
+    [self.navigationController popViewControllerAnimated:TRUE];
+    
+    // PUSH
+    [self.navigationController pushViewController:areasSubmitController animated:TRUE];
+    areasSubmitController = nil;
+}
+
+- (void)viewDidUnload {
+    textView = nil;
+    [super viewDidUnload];
+}
 @end

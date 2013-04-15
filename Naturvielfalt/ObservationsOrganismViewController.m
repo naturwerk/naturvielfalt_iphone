@@ -335,8 +335,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellIdentifier = @"CustomOrganismCell";
-    UITableViewCell *oCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    //static NSString *cellIdentifier = @"CustomOrganismCell";
+    //UITableViewCell *oCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];

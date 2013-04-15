@@ -7,12 +7,15 @@
 //
 
 #import "AreasSubmitInventoryController.h"
+#import "AreasSubmitNewInventoryController.h"
+
 
 @interface AreasSubmitInventoryController ()
 
 @end
 
 @implementation AreasSubmitInventoryController
+@synthesize area, time, author, areaName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,7 +29,37 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    NSLog(@"load settings for save area view");
+    
+    // Set top navigation bar button
+    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
+                                     initWithTitle:(!review) ? @"Sichern"
+                                     : @"Ändern"
+                                     style:UIBarButtonItemStyleBordered
+                                     target:self
+                                     action: @selector(saveArea)];
+    
+    self.navigationItem.rightBarButtonItem = submitButton;
+    
+    // Set top navigation bar button
+    UIBarButtonItem *chancelButton = [[UIBarButtonItem alloc]
+                                      initWithTitle:@"Abbrechen"
+                                      style:UIBarButtonItemStyleBordered
+                                      target:self
+                                      action: @selector(abortInventory)];
+    self.navigationItem.leftBarButtonItem = chancelButton;
+    
+    // Set navigation bar title
+    NSString *title = @"Inventar";
+    self.navigationItem.title = title;
+    
+    // Table init
+    inventoryTableView.delegate = self;
+    
+    NSMutableArray *pictures = [[NSMutableArray alloc] init];
+    
+    [self prepareData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,4 +68,73 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) prepareData
+{
+    NSString *nowString;
+    
+    if(!review) {
+        
+        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+        NSString *username = @"";
+        
+        if([appSettings objectForKey:@"username"] != nil) {
+            username = [appSettings stringForKey:@"username"];
+        }
+        
+        area.author = username;
+        
+        // Set current time
+        NSDate *now = [NSDate date];
+        
+        // Update date in observation data object
+        area.date = now;
+    }
+    
+    // Get formatted date string
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    nowString = [dateFormatter stringFromDate:area.date];
+    
+    time.text = nowString;
+    areaName.text = area.areaName;
+    author.text = area.author;
+    
+}
+
+- (void) abortInventory {
+    NSLog(@"abortInventory");
+    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
+}
+
+#pragma mark
+#pragma UITableViewDelegate Methodes
+
+- (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"cellForRowAtIndexPath");
+    return nil;
+}
+
+
+- (void)viewDidUnload {
+    inventoryTableView = nil;
+    [self setTime:nil];
+    [self setAuthor:nil];
+    [self setAreaName:nil];
+    [super viewDidUnload];
+}
+
+- (IBAction)newInventory:(id)sender {
+    
+    AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
+                                 initWithNibName:@"AreasSubmitNewInventoryController"
+                                 bundle:[NSBundle mainBundle]];
+
+    
+    // Switch the View & Controller
+    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    areasSubmitNewInventoryController = nil;
+
+}
 @end

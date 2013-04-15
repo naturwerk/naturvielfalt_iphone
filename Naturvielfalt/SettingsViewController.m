@@ -119,7 +119,10 @@
             }
               
             // Username
-            cell.detailTextLabel.text = (username.length > 0) ? username : @"-";
+            // Store the username in the appSettings
+            [appSettings setObject:@"waebi07" forKey:@"username"];
+            [appSettings synchronize];
+            cell.detailTextLabel.text = (username.length > 0) ? username : @"waebi07";
         } else {
             
             NSString *password = @"";
@@ -129,7 +132,10 @@
             }
              
             // Password
-            cell.detailTextLabel.text = (password.length > 0) ? @"*********" : @"-";
+            // Store the username in the appSettings
+            [appSettings setObject:@"natur498" forKey:@"password"];
+            [appSettings synchronize];
+            cell.detailTextLabel.text = (password.length > 0) ? @"*********" : @"natur498";
         }
         
     } else {

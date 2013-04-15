@@ -25,6 +25,7 @@
 @property (nonatomic) Area *area;
 @property (nonatomic) IBOutlet UITableView *tableView;
 
+
 @property (nonatomic) NSArray *arrayKeys;
 @property (nonatomic) NSArray *arrayValues;
 

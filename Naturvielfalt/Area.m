@@ -7,9 +7,10 @@
 //
 
 #import "Area.h"
+#import "Inventory.h"
 
 @implementation Area
-@synthesize areaId, author, areaName, inventoryName, date, pictures, description, submitToServer, locationLocked, typeOfArea;
+@synthesize areaId, author, areaName, date, pictures, inventories, description, submitToServer, locationLocked, typeOfArea;
 
 - (id) init {
     
@@ -17,11 +18,17 @@
         areaId = 1;
         author = @"Hans Muster";
         areaName = @"Area 1";
-        inventoryName = @"Inventory 1";
         date = [[NSDate alloc] initWithTimeIntervalSinceNow:NSTimeIntervalSince1970];
         pictures = nil;
         description = @"Description 1";
         typeOfArea = LINE;
+        
+        for (int i = 0; i < 4; i++) {
+            Inventory *inv = [[Inventory alloc] init];
+            inv.inventoryName = [NSString stringWithFormat:@"Inventar %i", i];
+            inv.description = @"Libellen-Inventar";
+            [inventories addObject:inv];
+        }
     }
     return self;
 }

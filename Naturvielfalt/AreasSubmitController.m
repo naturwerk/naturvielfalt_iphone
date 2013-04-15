@@ -13,6 +13,7 @@
 #import "CameraViewController.h"
 #import "CustomCell.h"
 #import "MBProgressHUD.h"
+#import "CustomInventoryAddCell.h"
 
 @interface AreasSubmitController ()
 
@@ -38,7 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
     NSLog(@"load settings for save area view");
     
     // Set top navigation bar button  
@@ -52,12 +53,12 @@
     self.navigationItem.rightBarButtonItem = submitButton;
     
     // Set top navigation bar button  
-    UIBarButtonItem *chancelButton = [[UIBarButtonItem alloc] 
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
                                       initWithTitle:@"Abbrechen"
                                       style:UIBarButtonItemStyleBordered
                                       target:self
                                       action: @selector(abortArea)];
-    self.navigationItem.leftBarButtonItem = chancelButton;
+    self.navigationItem.leftBarButtonItem = cancelButton;
     
     // Set navigation bar title    
     NSString *title = @"Gebiet";
@@ -91,7 +92,7 @@
         if([appSettings objectForKey:@"username"] != nil) {
             username = [appSettings stringForKey:@"username"];
         }
-        
+        NSLog(@"Benutzername: %@", username);
         area.author = username;
         
         // Set current time
@@ -149,7 +150,7 @@
     hud.labelText = @"Gebiet gespeichert";
     
     [hud show:YES];
-    [hud hide:YES afterDelay:3];
+    [hud hide:YES afterDelay:1];
     
     // Set review flag
     review = true;
@@ -159,7 +160,7 @@
                                      initWithTitle:@"Ändern"
                                      style:UIBarButtonItemStyleBordered
                                      target:self
-                                     action: @selector(saveObservation)];
+                                     action: @selector(saveArea)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
     [tableView reloadData];
@@ -173,6 +174,10 @@
     NSLog(@"abortArea");
     [self.navigationController popViewControllerAnimated:TRUE];
     [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
+}
+
+- (void) newInventory {
+    NSLog(@"new inventory pressed");
 }
 
 #pragma mark
@@ -195,6 +200,7 @@
     static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
     CustomCell *customCell;
+    CustomInventoryAddCell *customInventoryAddCell;
     
     if (indexPath.section == 0) {
         if(indexPath.row > 1) {
@@ -215,7 +221,7 @@
                     case 2:
                     {
                         customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = area.areaName;
+                        customCell.value.text = (area.areaName.length > 10) ? @"..." : area.areaName;
                         customCell.image.image = nil;
                     }
                         break;
@@ -243,7 +249,7 @@
                     case 5:
                     {
                         customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = area.inventoryName;
+                        customCell.value.text = [NSString stringWithFormat:@"%i", area.inventories.count];
                         customCell.image.image = nil;
                     }
                         break;
@@ -273,20 +279,22 @@
     } else {
         
         if(cell == nil) {
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
+            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomInventoryAddCell" owner:self options:nil];
             
             for (id currentObject in topLevelObjects){
                 if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                    customCell =  (CustomCell *)currentObject;
+                    customInventoryAddCell =  (CustomInventoryAddCell *)currentObject;
                     break;
                 }
             }
 
             NSLog(@"section %i", indexPath.section);
-            customCell.key.text = @"Inventare verwalten";
-            customCell.value.text = @"5";
-            customCell.image.image = nil;
-            return customCell;
+            customInventoryAddCell.key.text = @"Inventare";
+            customInventoryAddCell.value.text = @"0";
+            [customInventoryAddCell.addInventoryButton addTarget:nil action:@selector(newInventory:) forControlEvents:UIControlEventTouchUpInside];
+
+            //[NSString stringWithFormat:@"%i", area.inventories.count];
+            return customInventoryAddCell;
         }
     }
     return cell;
@@ -302,52 +310,66 @@
 }
 
 - (void) rowClicked:(NSIndexPath *) indexPath {
-    // TODO: rewrite to switch case!
-    if (indexPath.row == 2) {
-        // NAME
-        // Create the ObservationsOrganismSubmitCameraController
-        AreasSubmitNameController *areasSubmitNameController = [[AreasSubmitNameController alloc]
-                                                                                      initWithNibName:@"AreasSubmitNameController"
+    NSLog(@"index Path: %@", indexPath);
+    AreasSubmitNameController *areasSubmitNameController;
+    AreasSubmitDescriptionController *areasSubmitDescriptionController;
+    CameraViewController *areaSubmitCameraController;
+    AreasSubmitInventoryController *areasSubmitInventoryController;
+
+    
+    if (indexPath.section == 0) {
+        switch (indexPath.row) {
+            case 2:
+                // NAME
+                // Create the ObservationsOrganismSubmitCameraController
+                areasSubmitNameController = [[AreasSubmitNameController alloc]
+                                                                        initWithNibName:@"AreasSubmitNameController"
+                                                                        bundle:[NSBundle mainBundle]];
+                
+                
+                areasSubmitNameController.area = area;
+                
+                // Switch the View & Controller
+                [self.navigationController pushViewController:areasSubmitNameController animated:TRUE];
+                areasSubmitNameController = nil;
+
+                break;
+            case 3:
+                // DESCRIPTION
+                // Create the ObservationsOrganismSubmitCameraController
+                areasSubmitDescriptionController = [[AreasSubmitDescriptionController alloc]
+                                                                                      initWithNibName:@"AreasSubmitDescriptionController"
                                                                                       bundle:[NSBundle mainBundle]];
-        
-        
-        areasSubmitNameController.area = area;
-        
-        // Switch the View & Controller
-        [self.navigationController pushViewController:areasSubmitNameController animated:TRUE];
-        areasSubmitNameController = nil;
-        
-    }  else if (indexPath.row == 3) {
-        // DESCRIPTION
-        // Create the ObservationsOrganismSubmitCameraController
-        AreasSubmitDescriptionController *areasSubmitDescriptionController = [[AreasSubmitDescriptionController alloc]
-                                                                                        initWithNibName:@"AreasSubmitDescriptionController"
-                                                                                        bundle:[NSBundle mainBundle]];
-        
-        areasSubmitDescriptionController.area = area;
-        
-        // Switch the View & Controller
-        [self.navigationController pushViewController:areasSubmitDescriptionController animated:TRUE];
-        areasSubmitDescriptionController = nil;
-        
-    } else if (indexPath.row == 4) {
-        // CAMERA
-        // Create the ObservationsOrganismSubmitCameraController
-        CameraViewController *areaSubmitCameraController = [[CameraViewController alloc]
-                                                                initWithNibName:@"CameraViewController"
-                                                                bundle:[NSBundle mainBundle]];
-        
-        
-        areaSubmitCameraController.area = area;
-        
-        // Switch the View & Controller
-        [self.navigationController pushViewController:areaSubmitCameraController animated:TRUE];
-        areaSubmitCameraController = nil;
-        
-    } else if(indexPath.row == 5) {
+                
+                areasSubmitDescriptionController.area = area;
+                
+                // Switch the View & Controller
+                [self.navigationController pushViewController:areasSubmitDescriptionController animated:TRUE];
+                areasSubmitDescriptionController = nil;
+
+                break;
+            case 4:
+                // CAMERA
+                // Create the ObservationsOrganismSubmitCameraController
+                areaSubmitCameraController = [[CameraViewController alloc]
+                                                                    initWithNibName:@"CameraViewController"
+                                                                    bundle:[NSBundle mainBundle]];
+                
+                
+                areaSubmitCameraController.area = area;
+                
+                // Switch the View & Controller
+                [self.navigationController pushViewController:areaSubmitCameraController animated:TRUE];
+                areaSubmitCameraController = nil;
+                break;
+            default:
+                break;
+        }
+    } else {
+
         // INVENTORY
         // Create the ObservationsOrganismSubmitMapController
-        AreasSubmitInventoryController *areasSubmitInventoryController = [[AreasSubmitInventoryController alloc]
+        areasSubmitInventoryController = [[AreasSubmitInventoryController alloc]
                                                                                 initWithNibName:@"AreasSubmitInventoryController"
                                                                                 bundle:[NSBundle mainBundle]];
         

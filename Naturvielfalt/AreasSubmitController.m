@@ -10,10 +10,11 @@
 #import "AreasSubmitNameController.h"
 #import "AreasSubmitDescriptionController.h"
 #import "AreasSubmitInventoryController.h"
+#import "AreasSubmitNewInventoryController.h"
 #import "CameraViewController.h"
 #import "CustomCell.h"
 #import "MBProgressHUD.h"
-#import "CustomInventoryAddCell.h"
+#import "CustomAddCell.h"
 
 @interface AreasSubmitController ()
 
@@ -110,7 +111,7 @@
     
     // Initialize keys/values
     arrayKeys = [[NSArray alloc] initWithObjects:@"Zeit", @"Erfasser", @"Gebietsname", @"Beschreibung",  @"Gebietsfotos", nil];
-    arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.areaName, area.description, @">", nil];
+    arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.name, area.description, @">", nil];
 }
 
 
@@ -178,6 +179,16 @@
 
 - (void) newInventory {
     NSLog(@"new inventory pressed");
+    // new INVENTORY
+    AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
+                                      initWithNibName:@"AreasSubmitNewInventoryController"
+                                      bundle:[NSBundle mainBundle]];
+    
+    areasSubmitNewInventoryController.area = area;
+    
+    // Switch the View & Controller
+    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    areasSubmitNewInventoryController = nil;
 }
 
 #pragma mark
@@ -200,7 +211,7 @@
     static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
     CustomCell *customCell;
-    CustomInventoryAddCell *customInventoryAddCell;
+    CustomAddCell *customInventoryAddCell;
     
     if (indexPath.section == 0) {
         if(indexPath.row > 1) {
@@ -221,7 +232,7 @@
                     case 2:
                     {
                         customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = (area.areaName.length > 10) ? @"..." : area.areaName;
+                        customCell.value.text = (area.name.length > 10) ? @"..." : area.name;
                         customCell.image.image = nil;
                     }
                         break;
@@ -243,14 +254,6 @@
                         customCell.value.text = picCount;
                         customCell.image.image = nil;
                         
-                    }
-                        break;
-                        
-                    case 5:
-                    {
-                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = [NSString stringWithFormat:@"%i", area.inventories.count];
-                        customCell.image.image = nil;
                     }
                         break;
                         
@@ -279,11 +282,11 @@
     } else {
         
         if(cell == nil) {
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomInventoryAddCell" owner:self options:nil];
+            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAddCell" owner:self options:nil];
             
             for (id currentObject in topLevelObjects){
                 if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                    customInventoryAddCell =  (CustomInventoryAddCell *)currentObject;
+                    customInventoryAddCell =  (CustomAddCell *)currentObject;
                     break;
                 }
             }
@@ -291,7 +294,7 @@
             NSLog(@"section %i", indexPath.section);
             customInventoryAddCell.key.text = @"Inventare";
             customInventoryAddCell.value.text = @"0";
-            [customInventoryAddCell.addInventoryButton addTarget:nil action:@selector(newInventory:) forControlEvents:UIControlEventTouchUpInside];
+            [customInventoryAddCell.addButton addTarget:self action:@selector(newInventory) forControlEvents:UIControlEventTouchUpInside];
 
             //[NSString stringWithFormat:@"%i", area.inventories.count];
             return customInventoryAddCell;

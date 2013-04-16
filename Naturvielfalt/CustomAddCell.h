@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CustomInventoryAddCell : UITableViewCell {
-    IBOutlet UIButton *addInventoryButton;
+@interface CustomAddCell : UITableViewCell {
+    IBOutlet UIButton *addButton;
     IBOutlet UILabel *key;
     IBOutlet UILabel *value;
     
 }
 
-@property (nonatomic) IBOutlet UIButton *addInventoryButton;
+@property (nonatomic) IBOutlet UIButton *addButton;
 @property (nonatomic) IBOutlet UILabel *key;
 @property (nonatomic) IBOutlet UILabel *value;
 

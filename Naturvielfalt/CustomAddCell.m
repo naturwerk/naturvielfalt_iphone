@@ -6,11 +6,11 @@
 //
 //
 
-#import "CustomInventoryAddCell.h"
+#import "CustomAddCell.h"
 #import "AreasSubmitController.h"
 
-@implementation CustomInventoryAddCell
-@synthesize addInventoryButton, key, value;
+@implementation CustomAddCell
+@synthesize addButton, key, value;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

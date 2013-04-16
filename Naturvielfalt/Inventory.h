@@ -13,7 +13,7 @@
     
     long long int inventoryId;
     NSString *author;
-    NSString *inventoryName;
+    NSString *name;
     NSString *description;
     NSDate *date;
     NSMutableArray *pictures;
@@ -23,7 +23,7 @@
 
 @property (nonatomic, assign) long long int inventoryId;
 @property (nonatomic) NSString *author;
-@property (nonatomic) NSString *inventoryName;
+@property (nonatomic) NSString *name;
 @property (nonatomic) NSString *description;
 @property (nonatomic) NSDate *date;
 @property (nonatomic) NSMutableArray *pictures;

@@ -34,7 +34,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="191373211">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUILabel" id="465755473">
@@ -146,7 +146,7 @@
 					<object class="IBUILabel" id="895246376">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 95}, {136, 21}}</string>
+						<string key="NSFrame">{{20, 95}, {180, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="402857009"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -166,7 +166,7 @@
 					<object class="IBUIButton" id="402857009">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{122, 91}, {29, 29}}</string>
+						<string key="NSFrame">{{280, 91}, {29, 29}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="200841268"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -196,7 +196,6 @@
 					</object>
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 411}}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="256505270"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -247,27 +246,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">time</string>
+						<string key="label">dateLabel</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="256505270"/>
 					</object>
-					<int key="connectionID">87</int>
+					<int key="connectionID">92</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">author</string>
+						<string key="label">authorLabel</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="528110925"/>
 					</object>
-					<int key="connectionID">88</int>
+					<int key="connectionID">93</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">areaName</string>
+						<string key="label">areaLabel</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="465755473"/>
 					</object>
-					<int key="connectionID">89</int>
+					<int key="connectionID">94</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -366,7 +365,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">91</int>
+			<int key="maxID">94</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

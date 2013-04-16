@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Area.h"
+#import "Inventory.h"
 
-@interface AreasSubmitNewInventoryController : UIViewController
+@interface AreasSubmitNewInventoryController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+    Area *area;
+    Inventory *inventory;
+    NSArray *arrayKeys;
+    NSArray *arrayValues;
+    
+    BOOL review;
+}
+
+@property (nonatomic) Area *area;
 
 @end

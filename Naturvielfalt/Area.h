@@ -13,7 +13,7 @@
     
     long long int areaId;
     NSString *author;
-    NSString *areaName;
+    NSString *name;
     NSString *description;
     NSDate *date;
     NSMutableArray *pictures;
@@ -24,7 +24,7 @@
 
 @property (nonatomic, assign) long long int areaId;
 @property (nonatomic) NSString *author;
-@property (nonatomic) NSString *areaName;
+@property (nonatomic) NSString *name;
 @property (nonatomic) NSDate *date;
 @property (nonatomic) NSMutableArray *pictures;
 @property (nonatomic) NSMutableArray *inventories;

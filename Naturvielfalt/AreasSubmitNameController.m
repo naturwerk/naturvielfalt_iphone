@@ -44,7 +44,7 @@
     self.navigationItem.leftBarButtonItem = backButton;
     
     // Load the current observation comment into the textview
-    textView.text = area.areaName;
+    textView.text = area.name;
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,7 +56,7 @@
 - (void) saveAreaName
 {
     // Save the description
-    area.areaName = textView.text;
+    area.name = textView.text;
     
     
     // Change view back to submitController

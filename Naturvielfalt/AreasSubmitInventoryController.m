@@ -15,7 +15,7 @@
 @end
 
 @implementation AreasSubmitInventoryController
-@synthesize area, time, author, areaName;
+@synthesize area, dateLabel, authorLabel, areaLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -96,9 +96,9 @@
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     nowString = [dateFormatter stringFromDate:area.date];
     
-    time.text = nowString;
-    areaName.text = area.areaName;
-    author.text = area.author;
+    dateLabel.text = nowString;
+    areaLabel.text = area.name;
+    authorLabel.text = area.author;
     
 }
 
@@ -119,9 +119,9 @@
 
 - (void)viewDidUnload {
     inventoryTableView = nil;
-    [self setTime:nil];
-    [self setAuthor:nil];
-    [self setAreaName:nil];
+    [self setDateLabel:nil];
+    [self setAuthorLabel:nil];
+    [self setAreaLabel:nil];
     [super viewDidUnload];
 }
 

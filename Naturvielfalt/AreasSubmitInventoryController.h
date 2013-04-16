@@ -9,18 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "Area.h"
 
-@interface AreasSubmitInventoryController : UIViewController <UITableViewDelegate> {
+@interface AreasSubmitInventoryController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
     
     IBOutlet UITableView *inventoryTableView;
+    IBOutlet UILabel *dateLabel;
+    IBOutlet UILabel *autherLabel;
+    IBOutlet UILabel *areaLabel;
     Area *area;
     
     BOOL review;
 }
 
 @property (nonatomic) Area *area;
-@property (weak, nonatomic) IBOutlet UILabel *time;
-@property (weak, nonatomic) IBOutlet UILabel *author;
-@property (weak, nonatomic) IBOutlet UILabel *areaName;
+@property (nonatomic) IBOutlet UILabel *dateLabel;
+@property (nonatomic) IBOutlet UILabel *authorLabel;
+@property (nonatomic) IBOutlet UILabel *areaLabel;
 
 - (IBAction)newInventory:(id)sender;
 

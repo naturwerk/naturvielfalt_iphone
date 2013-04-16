@@ -33,7 +33,5 @@
 @property (nonatomic, assign) BOOL locationLocked;
 @property (nonatomic) DrawMode typeOfArea;
 
-- (Area *) getArea;
-- (void) setArea:(Area *)area;
 
 @end

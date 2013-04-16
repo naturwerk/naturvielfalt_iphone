@@ -11,6 +11,17 @@
 @implementation Inventory 
 @synthesize inventoryId, author, name, description, date, pictures, submitToServer, area;
 
-
+- (id) init {
+    
+    if (self = [super init]) {
+        inventoryId = 1;
+        author = @"Hans Muster";
+        name = @"Libelleninventar";
+        date = [NSDate date];
+        pictures = nil;
+        description = @"Inventory description 1";
+    }
+    return self;
+}
 
 @end

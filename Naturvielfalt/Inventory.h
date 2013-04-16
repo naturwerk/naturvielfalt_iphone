@@ -16,6 +16,7 @@
     NSString *name;
     NSString *description;
     NSDate *date;
+    NSMutableArray *observations;
     NSMutableArray *pictures;
     BOOL submitToServer;
     Area *area;
@@ -29,5 +30,6 @@
 @property (nonatomic) NSMutableArray *pictures;
 @property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic) Area *area;
+
 
 @end

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Area.h"
 
-@interface AreasSubmitInventoryController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
+@interface AreasSubmitInventoryController : UIViewController <UITableViewDelegate> {
     
     IBOutlet UITableView *inventoryTableView;
     IBOutlet UILabel *dateLabel;
@@ -22,7 +22,8 @@
 
 @property (nonatomic) Area *area;
 @property (nonatomic) IBOutlet UILabel *dateLabel;
-@property (nonatomic) IBOutlet UILabel *authorLabel;
+@property (nonatomic) IBOutlet UILabel *autherLabel;
+
 @property (nonatomic) IBOutlet UILabel *areaLabel;
 
 - (IBAction)newInventory:(id)sender;

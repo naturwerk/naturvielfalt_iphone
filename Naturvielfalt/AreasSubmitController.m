@@ -21,7 +21,7 @@
 @end
 
 @implementation AreasSubmitController
-@synthesize areaChanged, area, tableView, arrayKeys, arrayValues, persistenceManager, review;
+@synthesize areaChanged, area, tableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -81,25 +81,25 @@
 - (void) prepareData 
 {
     // Create new area object, will late be used as data transfer object
-    if(!area) area = [[[Area alloc] init] getArea];
+    if(!area) area = [[Area alloc] init];
     
     NSString *nowString;
     
     if(!review) {
         
-        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+        /*NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
         NSString *username = @"";
         
         if([appSettings objectForKey:@"username"] != nil) {
             username = [appSettings stringForKey:@"username"];
         }
         NSLog(@"Benutzername: %@", username);
-        area.author = username;
+        area.author = username;*/
         
         // Set current time
         NSDate *now = [NSDate date];
         
-        // Update date in observation data object
+        // Update date in area data object
         area.date = now;
     }
     
@@ -123,7 +123,7 @@
 - (void) saveArea
 {
     NSLog(@"saveArea");
-    if (persistenceManager) {
+    if (!persistenceManager) {
         persistenceManager = [[PersistenceManager alloc] init];
         [persistenceManager establishConnection];
     }

@@ -11,6 +11,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import "Observation.h"
 #import "Area.h"
+#import "Inventory.h"
 #import <sqlite3.h>
 
 
@@ -46,7 +47,14 @@
 - (void) updateArea:(Area *) area;
 - (void) deleteArea:(long long int) areaId;
 - (NSMutableArray *) getAreas;
-- (NSMutableArray *) getObservationsFromArea:(long long int) areaId;
+- (NSMutableArray *) getInventoriesFromArea:(long long int) areaId;
+
+//Inventories
+- (long long int) saveInventory:(Inventory *) inventory;
+- (void) updateInventory:(Inventory *) inventory;
+- (void) deleteInventory:(long long int) inventoryId;
+- (NSMutableArray *) getInventories;
+- (NSMutableArray *) getObservationsFromInventory:(long long int) inventoryId;
 
 // Organismgroups;
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel;

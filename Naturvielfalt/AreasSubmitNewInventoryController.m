@@ -10,15 +10,17 @@
 #import "AreasSubmitInventoryNameController.h"
 #import "AreasSubmitInventoryDescriptionController.h"
 #import "AreasSubmitInventoryObservationController.h"
+#import "ObservationsViewController.h"
 #import "CustomCell.h"
 #import "CustomAddCell.h"
+#import "MBProgressHUD.h"
 
 @interface AreasSubmitNewInventoryController ()
 
 @end
 
 @implementation AreasSubmitNewInventoryController
-@synthesize area;
+@synthesize area, inventory, tableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,11 +31,50 @@
     return self;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [tableView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    NSLog(@"load settings for save inventory view");
+    
+    // Set top navigation bar button
+    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
+                                     initWithTitle:(!review) ? @"Sichern"
+                                     : @"Ändern"
+                                     style:UIBarButtonItemStyleBordered
+                                     target:self
+                                     action: @selector(saveInventory)];
+    
+    self.navigationItem.rightBarButtonItem = submitButton;
+    
+    // Set top navigation bar button
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
+                                     initWithTitle:@"Abbrechen"
+                                     style:UIBarButtonItemStyleBordered
+                                     target:self
+                                     action: @selector(abortInventory)];
+    self.navigationItem.leftBarButtonItem = cancelButton;
+    
+    // Set navigation bar title
+    NSString *title = @"Inventar";
+    self.navigationItem.title = title;
+    
+    // Table init
+    tableView.delegate = self;
+    
+    [self prepareData];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -44,17 +85,16 @@
 - (void) prepareData {
     
     // create new inventory if no inventory is choosen
-    if (!inventory) {
-        inventory = [[Inventory alloc] init];
-        inventory.date = area.date;
-    }
+    if (!inventory)inventory = [[Inventory alloc] init];
     
     if (!review) {
         // Set current time
         NSDate *now = [NSDate date];
         
-        // Update date in observation data object
+        // Update date in inventory data object
         inventory.date = now;
+        
+        inventory.author = area.author;
     }
     
     
@@ -62,15 +102,79 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-    NSString *nowString = [dateFormatter stringFromDate:area.date];
+    NSString *nowString = [dateFormatter stringFromDate:inventory.date];
     
     // Initialize keys/values
-    arrayKeys = [[NSArray alloc] initWithObjects:@"Zeit", @"Erfasser", @"Gebietsname", @"Inventarname" @"Beschreibung", nil];
-    arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.name, inventory.name, inventory.description, @">", nil];
+    arrayKeys = [[NSArray alloc] initWithObjects:@"Zeit", @"Erfasser", @"Gebietsname", @"Inventarname", @"Beschreibung", nil];
+    arrayValues = [[NSArray alloc] initWithObjects:nowString, inventory.author, area.name, inventory.name, inventory.description, nil];
+}
+
+- (void) saveInventory {
+    NSLog(@"save inventory pressed");
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+        [persistenceManager establishConnection];
+    }
+    
+    // Save inventory
+    if(review) {
+        [persistenceManager updateInventory:inventory];
+    } else {
+        inventory.inventoryId = [persistenceManager saveInventory:inventory];
+    }
+    
+    // Close connection
+    [persistenceManager closeConnection];
+    
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
+    [self.navigationController.parentViewController.view addSubview:hud];
+    
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    hud.customView = image;
+    
+    // Set custom view mode
+    hud.mode = MBProgressHUDModeCustomView;
+    
+    //hud.delegate = self;
+    hud.labelText = @"Inventar gespeichert";
+    
+    [hud show:YES];
+    [hud hide:YES afterDelay:1];
+    
+    // Set review flag
+    review = true;
+    
+    // Set top navigation bar button
+    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
+                                     initWithTitle:@"Ändern"
+                                     style:UIBarButtonItemStyleBordered
+                                     target:self
+                                     action: @selector(saveInventory)];
+    
+    self.navigationItem.rightBarButtonItem = submitButton;
+    [tableView reloadData];
+    
+    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController pushViewController:self.parentViewController animated:TRUE];
+}
+
+- (void) abortInventory {
+    NSLog(@"Abort Inventory pressed");
+    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
 }
 
 - (void) newObservation {
-    NSLog(@"new Observation pressed");
+    NSLog(@"new inventory pressed");
+    // new INVENTORY
+    ObservationsViewController *observationsViewController = [[ObservationsViewController alloc]
+                                                              initWithNibName:@"ObservationsViewController"
+                                                              bundle:[NSBundle mainBundle]];
+    
+    
+    // Switch the View & Controller
+    [self.navigationController pushViewController:observationsViewController animated:TRUE];
+    observationsViewController = nil;
 }
 
 #pragma mark
@@ -80,7 +184,7 @@
     return 2;
 }
 
--(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSLog(@"numberOfRowsInSection");
     if (section == 0) {
         return [arrayKeys count];
@@ -88,7 +192,7 @@
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"cellForRowAtIndexPath");
     static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -171,13 +275,12 @@
     return cell;
 }
 
-- (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    [self rowClicked:indexPath];
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+        [self rowClicked:indexPath];
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self rowClicked:indexPath];
+        [self rowClicked:indexPath];
 }
 
 - (void) rowClicked:(NSIndexPath *) indexPath {
@@ -189,7 +292,7 @@
     
     if (indexPath.section == 0) {
         switch (indexPath.row) {
-            case 2:
+            case 3:
                 // NAME
                 // Create the ObservationsOrganismSubmitCameraController
                 areasSubmitInventoryNameController = [[AreasSubmitInventoryNameController alloc]
@@ -204,7 +307,7 @@
                 areasSubmitInventoryNameController = nil;
                 
                 break;
-            case 3:
+            case 4:
                 // DESCRIPTION
                 // Create the ObservationsOrganismSubmitCameraController
                 areasSubmitInventoryDescriptionController = [[AreasSubmitInventoryDescriptionController alloc]
@@ -227,7 +330,9 @@
                                           initWithNibName:@"AreasSubmitInventoryObservationController"
                                           bundle:[NSBundle mainBundle]];
         
+        areasSubmitInventoryObservationController.inventory = inventory;
         areasSubmitInventoryObservationController.area = area;
+
         
         // Switch the View & Controller
         [self.navigationController pushViewController:areasSubmitInventoryObservationController animated:TRUE];
@@ -235,4 +340,8 @@
     }
 }
 
+- (void)viewDidUnload {
+    [self setTableView:nil];
+    [super viewDidUnload];
+}
 @end

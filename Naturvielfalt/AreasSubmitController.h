@@ -26,13 +26,6 @@
 @property (nonatomic) IBOutlet UITableView *tableView;
 
 
-@property (nonatomic) NSArray *arrayKeys;
-@property (nonatomic) NSArray *arrayValues;
-
-@property (nonatomic) PersistenceManager *persistenceManager;
-@property (nonatomic, assign) BOOL review;
-
-
 - (void) prepareData;
 - (void) rowClicked:(NSIndexPath *)indexPath;
 - (void) saveArea;

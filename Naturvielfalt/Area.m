@@ -18,7 +18,7 @@
         areaId = 1;
         author = @"Hans Muster";
         name = @"Area 1";
-        date = [[NSDate alloc] initWithTimeIntervalSinceNow:NSTimeIntervalSince1970];
+        date = [NSDate date];
         pictures = nil;
         description = @"Description 1";
         typeOfArea = LINE;
@@ -33,12 +33,5 @@
     return self;
 }
 
-- (Area *) getArea {
-    return self;
-}
-
-- (void)setArea:(Area *)area {
-    
-}
 
 @end

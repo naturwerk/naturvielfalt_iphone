@@ -107,6 +107,7 @@
     sqlite3_close(dbStatic);
 }
 
+// OBSERVATIONS
 - (long long int) saveObservation:(Observation *) observation
 {
     char *sql = "INSERT INTO observation (ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, IMAGE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -157,10 +158,6 @@
     return sqlite3_last_insert_rowid(dbUser);
 }
 
-
-
-
-// OBSERVATIONS
 - (void) updateObservation:(Observation *) observation
 {
     char *sql = "UPDATE observation SET ORGANISM_ID = ?, ORGANISMGROUP_ID = ?, ORGANISM_NAME = ?, ORGANISM_NAME_LAT = ?, ORGANISM_FAMILY = ?, AUTHOR = ?, DATE = ?, AMOUNT = ?, LOCATION_LAT = ?, LOCATION_LON = ?, ACCURACY = ?, COMMENT = ?, IMAGE = ? WHERE ID = ?";
@@ -353,7 +350,28 @@
     return nil;
 }
 
-- (NSMutableArray *) getObservationsFromArea:(long long)areaId {
+- (NSMutableArray *) getInventoriesFromArea:(long long)areaId {
+    return nil;
+}
+
+// INVENTORIES
+- (long long int) saveInventory:(Inventory *) inventory {
+    return 1;
+}
+
+- (void) updateInventory:(Inventory *) inventory {
+    
+}
+
+- (void) deleteInventory:(long long int) inventoryId {
+    
+}
+
+- (NSMutableArray *) getInventories {
+    return nil;
+}
+
+- (NSMutableArray *) getObservationsFromInventory:(long long int) inventoryId {
     return nil;
 }
 

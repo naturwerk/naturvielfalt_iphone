@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Inventory.h"
 
 
 @interface ObservationsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {

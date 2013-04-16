@@ -7,6 +7,7 @@
 //
 
 #import "AreasSubmitInventoryDescriptionController.h"
+#import "AreasSubmitNewInventoryController.h"
 
 @interface AreasSubmitInventoryDescriptionController ()
 
@@ -27,13 +28,51 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    // Set navigation bar title
+    NSString *title = @"Beschreibung";
+    self.navigationItem.title = title;
+    
+    // Make the textfield get focus
+    [textView becomeFirstResponder];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Speichern"
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(saveDescription)];
+    
+    self.navigationItem.leftBarButtonItem = backButton;
+    
+    // Load the current observation comment into the textview
+    textView.text = inventory.description;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) saveDescription
+{
+    // Save the description
+    inventory.description = textView.text;
+    
+    
+    // Change view back to submitController
+    AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
+                                                    initWithNibName:@"AreasSubmitNewInventoryController"
+                                                    bundle:[NSBundle mainBundle]];
+    
+    
+    // Switch the View & Controller
+    
+    // POP
+    [self.navigationController popViewControllerAnimated:TRUE];
+    
+    // PUSH
+    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    areasSubmitNewInventoryController = nil;
 }
 
 - (void)viewDidUnload {

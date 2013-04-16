@@ -15,7 +15,7 @@
 @end
 
 @implementation AreasSubmitInventoryController
-@synthesize area, dateLabel, authorLabel, areaLabel;
+@synthesize area, dateLabel, areaLabel, autherLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,26 +32,8 @@
     
     NSLog(@"load settings for save area view");
     
-    // Set top navigation bar button
-    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:(!review) ? @"Sichern"
-                                     : @"Ändern"
-                                     style:UIBarButtonItemStyleBordered
-                                     target:self
-                                     action: @selector(saveArea)];
-    
-    self.navigationItem.rightBarButtonItem = submitButton;
-    
-    // Set top navigation bar button
-    UIBarButtonItem *chancelButton = [[UIBarButtonItem alloc]
-                                      initWithTitle:@"Abbrechen"
-                                      style:UIBarButtonItemStyleBordered
-                                      target:self
-                                      action: @selector(abortInventory)];
-    self.navigationItem.leftBarButtonItem = chancelButton;
-    
     // Set navigation bar title
-    NSString *title = @"Inventar";
+    NSString *title = @"Inventare";
     self.navigationItem.title = title;
     
     // Table init
@@ -72,24 +54,6 @@
 {
     NSString *nowString;
     
-    if(!review) {
-        
-        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
-        NSString *username = @"";
-        
-        if([appSettings objectForKey:@"username"] != nil) {
-            username = [appSettings stringForKey:@"username"];
-        }
-        
-        area.author = username;
-        
-        // Set current time
-        NSDate *now = [NSDate date];
-        
-        // Update date in observation data object
-        area.date = now;
-    }
-    
     // Get formatted date string
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
@@ -98,14 +62,22 @@
     
     dateLabel.text = nowString;
     areaLabel.text = area.name;
-    authorLabel.text = area.author;
+    autherLabel.text = area.author;
     
 }
 
-- (void) abortInventory {
-    NSLog(@"abortInventory");
-    [self.navigationController popViewControllerAnimated:TRUE];
-    [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
+- (void) newInventory:(id)sender {
+    NSLog(@"new inventory pressed");
+    // new INVENTORY
+    AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
+                                                                            initWithNibName:@"AreasSubmitNewInventoryController"
+                                                                            bundle:[NSBundle mainBundle]];
+    
+    areasSubmitNewInventoryController.area = area;
+    
+    // Switch the View & Controller
+    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    areasSubmitNewInventoryController = nil;
 }
 
 #pragma mark
@@ -120,21 +92,10 @@
 - (void)viewDidUnload {
     inventoryTableView = nil;
     [self setDateLabel:nil];
-    [self setAuthorLabel:nil];
+    [self setAutherLabel:nil];
     [self setAreaLabel:nil];
+    [self setAutherLabel:nil];
     [super viewDidUnload];
 }
 
-- (IBAction)newInventory:(id)sender {
-    
-    AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
-                                 initWithNibName:@"AreasSubmitNewInventoryController"
-                                 bundle:[NSBundle mainBundle]];
-
-    
-    // Switch the View & Controller
-    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
-    areasSubmitNewInventoryController = nil;
-
-}
 @end

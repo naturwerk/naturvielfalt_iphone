@@ -52,7 +52,7 @@
 					<object class="IBUIImageView" id="378821354">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">-2147483356</int>
-						<string key="NSFrame">{{130, 154}, {60, 60}}</string>
+						<string key="NSFrame">{{147, 171}, {25, 25}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="303888767"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -380,7 +380,7 @@
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="07-map-marker.png">{26, 26}</string>
 			<string key="193-locaction-arrow.png">{26, 26}</string>
-			<string key="hairelinecross.png">{60, 60}</string>
+			<string key="hairelinecross.png">{75, 75}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

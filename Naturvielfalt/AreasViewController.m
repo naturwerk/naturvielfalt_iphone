@@ -8,12 +8,15 @@
 
 #import "AreasViewController.h"
 #import "AreasSubmitController.h"
+#import "MKPolyline+MKPolylineCategory.h"
+#import "MKPolygon+MKPolygonCategory.h"
 
 @interface AreasViewController ()
 
 @end
 
 @implementation AreasViewController
+@synthesize area;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -73,7 +76,17 @@
     NSString *title = @"Lokalisierung";
     self.navigationItem.title = title;
     
+    
     shouldAdjustZoom = YES;
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    NSLog(@"viewWillAppear");
+    
+    if (area) {
+        [self showPersistedAppearance];
+        [self showStartModeAppearance];
+    }
 }
 
 - (void)viewDidUnload
@@ -86,8 +99,6 @@
     [self setHairlinecross:nil];
     locationManager = nil;
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -95,8 +106,56 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void) prepareData {
+- (void) loadOutAnnotations
+{
+    //loads all annotations from DB
+    /*
+    CLLocationCoordinate2D workingCoordinate;
+    workingCoordinate.latitude = 123;
+    workingCoordinate.longitude = 123;
     
+    CustomAnnotation *customAnnotation = [[CustomAnnotation alloc] initWithWithCoordinate:workingCoordinate];
+    [customAnnotation setTitle:@"Title"];
+    [customAnnotation setSubtitle:@"Subtitle"];
+    [customAnnotation setAnnotationType:POINT];
+    
+    [mapView addAnnotation:customAnnotation];
+     */
+    
+}
+
+- (void) showPersistedAppearance {
+    NSLog(@"show persisted area appereance");
+
+    switch (currentDrawMode) {
+        case POINT:
+            pinAnnotation.persisted = YES;
+            [mapView removeAnnotation:pinAnnotation];
+            startPoint = pinAnnotation;
+            [self drawStartPoint];
+            break;
+        case LINE:
+            customLine.persisted = YES;
+            [mapView removeOverlay:overlayView.overlay];
+            startPoint.persisted = YES;
+            [self drawLine];
+            break;
+        case POLYGON:
+            customPolygon.persisted = YES;
+            [mapView removeOverlay:overlayView.overlay];
+            startPoint.persisted = YES;
+            [self drawPolygon];
+            break;
+    }
+    [longitudeArray removeAllObjects];
+    [latitudeArray removeAllObjects];
+    currentDrawMode = 0;
+    customLine = nil;
+    customPolygon = nil;
+    startPoint = nil;
+    pinAnnotation = nil;
+    overlayView = nil;
+    area = nil;
 }
 
 - (void) saveArea {
@@ -107,7 +166,24 @@
                                                                       initWithNibName:@"AreasSubmitController" 
                                                                       bundle:[NSBundle mainBundle]];
     
+    area = [[Area alloc] init];
+    area.typeOfArea = currentDrawMode;
+    area.longitudeArray = longitudeArray;
+    area.latitudeArray = latitudeArray;
+    areasSubmitController.area = area;
     
+    switch (currentDrawMode) {
+        case POINT:
+            break;
+            
+        case LINE:
+            customLine.area = area;
+            break;
+            
+        case POLYGON:
+            customPolygon.area = area;
+            break;
+    }
     // Switch the View & Controller
     // POP
     [self.navigationController popViewControllerAnimated:TRUE];
@@ -123,19 +199,21 @@
        // remove polygon or line
         if (currentDrawMode != POINT) {
             // Remove startPoint from map
-            [mapView removeAnnotation:annotationView.annotation];
+            [annotationsArray removeObject:startPoint];
+            [overlaysArray removeObject:overlayView.overlay];
+            [mapView removeAnnotation:customAnnotationView.annotation];
             [mapView removeOverlay:overlayView.overlay];
         } else {
             // Remove pin from map
-            [mapView removeAnnotation:pinAnnotationView.annotation];
+            [annotationsArray removeObject:pinAnnotation];
+            [mapView removeAnnotation:pinAnnotation];
         }
         
         [longitudeArray removeAllObjects];
         [latitudeArray removeAllObjects];
     }
-    
-    //[mapView setScrollEnabled:YES];
     _cancelButton.enabled = NO;
+    startPoint = nil;
     [self showStartModeAppearance];
 }
 
@@ -147,104 +225,123 @@
     // remove polygon or line
     if (currentDrawMode != POINT) {
         [mapView removeOverlay:overlayView.overlay];
+        [overlaysArray removeObject:overlayView.overlay];
+    } else {
+        [annotationsArray removeObject:pinAnnotation];
+        if (pinAnnotation) {
+            [mapView removeAnnotation:pinAnnotation];
+        }
     }
     
-    switch (currentDrawMode) {
-        case POINT:
-            NSLog(@"draw a point");
-            _saveButton.enabled = YES;
-            [self drawPoint];
-            break;
-            
-        case LINE: NSLog(@"draw a line");
-            [self drawLine];
-            [self checkForSaving];
-            break;
-            
-        case LINE_FH: NSLog(@"draw a line free-hand");
-            break;
-            
-        case POLYGON: NSLog(@"draw a polygon");
-            [self drawPolygon];
-            [self checkForSaving];
-            break;
-            
-        case POLYGON_FH: NSLog(@"draw a polygon free-hand");
-            break;
-    }
-}
-
-// draw a single point (PIN)
-- (void) drawPoint {
     if (!latitudeArray) {
         latitudeArray = [[NSMutableArray alloc] init];
         longitudeArray = [[NSMutableArray alloc] init];
     }
-    [longitudeArray removeAllObjects];
-    [latitudeArray removeAllObjects];
+    
     MKCoordinateRegion mapRegion = mapView.region;
     NSNumber *longi = [NSNumber numberWithDouble:mapRegion.center.longitude];
     NSNumber *lati = [NSNumber numberWithDouble:mapRegion.center.latitude];
     [longitudeArray addObject:longi];
     [latitudeArray addObject:lati];
-    // Sets the pin in the middle of the hairline cross
-    if (!pinAnnotation) {
-        pinAnnotation = [[DDAnnotation alloc] init];
-        pinAnnotation.title = @"Test title";
-    }
+    
+    switch (currentDrawMode) {
+        case POINT:
+        {
+            NSLog(@"draw a point");
+            [longitudeArray removeAllObjects];
+            [latitudeArray removeAllObjects];
+            MKCoordinateRegion mapRegion = mapView.region;
+            NSNumber *longi = [NSNumber numberWithDouble:mapRegion.center.longitude];
+            NSNumber *lati = [NSNumber numberWithDouble:mapRegion.center.latitude];
+            [longitudeArray addObject:longi];
+            [latitudeArray addObject:lati];
+            _saveButton.enabled = YES;
+            [self drawPoint];
+            break;
+        }
+            
+        case LINE:
+        {
+            NSLog(@"draw a line");
 
-    [mapView removeAnnotation:pinAnnotation];
-    [pinAnnotation setCoordinate:mapRegion.center];
+            [self drawLine];
+            [self checkForSaving];
+            break;
+        }
+            
+        case POLYGON:
+        {
+            NSLog(@"draw a polygon");
+            [self drawPolygon];
+            [self checkForSaving];
+            break;
+        }
+    }
+}
+
+// draw a single point (PIN)
+- (void) drawPoint {
+    
+    CLLocationCoordinate2D coordinate;
+    coordinate.longitude = [(NSNumber*)longitudeArray[0] doubleValue];
+    coordinate.latitude = [(NSNumber*)latitudeArray[0] doubleValue];
+    
+    // Sets the pin in the middle of the hairline cross
+    if (pinAnnotation) {
+        if (pinAnnotation.persisted) {
+            pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode];
+            pinAnnotation.persisted = YES;
+        }else {
+            pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode];
+            pinAnnotation.persisted = NO;
+        }
+    } else {
+        pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode];
+        pinAnnotation.persisted = NO;
+    }
+    
+    [annotationsArray addObject:pinAnnotation];
     [mapView addAnnotation:pinAnnotation];
 }
 
+// draw a line, it must have two points at least for saving
 - (void) drawLine {
-    if (!latitudeArray) {
-        latitudeArray = [[NSMutableArray alloc] init];
-        longitudeArray = [[NSMutableArray alloc] init];
+    
+    if (longitudeArray.count > 1) {
+        points = malloc(sizeof(CLLocationCoordinate2D) * longitudeArray.count);
+        
+        for (int index = 0; index < longitudeArray.count; index++) {
+            CLLocationCoordinate2D coordinate;
+            coordinate.latitude = [(NSNumber*)latitudeArray[index] doubleValue];
+            coordinate.longitude = [(NSNumber*)longitudeArray[index] doubleValue];
+            MKMapPoint newPoint = MKMapPointForCoordinate(coordinate);
+            points[index] = newPoint;
+        }
+        if (customLine) {
+            if (!customLine.persisted) {
+                customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+                [customLine setPersisted:NO];
+
+            } else {
+                customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+                [customLine setPersisted:YES];
+            }
+        } else {
+            customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+            [customLine setPersisted:NO];
+        }
+        [customLine setType:currentDrawMode];
+        [overlaysArray addObject:customLine];
+        [mapView addOverlay:customLine];
     }
-    
-    if (!undo) {
-        MKCoordinateRegion mapRegion = mapView.region;
-        NSNumber *longi = [NSNumber numberWithDouble:mapRegion.center.longitude];
-        NSNumber *lati = [NSNumber numberWithDouble:mapRegion.center.latitude];
-        [longitudeArray addObject:longi];
-        [latitudeArray addObject:lati];
-    }
-    
-    points = malloc(sizeof(CLLocationCoordinate2D) * longitudeArray.count);
-    NSLog(@"num of elements: %lu", (unsigned long)longitudeArray.count);
-    
-    for (int index = 0; index < longitudeArray.count; index++) {
-        CLLocationCoordinate2D coordinate;
-        coordinate.latitude = [(NSNumber*)latitudeArray[index] doubleValue];
-        coordinate.longitude = [(NSNumber*)longitudeArray[index] doubleValue];
-        MKMapPoint newPoint = MKMapPointForCoordinate(coordinate);
-        points[index] = newPoint;
-    }
-    
-    line = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
-    [mapView addOverlay:line];
     
     [self drawStartPoint];
     
     undo = NO;
 }
 
+// draw a polygon, it must have three points at least
 - (void) drawPolygon {
-    if (!latitudeArray) {
-        latitudeArray = [[NSMutableArray alloc] init];
-        longitudeArray = [[NSMutableArray alloc] init];
-    }
-    
-    if (!undo) {
-        MKCoordinateRegion mapRegion = mapView.region;
-        NSNumber *longi = [NSNumber numberWithDouble:mapRegion.center.longitude];
-        NSNumber *lati = [NSNumber numberWithDouble:mapRegion.center.latitude];
-        [longitudeArray addObject:longi];
-        [latitudeArray addObject:lati];
-    }
-
     points = malloc(sizeof(CLLocationCoordinate2D) * longitudeArray.count);
         
     for (int index = 0; index < longitudeArray.count; index++) {
@@ -256,12 +353,47 @@
     }
     
     if (longitudeArray.count < 3) {
-        line = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
-        [mapView addOverlay:line];
+        if (customLine) {
+            if (!customLine.persisted) {
+                customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+                [customLine setPersisted:NO];
+                
+            } else {
+                customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+                [customLine setPersisted:YES];
+            }
+            [customLine setType:currentDrawMode];
+            [overlaysArray addObject:customLine];
+            [mapView addOverlay:customLine];
+        } else {
+            customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+            [customLine setPersisted:NO];
+            [customLine setType:currentDrawMode];
+            [overlaysArray addObject:customLine];
+            [mapView addOverlay:customLine];
+        }
+
         undo = NO;
     } else {
-        polygon = [MKPolygon polygonWithPoints:points count:longitudeArray.count];
-        [mapView addOverlay:polygon];
+        if (customPolygon) {
+            if (!customPolygon.persisted) {
+                customPolygon = [MKPolygon polygonWithPoints:points count:longitudeArray.count];
+                [customPolygon setPersisted:NO];
+                
+            } else {
+                customPolygon = [MKPolygon polygonWithPoints:points count:longitudeArray.count];
+                [customPolygon setPersisted:YES];
+            }
+            [customPolygon setType:currentDrawMode];
+            [overlaysArray addObject:customPolygon];
+            [mapView addOverlay:customPolygon];
+        } else {
+            customPolygon = [MKPolygon polygonWithPoints:points count:longitudeArray.count];
+            [customPolygon setPersisted:NO];
+            [customPolygon setType:currentDrawMode];
+            [overlaysArray addObject:customPolygon];
+            [mapView addOverlay:customPolygon];
+        }
     }
     
     [self drawStartPoint];
@@ -269,16 +401,36 @@
     undo = NO;
 }
 
-// Set an annotation for the start point
+// Set an annotation for the start point (small rectangle)
 - (void) drawStartPoint {
     NSLog(@"draw start point");
     CLLocationCoordinate2D coordinate;
     coordinate.longitude = [(NSNumber*)longitudeArray[0] doubleValue];
     coordinate.latitude = [(NSNumber*)latitudeArray[0] doubleValue];
-    if (!startPoint) {
-        startPoint = [[DDAnnotation alloc] init];
+    if (startPoint) {
+        [mapView removeAnnotation:startPoint];
+        if (startPoint.persisted) {
+            startPoint = [[CustomAnnotation alloc] initWithWithCoordinate:coordinate type:currentDrawMode];
+            startPoint.persisted = YES;
+            startPoint.title = area.name;
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+            [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+            NSString *nowString = [dateFormatter stringFromDate:area.date];
+            startPoint.subtitle = nowString;
+            
+        } else {
+            startPoint = [[CustomAnnotation alloc] initWithWithCoordinate:coordinate type:currentDrawMode];
+            startPoint.persisted = NO;
+        }
+        startPoint.annotationType = currentDrawMode;
+    } else {
+        startPoint = [[CustomAnnotation alloc] initWithWithCoordinate:coordinate type:currentDrawMode];
+        startPoint.annotationType = currentDrawMode;
+        startPoint.persisted = NO;
+        [annotationsArray addObject:startPoint];
     }
-    [startPoint setCoordinate:coordinate];
     [mapView addAnnotation:startPoint];
 }
 
@@ -290,14 +442,14 @@
     
     switch (currentDrawMode) {
         case POINT:
-            [mapView removeAnnotation:pinAnnotation];
+            [mapView removeAnnotation:customAnnotationView.annotation];
             [longitudeArray removeLastObject];
             [latitudeArray removeLastObject];
             _saveButton.enabled = NO;
             break;
             
         case LINE:
-            [mapView removeOverlay:line];
+            [mapView removeOverlay:overlayView.overlay];
             isOnlyOnePoint = [self deleteStartPoint];
             [longitudeArray removeLastObject];
             [latitudeArray removeLastObject];
@@ -314,9 +466,6 @@
                 undo = YES;
                 [self drawLine];
             }
-            break;
-            
-        case LINE_FH:
             break;
             
         case POLYGON:
@@ -337,10 +486,6 @@
                 undo = YES;
                 [self drawPolygon];
             }
-
-            break;
-            
-        case POLYGON_FH:
             break;
     }
     
@@ -381,7 +526,7 @@
 - (BOOL) deleteStartPoint {
     if (longitudeArray.count == 1) {
         NSLog(@"delete start point");
-        [mapView removeAnnotation:startPoint];
+        [mapView removeAnnotation:customAnnotationView.annotation];
         _saveButton.enabled = NO;
         return YES;
     }
@@ -393,6 +538,7 @@
     _undoButton.hidden = NO;
     _setButton.hidden = NO;
     _modeButton.hidden = YES;
+    _undoButton.enabled = NO;
 }
 
 - (void) showStartModeAppearance {
@@ -401,6 +547,7 @@
     _undoButton.hidden = YES;
     _setButton.hidden = YES;
     _modeButton.hidden = NO;
+    _cancelButton.enabled = NO;
 }
 
 - (void) showFreeHandModeAppearance {
@@ -413,7 +560,20 @@
 - (IBAction)showModeOptions:(id)sender {
     
     if (!modeOptions) {
-        modeOptions = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Pin",@"Linie",/*@"Linie (free-hand)",*/ @"Polygon", /*@"Polygon (free-hand)",*/ nil];
+        modeOptions = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Pin",@"Linie",/*@"Linie (free-hand)",*/ @"Polygon", /*@"Polygon (free-hand)",*/ nil];
+        
+        UIImageView *pinSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(50, 31, 25, 25)];
+        [pinSymbol setImage:[UIImage imageNamed:@"symbol-pin.png"]];
+        [modeOptions addSubview:pinSymbol];
+        
+        UIImageView *lineSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(50, 84, 25, 25)];
+        [lineSymbol setImage:[UIImage imageNamed:@"symbol-line.png"]];
+        [modeOptions addSubview:lineSymbol];
+        
+        UIImageView *polygonSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(50, 137, 25, 25)];
+        [polygonSymbol setImage:[UIImage imageNamed:@"symbol-polygon.png"]];
+        [modeOptions addSubview:polygonSymbol];
+
         modeOptions.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     }
     [modeOptions showFromTabBar:self.tabBarController.tabBar];
@@ -434,53 +594,6 @@
     mapView.showsUserLocation = YES;
 }
 
-- (void) GPSrelocate {
-    
-   /* [locationManager stopUpdatingLocation];
-    
-    review = false;
-    
-    if ([CLLocationManager locationServicesEnabled]) {
-        NSLog( @"start relocate");
-        locationManager.delegate = self;
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        locationManager.distanceFilter = 1000.0f;
-        
-        [locationManager startUpdatingLocation];
-    }
-    
-    mapView.showsUserLocation = YES;*/
-}
-
-#pragma mark
-#pragma Event handling for free-hand mode
-
-/*- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
-    NSLog(@"touch began");
-    NSSet *allTouches = [event allTouches];
-    
-    for (UITouch *touch in allTouches) {
-        CGPoint location = [touch locationInView:touch.view];
-            NSLog(@"touch point: longi - %f lati - %f", location.x, location.y);
-    }
-
-
-
-    currentPath = [UIBezierPath bezierPath];
-    currentPath.lineWidth = 3;
-
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"touch moved");
-    UITouch *touch = [touches anyObject];
-    [currentPath addLineToPoint:[touch locationInView:mapView]];
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"touch ended");
-}*/
 
 #pragma mark
 #pragma UIActionSheetDelegate Methods
@@ -497,27 +610,13 @@
             [self showEditModeAppearance];
             NSLog(@"current draw mode: Line");
             break;
-        /*case 2:
-            currentDrawMode = LINE_FH;
-            [mapView setScrollEnabled:NO];
-            [self showFreeHandModeAppearance];
-            NSLog(@"current draw mode: Line fh");
-            break;*/
         case 2:
             currentDrawMode = POLYGON;
             [self showEditModeAppearance];
             NSLog(@"current draw mode: Polygon");
             break;
-        /*case 3:
-            currentDrawMode = POLYGON_FH;
-            [self showFreeHandModeAppearance];
-            NSLog(@"current draw mode: Polygon fh");
-            break;*/
         case 3:
             NSLog(@"cancel pressed");
-            break;
-            
-        default:
             break;
     }
     _cancelButton.enabled = YES;
@@ -532,7 +631,6 @@
 // Listen to change in the userLocation
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    NSLog(@"observeValueForKeyPath gps oberservation");
     if(shouldAdjustZoom) {
         MKCoordinateRegion region;
         region.center = mapView.userLocation.coordinate;
@@ -552,28 +650,20 @@
 #pragma mark MKMapViewDelegate
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
 
-
-    if(!overlayView) {
-        overlayView = nil;
-    }
+    NSLog(@"mapView viewForOverlay");
+    NSLog(@"class of overlay: %@", [overlay class]);
     
-    if(overlay == polygon) {
-        NSLog(@"mapView viewForOverlay - Polygon");
-        polygonView = [[MKPolygonView alloc] initWithPolygon:polygon];
-        polygonView.fillColor = [UIColor colorWithRed:0 green:0 blue:255/255.0 alpha:0.3f];
-        polygonView.strokeColor = [UIColor blueColor];
-        polygonView.lineDashPattern = [NSArray arrayWithObjects:[NSNumber numberWithFloat:12], [NSNumber numberWithFloat:8], nil];
-        polygonView.lineWidth = 3;
-        overlayView = polygonView;
+    overlayView = nil;
+    
+    if (overlay == customLine) {
+        NSLog(@"overlay LINE");
+        customLineView = [[CustomLineView alloc] initWithPolyline:customLine];
+        overlayView = customLineView;
         
-    } else if (overlay == line) {
-        NSLog(@"mapView viewForOverlay - Line");
-        lineView = [[MKPolylineView alloc] initWithPolyline:line];
-        lineView.strokeColor = [UIColor blueColor];
-        lineView.lineWidth = 3;
-        lineView.lineDashPattern = [NSArray arrayWithObjects:[NSNumber numberWithFloat:12], [NSNumber numberWithFloat:8], nil];
-        overlayView = lineView;
-        
+    } else if (overlay == customPolygon) {
+        NSLog(@"overlay POLYGON");
+        customPolygonView = [[CustomPolygonView alloc] initWithPolygon:customPolygon];
+        overlayView = customPolygonView;
     }
     return overlayView;
 }
@@ -581,67 +671,55 @@
 - (MKAnnotationView *)mapView:(MKMapView *)map viewForAnnotation:(id <MKAnnotation>)annotation
 {
     NSLog(@"mapView viewForAnnotation");
-    annotationViewID = @"annotationViewID";
-    pinAnnotationViewID = @"pinAnnotationViewID";
-    
+
+    // return nil, if annotation is user location
     if ([annotation class] == MKUserLocation.class) {
         return nil;
     }
     
-    switch (currentDrawMode) {
+    customAnnotationView = nil;
+    customAnnotation = (CustomAnnotation*) annotation;
+    
+    switch (customAnnotation.annotationType) {
         case POINT:
+        {
             NSLog(@"annotation for POINT Mode");
-            pinAnnotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinAnnotationViewID];
+            NSString *identifier = @"PinAnnotationId";
             
-            if (pinAnnotationView == nil)
-            {
-                NSLog(@"set pin settings (Color, animates, etc.)");
-                pinAnnotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pinAnnotationViewID];
-                pinAnnotationView.pinColor = MKPinAnnotationColorGreen;
-                pinAnnotationView.animatesDrop = YES;
-                pinAnnotationView.canShowCallout = YES;
+            CustomAnnotationView *newAnnotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+
+            newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier];
+
                 
-                UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-                pinAnnotationView.rightCalloutAccessoryView = rightButton;
-            }
-            pinAnnotationView.annotation = annotation;
-            
-            return pinAnnotationView;
+            customAnnotationView = newAnnotationView;
             break;
-            
+        }
         case LINE:
+        {
             NSLog(@"annotation for LINE Mode");
-            annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:annotationViewID];
+            NSString *identifier = @"LineAnnotationId";
+            CustomAnnotationView *newAnnotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
             
-            if (annotationView == nil)
-            {
-                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:annotationViewID];
-            }
+            newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier];
             
-            annotationView.image = [UIImage imageNamed:@"startPoint.png"];
+            customAnnotationView = newAnnotationView;
             break;
-        
+        }
         case POLYGON:
+        {
             NSLog(@"annotation for POLYGON Mode");
-            annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:annotationViewID];
+            NSString *identifier = @"PolygonAnnotationId";
+            CustomAnnotationView *newAnnotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
             
-            if (annotationView == nil)
-            {
-                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:annotationViewID];
-            }
-            
-            annotationView.image = [UIImage imageNamed:@"startPoint.png"];
+            newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier];
+
+            customAnnotationView = newAnnotationView;
             break;
-            
-        default:
-            break;
+        }
     }
+    [customAnnotationView setEnabled:YES];
     
-    // Doesn't work vor MKPinAnnotationView, only vor MKAnnotationView!
-    //annotationView.image = [UIImage imageNamed:@"symbol-line.png"];
-    annotationView.annotation = annotation;
-    
-    return annotationView;
+    return customAnnotationView;
 }
 
 

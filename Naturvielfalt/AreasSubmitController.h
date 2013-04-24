@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Area.h"
 #import "PersistenceManager.h"
 
+@class AreasViewController;
 @interface AreasSubmitController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     
     Area *area;
     PersistenceManager *persistenceManager;
     NSArray *arrayKeys;
     NSArray *arrayValues;
+    DrawMode drawMode;
     
     BOOL review;
     IBOutlet UITableView *tableView;
@@ -24,6 +25,7 @@
 @property (nonatomic, assign) BOOL areaChanged;
 @property (nonatomic) Area *area;
 @property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) DrawMode drawMode;
 
 
 - (void) prepareData;

@@ -28,6 +28,7 @@
 @property (nonatomic) NSString *description;
 @property (nonatomic) NSDate *date;
 @property (nonatomic) NSMutableArray *pictures;
+@property (nonatomic) NSMutableArray *observations;
 @property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic) Area *area;
 

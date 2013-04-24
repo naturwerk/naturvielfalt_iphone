@@ -203,7 +203,7 @@
             // Upload image
             if([ob.pictures count] > 0) {
                 
-                // Creare PNG image
+                // Create PNG image
                 NSData *imageData = UIImagePNGRepresentation([ob.pictures objectAtIndex:0]);
                 
                 // And add the png image into the request

@@ -9,8 +9,9 @@
 #import "Area.h"
 #import "Inventory.h"
 
+@class AreasViewController;
 @implementation Area
-@synthesize areaId, author, name, date, pictures, inventories, description, submitToServer, locationLocked, typeOfArea;
+@synthesize areaId, author, name, date, pictures, inventories, description, submitToServer, locationLocked, typeOfArea, latitudeArray, longitudeArray;
 
 - (id) init {
     
@@ -21,7 +22,8 @@
         date = [NSDate date];
         pictures = nil;
         description = @"Description 1";
-        typeOfArea = LINE;
+        //longitudeArray = [[NSMutableArray alloc] init];
+        //latitudeArray = [[NSMutableArray alloc] init];
         
         for (int i = 0; i < 4; i++) {
             Inventory *inv = [[Inventory alloc] init];

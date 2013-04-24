@@ -15,7 +15,7 @@
 #import "ObservationsOrganismSubmitController.h"
 
 @implementation ObservationsViewController
-@synthesize listData, table, spinner, groupId, classlevel;
+@synthesize listData, table, spinner, groupId, classlevel, inventory;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,21 +39,26 @@
 
 #pragma mark - View lifecycle
 
+
 - (void)viewDidLoad
 {
     // Load the organism from the db
     [self loadOrganismusGroups];
     
-    // Check if its the root element. Otherwise don't display the INFO Page
-    // Because we need the back button to get back to the overview page
-    if(groupId == 1) {
-        // Set info button
-        UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-        [infoButton addTarget:self action:@selector(infoPage) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
-        
-        [self.navigationItem setLeftBarButtonItem:modalButton animated:YES];
+    
+    if(!inventory) {
+        NSLog(@"show info button");
+        // Check if its the root element. Otherwise don't display the INFO Page
+        // Because we need the back button to get back to the overview page
+        if(groupId == 1) {
+            // Set info button
+            UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+            [infoButton addTarget:self action:@selector(infoPage) forControlEvents:UIControlEventTouchUpInside];
+            
+            UIBarButtonItem *modalButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+            
+            [self.navigationItem setLeftBarButtonItem:modalButton animated:YES];
+        }
     }
     
     // Set the title of the Navigationbar
@@ -182,6 +187,7 @@
     if( hasChild && currentSelectedOrganismGroup.organismGroupId != 1) {
         overviewController.groupId = currentSelectedOrganismGroup.organismGroupId;
         overviewController.classlevel = classlevel + 1;
+        overviewController.inventory = inventory;
         [self.navigationController pushViewController:overviewController animated:TRUE];
         overviewController = nil;
         
@@ -203,6 +209,7 @@
             // Set the current displayed organism
             organismSubmitController.organism = notYetDefinedOrganism;
             organismSubmitController.review = false;
+            organismSubmitController.inventory = inventory;
             
             // Switch the View & Controller
             [self.navigationController pushViewController:organismSubmitController animated:TRUE];
@@ -214,6 +221,8 @@
         
         // Start the spinner
         [NSThread detachNewThreadSelector:@selector(threadStartAnimating:) toTarget:self withObject:nil];
+        
+        organismController.inventory = inventory;
         
         // Switch the View & Controller 
         // (Also load all the organism from the organism group in the ViewDidLoad from ObsvervationsOrganismViewController)

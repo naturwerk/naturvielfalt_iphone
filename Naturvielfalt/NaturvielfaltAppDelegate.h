@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface NaturvielfaltAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UIWindow *window;
     UITabBarController *tabBarController;
+    UITabBarItem *observationTabItem;
 }
 
 @property (nonatomic) IBOutlet UIWindow *window;
 @property (nonatomic) IBOutlet UITabBarController *tabBarController;
+@property (weak, nonatomic) IBOutlet UITabBarItem *observationTabItem;
 
 @end

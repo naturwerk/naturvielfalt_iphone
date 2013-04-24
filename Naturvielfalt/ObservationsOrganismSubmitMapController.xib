@@ -50,7 +50,7 @@
 					<object class="IBUIImageView" id="663623671">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{130, 154}, {60, 60}}</string>
+						<string key="NSFrame">{{147, 171}, {25, 25}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="386289551"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -66,6 +66,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{124, 310}, {72, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -211,7 +212,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">hairelinecross.png</string>
-			<string key="NS.object.0">{60, 60}</string>
+			<string key="NS.object.0">{75, 75}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

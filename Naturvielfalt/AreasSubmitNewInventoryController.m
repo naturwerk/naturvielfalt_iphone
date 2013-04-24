@@ -171,6 +171,7 @@
                                                               initWithNibName:@"ObservationsViewController"
                                                               bundle:[NSBundle mainBundle]];
     
+    observationsViewController.inventory = inventory;
     
     // Switch the View & Controller
     [self.navigationController pushViewController:observationsViewController animated:TRUE];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27008FEF1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */; };
 		2716C2451712979800175C61 /* location_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 2716C2441712979800175C61 /* location_pin.png */; };
 		272D3A671714172300588328 /* AreasSubmitNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A651714172300588328 /* AreasSubmitNameController.m */; };
 		272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A661714172300588328 /* AreasSubmitNameController.xib */; };
@@ -19,6 +20,7 @@
 		272D3A7E1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A7C1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib */; };
 		2730A12715A31AF400F416D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12615A31AF300F416D9 /* Security.framework */; };
 		2730A12915A31AFC00F416D9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12815A31AFC00F416D9 /* CoreFoundation.framework */; };
+		273D519117268B8300377227 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 273D518F17268B8300377227 /* Localizable.strings */; };
 		27746D07159B103900672970 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D02159B103900672970 /* Icon-72.png */; };
 		27746D08159B103900672970 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D03159B103900672970 /* Icon-Small-50.png */; };
 		27746D09159B103900672970 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D04159B103900672970 /* Icon-Small.png */; };
@@ -42,6 +44,16 @@
 		27D2B068170F17C500D6815B /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B067170F17C500D6815B /* CameraViewController.m */; };
 		27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB14322C148616E700BBA78D /* CameraViewController.xib */; };
 		27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06A170F18D000D6815B /* Default-568h@2x.png */; };
+		27ED2B42172174E300A45687 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27ED2B41172174E300A45687 /* CustomAnnotationView.m */; };
+		27EDCDF7171E8DCC009D94F8 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCDF6171E8DCC009D94F8 /* hairelinecross.png */; };
+		27EDCE0B171E9390009D94F8 /* symbol-polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE08171E9390009D94F8 /* symbol-polygon.png */; };
+		27EDCE0C171E9390009D94F8 /* symbol-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE09171E9390009D94F8 /* symbol-pin.png */; };
+		27EDCE0D171E9390009D94F8 /* symbol-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE0A171E9390009D94F8 /* symbol-line.png */; };
+		27EDCE11171EA563009D94F8 /* startPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE10171EA563009D94F8 /* startPoint.png */; };
+		27EE24A3172578F700A48689 /* CustomPolygonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27EE24A2172578F600A48689 /* CustomPolygonView.m */; };
+		27EE24A917257C2D00A48689 /* CustomLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27EE24A817257C2D00A48689 /* CustomLineView.m */; };
+		27F02D5E171D797900BAEFF0 /* CustomAreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F02D5D171D797900BAEFF0 /* CustomAreaCell.m */; };
+		27F02D60171D799400BAEFF0 /* CustomAreaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */; };
 		27F114D3171BCF960017DAF0 /* AreasSubmitNewInventoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F114D1171BCF960017DAF0 /* AreasSubmitNewInventoryController.m */; };
 		27F114D4171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114D2171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib */; };
 		27F114D9171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F114D7171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.m */; };
@@ -55,13 +67,10 @@
 		27F7842D1715472D00081A1F /* 151-telescope.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784281715472D00081A1F /* 151-telescope.png */; };
 		27F7842E1715472D00081A1F /* 103-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784291715472D00081A1F /* 103-map.png */; };
 		27F7842F1715472D00081A1F /* 33-cabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7842A1715472D00081A1F /* 33-cabinet.png */; };
-		27F784351715699800081A1F /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784301715699800081A1F /* hairelinecross.png */; };
 		27F784381715699800081A1F /* 193-locaction-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784331715699800081A1F /* 193-locaction-arrow.png */; };
-		27F7843D17156F4200081A1F /* symbol-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7843A17156F4200081A1F /* symbol-line.png */; };
-		27F7843E17156F4200081A1F /* symbol-polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7843B17156F4200081A1F /* symbol-polygon.png */; };
-		27F7843F17156F4200081A1F /* symbol-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7843C17156F4200081A1F /* symbol-pin.png */; };
 		27F7844117156FD000081A1F /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7844017156FD000081A1F /* 07-map-marker.png */; };
-		27F784431715882100081A1F /* startPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784421715882100081A1F /* startPoint.png */; };
+		27F8C3D51727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */; };
+		27FB850F1720054200A7632D /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FB850E1720054200A7632D /* CustomAnnotation.m */; };
 		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
 		CB08912B1430B67F00E846A1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891131430B67F00E846A1 /* NSObject+SBJson.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB08912C1430B67F00E846A1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891161430B67F00E846A1 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -167,6 +176,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27008FED1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolygon+MKPolygonCategory.h"; sourceTree = "<group>"; };
+		27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolygon+MKPolygonCategory.m"; sourceTree = "<group>"; };
 		2716C2441712979800175C61 /* location_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_pin.png; sourceTree = "<group>"; };
 		272D3A641714172300588328 /* AreasSubmitNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNameController.h; sourceTree = "<group>"; };
 		272D3A651714172300588328 /* AreasSubmitNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNameController.m; sourceTree = "<group>"; };
@@ -184,6 +195,8 @@
 		272D3A7C1714543E00588328 /* AreasSubmitInventoryDescriptionController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryDescriptionController.xib; sourceTree = "<group>"; };
 		2730A12615A31AF300F416D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2730A12815A31AFC00F416D9 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		273D519017268B8300377227 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		273D519217268B8F00377227 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		27746D02159B103900672970 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = SOURCE_ROOT; };
 		27746D03159B103900672970 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = SOURCE_ROOT; };
 		27746D04159B103900672970 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = SOURCE_ROOT; };
@@ -211,6 +224,20 @@
 		27D2B064170F165D00D6815B /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Area.m; sourceTree = "<group>"; };
 		27D2B067170F17C500D6815B /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		27D2B06A170F18D000D6815B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		27ED2B40172174E300A45687 /* CustomAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotationView.h; sourceTree = "<group>"; };
+		27ED2B41172174E300A45687 /* CustomAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotationView.m; sourceTree = "<group>"; };
+		27EDCDF6171E8DCC009D94F8 /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
+		27EDCE08171E9390009D94F8 /* symbol-polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-polygon.png"; sourceTree = "<group>"; };
+		27EDCE09171E9390009D94F8 /* symbol-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-pin.png"; sourceTree = "<group>"; };
+		27EDCE0A171E9390009D94F8 /* symbol-line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-line.png"; sourceTree = "<group>"; };
+		27EDCE10171EA563009D94F8 /* startPoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startPoint.png; sourceTree = "<group>"; };
+		27EE24A1172578F600A48689 /* CustomPolygonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPolygonView.h; sourceTree = "<group>"; };
+		27EE24A2172578F600A48689 /* CustomPolygonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPolygonView.m; sourceTree = "<group>"; };
+		27EE24A717257C2D00A48689 /* CustomLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLineView.h; sourceTree = "<group>"; };
+		27EE24A817257C2D00A48689 /* CustomLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLineView.m; sourceTree = "<group>"; };
+		27F02D5C171D797900BAEFF0 /* CustomAreaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAreaCell.h; sourceTree = "<group>"; };
+		27F02D5D171D797900BAEFF0 /* CustomAreaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAreaCell.m; sourceTree = "<group>"; };
+		27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAreaCell.xib; sourceTree = "<group>"; };
 		27F114D0171BCF960017DAF0 /* AreasSubmitNewInventoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNewInventoryController.h; sourceTree = "<group>"; };
 		27F114D1171BCF960017DAF0 /* AreasSubmitNewInventoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNewInventoryController.m; sourceTree = "<group>"; };
 		27F114D2171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNewInventoryController.xib; sourceTree = "<group>"; };
@@ -228,13 +255,12 @@
 		27F784281715472D00081A1F /* 151-telescope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "151-telescope.png"; sourceTree = "<group>"; };
 		27F784291715472D00081A1F /* 103-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "103-map.png"; sourceTree = "<group>"; };
 		27F7842A1715472D00081A1F /* 33-cabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "33-cabinet.png"; sourceTree = "<group>"; };
-		27F784301715699800081A1F /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
 		27F784331715699800081A1F /* 193-locaction-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "193-locaction-arrow.png"; sourceTree = "<group>"; };
-		27F7843A17156F4200081A1F /* symbol-line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-line.png"; sourceTree = "<group>"; };
-		27F7843B17156F4200081A1F /* symbol-polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-polygon.png"; sourceTree = "<group>"; };
-		27F7843C17156F4200081A1F /* symbol-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-pin.png"; sourceTree = "<group>"; };
 		27F7844017156FD000081A1F /* 07-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker.png"; sourceTree = "<group>"; };
-		27F784421715882100081A1F /* startPoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startPoint.png; sourceTree = "<group>"; };
+		27F8C3D31727C4D700480EF8 /* MKPolyline+MKPolylineCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolyline+MKPolylineCategory.h"; sourceTree = "<group>"; };
+		27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+MKPolylineCategory.m"; sourceTree = "<group>"; };
+		27FB850D1720054200A7632D /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
+		27FB850E1720054200A7632D /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
 		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
@@ -406,13 +432,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBDDB558145533BB007E48AB /* QuartzCore.framework in Frameworks */,
 				2730A12915A31AFC00F416D9 /* CoreFoundation.framework in Frameworks */,
 				2730A12715A31AF400F416D9 /* Security.framework in Frameworks */,
 				CBEBAA2014763B22009AC6C0 /* SystemConfiguration.framework in Frameworks */,
 				CBDDB5871459814C007E48AB /* libsqlite3.0.dylib in Frameworks */,
 				CBEBAA2214763B36009AC6C0 /* libz.dylib in Frameworks */,
 				CBEBA9F7147636F0009AC6C0 /* CFNetwork.framework in Frameworks */,
-				CBDDB558145533BB007E48AB /* QuartzCore.framework in Frameworks */,
 				CBDDB534144D66F0007E48AB /* MediaPlayer.framework in Frameworks */,
 				CBDDB532144D66C8007E48AB /* MobileCoreServices.framework in Frameworks */,
 				CB8095B91435A1F0003D3764 /* CoreLocation.framework in Frameworks */,
@@ -628,12 +654,27 @@
 				27F114E5171BFDAC0017DAF0 /* CustomAddCell.h */,
 				27F114E6171BFDAC0017DAF0 /* CustomAddCell.m */,
 				27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */,
+				27F02D5C171D797900BAEFF0 /* CustomAreaCell.h */,
+				27F02D5D171D797900BAEFF0 /* CustomAreaCell.m */,
+				27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */,
 				CB18F9E0145A966700772E9B /* CheckboxCell.h */,
 				CB18F9E1145A966700772E9B /* CheckboxCell.m */,
 				CB18F9E2145A966700772E9B /* CheckboxCell.xib */,
 				F664006F157CAD770092A9D0 /* CustomOrganismCell.h */,
 				F6640070157CAD770092A9D0 /* CustomOrganismCell.m */,
 				F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */,
+				27FB850D1720054200A7632D /* CustomAnnotation.h */,
+				27FB850E1720054200A7632D /* CustomAnnotation.m */,
+				27ED2B40172174E300A45687 /* CustomAnnotationView.h */,
+				27ED2B41172174E300A45687 /* CustomAnnotationView.m */,
+				27F8C3D31727C4D700480EF8 /* MKPolyline+MKPolylineCategory.h */,
+				27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */,
+				27008FED1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.h */,
+				27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */,
+				27EE24A1172578F600A48689 /* CustomPolygonView.h */,
+				27EE24A2172578F600A48689 /* CustomPolygonView.m */,
+				27EE24A717257C2D00A48689 /* CustomLineView.h */,
+				27EE24A817257C2D00A48689 /* CustomLineView.m */,
 				CBEBAA2B147CDCA5009AC6C0 /* WikipediaHelper.h */,
 				CBEBAA2C147CDCA5009AC6C0 /* WikipediaHelper.m */,
 				CB1432321486642200BBA78D /* SwissCoordinates.h */,
@@ -653,18 +694,18 @@
 				2716C2441712979800175C61 /* location_pin.png */,
 				CBEBAA2E147E44AC009AC6C0 /* keinbildvorhanden.png */,
 				CBEBAA24147BF503009AC6C0 /* wikipedia.png */,
+				27EDCDF6171E8DCC009D94F8 /* hairelinecross.png */,
+				27EDCE08171E9390009D94F8 /* symbol-polygon.png */,
+				27EDCE09171E9390009D94F8 /* symbol-pin.png */,
+				27EDCE0A171E9390009D94F8 /* symbol-line.png */,
+				27EDCE10171EA563009D94F8 /* startPoint.png */,
 				CBD9563A144807AB00890319 /* navigationbar.png */,
-				27F784421715882100081A1F /* startPoint.png */,
 				CB1D68FE1444463E003230B4 /* status-green.png */,
-				27F784301715699800081A1F /* hairelinecross.png */,
 				27F7844017156FD000081A1F /* 07-map-marker.png */,
 				27F784331715699800081A1F /* 193-locaction-arrow.png */,
 				CB1D68FF1444463E003230B4 /* status-orange.png */,
 				CB1D69001444463E003230B4 /* status-red.png */,
 				CB7FA21014335033006BD29D /* Default.png */,
-				27F7843A17156F4200081A1F /* symbol-line.png */,
-				27F7843B17156F4200081A1F /* symbol-polygon.png */,
-				27F7843C17156F4200081A1F /* symbol-pin.png */,
 				F619A26115766BDE00F0C842 /* blank.png */,
 				27F784261715472D00081A1F /* 19-gear.png */,
 				27F784271715472D00081A1F /* 12-eye.png */,
@@ -740,6 +781,7 @@
 		CBB7F62E142B040A000150AF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				273D518F17268B8300377227 /* Localizable.strings */,
 				CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */,
 				CBB7F630142B040A000150AF /* InfoPlist.strings */,
 				CBB7F633142B040A000150AF /* Naturvielfalt-Prefix.pch */,
@@ -890,6 +932,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
 			);
 			mainGroup = CBB7F618142B0409000150AF;
 			productRefGroup = CBB7F624142B0409000150AF /* Products */;
@@ -971,17 +1014,19 @@
 				27F7842D1715472D00081A1F /* 151-telescope.png in Resources */,
 				27F7842E1715472D00081A1F /* 103-map.png in Resources */,
 				27F7842F1715472D00081A1F /* 33-cabinet.png in Resources */,
-				27F784351715699800081A1F /* hairelinecross.png in Resources */,
 				27F784381715699800081A1F /* 193-locaction-arrow.png in Resources */,
-				27F7843D17156F4200081A1F /* symbol-line.png in Resources */,
-				27F7843E17156F4200081A1F /* symbol-polygon.png in Resources */,
-				27F7843F17156F4200081A1F /* symbol-pin.png in Resources */,
 				27F7844117156FD000081A1F /* 07-map-marker.png in Resources */,
-				27F784431715882100081A1F /* startPoint.png in Resources */,
 				27F3996D1716F5B0000433F7 /* AreasSubmitInventoryController.xib in Resources */,
 				27F114D4171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib in Resources */,
 				27F114DA171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.xib in Resources */,
 				27F114E9171BFDCD0017DAF0 /* CustomAddCell.xib in Resources */,
+				27F02D60171D799400BAEFF0 /* CustomAreaCell.xib in Resources */,
+				27EDCDF7171E8DCC009D94F8 /* hairelinecross.png in Resources */,
+				27EDCE0B171E9390009D94F8 /* symbol-polygon.png in Resources */,
+				27EDCE0C171E9390009D94F8 /* symbol-pin.png in Resources */,
+				27EDCE0D171E9390009D94F8 /* symbol-line.png in Resources */,
+				27EDCE11171EA563009D94F8 /* startPoint.png in Resources */,
+				273D519117268B8300377227 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,12 +1104,28 @@
 				27F114D3171BCF960017DAF0 /* AreasSubmitNewInventoryController.m in Sources */,
 				27F114D9171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.m in Sources */,
 				27F114E7171BFDAC0017DAF0 /* CustomAddCell.m in Sources */,
+				27F02D5E171D797900BAEFF0 /* CustomAreaCell.m in Sources */,
+				27FB850F1720054200A7632D /* CustomAnnotation.m in Sources */,
+				27ED2B42172174E300A45687 /* CustomAnnotationView.m in Sources */,
+				27EE24A3172578F700A48689 /* CustomPolygonView.m in Sources */,
+				27EE24A917257C2D00A48689 /* CustomLineView.m in Sources */,
+				27F8C3D51727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m in Sources */,
+				27008FEF1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		273D518F17268B8300377227 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				273D519017268B8300377227 /* de */,
+				273D519217268B8F00377227 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		CB14322C148616E700BBA78D /* CameraViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

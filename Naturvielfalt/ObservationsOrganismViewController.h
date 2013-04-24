@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Organism.h"
+#import "Inventory.h"
 
 @interface ObservationsOrganismViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate> {
     
@@ -25,6 +26,9 @@
     NSMutableDictionary *dictOrganismsDE;
     NSMutableDictionary *dictOrganismsLAT;
     NSMutableDictionary *currDict;
+    
+    // It's needed for navigation with area feature
+    Inventory *inventory;
     
     // Keys
     NSMutableArray *keysAllDE;
@@ -54,6 +58,7 @@
 @property (nonatomic) NSMutableArray *currKeys;
 @property (nonatomic, assign) BOOL isSearching;
 @property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic) Inventory *inventory;
 
 - (void) appendToDictionary:(Organism *)organism;
 - (void) resetSearch;

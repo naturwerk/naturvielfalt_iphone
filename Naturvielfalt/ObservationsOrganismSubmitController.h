@@ -28,6 +28,9 @@
     
     PersistenceManager *persistenceManager;
     
+    // It's needed for navigation with area feature
+    Inventory *inventory;
+    
     BOOL review;
     BOOL comeFromOrganism;
     BOOL observationChanged;
@@ -44,6 +47,8 @@
 @property (nonatomic) UIImage *accuracyImage;
 @property (nonatomic) NSString *accuracyText;
 @property (nonatomic) CLLocationManager *locationManager;
+
+@property (nonatomic) Inventory *inventory;
 
 @property (nonatomic) NSArray *arrayKeys;
 @property (nonatomic) NSArray *arrayValues;

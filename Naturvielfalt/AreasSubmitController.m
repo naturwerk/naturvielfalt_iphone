@@ -11,17 +11,19 @@
 #import "AreasSubmitDescriptionController.h"
 #import "AreasSubmitInventoryController.h"
 #import "AreasSubmitNewInventoryController.h"
+#import "AreasViewController.h"
 #import "CameraViewController.h"
 #import "CustomCell.h"
 #import "MBProgressHUD.h"
 #import "CustomAddCell.h"
+#import "CustomAreaCell.h"
 
 @interface AreasSubmitController ()
 
 @end
 
 @implementation AreasSubmitController
-@synthesize areaChanged, area, tableView;
+@synthesize areaChanged, area, tableView, drawMode;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -80,8 +82,6 @@
 
 - (void) prepareData 
 {
-    // Create new area object, will late be used as data transfer object
-    if(!area) area = [[Area alloc] init];
     
     NSString *nowString;
     
@@ -122,6 +122,7 @@
 
 - (void) saveArea
 {
+    
     NSLog(@"saveArea");
     if (!persistenceManager) {
         persistenceManager = [[PersistenceManager alloc] init];
@@ -164,10 +165,17 @@
                                      action: @selector(saveArea)];
     
     self.navigationItem.rightBarButtonItem = submitButton;
-    [tableView reloadData];
+    [tableView reloadData];;
+
+    AreasViewController *areasViewController = [[AreasViewController alloc]
+                                                    initWithNibName:@"AreasViewController"
+                                                    bundle:[NSBundle mainBundle]];
+
+    areasViewController.area = area;
     
     [self.navigationController popViewControllerAnimated:TRUE];
-    [self.navigationController pushViewController:self.parentViewController animated:TRUE];
+    [self.navigationController pushViewController:areasViewController animated:TRUE];
+
 }
 
 - (void) abortArea
@@ -175,6 +183,7 @@
     NSLog(@"abortArea");
     [self.navigationController popViewControllerAnimated:TRUE];
     [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
+    area = nil;
 }
 
 - (void) newInventory {
@@ -189,6 +198,18 @@
     // Switch the View & Controller
     [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
     areasSubmitNewInventoryController = nil;
+}
+
+- (NSString *) getStringOfDrawMode {
+    switch (area.typeOfArea) {
+        case POINT: return @"pin";
+        case LINE:
+            return @"line";
+            break;
+        case POLYGON:
+            return @"polygon";
+    }
+    return nil;
 }
 
 #pragma mark
@@ -211,7 +232,8 @@
     static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
     CustomCell *customCell;
-    CustomAddCell *customInventoryAddCell;
+    CustomAddCell *customAddCell;
+    CustomAreaCell *customAreaCell;
     
     if (indexPath.section == 0) {
         if(indexPath.row > 1) {
@@ -231,9 +253,19 @@
                 switch(indexPath.row) {
                     case 2:
                     {
-                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = (area.name.length > 10) ? @"..." : area.name;
-                        customCell.image.image = nil;
+                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAreaCell" owner:self options:nil];
+                        
+                        for (id currentObject in topLevelObjects){
+                            if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                                customAreaCell =  (CustomAreaCell *)currentObject;
+                                break;
+                            }
+                        }
+                        customAreaCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
+                        customAreaCell.value.text = (area.name.length > 10) ? @"..." : area.name;
+                        
+                        customAreaCell.image.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [self getStringOfDrawMode]]];
+                        return customAreaCell;
                     }
                         break;
                         
@@ -286,18 +318,18 @@
             
             for (id currentObject in topLevelObjects){
                 if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                    customInventoryAddCell =  (CustomAddCell *)currentObject;
+                    customAddCell =  (CustomAddCell *)currentObject;
                     break;
                 }
             }
 
             NSLog(@"section %i", indexPath.section);
-            customInventoryAddCell.key.text = @"Inventare";
-            customInventoryAddCell.value.text = @"0";
-            [customInventoryAddCell.addButton addTarget:self action:@selector(newInventory) forControlEvents:UIControlEventTouchUpInside];
+            customAddCell.key.text = @"Inventare";
+            customAddCell.value.text = @"0";
+            [customAddCell.addButton addTarget:self action:@selector(newInventory) forControlEvents:UIControlEventTouchUpInside];
 
             //[NSString stringWithFormat:@"%i", area.inventories.count];
-            return customInventoryAddCell;
+            return customAddCell;
         }
     }
     return cell;

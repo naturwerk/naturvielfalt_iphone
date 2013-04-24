@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AreasViewController.h"
+
+typedef enum DrawMode{
+    POINT = 1,
+    LINE = 2,
+    POLYGON = 4,
+}DrawMode;
 
 @interface Area : NSObject {
     
@@ -18,6 +23,8 @@
     NSDate *date;
     NSMutableArray *pictures;
     NSMutableArray *inventories;
+    NSMutableArray *longitudeArray;
+    NSMutableArray *latitudeArray;
     BOOL submitToServer;
     DrawMode typeOfArea;
 }
@@ -28,6 +35,8 @@
 @property (nonatomic) NSDate *date;
 @property (nonatomic) NSMutableArray *pictures;
 @property (nonatomic) NSMutableArray *inventories;
+@property (nonatomic) NSMutableArray *longitudeArray;
+@property (nonatomic) NSMutableArray *latitudeArray;
 @property (nonatomic) NSString *description;
 @property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic, assign) BOOL locationLocked;

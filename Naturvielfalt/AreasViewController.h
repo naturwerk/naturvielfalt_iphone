@@ -9,41 +9,38 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "DDAnnotation.h"
+#import "CustomAnnotation.h"
+#import "CustomAnnotationView.h"
+#import "CustomLineView.h"
+#import "CustomPolygonView.h"
 
-typedef enum DrawMode{
-    POINT = 1,
-    LINE = 2,
-    LINE_FH = 3,
-    POLYGON = 4,
-    POLYGON_FH = 5,
-}DrawMode;
- 
 @interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate> {
     IBOutlet MKMapView *mapView;
     MKOverlayView *overlayView;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     MKMapPoint *points;
-    MKPolygon *polygon;
-    MKPolyline *line;
     UIBezierPath *currentPath;
-    NSString *annotationViewID;
-    NSString *pinAnnotationViewID;
-    DDAnnotation *pinAnnotation;
-    DDAnnotation *startPoint;
-    MKPinAnnotationView *pinAnnotationView;
-    MKAnnotationView *annotationView;
-    MKPolylineView *lineView;
-    MKPolygonView *polygonView;
+    CustomAnnotation *startPoint;
+    CustomAnnotation *pinAnnotation;
+    CustomAnnotation *customAnnotation;
+    CustomAnnotationView *customAnnotationView;
+    MKPolyline *customLine;
+    CustomLineView *customLineView;
+    MKPolygon *customPolygon;
+    CustomPolygonView *customPolygonView;
     NSMutableArray *longitudeArray;
     NSMutableArray *latitudeArray;
     DrawMode currentDrawMode;
     UIActionSheet *modeOptions;
-    
+    Area *area;
     BOOL review;
     BOOL undo;
     BOOL shouldAdjustZoom;
+    
+    //Custom Annotations and Shapes (Line, Polygon)
+    NSMutableArray *annotationsArray;
+    NSMutableArray *overlaysArray;
 }
 
 @property (nonatomic) IBOutlet UIBarButtonItem * cancelButton;
@@ -53,12 +50,13 @@ typedef enum DrawMode{
 @property (weak, nonatomic) IBOutlet UIButton *modeButton;
 @property (weak, nonatomic) IBOutlet UIButton *gpsButton;
 @property (weak, nonatomic) IBOutlet UIImageView *hairlinecross;
+@property (nonatomic) Area *area;
 
 - (IBAction)setPoint:(id)sender;
 - (IBAction)undo:(id)sender;
 - (IBAction)showModeOptions:(id)sender;
 - (IBAction)relocate:(id)sender;
-- (void) prepareData;
+- (void) showPersistedAppearance;
 
 
 @end

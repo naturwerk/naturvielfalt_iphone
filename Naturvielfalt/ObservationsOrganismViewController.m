@@ -15,7 +15,7 @@
 #import "CustomOrganismCell.h"
 
 @implementation ObservationsOrganismViewController
-@synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner;
+@synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, inventory;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -89,7 +89,6 @@
 {
     //if([keysDE count] == 0) return keysLAT;
     return (displayGermanNames) ? keysDE : keysLAT;
-    
 }
 
 - (void) changeNameLanguage 
@@ -439,6 +438,7 @@
         organismSubmitController.organism = currentSelectedOrganism;
         organismSubmitController.review = false;
         organismSubmitController.comeFromOrganism = true;
+        organismSubmitController.inventory = inventory;
         
         // Switch the View & Controller
         [self.navigationController pushViewController:organismSubmitController animated:TRUE];

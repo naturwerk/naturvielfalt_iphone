@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "Organism.h"
+#import "Inventory.h"
 
 @interface Observation : NSObject {
     long long int observationId;
@@ -20,6 +21,7 @@
     NSInteger accuracy;
     NSMutableArray *pictures;
     NSString *comment;
+    Inventory *inventory;
     BOOL submitToServer;
     BOOL locationLocked;
 }
@@ -33,6 +35,7 @@
 @property (nonatomic, assign) NSInteger accuracy;
 @property (nonatomic) NSMutableArray *pictures;
 @property (nonatomic) NSString *comment;
+@property (nonatomic) Inventory *inventory;
 @property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic, assign) BOOL locationLocked;
 

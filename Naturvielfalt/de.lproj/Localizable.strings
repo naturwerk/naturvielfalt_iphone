@@ -1,0 +1,65 @@
+/* 
+  Localizable.strings
+  Naturvielfalt
+
+  Created by Albert von Felten on 23.04.13.
+
+*/
+
+/** TabBar **/
+"observationTabLabel"           = "Beobachtungen";
+"areaTabLabel"                  = "Gebiete";
+"collectionTabLabel"            = "Erfassungen";
+"settingsTabLabel"              = "Einstellungen";
+
+/** Naturvielfalt **/
+"naturNavTitle"                 = "Naturvielfalt";
+
+/** Organism **/
+"organismSearchCancel"          = "Abbrechen";
+"organismNoTransAvailable"      = "Keine Übersetzung vorhanden";
+
+/** Observations **/
+"observationNavTitle"           = "Beobachtung";
+"observationTime"               = "Zeit";
+"observationCtn"                = "Anzahl";
+"observationDescr"              = "Bemerkung";
+"observationImg"                = "Belegfotos";
+"observationAcc"                = "Genauigkeit";
+
+// Observation Ctn
+"ctnNavTitle"                   = "Anzahl";
+"ctnBoxTitle"                   = "Anzahl";
+
+/** Area **/
+"areaNavTitle"                  = "Lokalisierung";
+"areaNavSave"                   = "Sichern";
+"areaNavCancel"                 = "Abbrechen";
+
+// Area actionSheet
+"areaPinMod"                    = "Pin";
+"areaLineMod"                   = "Linie";
+"areaPolygonMod"                = "Polygon";
+"areaCancelMod"                 = "Abbrechen";
+
+/** Collection **/
+"collectionNavDel"              = "Löschen";
+"collectionNavSub"              = "Übermitteln";
+"collectionNavTitle"            = "Erfassungen";
+
+/** Settings **/
+"settingsNavTitle"              = "Einstellungen";
+"settingsUsername"              = "Benutzername";
+"settingsPwd"                   = "Passwort";
+"settingsWikiImg"               = "Wikipedia Bilder laden";
+"settingsWikiAnn"               = "Wikipedia Artikel prüfen";
+
+/** Info **/
+"infoNavTitle"                  = "Naturvielfalt";
+"infoTitle"                     = "Über uns";
+"infoText"                      = "Naturvielfalt (www.naturvielfalt.ch) bietet ein vielseitiges Informations- und Erfassungsportal für Flora und Fauna in der Schweiz und Umgebung.\nErstellen Sie ein Konto um Beobachtungen zu erfassen und verwalten.\n\nDieses App wurde vom Verein Naturwerk (www.naturwerk.info) aus Brugg entwickelt.\nDer Verein für Mensch, Natur und Arbeit übernimmt gemeinnützige Aufgaben im Bereich Umwelt-, Natur- und Artenschutz, die von öffentlichem Interesse sind.\n\nDurch die Unterstützung dieser App fördern Sie praktische Artenschutzprojekte sowie die Weiterentwicklung der Applikation.\n\nBei Feedback oder für technischen Support wenden Sie sich bitte an info@naturvielfalt.ch.\n\n© 2012 Naturwerk";
+
+
+
+
+

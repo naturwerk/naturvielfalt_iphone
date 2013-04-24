@@ -9,7 +9,7 @@
 #import "Inventory.h"
 
 @implementation Inventory 
-@synthesize inventoryId, author, name, description, date, pictures, submitToServer, area;
+@synthesize inventoryId, author, name, description, date, pictures, submitToServer, area, observations;
 
 - (id) init {
     

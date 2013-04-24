@@ -16,6 +16,9 @@
     IBOutlet UIActivityIndicatorView *spinner;
     int groupId;
     int classlevel;
+    
+    // It's needed for navigation with area feature
+    Inventory *inventory;
 }
 
 @property (nonatomic) NSMutableArray *listData;
@@ -23,5 +26,6 @@
 @property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, assign) int groupId;
 @property (nonatomic, assign) int classlevel;
+@property (nonatomic) Inventory *inventory;
 
 @end

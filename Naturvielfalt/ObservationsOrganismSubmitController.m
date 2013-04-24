@@ -16,7 +16,7 @@
 #import "MBProgressHUD.h"
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, inventory;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +37,7 @@
 
 - (void) viewDidAppear:(BOOL)animated 
 {
+    NSLog(@"didAppear");
     [tableView reloadData];
 }
 
@@ -83,7 +84,7 @@
                                       initWithTitle:@"Abbrechen"
                                       style:UIBarButtonItemStyleBordered
                                       target:self
-                                      action: @selector(abortObsersation)];
+                                      action: @selector(abortObservation)];
     self.navigationItem.leftBarButtonItem = chancelButton;
     
     // Set navigation bar title    
@@ -150,18 +151,28 @@
 
 - (void) saveObservation 
 {
-    persistenceManager = [[PersistenceManager alloc] init];
-    [persistenceManager establishConnection];
-    
-    // Save observation
-    if(review) {
-        [persistenceManager updateObservation:observation];
+    // Area feature if inventory object is set
+    if (inventory) {
+        //Do not persist, if inventory is cancelled later.
+        //Observation Object will be persisted together with the inventory object.
+        observation.inventory = inventory;
+        // No duplicates, so remove if contains
+        [inventory.observations removeObject:observation];
+        [inventory.observations addObject:observation];
     } else {
-        observation.observationId = [persistenceManager saveObservation:observation];
+        persistenceManager = [[PersistenceManager alloc] init];
+        [persistenceManager establishConnection];
+        
+        // Save and persist observation
+        if(review) {
+            [persistenceManager updateObservation:observation];
+        } else {
+            observation.observationId = [persistenceManager saveObservation:observation];
+        }
+        
+        // Close connection
+        [persistenceManager closeConnection];
     }
-    
-    // Close connection
-    [persistenceManager closeConnection];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -199,7 +210,7 @@
     [self.navigationController pushViewController:self.parentViewController animated:TRUE];
 }
 
-- (void) abortObsersation
+- (void) abortObservation
 {
     [self.navigationController popViewControllerAnimated:TRUE];
     [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];

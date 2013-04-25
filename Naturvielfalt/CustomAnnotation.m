@@ -10,16 +10,29 @@
 #import "Area.h"
 
 @implementation CustomAnnotation
-@synthesize annotationType, persisted, coordinate = _coordinate, title, subtitle;
+@synthesize annotationType, persisted, coordinate = _coordinate, title, subtitle, area;
 
-- (id) initWithWithCoordinate:(CLLocationCoordinate2D) coo type:(DrawMode)type{
+- (id) initWithWithCoordinate:(CLLocationCoordinate2D) coo type:(DrawMode)type area:(Area*)a {
     
     if(self = [super init]) {
         persisted = NO;
         annotationType = type;
         _coordinate = coo;
+        area = a;
     }
     return self;
 }
 
+- (NSString*)title {
+   return area.name;
+}
+
+- (NSString*)subtitle {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString *nowString = [dateFormatter stringFromDate:area.date];
+    
+    return nowString;
+}
 @end

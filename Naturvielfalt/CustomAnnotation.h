@@ -17,15 +17,17 @@
     BOOL persisted;
     NSString *title;
     NSString *subtitle;
+    Area *area;
 }
 
 //@property (nonatomic) Area *area;
 
-- (id) initWithWithCoordinate:(CLLocationCoordinate2D) coo type:(DrawMode)type;
+- (id) initWithWithCoordinate:(CLLocationCoordinate2D) coo type:(DrawMode)type area:(Area*)a;
 
 @property (nonatomic) DrawMode annotationType;
 @property (nonatomic) BOOL persisted;
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *subtitle;
+@property (nonatomic) Area *area;
 
 @end

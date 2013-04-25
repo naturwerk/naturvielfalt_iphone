@@ -52,6 +52,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *hairlinecross;
 @property (nonatomic) Area *area;
 
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil area:(Area*)a;
 - (IBAction)setPoint:(id)sender;
 - (IBAction)undo:(id)sender;
 - (IBAction)showModeOptions:(id)sender;

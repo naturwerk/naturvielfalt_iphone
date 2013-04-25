@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PersistenceManager.h"
+#import "CustomAnnotation.h"
 
 @class AreasViewController;
 @interface AreasSubmitController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
@@ -17,6 +18,8 @@
     NSArray *arrayKeys;
     NSArray *arrayValues;
     DrawMode drawMode;
+    CustomAnnotation *customAnnotation;
+    AreasViewController *areasViewController;
     
     BOOL review;
     IBOutlet UITableView *tableView;
@@ -26,6 +29,7 @@
 @property (nonatomic) Area *area;
 @property (nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) DrawMode drawMode;
+@property (nonatomic) CustomAnnotation *customAnnotation;
 
 
 - (void) prepareData;

@@ -18,11 +18,11 @@
 @implementation AreasViewController
 @synthesize area;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil area:(Area *)a
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        area = a;
     }
     return self;
 }
@@ -78,7 +78,9 @@
     
     
     shouldAdjustZoom = YES;
+    
 }
+
 
 - (void) viewWillAppear:(BOOL)animated {
     NSLog(@"viewWillAppear");
@@ -108,19 +110,6 @@
 
 - (void) loadOutAnnotations
 {
-    //loads all annotations from DB
-    /*
-    CLLocationCoordinate2D workingCoordinate;
-    workingCoordinate.latitude = 123;
-    workingCoordinate.longitude = 123;
-    
-    CustomAnnotation *customAnnotation = [[CustomAnnotation alloc] initWithWithCoordinate:workingCoordinate];
-    [customAnnotation setTitle:@"Title"];
-    [customAnnotation setSubtitle:@"Subtitle"];
-    [customAnnotation setAnnotationType:POINT];
-    
-    [mapView addAnnotation:customAnnotation];
-     */
     
 }
 
@@ -147,6 +136,8 @@
             [self drawPolygon];
             break;
     }
+    
+    [mapView selectAnnotation:startPoint animated:YES];
     [longitudeArray removeAllObjects];
     [latitudeArray removeAllObjects];
     currentDrawMode = 0;
@@ -289,14 +280,14 @@
     // Sets the pin in the middle of the hairline cross
     if (pinAnnotation) {
         if (pinAnnotation.persisted) {
-            pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode];
+            pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode area:area];
             pinAnnotation.persisted = YES;
         }else {
-            pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode];
+            pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode area:area];
             pinAnnotation.persisted = NO;
         }
     } else {
-        pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode];
+        pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode area:area];
         pinAnnotation.persisted = NO;
     }
     
@@ -410,23 +401,15 @@
     if (startPoint) {
         [mapView removeAnnotation:startPoint];
         if (startPoint.persisted) {
-            startPoint = [[CustomAnnotation alloc] initWithWithCoordinate:coordinate type:currentDrawMode];
+            startPoint = [[CustomAnnotation alloc] initWithWithCoordinate:coordinate type:currentDrawMode area:area];
             startPoint.persisted = YES;
-            startPoint.title = area.name;
-            
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
-            [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-            NSString *nowString = [dateFormatter stringFromDate:area.date];
-            startPoint.subtitle = nowString;
-            
         } else {
-            startPoint = [[CustomAnnotation alloc] initWithWithCoordinate:coordinate type:currentDrawMode];
+            startPoint = [[CustomAnnotation alloc] initWithWithCoordinate:coordinate type:currentDrawMode area:area];
             startPoint.persisted = NO;
         }
         startPoint.annotationType = currentDrawMode;
     } else {
-        startPoint = [[CustomAnnotation alloc] initWithWithCoordinate:coordinate type:currentDrawMode];
+        startPoint = [[CustomAnnotation alloc] initWithWithCoordinate:coordinate type:currentDrawMode area:area];
         startPoint.annotationType = currentDrawMode;
         startPoint.persisted = NO;
         [annotationsArray addObject:startPoint];
@@ -688,7 +671,7 @@
             
             CustomAnnotationView *newAnnotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
 
-            newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier];
+            newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier navigationController:self.navigationController];
 
                 
             customAnnotationView = newAnnotationView;
@@ -700,7 +683,7 @@
             NSString *identifier = @"LineAnnotationId";
             CustomAnnotationView *newAnnotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
             
-            newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier];
+            newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier navigationController:self.navigationController];
             
             customAnnotationView = newAnnotationView;
             break;
@@ -711,7 +694,7 @@
             NSString *identifier = @"PolygonAnnotationId";
             CustomAnnotationView *newAnnotationView = (CustomAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
             
-            newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier];
+            newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier navigationController:self.navigationController];
 
             customAnnotationView = newAnnotationView;
             break;

@@ -23,7 +23,7 @@
 @end
 
 @implementation AreasSubmitController
-@synthesize areaChanged, area, tableView, drawMode;
+@synthesize areaChanged, area, tableView, drawMode, customAnnotation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -167,11 +167,12 @@
     self.navigationItem.rightBarButtonItem = submitButton;
     [tableView reloadData];;
 
-    AreasViewController *areasViewController = [[AreasViewController alloc]
-                                                    initWithNibName:@"AreasViewController"
-                                                    bundle:[NSBundle mainBundle]];
 
-    areasViewController.area = area;
+    if (!areasViewController) {
+        areasViewController = [[AreasViewController alloc]
+                                                    initWithNibName:@"AreasViewController"
+                                                    bundle:[NSBundle mainBundle] area:area];
+    }
     
     [self.navigationController popViewControllerAnimated:TRUE];
     [self.navigationController pushViewController:areasViewController animated:TRUE];

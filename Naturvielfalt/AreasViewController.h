@@ -14,6 +14,7 @@
 #import "CustomLineView.h"
 #import "CustomPolygonView.h"
 
+@class CustomAnnotationView;
 @interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate> {
     IBOutlet MKMapView *mapView;
     MKOverlayView *overlayView;
@@ -59,6 +60,8 @@
 - (IBAction)showModeOptions:(id)sender;
 - (IBAction)relocate:(id)sender;
 - (void) showPersistedAppearance;
+
+- (void) setAnnotationInEditMode:(CustomAnnotation*)annotation;
 
 
 @end

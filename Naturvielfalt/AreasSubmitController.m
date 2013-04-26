@@ -47,8 +47,7 @@
     
     // Set top navigation bar button  
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] 
-                                     initWithTitle:(!review) ? @"Sichern" 
-                                     : @"Ändern"
+                                     initWithTitle:@"Sichern"
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(saveArea)];
@@ -114,6 +113,18 @@
     arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.name, area.description, @">", nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if (area.persisted) {
+        // Set top navigation bar button
+        UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
+                                         initWithTitle:@"Ändern"
+                                         style:UIBarButtonItemStyleBordered
+                                         target:self
+                                         action: @selector(saveArea)];
+        self.navigationItem.rightBarButtonItem = submitButton;
+    }
+}
+
 
 - (void)viewDidUnload {
     [self setTableView:nil];
@@ -128,6 +139,7 @@
         persistenceManager = [[PersistenceManager alloc] init];
         [persistenceManager establishConnection];
     }
+    area.persisted = YES;
 
     // Save area
     if(review) {
@@ -159,7 +171,7 @@
     
     // Set top navigation bar button
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:@"Ändern"
+                                     initWithTitle:@"Sichern"
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(saveArea)];
@@ -184,7 +196,12 @@
     NSLog(@"abortArea");
     [self.navigationController popViewControllerAnimated:TRUE];
     [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
-    area = nil;
+    
+    if (!areasViewController) {
+        areasViewController = [[AreasViewController alloc]
+                               initWithNibName:@"AreasViewController"
+                               bundle:[NSBundle mainBundle] area:area];
+    }
 }
 
 - (void) newInventory {
@@ -326,7 +343,8 @@
 
             NSLog(@"section %i", indexPath.section);
             customAddCell.key.text = @"Inventare";
-            customAddCell.value.text = @"0";
+            NSLog(@"%i", area.inventories.count);
+            customAddCell.value.text = [NSString stringWithFormat:@"%i", area.inventories.count];
             [customAddCell.addButton addTarget:self action:@selector(newInventory) forControlEvents:UIControlEventTouchUpInside];
 
             //[NSString stringWithFormat:@"%i", area.inventories.count];

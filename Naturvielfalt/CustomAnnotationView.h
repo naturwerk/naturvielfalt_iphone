@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import "CustomAnnotation.h"
+#import "AreasViewController.h"
 #import "AreasSubmitController.h"
+
 
 @interface CustomAnnotationView : MKAnnotationView
 {
@@ -22,6 +24,6 @@
 
 @property (nonatomic) UIImageView *imageView;
 
-- (id) initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier navigationController:(UINavigationController*) naviController;
+- (id) initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier navigationController:(UINavigationController*) naviController areasViewController:(AreasViewController*)avc;
 
 @end

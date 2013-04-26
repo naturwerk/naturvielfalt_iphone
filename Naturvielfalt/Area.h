@@ -26,6 +26,7 @@ typedef enum DrawMode{
     NSMutableArray *longitudeArray;
     NSMutableArray *latitudeArray;
     BOOL submitToServer;
+    BOOL persisted;
     DrawMode typeOfArea;
 }
 
@@ -41,6 +42,7 @@ typedef enum DrawMode{
 @property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic, assign) BOOL locationLocked;
 @property (nonatomic) DrawMode typeOfArea;
+@property (nonatomic) BOOL persisted;
 
 
 @end

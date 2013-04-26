@@ -10,7 +10,7 @@
 #import "Area.h"
 
 @implementation CustomAnnotation
-@synthesize annotationType, persisted, coordinate = _coordinate, title, subtitle, area;
+@synthesize annotationType, persisted, coordinate = _coordinate, title, subtitle, area, overlay;
 
 - (id) initWithWithCoordinate:(CLLocationCoordinate2D) coo type:(DrawMode)type area:(Area*)a {
     

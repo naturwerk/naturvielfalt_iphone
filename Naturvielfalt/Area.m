@@ -11,7 +11,7 @@
 
 @class AreasViewController;
 @implementation Area
-@synthesize areaId, author, name, date, pictures, inventories, description, submitToServer, locationLocked, typeOfArea, latitudeArray, longitudeArray;
+@synthesize areaId, author, name, date, pictures, inventories, description, submitToServer, locationLocked, typeOfArea, latitudeArray, longitudeArray, persisted;
 
 - (id) init {
     
@@ -22,8 +22,7 @@
         date = [NSDate date];
         pictures = nil;
         description = @"Description 1";
-        //longitudeArray = [[NSMutableArray alloc] init];
-        //latitudeArray = [[NSMutableArray alloc] init];
+        persisted = NO;
         
         for (int i = 0; i < 4; i++) {
             Inventory *inv = [[Inventory alloc] init];

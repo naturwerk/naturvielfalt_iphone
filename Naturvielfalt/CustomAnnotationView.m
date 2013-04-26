@@ -19,10 +19,11 @@
 #define sWidth   9
 #define sBorder  2
 
-- (id) initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier navigationController:(UINavigationController*) naviController{
+- (id) initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier navigationController:(UINavigationController*) naviController areasViewController:(AreasViewController*)avc {
     
     customAnnotation = (CustomAnnotation*)annotation;
     navigationController = naviController;
+    areasViewController = avc;
     
     switch (customAnnotation.annotationType) {
         case POINT:
@@ -36,9 +37,7 @@
                 
                 return (CustomAnnotationView*) pinView;
             } else {
-                
 
-                
                 self.frame = CGRectMake(0, 0, pWidth, pHeight);
                 imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"symbol-pin.png"]];
                 imageView.frame = CGRectMake(0, 0, pWidth, pHeight);
@@ -46,9 +45,11 @@
                 self.backgroundColor = [UIColor clearColor];
                 [self addSubview:imageView];
                 
-                UIImageView *leftIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"symbol-pin.png"]];
-                leftIconView.frame = CGRectMake(0, 0, lWidth, lHeight);
-                self.leftCalloutAccessoryView = leftIconView;
+                UIButton *editButton = [[UIButton alloc] init];
+                editButton.frame = CGRectMake(0, 0, lWidth, lHeight);
+                [editButton setImage:[UIImage imageNamed:@"symbol-pin-edit.png"] forState:UIControlStateNormal];
+                [editButton addTarget:self action:@selector(editAreaPressed:) forControlEvents:UIControlEventTouchUpInside];
+                self.leftCalloutAccessoryView = editButton;
                 
                 UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
                 [rightButton addTarget:self action:@selector(showSettingsPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -72,9 +73,11 @@
                 imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"symbol-line.png"]];
                 imageView.frame = CGRectMake(0, 0, pWidth, pHeight);
                 
-                UIImageView *leftIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"symbol-line.png"]];
-                leftIconView.frame = CGRectMake(0, 0, lWidth, lHeight);
-                self.leftCalloutAccessoryView = leftIconView;
+                UIButton *editButton = [[UIButton alloc] init];
+                editButton.frame = CGRectMake(0, 0, lWidth, lHeight);
+                [editButton setImage:[UIImage imageNamed:@"symbol-line-edit.png"] forState:UIControlStateNormal];
+                [editButton addTarget:self action:@selector(editAreaPressed:) forControlEvents:UIControlEventTouchUpInside];
+                self.leftCalloutAccessoryView = editButton;
                 
                 UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
                 [rightButton addTarget:self action:@selector(showSettingsPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -100,9 +103,11 @@
                 imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"symbol-polygon.png"]];
                 imageView.frame = CGRectMake(0, 0, pWidth, pHeight);
                 
-                UIImageView *leftIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"symbol-polygon.png"]];
-                leftIconView.frame = CGRectMake(0, 0, lWidth, lHeight);
-                self.leftCalloutAccessoryView = leftIconView;
+                UIButton *editButton = [[UIButton alloc] init];
+                editButton.frame = CGRectMake(0, 0, lWidth, lHeight);
+                [editButton setImage:[UIImage imageNamed:@"symbol-polygon-edit.png"] forState:UIControlStateNormal];
+                [editButton addTarget:self action:@selector(editAreaPressed:) forControlEvents:UIControlEventTouchUpInside];
+                self.leftCalloutAccessoryView = editButton;
                 
                 UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
                 [rightButton addTarget:self action:@selector(showSettingsPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -138,6 +143,13 @@
         
         // PUSH
         [navigationController pushViewController:areasSubmitController animated:TRUE];
+    }
+}
+
+- (IBAction)editAreaPressed:(id)sender {
+    NSLog(@"editAreaPressed");
+    if (areasViewController) {
+        [areasViewController setAnnotationInEditMode:customAnnotation];
     }
 }
 

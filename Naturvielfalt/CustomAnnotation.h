@@ -18,6 +18,7 @@
     NSString *title;
     NSString *subtitle;
     Area *area;
+    id<MKOverlay> overlay;
 }
 
 //@property (nonatomic) Area *area;
@@ -29,5 +30,6 @@
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *subtitle;
 @property (nonatomic) Area *area;
+@property (nonatomic) id<MKOverlay> overlay;
 
 @end

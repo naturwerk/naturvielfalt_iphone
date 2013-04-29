@@ -490,7 +490,7 @@
                 nameDe = nameLat;
             } else {
                 nameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
-                if([nameDe length] == 0) nameDe = @"Keine Übersetzung vorhanden";
+                if([nameDe length] == 0) nameDe = NSLocalizedString(@"organismNoTransAvailable", nil);
             }
             
             // Create OrganismGroup

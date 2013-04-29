@@ -15,6 +15,7 @@
     IBOutlet UILabel *dateLabel;
     IBOutlet UILabel *inventoryLabel;
     IBOutlet UILabel *areaLabel;
+    IBOutlet UILabel *observationLabel;
     IBOutlet UITableView *observationsTableView;
     
     Area *area;
@@ -27,7 +28,9 @@
 @property (nonatomic) IBOutlet UILabel *dateLabel;
 @property (nonatomic) IBOutlet UILabel *inventoryLabel;
 @property (nonatomic) IBOutlet UILabel *areaLabel;
+@property (nonatomic) IBOutlet UILabel *observationLabel;
 @property (nonatomic) IBOutlet UITableView *observationsTableView;
+
 
 - (IBAction)newObservation:(id)sender;
 @end

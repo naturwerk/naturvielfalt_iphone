@@ -14,7 +14,7 @@
 #import "SwissCoordinates.h"
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,7 +40,7 @@
     [super viewDidLoad];
     
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Sichern"
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navSave", nil)
                                                                    style:UIBarButtonItemStylePlain 
                                                                   target:self 
                                                                   action:@selector(returnBack)];
@@ -100,7 +100,7 @@
     
     
     // Set navigation bar title    
-    NSString *title = @"Lokalisierung";
+    NSString *title = NSLocalizedString(@"observationLocalization", nil);
     self.navigationItem.title = title;
     
     CLLocationCoordinate2D theCoordinate;
@@ -117,6 +117,7 @@
     annotation = [self adaptPinSubtitle: theCoordinate];
     
     pinMoved = false;
+    [setButton setTitle:NSLocalizedString(@"observationAdd", nil) forState:UIControlStateNormal];
     
     self.mapView.mapType = MKMapTypeHybrid;
 	[self.mapView addAnnotation:annotation];	
@@ -124,7 +125,6 @@
 
 - (IBAction)setPin:(id)sender {
     // Sets the pin in the middle of the hairline cross
-    NSLog(@"%@: Set pin in the middle of hairline cross", self.class);
     MKCoordinateRegion mapRegion = mapView.region;
     NSLog(@"New coordinates: longitude - %g latitude - %g", mapRegion.center.longitude, mapRegion.center.latitude);
     
@@ -165,7 +165,7 @@
 - (void) relocate 
 {
     self.navigationItem.leftBarButtonItem.action = @selector(GPSrelocate);
-    self.navigationItem.leftBarButtonItem.title = @"GPS setzen";
+    self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"observationRelocate", nil);
     
     
     if ([CLLocationManager locationServicesEnabled]) {
@@ -251,6 +251,7 @@
 
 - (void)viewDidUnload
 {
+    [self setSetButton:nil];
     [super viewDidUnload];
 }
 
@@ -301,18 +302,18 @@
     {
         case kCLErrorNetwork: // general, network-related error
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Kein Netzwerk vorhanden. Ev. im Flugmodus?" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"alertMessageNetwork", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
             [alert show];
         }
             break;
         case kCLErrorDenied:{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"GPS wurde vom Benutzer für diese Applikation deaktiviert. " delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"alertMessageGPS", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
             [alert show];
         }
             break;
         default:
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unbekannter Netzwerk Error." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"alertMessageUnknownError", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
             [alert show];
         }
             break;
@@ -369,14 +370,17 @@
 	}
 	
 	static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
-	MKAnnotationView *draggablePinView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
+    MKPinAnnotationView *draggablePinView = [[MKPinAnnotationView alloc] initWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier];
+    draggablePinView.animatesDrop = YES;
+    draggablePinView.draggable = YES;
+	/*MKAnnotationView *draggablePinView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];*/
 	
-	if (draggablePinView) {
+	/*if (draggablePinView) {
 		draggablePinView.annotation = annot;
 	} else {
 		// Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
 		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier mapView:self.mapView];
-	}		
+	}*/		
 	
 	return draggablePinView;
 }

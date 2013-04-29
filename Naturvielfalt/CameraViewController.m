@@ -17,13 +17,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 @end
 
 @implementation CameraViewController
-@synthesize imageView;
-@synthesize takePictureButton;
-@synthesize moviePlayerController;
-@synthesize image;
-@synthesize movieURL;
-@synthesize lastChosenMediaType;
-@synthesize observation;
+@synthesize imageView, takePictureButton, moviePlayerController,image,movieURL,lastChosenMediaType,observation, chooseExistingButton, takePhotoButton;
 
 - (void)viewDidLoad {
     if (![UIImagePickerController isSourceTypeAvailable:
@@ -33,8 +27,11 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     imageFrame = imageView.frame;
     
     // Set navigation bar title    
-    NSString *title = @"Foto";
+    NSString *title = NSLocalizedString(@"photoNavTitle", nil);
     self.navigationItem.title = title;
+    
+    [takePhotoButton setTitle:NSLocalizedString(@"photoNew", nil) forState:UIControlStateNormal];
+    [chooseExistingButton setTitle:NSLocalizedString(@"photoExisting", nil) forState:UIControlStateNormal];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -67,6 +64,8 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     self.takePictureButton = nil;
     self.moviePlayerController = nil;
     
+    [self setChooseExistingButton:nil];
+    [self setTakePhotoButton:nil];
     [super viewDidUnload];
 }
 

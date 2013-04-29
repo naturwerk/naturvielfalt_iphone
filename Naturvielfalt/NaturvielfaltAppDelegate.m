@@ -24,6 +24,9 @@
     // Add the tab bar controller's current view as a subview of the window
     self.window.rootViewController = self.tabBarController;
     self.observationTabItem.title = NSLocalizedString(@"observationTabLabel", nil);
+    self.areaTabItem.title = NSLocalizedString(@"areaTabLabel", nil);
+    self.collectionTabItem.title = NSLocalizedString(@"collectionTabLabel", nil);
+    self.settingsTabItem.title = NSLocalizedString(@"settingsTabLabel", nil);
     [self.window makeKeyAndVisible];
     
     return YES;

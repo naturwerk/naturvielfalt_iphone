@@ -9,10 +9,7 @@
 #import "ObservationsOrganismSubmitAmountController.h"
 
 @implementation ObservationsOrganismSubmitAmountController
-@synthesize picker;
-@synthesize amount;
-@synthesize arrayValues;
-@synthesize observation;
+@synthesize picker, amount, arrayValues, observation, amountLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,8 +41,10 @@
     [super viewDidLoad];
 
     // Set navigation bar title    
-    NSString *title = @"Anzahl";
+    NSString *title = NSLocalizedString(@"amountNavTitle", nil);
     self.navigationItem.title = title;
+    
+    amountLabel.text = NSLocalizedString(@"amountNavTitle", nil);
     
     // Initialize the picker
     arrayValues = [[NSMutableArray alloc] init];
@@ -112,6 +111,7 @@
 
 - (void)viewDidUnload
 {
+    [self setAmountLabel:nil];
     [super viewDidUnload];
 }
 

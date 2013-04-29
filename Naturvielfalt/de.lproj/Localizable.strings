@@ -1,10 +1,30 @@
-/* 
-  Localizable.strings
-  Naturvielfalt
+/*
+ Localizable.strings
+ Naturvielfalt
+ 
+ Created by Albert von Felten on 23.04.13.
+ 
+ */
 
-  Created by Albert von Felten on 23.04.13.
+/** Navigation **/
+"navSave"						= "Sichern";
+"navChange"						= "Ändern";
+"navCancel"						= "Abbrechen";
+"navDel"						= "Löschen";
+"navSubmit"						= "Übermitteln";
+"navOk"							= "OK";
+"navError"						= "Fehler";
+"navSuccess"					= "Erfolgreich";
 
-*/
+/** Alert **/
+"alertMessageNetwork"			= "Kein Netzwerk vorhanden. Ev. im Flugmodus?";
+"alertMessageGPS"				= "GPS wurde vom Benutzer für diese Applikation deaktiviert.";
+"alertMessageUnknownError"		= "Unbekannter Netzwerk Fehler.";
+
+/** Photo helper **/
+"photoNavTitle"					= "Foto";
+"photoNew"						= "Neues Foto";
+"photoExisting"					= "Aus der Bibliothek";
 
 /** TabBar **/
 "observationTabLabel"           = "Beobachtungen";
@@ -14,27 +34,41 @@
 
 /** Naturvielfalt **/
 "naturNavTitle"                 = "Naturvielfalt";
+"naturSpecies"					= "Arten";
+"naturNotDefinedOrganism"		= "Noch nicht bestimmt";
 
 /** Organism **/
-"organismSearchCancel"          = "Abbrechen";
+"organismNotFound"				= "Keine Organismen gefunden";
 "organismNoTransAvailable"      = "Keine Übersetzung vorhanden";
+
+// Organism wiki
+"organismWikiNotFound"			= "Artikel nicht gefunden";
 
 /** Observations **/
 "observationNavTitle"           = "Beobachtung";
 "observationTime"               = "Zeit";
+"observationAuthor"				= "Erfasser";
 "observationCtn"                = "Anzahl";
 "observationDescr"              = "Bemerkung";
 "observationImg"                = "Belegfotos";
 "observationAcc"                = "Genauigkeit";
+"observationLocalization"		= "Lokalisierung";
+"observationRelocate"			= "GPS setzen";
+"observationAdd"				= "Setzen";
 
-// Observation Ctn
-"ctnNavTitle"                   = "Anzahl";
-"ctnBoxTitle"                   = "Anzahl";
+// Observation HUD
+"observationSuccessMessage"		= "Beobachtung gespeichert";
+
+// Observation amount
+"amountNavTitle"				= "Anzahl";
 
 /** Area **/
 "areaNavTitle"                  = "Lokalisierung";
 "areaNavSave"                   = "Sichern";
 "areaNavCancel"                 = "Abbrechen";
+"areaNavChange"					= "Ändern";
+"areaUndo"						= "Zurück";
+"areaAdd"						= "Setzen";
 
 // Area actionSheet
 "areaPinMod"                    = "Pin";
@@ -42,17 +76,47 @@
 "areaPolygonMod"                = "Polygon";
 "areaCancelMod"                 = "Abbrechen";
 
+// Area submit view
+"areaSubmitTitle"				= "Gebiet";
+"areaSubmitTime"				= "Zeit";
+"areaSubmitAuthor"				= "Erfasser";
+"areaSubmitName"				= "Gebietsname";
+"areaSubmitDescr"				= "Beschreibung";
+"areaSubmitImages"				= "Gebietsfotos";
+"areaSubmitInventory"			= "Inventare";
+"areaSubmitInventoryName"		= "Inventarname";
+"areaSubmitObservations"		= "Beobachtungen";
+"areaSubmitNewInventory"		= "Inventar";
+
+// Area submit HUD
+"areaSubmitHudSuccess"			= "Gebiet gespeichert";
+
+// Area inventory HUD
+"areaInventoryHudSuccess"		= "Inventar gespeichert";
+
 /** Collection **/
-"collectionNavDel"              = "Löschen";
-"collectionNavSub"              = "Übermitteln";
 "collectionNavTitle"            = "Erfassungen";
+
+// Collection alert messages
+"collectionAlertMessageTitle"	= "Beobachtungen übermitteln?";
+"collectionAlertMessageDetail"	= "Sind Sie sicher, dass Sie ihre Beobachtungen über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen.";
+"collectionAlertErrorObs"	= "Es wurden noch keine Beobachtungen gespeichert oder keine wurden ausgewählt";
+"collectionAlertErrorSettings"	= "Benutzername/Passwort wurde noch nicht gesetzt. Dies kann in den Einstellungen gesetzt werden.";
+"collectionAlertErrorSubmit"	= "Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
+
+// Collection success message
+"collectionSuccessMessageDetail"= "Alle Beobachtungen wurden erfolgreich übertragen.";
+
+// Collection HUD messages
+"collectionHudWaitMessage"		= "Bitte warten";
+"collectionHudSubmitMessage"	= "Daten werden übermittelt…";
 
 /** Settings **/
 "settingsNavTitle"              = "Einstellungen";
 "settingsUsername"              = "Benutzername";
 "settingsPwd"                   = "Passwort";
 "settingsWikiImg"               = "Wikipedia Bilder laden";
-"settingsWikiAnn"               = "Wikipedia Artikel prüfen";
+"settingsWikiArt"               = "Wikipedia Artikel prüfen";
 
 /** Info **/
 "infoNavTitle"                  = "Naturvielfalt";

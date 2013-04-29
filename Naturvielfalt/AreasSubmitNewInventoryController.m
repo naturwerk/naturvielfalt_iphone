@@ -49,8 +49,8 @@
     
     // Set top navigation bar button
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:(!review) ? @"Sichern"
-                                     : @"Ändern"
+                                     initWithTitle:(!review) ? NSLocalizedString(@"navSave", nil)
+                                     : NSLocalizedString(@"navChange", nil)
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(saveInventory)];
@@ -59,14 +59,14 @@
     
     // Set top navigation bar button
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:@"Abbrechen"
+                                     initWithTitle:NSLocalizedString(@"navCancel", nil)
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(abortInventory)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     
     // Set navigation bar title
-    NSString *title = @"Inventar";
+    NSString *title = NSLocalizedString(@"areaSubmitNewInventory", nil);
     self.navigationItem.title = title;
     
     // Table init
@@ -105,7 +105,7 @@
     NSString *nowString = [dateFormatter stringFromDate:inventory.date];
     
     // Initialize keys/values
-    arrayKeys = [[NSArray alloc] initWithObjects:@"Zeit", @"Erfasser", @"Gebietsname", @"Inventarname", @"Beschreibung", nil];
+    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitInventoryName", nil), NSLocalizedString(@"areaSubmitDescr", nil), nil];
     arrayValues = [[NSArray alloc] initWithObjects:nowString, inventory.author, area.name, inventory.name, inventory.description, nil];
 }
 
@@ -136,7 +136,7 @@
     hud.mode = MBProgressHUDModeCustomView;
     
     //hud.delegate = self;
-    hud.labelText = @"Inventar gespeichert";
+    hud.labelText = NSLocalizedString(@"areaInventoryHudSuccess", nil);
     
     [hud show:YES];
     [hud hide:YES afterDelay:1];
@@ -146,7 +146,7 @@
     
     // Set top navigation bar button
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:@"Ändern"
+                                     initWithTitle:NSLocalizedString(@"navChange", nil)
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(saveInventory)];
@@ -266,7 +266,7 @@
             }
             
             NSLog(@"section %i", indexPath.section);
-            customAddCell.key.text = @"Beobachtungen";
+            customAddCell.key.text = NSLocalizedString(@"areaSubmitObservations", nil);
             customAddCell.value.text = @"3";
             [customAddCell.addButton addTarget:self action:@selector(newObservation) forControlEvents:UIControlEventTouchUpInside];
             

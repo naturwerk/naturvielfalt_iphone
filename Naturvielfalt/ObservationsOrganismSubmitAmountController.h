@@ -12,6 +12,7 @@
 @interface ObservationsOrganismSubmitAmountController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource> {
     IBOutlet UITextField *amount;
     IBOutlet UIPickerView *picker;
+    IBOutlet UILabel *amountLabel;
     NSMutableArray *arrayValues;
     Observation *observation;
 }
@@ -20,5 +21,6 @@
 @property (nonatomic) IBOutlet UITextField *amount;
 @property (nonatomic) IBOutlet NSMutableArray *arrayValues;
 @property (nonatomic) IBOutlet Observation *observation;
+@property (nonatomic) IBOutlet UILabel *amountLabel;
 
 @end

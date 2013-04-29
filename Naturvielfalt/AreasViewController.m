@@ -16,7 +16,7 @@
 @end
 
 @implementation AreasViewController
-@synthesize area;
+@synthesize area, cancelButton, saveButton, undoButton, setButton, gpsButton, modeButton, hairlinecross;
 
 //This method will called from annotations view,
 //if the user clicks on the edit button of a given annotation.
@@ -84,26 +84,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    _saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Sichern"
+    saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navSave", nil)
                                                                    style:UIBarButtonItemStylePlain 
                                                                   target:self 
                                                                   action:@selector(saveArea)];
     
-    _saveButton.enabled = NO;
-    self.navigationItem.rightBarButtonItem = _saveButton;
+    saveButton.enabled = NO;
+    self.navigationItem.rightBarButtonItem = saveButton;
     
     // Start locationManager
     locationManager = [[CLLocationManager alloc] init];
     
     
     // Cancel button
-    _cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Abbrechen"
+    cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navCancel", nil)
                                                                  style:UIBarButtonItemStylePlain 
                                                                 target:self 
                                                                 action:@selector(cancelPressed)];
-    _cancelButton.enabled = NO;
+    cancelButton.enabled = NO;
     
-    self.navigationItem.leftBarButtonItem = _cancelButton;
+    self.navigationItem.leftBarButtonItem = cancelButton;
 
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager.delegate = self;
@@ -125,8 +125,11 @@
     
     
     // Set navigation bar title    
-    NSString *title = @"Lokalisierung";
+    NSString *title = NSLocalizedString(@"areaNavTitle", nil);
     self.navigationItem.title = title;
+    
+    [undoButton setTitle:NSLocalizedString(@"areaUndo", nil) forState:UIControlStateNormal];
+    [setButton setTitle:NSLocalizedString(@"areaAdd", nil) forState:UIControlStateNormal];
     
     shouldAdjustZoom = YES;
 }
@@ -211,7 +214,7 @@
 }
 
 - (void) saveArea {
-    NSLog(@"saveArea");
+    NSLog(@"save Area");
     
     // Change view back to submitController
     AreasSubmitController *areasSubmitController = [[AreasSubmitController alloc] 
@@ -275,15 +278,15 @@
         [longitudeArray removeAllObjects];
         [latitudeArray removeAllObjects];
     }
-    _cancelButton.enabled = NO;
+    cancelButton.enabled = NO;
     startPoint = nil;
     [self showStartModeAppearance];
 }
 
 // Action Method, when the "setzen" button was pressed
 - (IBAction)setPoint:(id)sender {
-    NSLog(@"setPoint");
-    _undoButton.enabled = YES;
+    NSLog(@"set new point");
+    undoButton.enabled = YES;
     
     // remove polygon or line
     if (currentDrawMode != POINT) {
@@ -316,7 +319,7 @@
             NSNumber *lati = [NSNumber numberWithDouble:mapRegion.center.latitude];
             [longitudeArray addObject:longi];
             [latitudeArray addObject:lati];
-            _saveButton.enabled = YES;
+            saveButton.enabled = YES;
             [self drawPoint];
             break;
         }
@@ -495,7 +498,7 @@
             [mapView removeAnnotation:customAnnotationView.annotation];
             [longitudeArray removeLastObject];
             [latitudeArray removeLastObject];
-            _saveButton.enabled = NO;
+            saveButton.enabled = NO;
             break;
         }
         case LINE:
@@ -550,10 +553,10 @@
 - (void) checkForUndo {
     
     if (longitudeArray.count > 0) {
-        _undoButton.enabled = YES;
+        undoButton.enabled = YES;
         return;
     }
-    _undoButton.enabled = NO;
+    undoButton.enabled = NO;
 }
 
 - (void) checkForSaving {
@@ -562,19 +565,19 @@
         case LINE:
         {
             if (longitudeArray.count > 1) {
-                _saveButton.enabled = YES;
+                saveButton.enabled = YES;
                 return;
             }
-            _saveButton.enabled = NO;
+            saveButton.enabled = NO;
             break;
         }
         case POLYGON:
         {
             if (longitudeArray.count > 2) {
-                _saveButton.enabled = YES;
+                saveButton.enabled = YES;
                 return;
             }
-            _saveButton.enabled = NO;
+            saveButton.enabled = NO;
             break;
         }
     }
@@ -584,40 +587,40 @@
     if (longitudeArray.count == 1) {
         NSLog(@"delete start point");
         [mapView removeAnnotation:customAnnotationView.annotation];
-        _saveButton.enabled = NO;
+        saveButton.enabled = NO;
         return YES;
     }
     return NO;
 }
 
 - (void) showEditModeAppearance {
-    _hairlinecross.hidden = NO;
-    _undoButton.hidden = NO;
-    _setButton.hidden = NO;
-    _modeButton.hidden = YES;
-    _undoButton.enabled = NO;
+    hairlinecross.hidden = NO;
+    undoButton.hidden = NO;
+    setButton.hidden = NO;
+    modeButton.hidden = YES;
+    undoButton.enabled = NO;
 }
 
 - (void) showStartModeAppearance {
-    _saveButton.enabled = NO;
-    _hairlinecross.hidden = YES;
-    _undoButton.hidden = YES;
-    _setButton.hidden = YES;
-    _modeButton.hidden = NO;
-    _cancelButton.enabled = NO;
+    saveButton.enabled = NO;
+    hairlinecross.hidden = YES;
+    undoButton.hidden = YES;
+    setButton.hidden = YES;
+    modeButton.hidden = NO;
+    cancelButton.enabled = NO;
 }
 
 - (void) showFreeHandModeAppearance {
-    _hairlinecross.hidden = YES;
-    _undoButton.hidden = NO;
-    _setButton.hidden = YES;
-    _modeButton.hidden = YES;
+    hairlinecross.hidden = YES;
+    undoButton.hidden = NO;
+    setButton.hidden = YES;
+    modeButton.hidden = YES;
 }
 
 - (IBAction)showModeOptions:(id)sender {
     
     if (!modeOptions) {
-        modeOptions = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Pin",@"Linie",/*@"Linie (free-hand)",*/ @"Polygon", /*@"Polygon (free-hand)",*/ nil];
+        modeOptions = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"areaPinMod", nil), NSLocalizedString(@"areaLineMod", nil),/*@"Linie (free-hand)",*/ NSLocalizedString(@"areaPolygonMod", nil), /*@"Polygon (free-hand)",*/ nil];
         
         UIImageView *pinSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(50, 31, 25, 25)];
         [pinSymbol setImage:[UIImage imageNamed:@"symbol-pin.png"]];
@@ -684,7 +687,7 @@
             break;
         }
     }
-    _cancelButton.enabled = YES;
+    cancelButton.enabled = YES;
 }
 
 #pragma mark

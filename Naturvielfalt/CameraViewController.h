@@ -23,6 +23,9 @@
     NSString *lastChosenMediaType;
     CGRect imageFrame;
     Observation *observation;
+    
+    IBOutlet UIButton *takePhotoButton;
+    IBOutlet UIButton *chooseExistingButton;
 }
 @property (nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic) IBOutlet UIButton *takePictureButton;
@@ -32,6 +35,9 @@
 @property (nonatomic, copy) NSString *lastChosenMediaType;
 @property (nonatomic) Observation *observation;
 @property (nonatomic) Area *area;
+@property (nonatomic) IBOutlet UIButton *chooseExistingButton;
+@property (nonatomic) IBOutlet UIButton *takePhotoButton;
+
 - (IBAction)shootPictureOrVideo:(id)sender;
 - (IBAction)selectExistingPictureOrVideo:(id)sender;
 @end

@@ -47,7 +47,7 @@
     
     // Set top navigation bar button  
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] 
-                                     initWithTitle:@"Sichern"
+                                     initWithTitle:NSLocalizedString(@"navSave", nil)
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(saveArea)];
@@ -56,14 +56,14 @@
     
     // Set top navigation bar button  
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
-                                      initWithTitle:@"Abbrechen"
+                                      initWithTitle:NSLocalizedString(@"navCancel", nil)
                                       style:UIBarButtonItemStyleBordered
                                       target:self
                                       action: @selector(abortArea)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     
     // Set navigation bar title    
-    NSString *title = @"Gebiet";
+    NSString *title = NSLocalizedString(@"areaSubmitTitle", nil);
     self.navigationItem.title = title;
     
     // Table init
@@ -109,7 +109,7 @@
     nowString = [dateFormatter stringFromDate:area.date];
     
     // Initialize keys/values
-    arrayKeys = [[NSArray alloc] initWithObjects:@"Zeit", @"Erfasser", @"Gebietsname", @"Beschreibung",  @"Gebietsfotos", nil];
+    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitDescr", nil),  NSLocalizedString(@"areaSubmitImages", nil), nil];
     arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.name, area.description, @">", nil];
 }
 
@@ -117,7 +117,7 @@
     if (area.persisted) {
         // Set top navigation bar button
         UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                         initWithTitle:@"Ändern"
+                                         initWithTitle:NSLocalizedString(@"navChange", nil)
                                          style:UIBarButtonItemStyleBordered
                                          target:self
                                          action: @selector(saveArea)];
@@ -134,7 +134,7 @@
 - (void) saveArea
 {
     
-    NSLog(@"saveArea");
+    NSLog(@"save area");
     if (!persistenceManager) {
         persistenceManager = [[PersistenceManager alloc] init];
         [persistenceManager establishConnection];
@@ -161,7 +161,7 @@
     hud.mode = MBProgressHUDModeCustomView;
     
     //hud.delegate = self;
-    hud.labelText = @"Gebiet gespeichert";
+    hud.labelText = NSLocalizedString(@"areaSubmitHudSuccess", nil);
     
     [hud show:YES];
     [hud hide:YES afterDelay:1];
@@ -171,7 +171,7 @@
     
     // Set top navigation bar button
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:@"Sichern"
+                                     initWithTitle:NSLocalizedString(@"navSave", nil)
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(saveArea)];
@@ -342,7 +342,7 @@
             }
 
             NSLog(@"section %i", indexPath.section);
-            customAddCell.key.text = @"Inventare";
+            customAddCell.key.text = NSLocalizedString(@"areaSubmitInventory", nil);
             NSLog(@"%i", area.inventories.count);
             customAddCell.value.text = [NSString stringWithFormat:@"%i", area.inventories.count];
             [customAddCell.addButton addTarget:self action:@selector(newInventory) forControlEvents:UIControlEventTouchUpInside];

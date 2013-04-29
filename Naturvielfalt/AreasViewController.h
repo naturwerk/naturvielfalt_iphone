@@ -39,6 +39,14 @@
     BOOL undo;
     BOOL shouldAdjustZoom;
     
+    IBOutlet UIBarButtonItem *cancelButton;
+    IBOutlet UIBarButtonItem *saveButton;
+    IBOutlet UIButton *undoButton;
+    IBOutlet UIButton *setButton;
+    IBOutlet UIButton *gpsButton;
+    IBOutlet UIButton *modeButton;
+    IBOutlet UIImageView *hairlinecross;
+    
     //Custom Annotations and Shapes (Line, Polygon)
     NSMutableArray *annotationsArray;
     NSMutableArray *overlaysArray;
@@ -46,11 +54,11 @@
 
 @property (nonatomic) IBOutlet UIBarButtonItem * cancelButton;
 @property (nonatomic) IBOutlet UIBarButtonItem * saveButton;
-@property (weak, nonatomic) IBOutlet UIButton *undoButton;
-@property (weak, nonatomic) IBOutlet UIButton *setButton;
-@property (weak, nonatomic) IBOutlet UIButton *modeButton;
-@property (weak, nonatomic) IBOutlet UIButton *gpsButton;
-@property (weak, nonatomic) IBOutlet UIImageView *hairlinecross;
+@property (nonatomic) IBOutlet UIButton *undoButton;
+@property (nonatomic) IBOutlet UIButton *setButton;
+@property (nonatomic) IBOutlet UIButton *modeButton;
+@property (nonatomic) IBOutlet UIButton *gpsButton;
+@property (nonatomic) IBOutlet UIImageView *hairlinecross;
 @property (nonatomic) Area *area;
 
 

@@ -39,15 +39,15 @@
     
     titles = [[NSMutableArray alloc] init];
     
-    [titles addObject:@"Benutzername"];
-    [titles addObject:@"Passwort"];
-    [titles addObject:@"Wikipedia Bilder laden"];
-    [titles addObject:@"Wikipedia Artikel prüfen"];
+    [titles addObject:NSLocalizedString(@"settingsUsername", nil)];
+    [titles addObject:NSLocalizedString(@"settingsPwd", nil)];
+    [titles addObject:NSLocalizedString(@"settingsWikiImg", nil)];
+    [titles addObject:NSLocalizedString(@"settingsWikiArt", nil)];
     
     [super viewDidLoad];
     
     // Set the title of the Navigationbar
-    NSString *title = @"Einstellungen";
+    NSString *title = NSLocalizedString(@"settingsNavTitle", nil);
     self.navigationItem.title = title;
 }
 

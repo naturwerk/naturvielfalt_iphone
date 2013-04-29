@@ -15,7 +15,7 @@
 @end
 
 @implementation AreasSubmitInventoryController
-@synthesize area, dateLabel, areaLabel, autherLabel;
+@synthesize area, dateLabel, areaLabel, autherLabel, inventoryLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,7 +33,7 @@
     NSLog(@"load settings for save area view");
     
     // Set navigation bar title
-    NSString *title = @"Inventare";
+    NSString *title = NSLocalizedString(@"areaSubmitInventory", nil);
     self.navigationItem.title = title;
     
     // Table init
@@ -63,6 +63,7 @@
     dateLabel.text = nowString;
     areaLabel.text = area.name;
     autherLabel.text = area.author;
+    inventoryLabel.text = NSLocalizedString(@"areaSubmitInventory", nil);
     
 }
 
@@ -95,6 +96,7 @@
     [self setAutherLabel:nil];
     [self setAreaLabel:nil];
     [self setAutherLabel:nil];
+    [self setInventoryLabel:nil];
     [super viewDidUnload];
 }
 

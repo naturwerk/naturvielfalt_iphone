@@ -15,6 +15,7 @@
 
 @interface ObservationsOrganismSubmitMapController : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate> {    
     IBOutlet MKMapView *mapView;
+    IBOutlet UIButton *setButton;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     Observation *observation;
@@ -33,6 +34,7 @@
 @property (nonatomic, assign) BOOL review;
 @property (nonatomic, assign) BOOL shouldAdjustZoom;
 @property (nonatomic, assign) BOOL pinMoved;
+@property (nonatomic) IBOutlet UIButton *setButton;
 
 - (IBAction)setPin:(id)sender;
 

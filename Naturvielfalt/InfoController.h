@@ -12,11 +12,12 @@
     IBOutlet UILabel *lblPartner;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UITextView *infoText;
-    
+    IBOutlet UILabel *aboutUsLabel;
 }
 
 @property (nonatomic) IBOutlet UILabel *lblPartner;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic) IBOutlet UITextView *infoText;
+@property (nonatomic) IBOutlet UILabel *aboutUsLabel;
 
 @end

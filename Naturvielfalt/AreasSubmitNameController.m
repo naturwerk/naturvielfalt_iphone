@@ -30,13 +30,13 @@
     [super viewDidLoad];
     
     // Set navigation bar title
-    NSString *title = @"Gebietsname";
+    NSString *title = NSLocalizedString(@"areaSubmitName", nil);
     self.navigationItem.title = title;
     
     // Make the textfield get focus
     [textView becomeFirstResponder];
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Speichern"
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navSave", nil)
                                                                    style:UIBarButtonItemStylePlain
                                                                   target:self
                                                                   action:@selector(saveAreaName)];

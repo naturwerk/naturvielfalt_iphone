@@ -14,7 +14,7 @@
 @end
 
 @implementation AreasSubmitInventoryObservationController
-@synthesize dateLabel, inventoryLabel, areaLabel, area, inventory, observationsTableView;
+@synthesize dateLabel, inventoryLabel, areaLabel, area, inventory, observationLabel,observationsTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,7 +32,7 @@
     NSLog(@"load settings for save observation view");
     
     // Set navigation bar title
-    NSString *title = @"Beobachtungen";
+    NSString *title = NSLocalizedString(@"areaSubmitObservations", nil);
     self.navigationItem.title = title;
     
     // Table init
@@ -52,6 +52,7 @@
     [self setInventoryLabel:nil];
     [self setAreaLabel:nil];
     [self setObservationsTableView:nil];
+    [self setObservationLabel:nil];
     [super viewDidUnload];
 }
 
@@ -72,6 +73,7 @@
     dateLabel.text = nowString;    
     inventoryLabel.text = inventory.name;
     areaLabel.text = area.name;
+    observationLabel.text = NSLocalizedString(@"areaSubmitObservations", nil);
 }
 
 - (IBAction)newObservation:(id)sender {

@@ -20,7 +20,7 @@
 @end
 
 @implementation AreasSubmitNewInventoryController
-@synthesize area, inventory, tableView;
+@synthesize area, inventory, tableView, review;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -85,9 +85,20 @@
 - (void) prepareData {
     
     // create new inventory if no inventory is choosen
-    if (!inventory)inventory = [[Inventory alloc] init];
+    if (!inventory) {
+        inventory = [[Inventory alloc] getInventory];
+    }
     
     if (!review) {
+        
+        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+        NSString *username = @"";
+        
+        if([appSettings objectForKey:@"username"] != nil) {
+            username = [appSettings stringForKey:@"username"];
+        }
+        
+        inventory.author = username;
         // Set current time
         NSDate *now = [NSDate date];
         
@@ -111,6 +122,15 @@
 
 - (void) saveInventory {
     NSLog(@"save inventory pressed");
+    
+    if ([inventory.name compare:@""] == 0) {
+        UIAlertView *inventoryAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageInventoryTitle", nil)
+                                                            message:NSLocalizedString(@"alertMessageInventoryName", nil) delegate:self cancelButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+        [inventoryAlert show];
+        return;
+    }
+    
     if (!persistenceManager) {
         persistenceManager = [[PersistenceManager alloc] init];
         [persistenceManager establishConnection];
@@ -121,6 +141,7 @@
         [persistenceManager updateInventory:inventory];
     } else {
         inventory.inventoryId = [persistenceManager saveInventory:inventory];
+        [area.inventories addObject:inventory];
     }
     
     // Close connection
@@ -153,6 +174,7 @@
     
     self.navigationItem.rightBarButtonItem = submitButton;
     [tableView reloadData];
+    [inventory setInventory:nil];
     
     [self.navigationController popViewControllerAnimated:TRUE];
     [self.navigationController pushViewController:self.parentViewController animated:TRUE];
@@ -165,7 +187,16 @@
 }
 
 - (void) newObservation {
-    NSLog(@"new inventory pressed");
+    NSLog(@"new observation pressed");
+    
+    if ([inventory.name compare:@""] == 0) {
+        UIAlertView *inventoryAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageInventoryTitle", nil)
+                                                                 message:NSLocalizedString(@"alertMessageInventoryName", nil) delegate:self cancelButtonTitle:nil
+                                                       otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+        [inventoryAlert show];
+        return;
+    }
+    
     // new INVENTORY
     ObservationsViewController *observationsViewController = [[ObservationsViewController alloc]
                                                               initWithNibName:@"ObservationsViewController"
@@ -267,7 +298,7 @@
             
             NSLog(@"section %i", indexPath.section);
             customAddCell.key.text = NSLocalizedString(@"areaSubmitObservations", nil);
-            customAddCell.value.text = @"3";
+            customAddCell.value.text = [NSString stringWithFormat:@"%i", inventory.observations.count];;
             [customAddCell.addButton addTarget:self action:@selector(newObservation) forControlEvents:UIControlEventTouchUpInside];
             
             return customAddCell;
@@ -324,6 +355,14 @@
                 break;
         }
     } else {
+        
+        if ([inventory.name compare:@""] == 0) {
+            UIAlertView *inventoryAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageInventoryTitle", nil)
+                                                                     message:NSLocalizedString(@"alertMessageInventoryName", nil) delegate:self cancelButtonTitle:nil
+                                                           otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+            [inventoryAlert show];
+            return;
+        }
         
         // OBSERVATION
         // Create the ObservationsOrganismSubmitMapController

@@ -8,6 +8,8 @@
 
 #import "AreasSubmitInventoryController.h"
 #import "AreasSubmitNewInventoryController.h"
+#import "AreasSubmitController.h"
+#import "InventoryCell.h"
 
 
 @interface AreasSubmitInventoryController ()
@@ -15,7 +17,7 @@
 @end
 
 @implementation AreasSubmitInventoryController
-@synthesize area, dateLabel, areaLabel, autherLabel, inventoryLabel;
+@synthesize area, dateLabel, areaLabel, autherLabel, inventoryLabel, areaImage, inventoriesTable;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,17 +39,36 @@
     self.navigationItem.title = title;
     
     // Table init
-    inventoryTableView.delegate = self;
+    inventoriesTable.delegate = self;
     
     NSMutableArray *pictures = [[NSMutableArray alloc] init];
     
     [self prepareData];
+    
+    // Reload table
+    [inventoriesTable reloadData];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    // Reload table
+    [inventoriesTable reloadData];
+}
+
+- (void)viewDidUnload {
+    [self setDateLabel:nil];
+    [self setAutherLabel:nil];
+    [self setAreaLabel:nil];
+    [self setAutherLabel:nil];
+    [self setInventoryLabel:nil];
+    [self setAreaImage:nil];
+    [self setInventoriesTable:nil];
+    [super viewDidUnload];
 }
 
 - (void) prepareData
@@ -64,6 +85,7 @@
     areaLabel.text = area.name;
     autherLabel.text = area.author;
     inventoryLabel.text = NSLocalizedString(@"areaSubmitInventory", nil);
+    areaImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:area]]];
     
 }
 
@@ -83,21 +105,67 @@
 
 #pragma mark
 #pragma UITableViewDelegate Methodes
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [area.inventories count];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"cellForRowAtIndexPath");
-    return nil;
+    NSLog(@"cellForRowAtIndexPath inventories");
+    
+    static NSString *cellIdentifier = @"InventoryCell";
+    UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
+    InventoryCell *inventoryCell;
+    
+    if(cell == nil) {
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"InventoryCell" owner:self options:nil];
+        
+        for (id currentObject in topLevelObjects){
+            if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                inventoryCell =  (InventoryCell *)currentObject;
+                break;
+            }
+        }
+    } else {
+        inventoryCell = (InventoryCell *)cell;
+    }
+    
+    Inventory *inventory = [area.inventories objectAtIndex:indexPath.row];
+    
+    if (inventory != nil) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd.MM.yyyy";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        NSString *nowString = [dateFormatter stringFromDate:inventory.date];
+        
+        inventoryCell.author.text = inventory.author;
+        inventoryCell.name.text = inventory.name;
+        inventoryCell.date.text = nowString;
+        inventoryCell.observationsCount.text = [NSString stringWithFormat:@"%i",inventory.observations.count];
+    }
+    return inventoryCell;
 }
 
-
-- (void)viewDidUnload {
-    inventoryTableView = nil;
-    [self setDateLabel:nil];
-    [self setAutherLabel:nil];
-    [self setAreaLabel:nil];
-    [self setAutherLabel:nil];
-    [self setInventoryLabel:nil];
-    [super viewDidUnload];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Create the ObservationsOrganismViewController
+    AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
+                                                                      initWithNibName:@"AreasSubmitNewInventoryController"
+                                                                      bundle:[NSBundle mainBundle]];
+    
+    Inventory *inventory = [area.inventories objectAtIndex:indexPath.row];
+    
+    // Set the current displayed organism
+    areasSubmitNewInventoryController.area = area;
+    areasSubmitNewInventoryController.inventory = inventory;
+    areasSubmitNewInventoryController.review = YES;
+    
+    // Switch the View & Controller
+    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    areasSubmitNewInventoryController = nil;
 }
+
 
 @end

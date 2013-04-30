@@ -30,10 +30,13 @@
 @property (nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) DrawMode drawMode;
 @property (nonatomic) CustomAnnotation *customAnnotation;
+@property (nonatomic) BOOL review;
 
 
 - (void) prepareData;
 - (void) rowClicked:(NSIndexPath *)indexPath;
 - (void) saveArea;
+
++ (NSString *) getStringOfDrawMode:(Area*)area;
 
 @end

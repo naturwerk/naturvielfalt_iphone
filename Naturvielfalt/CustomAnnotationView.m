@@ -137,6 +137,7 @@
     if (navigationController) {
         
         areasSubmitController.area = customAnnotation.area;
+        areasSubmitController.review = YES;
         // Switch the View & Controller
         // POP
         [navigationController popViewControllerAnimated:TRUE];

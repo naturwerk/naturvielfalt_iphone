@@ -7,7 +7,10 @@
 //
 
 #import "AreasSubmitInventoryObservationController.h"
+#import "ObservationsOrganismSubmitController.h"
 #import "ObservationsViewController.h"
+#import "ObservationCell.h"
+#import "Observation.h"
 
 @interface AreasSubmitInventoryObservationController ()
 
@@ -39,6 +42,14 @@
     observationsTableView.delegate = self;
     
     [self prepareData];
+    
+    // Reload table
+    [observationsTableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    // Reload table
+    [observationsTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,10 +103,65 @@
 
 #pragma mark
 #pragma UITableViewDelegate Methodes
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [inventory.observations count];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"cellForRowAtIndexPath");
-    return nil;
+    NSLog(@"cellForRowAtIndexPath observations");
+    
+    static NSString *cellIdentifier = @"InventoryCell";
+    UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
+    ObservationCell *observationCell;
+    
+    if(cell == nil) {
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ObservationCell" owner:self options:nil];
+        
+        for (id currentObject in topLevelObjects){
+            if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                observationCell =  (ObservationCell *)currentObject;
+                break;
+            }
+        }
+    } else {
+        observationCell = (ObservationCell *)cell;
+    }
+    
+    Observation *observation = [inventory.observations objectAtIndex:indexPath.row];
+    
+    if (observation != nil) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd.MM.yyyy";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        NSString *nowString = [dateFormatter stringFromDate:observation.date];
+        
+        observationCell.name.text = observation.organism.getNameDe;
+        observationCell.latName.text = observation.organism.getLatName;
+        observationCell.date.text = nowString;
+        observationCell.count.text = [NSString stringWithFormat:@"%@",observation.amount];
+    }
+    return observationCell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Create the ObservationsOrganismViewController
+    ObservationsOrganismSubmitController *observationsOrganismSubmitController = [[ObservationsOrganismSubmitController alloc]
+                                                                            initWithNibName:@"ObservationsOrganismSubmitController"
+                                                                            bundle:[NSBundle mainBundle]];
+    
+    Observation *observation = [inventory.observations objectAtIndex:indexPath.row];
+    
+    // Set the current displayed organism
+    observationsOrganismSubmitController.observation = observation;
+    observationsOrganismSubmitController.review = YES;
+    
+    // Switch the View & Controller
+    [self.navigationController pushViewController:observationsOrganismSubmitController animated:TRUE];
+    observationsOrganismSubmitController = nil;
 }
 
 @end

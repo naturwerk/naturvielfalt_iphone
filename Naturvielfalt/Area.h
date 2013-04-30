@@ -44,5 +44,7 @@ typedef enum DrawMode{
 @property (nonatomic) DrawMode typeOfArea;
 @property (nonatomic) BOOL persisted;
 
+- (Area *) getArea;
+- (void) setArea:(Area *)a;
 
 @end

@@ -25,5 +25,6 @@
 @property (nonatomic) Area *area;
 @property (nonatomic) Inventory *inventory;
 @property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) BOOL review;
 
 @end

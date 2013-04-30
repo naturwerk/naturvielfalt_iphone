@@ -20,6 +20,11 @@
 "alertMessageNetwork"			= "Kein Netzwerk vorhanden. Ev. im Flugmodus?";
 "alertMessageGPS"				= "GPS wurde vom Benutzer für diese Applikation deaktiviert.";
 "alertMessageUnknownError"		= "Unbekannter Netzwerk Fehler.";
+"alertMessageAreaNameTitle"		= "Gebietsname erforderlich";
+"alertMessageAreaName"			= "Es wurde kein Gebietsname eingetragen. Bitte geben Sie einen Gebietsnamen ein.";
+"alertMessageInventoryTitle"	= "Inventarname erforderlich";
+"alertMessageInventoryName"		= "Es wurde kein Inventarname eingetragen. Bitte geben Sie einen Inventarnamen ein.";
+
 
 /** Photo helper **/
 "photoNavTitle"					= "Foto";

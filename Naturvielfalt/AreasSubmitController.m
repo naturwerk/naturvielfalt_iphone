@@ -23,7 +23,7 @@
 @end
 
 @implementation AreasSubmitController
-@synthesize areaChanged, area, tableView, drawMode, customAnnotation;
+@synthesize areaChanged, area, tableView, drawMode, customAnnotation, review;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -86,14 +86,14 @@
     
     if(!review) {
         
-        /*NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
         NSString *username = @"";
         
         if([appSettings objectForKey:@"username"] != nil) {
             username = [appSettings stringForKey:@"username"];
         }
-        NSLog(@"Benutzername: %@", username);
-        area.author = username;*/
+        
+        area.author = username;
         
         // Set current time
         NSDate *now = [NSDate date];
@@ -133,6 +133,14 @@
 
 - (void) saveArea
 {
+    if ([area.name compare:@""] == 0) {
+        UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
+                                                            message:NSLocalizedString(@"alertMessageAreaName", nil) delegate:self cancelButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+        [areaAlert show];
+        return;
+    }
+
     
     NSLog(@"save area");
     if (!persistenceManager) {
@@ -206,6 +214,14 @@
 
 - (void) newInventory {
     NSLog(@"new inventory pressed");
+    
+    if ([area.name compare:@""] == 0) {
+        UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
+                                                            message:NSLocalizedString(@"alertMessageAreaName", nil) delegate:self cancelButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+        [areaAlert show];
+        return;
+    }
     // new INVENTORY
     AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
                                       initWithNibName:@"AreasSubmitNewInventoryController"
@@ -218,7 +234,7 @@
     areasSubmitNewInventoryController = nil;
 }
 
-- (NSString *) getStringOfDrawMode {
++ (NSString *) getStringOfDrawMode:(Area*)area {
     switch (area.typeOfArea) {
         case POINT: return @"pin";
         case LINE:
@@ -282,7 +298,7 @@
                         customAreaCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
                         customAreaCell.value.text = (area.name.length > 10) ? @"..." : area.name;
                         
-                        customAreaCell.image.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [self getStringOfDrawMode]]];
+                        customAreaCell.image.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:area]]];
                         return customAreaCell;
                     }
                         break;
@@ -341,9 +357,7 @@
                 }
             }
 
-            NSLog(@"section %i", indexPath.section);
             customAddCell.key.text = NSLocalizedString(@"areaSubmitInventory", nil);
-            NSLog(@"%i", area.inventories.count);
             customAddCell.value.text = [NSString stringWithFormat:@"%i", area.inventories.count];
             [customAddCell.addButton addTarget:self action:@selector(newInventory) forControlEvents:UIControlEventTouchUpInside];
 
@@ -420,8 +434,16 @@
                 break;
         }
     } else {
+        
+        if ([area.name compare:@""] == 0) {
+            UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
+                                                                message:NSLocalizedString(@"alertMessageAreaName", nil) delegate:self cancelButtonTitle:nil
+                                                      otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+            [areaAlert show];
+            return;
+        }
 
-        // INVENTORY
+    // INVENTORY
         // Create the ObservationsOrganismSubmitMapController
         areasSubmitInventoryController = [[AreasSubmitInventoryController alloc]
                                                                                 initWithNibName:@"AreasSubmitInventoryController"

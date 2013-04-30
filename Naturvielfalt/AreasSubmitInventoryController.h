@@ -11,11 +11,12 @@
 
 @interface AreasSubmitInventoryController : UIViewController <UITableViewDelegate> {
     
-    IBOutlet UITableView *inventoryTableView;
     IBOutlet UILabel *dateLabel;
     IBOutlet UILabel *autherLabel;
     IBOutlet UILabel *areaLabel;
     IBOutlet UILabel *inventoryLabel;
+    IBOutlet UIImageView *areaImage;
+    IBOutlet UITableView *inventoriesTable;
     Area *area;
     
     BOOL review;
@@ -26,6 +27,8 @@
 @property (nonatomic) IBOutlet UILabel *autherLabel;
 @property (nonatomic) IBOutlet UILabel *inventoryLabel;
 @property (nonatomic) IBOutlet UILabel *areaLabel;
+@property (nonatomic) IBOutlet UIImageView *areaImage;
+@property (nonatomic) IBOutlet UITableView *inventoriesTable;
 
 - (IBAction)newInventory:(id)sender;
 

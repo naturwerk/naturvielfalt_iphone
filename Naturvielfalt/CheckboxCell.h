@@ -16,6 +16,7 @@
     IBOutlet UILabel *date;
     IBOutlet UILabel *amount;;
     IBOutlet UIImageView *image;
+    IBOutlet UIImageView *areaImage;
 }
 
 @property (nonatomic) UIButton *checkbox;
@@ -25,4 +26,5 @@
 @property (nonatomic) UILabel *date;
 @property (nonatomic) UILabel *amount;
 @property (nonatomic) IBOutlet UIImageView *image;
+@property (weak, nonatomic) IBOutlet UIImageView *areaImage;
 @end

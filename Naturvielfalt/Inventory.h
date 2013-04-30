@@ -32,5 +32,8 @@
 @property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic) Area *area;
 
+- (Inventory *) getInventory;
+- (void) setInventory:(Inventory *)iv;
 
 @end
+

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		27008FEF1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */; };
-		2716C2451712979800175C61 /* location_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 2716C2441712979800175C61 /* location_pin.png */; };
 		272D3A671714172300588328 /* AreasSubmitNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A651714172300588328 /* AreasSubmitNameController.m */; };
 		272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A661714172300588328 /* AreasSubmitNameController.xib */; };
 		272D3A6C1714176D00588328 /* AreasSubmitDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */; };
@@ -28,6 +27,8 @@
 		27746D0B159B103900672970 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 27746D06159B103900672970 /* iTunesArtwork */; };
 		27746D10159B1F9D00672970 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0E159B1F9D00672970 /* Icon-Small@2x.png */; };
 		27746D11159B1F9D00672970 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0F159B1F9D00672970 /* Icon@2x.png */; };
+		27904164172EBA11002D08E3 /* InventoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27904163172EBA11002D08E3 /* InventoryCell.m */; };
+		27904166172EBA38002D08E3 /* InventoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27904165172EBA38002D08E3 /* InventoryCell.xib */; };
 		27B84514159B223500818BCE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B84513159B223500818BCE /* Default@2x.png */; };
 		27B84516159B230C00818BCE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27B84515159B230C00818BCE /* Entitlements.plist */; };
 		27C5847C15AD7D770085F719 /* 15-warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C5847B15AD7D770085F719 /* 15-warning.png */; };
@@ -45,7 +46,6 @@
 		27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB14322C148616E700BBA78D /* CameraViewController.xib */; };
 		27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06A170F18D000D6815B /* Default-568h@2x.png */; };
 		27ED2B42172174E300A45687 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27ED2B41172174E300A45687 /* CustomAnnotationView.m */; };
-		27EDCDF7171E8DCC009D94F8 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCDF6171E8DCC009D94F8 /* hairelinecross.png */; };
 		27EDCE0C171E9390009D94F8 /* symbol-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE09171E9390009D94F8 /* symbol-pin.png */; };
 		27EDCE0D171E9390009D94F8 /* symbol-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE0A171E9390009D94F8 /* symbol-line.png */; };
 		27EDCE11171EA563009D94F8 /* startPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE10171EA563009D94F8 /* startPoint.png */; };
@@ -53,16 +53,25 @@
 		27EE24A917257C2D00A48689 /* CustomLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27EE24A817257C2D00A48689 /* CustomLineView.m */; };
 		27F02D5E171D797900BAEFF0 /* CustomAreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F02D5D171D797900BAEFF0 /* CustomAreaCell.m */; };
 		27F02D60171D799400BAEFF0 /* CustomAreaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */; };
-		27F1085F172AA8E40040E6C1 /* symbol-line-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F1085C172AA8E40040E6C1 /* symbol-line-edit.png */; };
-		27F10860172AA8E40040E6C1 /* symbol-polygon-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F1085D172AA8E40040E6C1 /* symbol-polygon-edit.png */; };
-		27F10861172AA8E40040E6C1 /* symbol-pin-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F1085E172AA8E40040E6C1 /* symbol-pin-edit.png */; };
+		27F03364172FCB30009217B7 /* symbol-pin-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F03360172FCB30009217B7 /* symbol-pin-edit.png */; };
+		27F03365172FCB30009217B7 /* symbol-line-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F03361172FCB30009217B7 /* symbol-line-edit.png */; };
+		27F03367172FCB30009217B7 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F03363172FCB30009217B7 /* hairelinecross.png */; };
+		27F0336B172FCE0C009217B7 /* symbol-polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F03369172FCE0C009217B7 /* symbol-polygon.png */; };
+		27F0336D172FCF33009217B7 /* symbol-polygon-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F0336C172FCF33009217B7 /* symbol-polygon-edit.png */; };
+		27F03370172FF224009217B7 /* ObservationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F0336F172FF224009217B7 /* ObservationCell.m */; };
+		27F03372172FF242009217B7 /* ObservationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F03371172FF242009217B7 /* ObservationCell.xib */; };
+		27F033761730061E009217B7 /* CollectionInventoriesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F033741730061D009217B7 /* CollectionInventoriesController.m */; };
+		27F033771730061E009217B7 /* CollectionInventoriesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F033751730061E009217B7 /* CollectionInventoriesController.xib */; };
+		27F0337C17300698009217B7 /* CollectionAreasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F0337A17300698009217B7 /* CollectionAreasController.m */; };
+		27F0337D17300698009217B7 /* CollectionAreasController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F0337B17300698009217B7 /* CollectionAreasController.xib */; };
+		27F03381173006BE009217B7 /* CollectionObservationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F0337F173006BE009217B7 /* CollectionObservationsController.m */; };
+		27F03382173006BE009217B7 /* CollectionObservationsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F03380173006BE009217B7 /* CollectionObservationsController.xib */; };
 		27F114D3171BCF960017DAF0 /* AreasSubmitNewInventoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F114D1171BCF960017DAF0 /* AreasSubmitNewInventoryController.m */; };
 		27F114D4171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114D2171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib */; };
 		27F114D9171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F114D7171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.m */; };
 		27F114DA171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114D8171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.xib */; };
 		27F114E7171BFDAC0017DAF0 /* CustomAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F114E6171BFDAC0017DAF0 /* CustomAddCell.m */; };
 		27F114E9171BFDCD0017DAF0 /* CustomAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */; };
-		27F34B9317294EE600461BCE /* symbol-polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F34B9217294EE600461BCE /* symbol-polygon.png */; };
 		27F399611716BBF7000433F7 /* Inventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F399601716BBF7000433F7 /* Inventory.m */; };
 		27F3996D1716F5B0000433F7 /* AreasSubmitInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */; };
 		27F7842B1715472D00081A1F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784261715472D00081A1F /* 19-gear.png */; };
@@ -181,7 +190,6 @@
 /* Begin PBXFileReference section */
 		27008FED1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolygon+MKPolygonCategory.h"; sourceTree = "<group>"; };
 		27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolygon+MKPolygonCategory.m"; sourceTree = "<group>"; };
-		2716C2441712979800175C61 /* location_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_pin.png; sourceTree = "<group>"; };
 		272D3A641714172300588328 /* AreasSubmitNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNameController.h; sourceTree = "<group>"; };
 		272D3A651714172300588328 /* AreasSubmitNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNameController.m; sourceTree = "<group>"; };
 		272D3A661714172300588328 /* AreasSubmitNameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNameController.xib; sourceTree = "<group>"; };
@@ -207,6 +215,9 @@
 		27746D06159B103900672970 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = SOURCE_ROOT; };
 		27746D0E159B1F9D00672970 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = SOURCE_ROOT; };
 		27746D0F159B1F9D00672970 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = SOURCE_ROOT; };
+		27904162172EBA11002D08E3 /* InventoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryCell.h; sourceTree = "<group>"; };
+		27904163172EBA11002D08E3 /* InventoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryCell.m; sourceTree = "<group>"; };
+		27904165172EBA38002D08E3 /* InventoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InventoryCell.xib; sourceTree = "<group>"; };
 		27B84513159B223500818BCE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
 		27B84515159B230C00818BCE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		27C5847B15AD7D770085F719 /* 15-warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "15-warning.png"; sourceTree = "<group>"; };
@@ -229,7 +240,6 @@
 		27D2B06A170F18D000D6815B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		27ED2B40172174E300A45687 /* CustomAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotationView.h; sourceTree = "<group>"; };
 		27ED2B41172174E300A45687 /* CustomAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotationView.m; sourceTree = "<group>"; };
-		27EDCDF6171E8DCC009D94F8 /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
 		27EDCE09171E9390009D94F8 /* symbol-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-pin.png"; sourceTree = "<group>"; };
 		27EDCE0A171E9390009D94F8 /* symbol-line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-line.png"; sourceTree = "<group>"; };
 		27EDCE10171EA563009D94F8 /* startPoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startPoint.png; sourceTree = "<group>"; };
@@ -240,9 +250,23 @@
 		27F02D5C171D797900BAEFF0 /* CustomAreaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAreaCell.h; sourceTree = "<group>"; };
 		27F02D5D171D797900BAEFF0 /* CustomAreaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAreaCell.m; sourceTree = "<group>"; };
 		27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAreaCell.xib; sourceTree = "<group>"; };
-		27F1085C172AA8E40040E6C1 /* symbol-line-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-line-edit.png"; sourceTree = "<group>"; };
-		27F1085D172AA8E40040E6C1 /* symbol-polygon-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-polygon-edit.png"; sourceTree = "<group>"; };
-		27F1085E172AA8E40040E6C1 /* symbol-pin-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-pin-edit.png"; sourceTree = "<group>"; };
+		27F03360172FCB30009217B7 /* symbol-pin-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-pin-edit.png"; sourceTree = "<group>"; };
+		27F03361172FCB30009217B7 /* symbol-line-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-line-edit.png"; sourceTree = "<group>"; };
+		27F03363172FCB30009217B7 /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
+		27F03369172FCE0C009217B7 /* symbol-polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-polygon.png"; sourceTree = "<group>"; };
+		27F0336C172FCF33009217B7 /* symbol-polygon-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-polygon-edit.png"; sourceTree = "<group>"; };
+		27F0336E172FF224009217B7 /* ObservationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationCell.h; sourceTree = "<group>"; };
+		27F0336F172FF224009217B7 /* ObservationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationCell.m; sourceTree = "<group>"; };
+		27F03371172FF242009217B7 /* ObservationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationCell.xib; sourceTree = "<group>"; };
+		27F033731730061D009217B7 /* CollectionInventoriesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionInventoriesController.h; sourceTree = "<group>"; };
+		27F033741730061D009217B7 /* CollectionInventoriesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionInventoriesController.m; sourceTree = "<group>"; };
+		27F033751730061E009217B7 /* CollectionInventoriesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionInventoriesController.xib; sourceTree = "<group>"; };
+		27F0337917300698009217B7 /* CollectionAreasController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionAreasController.h; sourceTree = "<group>"; };
+		27F0337A17300698009217B7 /* CollectionAreasController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionAreasController.m; sourceTree = "<group>"; };
+		27F0337B17300698009217B7 /* CollectionAreasController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionAreasController.xib; sourceTree = "<group>"; };
+		27F0337E173006BD009217B7 /* CollectionObservationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionObservationsController.h; sourceTree = "<group>"; };
+		27F0337F173006BE009217B7 /* CollectionObservationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionObservationsController.m; sourceTree = "<group>"; };
+		27F03380173006BE009217B7 /* CollectionObservationsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionObservationsController.xib; sourceTree = "<group>"; };
 		27F114D0171BCF960017DAF0 /* AreasSubmitNewInventoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNewInventoryController.h; sourceTree = "<group>"; };
 		27F114D1171BCF960017DAF0 /* AreasSubmitNewInventoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNewInventoryController.m; sourceTree = "<group>"; };
 		27F114D2171BCF960017DAF0 /* AreasSubmitNewInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNewInventoryController.xib; sourceTree = "<group>"; };
@@ -252,7 +276,6 @@
 		27F114E5171BFDAC0017DAF0 /* CustomAddCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAddCell.h; sourceTree = "<group>"; };
 		27F114E6171BFDAC0017DAF0 /* CustomAddCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAddCell.m; sourceTree = "<group>"; };
 		27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAddCell.xib; sourceTree = "<group>"; };
-		27F34B9217294EE600461BCE /* symbol-polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-polygon.png"; sourceTree = "<group>"; };
 		27F3995F1716BBF7000433F7 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
 		27F399601716BBF7000433F7 /* Inventory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inventory.m; sourceTree = "<group>"; };
 		27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryController.xib; sourceTree = "<group>"; };
@@ -503,6 +526,22 @@
 			name = Areas;
 			sourceTree = "<group>";
 		};
+		27F0337817300625009217B7 /* collections */ = {
+			isa = PBXGroup;
+			children = (
+				27F0337E173006BD009217B7 /* CollectionObservationsController.h */,
+				27F0337F173006BE009217B7 /* CollectionObservationsController.m */,
+				27F03380173006BE009217B7 /* CollectionObservationsController.xib */,
+				27F033731730061D009217B7 /* CollectionInventoriesController.h */,
+				27F033741730061D009217B7 /* CollectionInventoriesController.m */,
+				27F033751730061E009217B7 /* CollectionInventoriesController.xib */,
+				27F0337917300698009217B7 /* CollectionAreasController.h */,
+				27F0337A17300698009217B7 /* CollectionAreasController.m */,
+				27F0337B17300698009217B7 /* CollectionAreasController.xib */,
+			);
+			name = collections;
+			sourceTree = "<group>";
+		};
 		27F114D5171BD0140017DAF0 /* submitNewInventoryHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -666,6 +705,12 @@
 				CB18F9E0145A966700772E9B /* CheckboxCell.h */,
 				CB18F9E1145A966700772E9B /* CheckboxCell.m */,
 				CB18F9E2145A966700772E9B /* CheckboxCell.xib */,
+				27904162172EBA11002D08E3 /* InventoryCell.h */,
+				27904163172EBA11002D08E3 /* InventoryCell.m */,
+				27904165172EBA38002D08E3 /* InventoryCell.xib */,
+				27F0336E172FF224009217B7 /* ObservationCell.h */,
+				27F0336F172FF224009217B7 /* ObservationCell.m */,
+				27F03371172FF242009217B7 /* ObservationCell.xib */,
 				F664006F157CAD770092A9D0 /* CustomOrganismCell.h */,
 				F6640070157CAD770092A9D0 /* CustomOrganismCell.m */,
 				F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */,
@@ -697,16 +742,15 @@
 				27C5847B15AD7D770085F719 /* 15-warning.png */,
 				CB143230148639EC00BBA78D /* bildvorschaudeaktiviert.png */,
 				CBD2C2EB146988B8003F1B90 /* 37x-Checkmark.png */,
-				2716C2441712979800175C61 /* location_pin.png */,
 				CBEBAA2E147E44AC009AC6C0 /* keinbildvorhanden.png */,
 				CBEBAA24147BF503009AC6C0 /* wikipedia.png */,
-				27EDCDF6171E8DCC009D94F8 /* hairelinecross.png */,
 				27EDCE09171E9390009D94F8 /* symbol-pin.png */,
-				27F34B9217294EE600461BCE /* symbol-polygon.png */,
 				27EDCE0A171E9390009D94F8 /* symbol-line.png */,
-				27F1085C172AA8E40040E6C1 /* symbol-line-edit.png */,
-				27F1085D172AA8E40040E6C1 /* symbol-polygon-edit.png */,
-				27F1085E172AA8E40040E6C1 /* symbol-pin-edit.png */,
+				27F03360172FCB30009217B7 /* symbol-pin-edit.png */,
+				27F03361172FCB30009217B7 /* symbol-line-edit.png */,
+				27F03369172FCE0C009217B7 /* symbol-polygon.png */,
+				27F0336C172FCF33009217B7 /* symbol-polygon-edit.png */,
+				27F03363172FCB30009217B7 /* hairelinecross.png */,
 				27EDCE10171EA563009D94F8 /* startPoint.png */,
 				CBD9563A144807AB00890319 /* navigationbar.png */,
 				CB1D68FE1444463E003230B4 /* status-green.png */,
@@ -834,6 +878,7 @@
 				CBDDB56A14582A53007E48AB /* CollectionOverviewController.h */,
 				CBDDB56B14582A53007E48AB /* CollectionOverviewController.m */,
 				CBDDB56C14582A53007E48AB /* CollectionOverviewController.xib */,
+				27F0337817300625009217B7 /* collections */,
 			);
 			name = Collection;
 			sourceTree = "<group>";
@@ -1013,7 +1058,6 @@
 				27D2B060170F162F00D6815B /* AreasSubmitController.xib in Resources */,
 				27D2B062170F162F00D6815B /* AreasViewController.xib in Resources */,
 				27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */,
-				2716C2451712979800175C61 /* location_pin.png in Resources */,
 				272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */,
 				272D3A6D1714176D00588328 /* AreasSubmitDescriptionController.xib in Resources */,
 				272D3A791714542400588328 /* AreasSubmitInventoryNameController.xib in Resources */,
@@ -1030,15 +1074,20 @@
 				27F114DA171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.xib in Resources */,
 				27F114E9171BFDCD0017DAF0 /* CustomAddCell.xib in Resources */,
 				27F02D60171D799400BAEFF0 /* CustomAreaCell.xib in Resources */,
-				27EDCDF7171E8DCC009D94F8 /* hairelinecross.png in Resources */,
 				27EDCE0C171E9390009D94F8 /* symbol-pin.png in Resources */,
 				27EDCE0D171E9390009D94F8 /* symbol-line.png in Resources */,
 				27EDCE11171EA563009D94F8 /* startPoint.png in Resources */,
 				273D519117268B8300377227 /* Localizable.strings in Resources */,
-				27F34B9317294EE600461BCE /* symbol-polygon.png in Resources */,
-				27F1085F172AA8E40040E6C1 /* symbol-line-edit.png in Resources */,
-				27F10860172AA8E40040E6C1 /* symbol-polygon-edit.png in Resources */,
-				27F10861172AA8E40040E6C1 /* symbol-pin-edit.png in Resources */,
+				27904166172EBA38002D08E3 /* InventoryCell.xib in Resources */,
+				27F03364172FCB30009217B7 /* symbol-pin-edit.png in Resources */,
+				27F03365172FCB30009217B7 /* symbol-line-edit.png in Resources */,
+				27F03367172FCB30009217B7 /* hairelinecross.png in Resources */,
+				27F0336B172FCE0C009217B7 /* symbol-polygon.png in Resources */,
+				27F0336D172FCF33009217B7 /* symbol-polygon-edit.png in Resources */,
+				27F03372172FF242009217B7 /* ObservationCell.xib in Resources */,
+				27F033771730061E009217B7 /* CollectionInventoriesController.xib in Resources */,
+				27F0337D17300698009217B7 /* CollectionAreasController.xib in Resources */,
+				27F03382173006BE009217B7 /* CollectionObservationsController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1123,6 +1172,11 @@
 				27EE24A917257C2D00A48689 /* CustomLineView.m in Sources */,
 				27F8C3D51727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m in Sources */,
 				27008FEF1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m in Sources */,
+				27904164172EBA11002D08E3 /* InventoryCell.m in Sources */,
+				27F03370172FF224009217B7 /* ObservationCell.m in Sources */,
+				27F033761730061E009217B7 /* CollectionInventoriesController.m in Sources */,
+				27F0337C17300698009217B7 /* CollectionAreasController.m in Sources */,
+				27F03381173006BE009217B7 /* CollectionObservationsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

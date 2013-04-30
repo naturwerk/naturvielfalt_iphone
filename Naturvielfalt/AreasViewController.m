@@ -11,9 +11,12 @@
 #import "MKPolyline+MKPolylineCategory.h"
 #import "MKPolygon+MKPolygonCategory.h"
 
-@interface AreasViewController ()
-
-@end
+#define imgX      70
+#define pinY      31
+#define lineY     84
+#define polyY    137
+#define imgWidht  25
+#define imgHeight 25
 
 @implementation AreasViewController
 @synthesize area, cancelButton, saveButton, undoButton, setButton, gpsButton, modeButton, hairlinecross;
@@ -210,7 +213,9 @@
     startPoint = nil;
     pinAnnotation = nil;
     overlayView = nil;
+    [area setArea:nil];
     area = nil;
+    
 }
 
 - (void) saveArea {
@@ -221,7 +226,7 @@
                                                                       initWithNibName:@"AreasSubmitController" 
                                                                       bundle:[NSBundle mainBundle]];
     if (!area) {
-        area = [[Area alloc] init];
+        area = [[Area alloc] getArea];
     }
 
     area.typeOfArea = currentDrawMode;
@@ -622,15 +627,15 @@
     if (!modeOptions) {
         modeOptions = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"areaPinMod", nil), NSLocalizedString(@"areaLineMod", nil),/*@"Linie (free-hand)",*/ NSLocalizedString(@"areaPolygonMod", nil), /*@"Polygon (free-hand)",*/ nil];
         
-        UIImageView *pinSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(50, 31, 25, 25)];
+        UIImageView *pinSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(imgX, pinY, imgWidht, imgHeight)];
         [pinSymbol setImage:[UIImage imageNamed:@"symbol-pin.png"]];
         [modeOptions addSubview:pinSymbol];
         
-        UIImageView *lineSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(50, 84, 25, 25)];
+        UIImageView *lineSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(imgX, lineY, imgWidht, imgHeight)];
         [lineSymbol setImage:[UIImage imageNamed:@"symbol-line.png"]];
         [modeOptions addSubview:lineSymbol];
         
-        UIImageView *polygonSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(50, 137, 25, 25)];
+        UIImageView *polygonSymbol = [[UIImageView alloc] initWithFrame:CGRectMake(imgX, polyY, imgWidht, imgHeight)];
         [polygonSymbol setImage:[UIImage imageNamed:@"symbol-polygon.png"]];
         [modeOptions addSubview:polygonSymbol];
 

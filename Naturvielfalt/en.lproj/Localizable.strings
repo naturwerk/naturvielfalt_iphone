@@ -20,6 +20,10 @@
 "alertMessageNetwork"			= "No network available.";
 "alertMessageGPS"				= "GPS function deactivated for this application.";
 "alertMessageUnknownError"		= "Unknown network error.";
+"alertMessageAreaNameTitle"		= "Area name required";
+"alertMessageAreaName"			= "No area name found. Please enter area name.";
+"alertMessageInventoryTitle"	= "Inventory name required";
+"alertMessageInventoryName"		= "No inventory name found. Please enter inventory name.";
 
 /** Photo helper **/
 "photoNavTitle"					= "Photo";

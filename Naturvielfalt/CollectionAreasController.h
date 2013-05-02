@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
 
-@interface CollectionAreasController : UIViewController
+@interface CollectionAreasController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate> {
+    
+    IBOutlet UITableView *tableView;
+    NSMutableArray *areas;
+    BOOL doSubmit;
+}
+
+@property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) NSMutableArray *areas;
 
 @end

@@ -203,6 +203,8 @@
     [tableView reloadData];
     //[hud hide:true];
     
+    [observation setObservation:nil];
+    
     if(comeFromOrganism){
         //TODO go back to the artgroup
     }

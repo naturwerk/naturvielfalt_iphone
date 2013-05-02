@@ -20,7 +20,6 @@
     int *countObservations;
     IBOutlet UITableView *table;
     ASINetworkQueue *queue;
-    IBOutlet UIProgressView *progressView;
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
@@ -32,7 +31,6 @@
 @property (nonatomic, assign) int *countObservations;
 @property (nonatomic) IBOutlet UITableView *table;
 @property (nonatomic) ASINetworkQueue *queue;
-@property (nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic) NSOperationQueue *operationQueue;
 @property (nonatomic) NSIndexPath *curIndex;
 @property (nonatomic) BOOL doSubmit;

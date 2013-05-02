@@ -47,6 +47,7 @@
 - (void) updateArea:(Area *) area;
 - (void) deleteArea:(long long int) areaId;
 - (NSMutableArray *) getAreas;
+- (Area *) getArea:(long long int)areaId;
 - (NSMutableArray *) getInventoriesFromArea:(long long int) areaId;
 
 //Inventories
@@ -54,6 +55,7 @@
 - (void) updateInventory:(Inventory *) inventory;
 - (void) deleteInventory:(long long int) inventoryId;
 - (NSMutableArray *) getInventories;
+- (Inventory *) getInventory:(long long int) inventoryId;
 - (NSMutableArray *) getObservationsFromInventory:(long long int) inventoryId;
 
 // Organismgroups;

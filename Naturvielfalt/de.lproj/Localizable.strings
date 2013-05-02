@@ -103,14 +103,24 @@
 "collectionNavTitle"            = "Erfassungen";
 
 // Collection alert messages
-"collectionAlertMessageTitle"	= "Beobachtungen übermitteln?";
-"collectionAlertMessageDetail"	= "Sind Sie sicher, dass Sie ihre Beobachtungen über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen.";
-"collectionAlertErrorObs"	= "Es wurden noch keine Beobachtungen gespeichert oder keine wurden ausgewählt";
+"collectionAlertObsTitle"	= "Beobachtungen übermitteln?";
+"collectionAlertInvTitle"		= "Inventare übermitteln?";
+"collectionAlertAreaTitle"		= "Gebiete übermitteln?";
+"collectionAlertObsDetail"		= "Sind Sie sicher, dass Sie Ihre Beobachtungen über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen.";
+"collectionAlertInvDetail"		= "Sind Sie sicher, dass Sie Ihre Inventare über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen.";
+"collectionAlertAreaDetail"		= "Sind Sie sicher, dass Sie Ihre Gebiete über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen.";
+"collectionAlertErrorObs"		= "Es wurden noch keine Beobachtungen gespeichert oder keine wurden ausgewählt";
+"collectionAlertErrorInv"		= "Es wurden noch keine Inventare gespeichert oder keine wurden ausgewählt";
+"collectionAlertErrorAreas"		= "Es wurden noch keine Gebiete gespeichert oder keine wurden ausgewählt";
 "collectionAlertErrorSettings"	= "Benutzername/Passwort wurde noch nicht gesetzt. Dies kann in den Einstellungen gesetzt werden.";
-"collectionAlertErrorSubmit"	= "Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
+"collectionAlertErrorObsSubmit"	= "Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
+"collectionAlertErrorInvSubmit"	= "Nicht alle Inventare wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
+"collectionAlertErrorAreSubmit"	= "Nicht alle Gebiete wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
 
 // Collection success message
-"collectionSuccessMessageDetail"= "Alle Beobachtungen wurden erfolgreich übertragen.";
+"collectionSuccessObsDetail"	= "Alle Beobachtungen wurden erfolgreich übertragen.";
+"collectionSuccessInvDetail"	= "Alle Inventare wurden erfolgreich übertragen.";
+"collectionSuccessAreaDetail"	= "Alle Gebiete wurden erfolgreich übertragen.";
 
 // Collection HUD messages
 "collectionHudWaitMessage"		= "Bitte warten";

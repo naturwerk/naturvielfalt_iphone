@@ -157,6 +157,8 @@
     
     // Set the current displayed organism
     observationsOrganismSubmitController.observation = observation;
+    observationsOrganismSubmitController.inventory = inventory;
+    observationsOrganismSubmitController.organism = observation.organism;
     observationsOrganismSubmitController.review = YES;
     
     // Switch the View & Controller

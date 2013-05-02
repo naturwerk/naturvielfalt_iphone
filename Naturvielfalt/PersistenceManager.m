@@ -45,8 +45,9 @@
         NSAssert(0, @"Failed to open static database");
     }
 	
-    // Create TABLE (At the moment IMAGE BLOB is missing..)
-    NSString *createSQL = @"CREATE TABLE IF NOT EXISTS observation (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
+    // Create TABLE OBSERVATION (At the moment IMAGE BLOB is missing..)
+    NSString *createSQLObservation = @"CREATE TABLE IF NOT EXISTS observation (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
+                                                                     INVENTORY_ID INTEGER,                 \
                                                                      ORGANISM_ID INTEGER,                  \
                                                                      ORGANISMGROUP_ID INTEGER,             \
                                                                      ORGANISM_NAME TEXT,                   \
@@ -61,11 +62,38 @@
                                                                      COMMENT TEXT,                         \
                                                                      IMAGE BLOB);";
     
+    // Create TABLE INVENTORY (At the moment IMAGE BLOB is missing..)
+    NSString *createSQLInventory = @"CREATE TABLE IF NOT EXISTS inventory (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
+                                                                     AREA_ID INTEGER,                      \
+                                                                     NAME TEXT,                            \
+                                                                     AUTHOR TEXT,                          \
+                                                                     DATE TEXT,                            \
+                                                                     DESCRIPTION TEXT);";
+    
+    // Create TABLE AREA(At the moment IMAGE BLOB is missing..)
+    NSString *createSQLArea = @"CREATE TABLE IF NOT EXISTS area (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
+                                                                    NAME TEXT,                             \
+                                                                    MODE INT,                              \
+                                                                    AUTHOR TEXT,                           \
+                                                                    DATE TEXT,                             \
+                                                                    DESCRIPTION TEXT,                      \
+                                                                    IMAGE BLOB);";
+    
     char *errorMsg;
     
-    if (sqlite3_exec (dbUser, [createSQL UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
+    if (sqlite3_exec (dbUser, [createSQLObservation UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
         sqlite3_close(dbUser);
-        NSAssert1(0, @"Error creating table: %s", errorMsg);
+        NSAssert1(0, @"Error creating table OBSERVATION: %s", errorMsg);
+    }
+    
+    if (sqlite3_exec (dbUser, [createSQLInventory UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
+        sqlite3_close(dbUser);
+        NSAssert1(0, @"Error creating table INVENTORY: %s", errorMsg);
+    }
+    
+    if (sqlite3_exec (dbUser, [createSQLArea UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
+        sqlite3_close(dbUser);
+        NSAssert1(0, @"Error creating table AREA: %s", errorMsg);
     }
     
     // dont' backup the database files to iCloud
@@ -110,7 +138,7 @@
 // OBSERVATIONS
 - (long long int) saveObservation:(Observation *) observation
 {
-    char *sql = "INSERT INTO observation (ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, IMAGE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    char *sql = "INSERT INTO observation (INVENTORY_ID, ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, IMAGE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt;
 
     // Create date string
@@ -121,36 +149,35 @@
         
     // Put the data into the insert statement
     if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
-        sqlite3_bind_int(stmt, 1, observation.organism.organismId);
-        sqlite3_bind_int(stmt, 2, observation.organism.organismGroupId);
-        sqlite3_bind_text(stmt, 3, [[observation.organism getNameDe] UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 4, [[observation.organism getLatName] UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 5, [observation.organism.family UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 6, [observation.author UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 7, [formattedDate UTF8String], -1, NULL);
-        sqlite3_bind_int(stmt, 8, [observation.amount intValue]);
-        sqlite3_bind_double(stmt, 9, observation.location.coordinate.latitude);
-        sqlite3_bind_double(stmt, 10, observation.location.coordinate.longitude);
-        sqlite3_bind_int(stmt, 11, observation.accuracy);
-        sqlite3_bind_text(stmt, 12, [observation.comment UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 1, observation.inventory.inventoryId);
+        sqlite3_bind_int(stmt, 2, observation.organism.organismId);
+        sqlite3_bind_int(stmt, 3, observation.organism.organismGroupId);
+        sqlite3_bind_text(stmt, 4, [[observation.organism getNameDe] UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [[observation.organism getLatName] UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 6, [observation.organism.family UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 7, [observation.author UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 8, [formattedDate UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 9, [observation.amount intValue]);
+        sqlite3_bind_double(stmt, 10, observation.location.coordinate.latitude);
+        sqlite3_bind_double(stmt, 11, observation.location.coordinate.longitude);
+        sqlite3_bind_int(stmt, 12, observation.accuracy);
+        sqlite3_bind_text(stmt, 13, [observation.comment UTF8String], -1, NULL);
         
         // Check if there are any images
         if(observation.pictures.count > 0) {
             UIImage *image = [observation.pictures objectAtIndex:0];
             NSData *imageData = UIImagePNGRepresentation(image);
             
-            sqlite3_bind_blob(stmt, 13, [imageData bytes] , [imageData length], NULL);
+            sqlite3_bind_blob(stmt, 14, [imageData bytes] , [imageData length], NULL);
         } else {
-            sqlite3_bind_blob(stmt, 13, nil , -1, NULL);
+            sqlite3_bind_blob(stmt, 14, nil , -1, NULL);
         }
     }
     
     NSLog(@"Insert observation in db: %@", observation);
     
-    char *errorMsg;
-    
     if (sqlite3_step(stmt) != SQLITE_DONE) {
-        NSAssert1(0, @"Error inserting into table: %s", errorMsg);
+        NSAssert1(0, @"Error inserting into table: %@", observation);
     }
     
     sqlite3_finalize(stmt);
@@ -160,7 +187,7 @@
 
 - (void) updateObservation:(Observation *) observation
 {
-    char *sql = "UPDATE observation SET ORGANISM_ID = ?, ORGANISMGROUP_ID = ?, ORGANISM_NAME = ?, ORGANISM_NAME_LAT = ?, ORGANISM_FAMILY = ?, AUTHOR = ?, DATE = ?, AMOUNT = ?, LOCATION_LAT = ?, LOCATION_LON = ?, ACCURACY = ?, COMMENT = ?, IMAGE = ? WHERE ID = ?";
+    char *sql = "UPDATE observation SET INVENTORY_ID = ?, ORGANISM_ID = ?, ORGANISMGROUP_ID = ?, ORGANISM_NAME = ?, ORGANISM_NAME_LAT = ?, ORGANISM_FAMILY = ?, AUTHOR = ?, DATE = ?, AMOUNT = ?, LOCATION_LAT = ?, LOCATION_LON = ?, ACCURACY = ?, COMMENT = ?, IMAGE = ? WHERE ID = ?";
     
     sqlite3_stmt *stmt;
     
@@ -172,41 +199,39 @@
  
     // Put the data into the insert statement
     if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
-        sqlite3_bind_int(stmt, 1, observation.organism.organismId);
-        sqlite3_bind_int(stmt, 2, observation.organism.organismGroupId);
-        sqlite3_bind_text(stmt, 3, [[observation.organism getNameDe] UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 4, [[observation.organism getLatName] UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 5, [observation.organism.family UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 6, [observation.author UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 7, [formattedDate UTF8String], -1, NULL);
-        sqlite3_bind_int(stmt, 8, [observation.amount intValue]);
-        sqlite3_bind_double(stmt, 9, observation.location.coordinate.latitude);
-        sqlite3_bind_double(stmt, 10, observation.location.coordinate.longitude);
-        sqlite3_bind_int(stmt, 11, observation.accuracy);
-        sqlite3_bind_text(stmt, 12, [observation.comment UTF8String], -1, NULL);
-        sqlite3_bind_int(stmt, 14, observation.observationId);
+        sqlite3_bind_int(stmt, 1, observation.inventory.inventoryId);
+        sqlite3_bind_int(stmt, 2, observation.organism.organismId);
+        sqlite3_bind_int(stmt, 3, observation.organism.organismGroupId);
+        sqlite3_bind_text(stmt, 4, [[observation.organism getNameDe] UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [[observation.organism getLatName] UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 6, [observation.organism.family UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 7, [observation.author UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 8, [formattedDate UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 9, [observation.amount intValue]);
+        sqlite3_bind_double(stmt, 10, observation.location.coordinate.latitude);
+        sqlite3_bind_double(stmt, 11, observation.location.coordinate.longitude);
+        sqlite3_bind_int(stmt, 12, observation.accuracy);
+        sqlite3_bind_text(stmt, 13, [observation.comment UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 15, observation.observationId);
         
         // Check if there are any images
         if(observation.pictures.count > 0) {
             UIImage *image = [observation.pictures objectAtIndex:0];
             NSData *imageData = UIImagePNGRepresentation(image);
             
-            sqlite3_bind_blob(stmt, 13, [imageData bytes] , [imageData length], NULL);
+            sqlite3_bind_blob(stmt, 14, [imageData bytes] , [imageData length], NULL);
         } else {
-            sqlite3_bind_blob(stmt, 13, nil , -1, NULL);
+            sqlite3_bind_blob(stmt, 14, nil , -1, NULL);
         }
         NSLog(@"Update observation in db: %@", observation);
     }
     
-    char *errorMsg;
-    
     if (sqlite3_step(stmt) != SQLITE_DONE) {
-        NSAssert1(0, @"Error inserting into table: %s", errorMsg);
+        NSAssert1(0, @"Error inserting into table: %@", observation);
     }
     
     sqlite3_finalize(stmt);
 }
-
 
 - (NSMutableArray *) getObservations
 {    
@@ -219,37 +244,39 @@
         
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			
+
             int observationId = sqlite3_column_int(statement, 0);
-            int organismId = sqlite3_column_int(statement, 1);
-            int organismGroupId = sqlite3_column_int(statement, 2);
-            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
-            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
-            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
-            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
-            int amount = sqlite3_column_int(statement, 8);
-            double locationLat = sqlite3_column_double(statement, 9);
-            double locationLon = sqlite3_column_double(statement, 10);
-            int accuracy = sqlite3_column_int(statement, 11);
+            int inventoryId = sqlite3_column_int(statement, 1);
+            int organismId = sqlite3_column_int(statement, 2);
+            int organismGroupId = sqlite3_column_int(statement, 3);
+            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+            int amount = sqlite3_column_int(statement, 9);
+            double locationLat = sqlite3_column_double(statement, 10);
+            double locationLon = sqlite3_column_double(statement, 11);
+            int accuracy = sqlite3_column_int(statement, 12);
             NSString *comment;
             NSString *organismFamily;
             
             
             // Check if the comment is null
-            if(sqlite3_column_text(statement, 5) == NULL) {
+            if(sqlite3_column_text(statement, 6) == NULL) {
                 organismFamily = @"";
             } else {
-                organismFamily = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                organismFamily = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             }
             
             // Check if the comment is null
-            if(sqlite3_column_text(statement, 12) == NULL) {
+            if(sqlite3_column_text(statement, 13) == NULL) {
                 comment = @"";
             } else {
-               comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 12)];
+               comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 13)];
             }
             
             // Get the image
-            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 13) length:sqlite3_column_bytes(statement, 13)];
+            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 14) length:sqlite3_column_bytes(statement, 14)];
             
             NSMutableArray *arrayImages = [[NSMutableArray alloc] init];
             
@@ -290,6 +317,7 @@
   
             // Create observation
             Observation *observation = [[Observation alloc] init];
+            observation.inventory = [self getInventory:inventoryId];
             observation.observationId = observationId;
             observation.organism = organism;
             observation.author = author;
@@ -332,49 +360,586 @@
     sqlite3_finalize(statement);
 }    
 
-
 // AREAS
 - (long long int) saveArea:(Area *) area {
-    return 1;
+    
+    char *sql = "INSERT INTO area (NAME, MODE, AUTHOR, DATE, DESCRIPTION, IMAGE) VALUES (?, ?, ?, ?, ?, ?)";
+    sqlite3_stmt *stmt;
+    
+    // Create date string
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString *formattedDate = [dateFormatter stringFromDate:area.date];
+    
+    // Put the data into the insert statement
+    if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [[area name] UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 2, area.typeOfArea);
+        sqlite3_bind_text(stmt, 3, [area.author UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 4, [formattedDate UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [[area description] UTF8String], -1, NULL);
+        
+        // Check if there are any images
+        if(area.pictures.count > 0) {
+            UIImage *image = [area.pictures objectAtIndex:0];
+            NSData *imageData = UIImagePNGRepresentation(image);
+            
+            sqlite3_bind_blob(stmt, 6, [imageData bytes] , [imageData length], NULL);
+        } else {
+            sqlite3_bind_blob(stmt, 6, nil , -1, NULL);
+        }
+    }
+    
+    // Check for inventories, doesn't work because areaId is missing at this part
+    /*if (area.inventories.count > 0) {
+        for (Inventory *inventory in area.inventories) {
+            inventory.inventoryId = [self saveInventory:inventory];
+        }
+    }*/
+    
+    NSLog(@"Insert area in db: %@", area);
+    
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        NSAssert1(0, @"Error inserting into table: %@", area);
+    }
+    
+    sqlite3_finalize(stmt);
+    
+    return sqlite3_last_insert_rowid(dbUser);
 }
 
 - (void) updateArea:(Area *) area {
+    char *sql = "UPDATE area SET NAME = ?, MODE = ?, AUTHOR = ?, DATE = ?, DESCRIPTION = ?, IMAGE = ? WHERE ID = ?";
     
+    sqlite3_stmt *stmt;
+    
+    // Create date string
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString *formattedDate = [dateFormatter stringFromDate:area.date];
+    
+    // Put the data into the insert statement
+    if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, [[area name] UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 2, area.typeOfArea);
+        sqlite3_bind_text(stmt, 3, [[area author] UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 4, [formattedDate UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [[area description] UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 7, area.areaId);
+        
+        // Check if there are any images
+        if(area.pictures.count > 0) {
+            UIImage *image = [area.pictures objectAtIndex:0];
+            NSData *imageData = UIImagePNGRepresentation(image);
+            
+            sqlite3_bind_blob(stmt, 6, [imageData bytes] , [imageData length], NULL);
+        } else {
+            sqlite3_bind_blob(stmt, 6, nil , -1, NULL);
+        }
+        NSLog(@"Update area in db: %@", area);
+    }
+    
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        NSAssert1(0, @"Error inserting into table: %@", area);
+    }
+    
+    sqlite3_finalize(stmt);
+
 }
 
 - (void) deleteArea:(long long int) areaId {
+    sqlite3_stmt* statement;
     
+    // Create Query String.
+    NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM area WHERE ID = '%lld'", areaId];
+    
+    if( sqlite3_prepare_v2(dbUser, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
+        if( sqlite3_step(statement) == SQLITE_DONE) {
+            NSLog(@"Area deleted!");
+        } else {
+            NSLog(@"DeleteFromDataBase: Failed from sqlite3_step. Error is:  %s", sqlite3_errmsg(dbUser) );
+        }
+    } else {
+        NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
+    }
+    
+    // Finalize and close database.
+    sqlite3_finalize(statement);
 }
 
 - (NSMutableArray *) getAreas {
-    return nil;
+    // All observations are stored in here
+    NSMutableArray *areas = [[NSMutableArray alloc] init];
+    
+    NSString *query = @"SELECT * FROM area ORDER BY DATE DESC";
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			
+            int areaId = sqlite3_column_int(statement, 0);
+            NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 1)];
+            int mode = sqlite3_column_int(statement, 2);
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+            
+            NSString *description;
+            
+            // Check if description is null
+            if(sqlite3_column_text(statement, 5) == NULL) {
+                description = @"";
+            } else {
+                description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            }
+            
+            // Get the image
+            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 6) length:sqlite3_column_bytes(statement, 6)];
+            
+            NSMutableArray *arrayImages = [[NSMutableArray alloc] init];
+            
+            if(data != nil) {
+                UIImage *image = [UIImage imageWithData:data];
+                
+                if(image != nil) {
+                    [arrayImages addObject:image];
+                }
+            }
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            
+            // Get longitudeArray and latitudeArray from Documents
+            
+            // Create observation
+            Area *area = [[Area alloc] init];
+            area.inventories = [self getInventoriesFromArea:areaId];
+            area.areaId = areaId;
+            area.name = name;
+            area.author = author;
+            area.date = date;
+            area.description = description;
+            area.submitToServer = true;
+            area.pictures = arrayImages;
+            
+            switch (mode) {
+                case 1: {area.typeOfArea = POINT; break;}
+                case 2: {area.typeOfArea = LINE; break;}
+                case 4: {area.typeOfArea = POLYGON;break;}
+            }
+            
+            // Add area to the areas array
+            [areas addObject:area];
+		}
+        sqlite3_finalize(statement);
+    }
+    return areas;
+}
+
+- (Area *) getArea:(long long int)areaId {
+    
+    Area *area;
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM area ORDER BY DATE DESC WHERE ID = '%lld", areaId];
+    
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+			
+            NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 1)];
+            int mode = sqlite3_column_int(statement, 2);
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+            
+            NSString *description;
+            
+            // Check if description is null
+            if(sqlite3_column_text(statement, 5) == NULL) {
+                description = @"";
+            } else {
+                description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            }
+        
+        // Get the image
+        NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 6) length:sqlite3_column_bytes(statement, 6)];
+        
+        NSMutableArray *arrayImages = [[NSMutableArray alloc] init];
+        
+        if(data != nil) {
+            UIImage *image = [UIImage imageWithData:data];
+            
+            if(image != nil) {
+                [arrayImages addObject:image];
+            }
+        }
+
+        
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            
+            // Create Inventory
+            area = [[Area alloc] init];
+            area.areaId = areaId;
+            area.inventories = [self getInventoriesFromArea:areaId];
+            area.name = name;
+            area.author = author;
+            area.date = date;
+            area.description = description;
+            area.submitToServer = true;
+            area.pictures = arrayImages;
+        
+            switch (mode) {
+                case 1: {area.typeOfArea = POINT; break;}
+                case 2: {area.typeOfArea = LINE; break;}
+                case 4: {area.typeOfArea = POLYGON;break;}
+            }
+        
+        sqlite3_finalize(statement);
+    }
+    return area;
+
 }
 
 - (NSMutableArray *) getInventoriesFromArea:(long long)areaId {
-    return nil;
+    // All inventories are stored in here
+    NSMutableArray *inventories = [[NSMutableArray alloc] init];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM inventory ORDER BY DATE DESC WHERE AREA_ID = '%lld", areaId];
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			
+            int inventoryId = sqlite3_column_int(statement, 0);
+            //int areaId = sqlite3_column_int(statement, 1);
+            NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 2)];
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+            
+            NSString *description;
+            
+            // Check if description is null
+            if(sqlite3_column_text(statement, 5) == NULL) {
+                description = @"";
+            } else {
+                description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            }
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            
+            // Create Inventory
+            Inventory *inventory = [[Inventory alloc] init];
+            inventory.area = [self getArea:areaId];
+            inventory.observations = [self getObservationsFromInventory:inventoryId];
+            inventory.inventoryId = inventoryId;
+            inventory.name = name;
+            inventory.author = author;
+            inventory.date = date;
+            inventory.description = description;
+            inventory.submitToServer = true;
+            
+            
+            // Add area to the areas array
+            [inventories addObject:inventory];
+		}
+        sqlite3_finalize(statement);
+    }
+    return inventories;
+
 }
 
 // INVENTORIES
 - (long long int) saveInventory:(Inventory *) inventory {
-    return 1;
+    char *sql = "INSERT INTO inventory (AREA_ID, NAME, AUTHOR, DATE, DESCRIPTION) VALUES (?, ?, ?, ?, ?)";
+    sqlite3_stmt *stmt;
+    
+    // Create date string
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString *formattedDate = [dateFormatter stringFromDate:inventory.date];
+    
+    // Put the data into the insert statement
+    if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_int(stmt, 1, inventory.area.areaId);
+        sqlite3_bind_text(stmt, 2, [[inventory name] UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 3, [inventory.author UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 4, [formattedDate UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [[inventory description] UTF8String], -1, NULL);
+    }
+    
+    // Check for observations, doesn't work because inventoryId is missing at this part
+    /*if (inventory.observations.count > 0) {
+        for (Observation *observation in inventory.observations) {
+            observation.observationId = [self saveObservation:observation];
+        }
+    }*/
+    
+    NSLog(@"Insert inventory in db: %@", inventory);
+    
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        NSAssert1(0, @"Error inserting into table: %@", inventory);
+    }
+    
+    sqlite3_finalize(stmt);
+    
+    return sqlite3_last_insert_rowid(dbUser);
+
 }
 
 - (void) updateInventory:(Inventory *) inventory {
+    char *sql = "UPDATE inventory SET NAME = ?, AUTHOR = ?, DATE = ?, DESCRIPTION = ?, IMAGE = ? WHERE ID = ?";
     
+    sqlite3_stmt *stmt;
+    
+    // Create date string
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString *formattedDate = [dateFormatter stringFromDate:inventory.date];
+    
+    // Put the data into the insert statement
+    if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_int(stmt, 1, inventory.area.areaId);
+        sqlite3_bind_text(stmt, 2, [[inventory name] UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 3, [[inventory author] UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 4, [formattedDate UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 5, [[inventory description] UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 6, inventory.inventoryId);
+        
+        NSLog(@"Update inventory in db: %@", inventory);
+    }
+    
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        NSAssert1(0, @"Error inserting into table: %@", inventory);
+    }
+    
+    sqlite3_finalize(stmt);
 }
 
 - (void) deleteInventory:(long long int) inventoryId {
+    sqlite3_stmt* statement;
     
+    // Create Query String.
+    NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM inventory WHERE ID = '%lld'", inventoryId];
+    
+    if( sqlite3_prepare_v2(dbUser, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
+        if( sqlite3_step(statement) == SQLITE_DONE) {
+            NSLog(@"Inventory deleted!");
+        } else {
+            NSLog(@"DeleteFromDataBase: Failed from sqlite3_step. Error is:  %s", sqlite3_errmsg(dbUser) );
+        }
+    } else {
+        NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
+    }
+    
+    // Finalize and close database.
+    sqlite3_finalize(statement);
 }
 
 - (NSMutableArray *) getInventories {
-    return nil;
+    // All inventories are stored in here
+    NSMutableArray *inventories = [[NSMutableArray alloc] init];
+    
+    NSString *query = @"SELECT * FROM inventory ORDER BY DATE DESC";
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			
+            int inventoryId = sqlite3_column_int(statement, 0);
+            int areaId = sqlite3_column_int(statement, 1);
+            NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 2)];
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+            
+            NSString *description;
+            
+            // Check if description is null
+            if(sqlite3_column_text(statement, 5) == NULL) {
+                description = @"";
+            } else {
+                description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            }
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            
+            // Get longitudeArray and latitudeArray from Documents
+            
+            // Create observation
+            Inventory *inventory = [[Inventory alloc] init];
+            inventory.inventoryId = inventoryId;
+            inventory.observations = [self getObservationsFromInventory:inventoryId];
+            inventory.area = [self getArea:areaId];
+            inventory.name = name;
+            inventory.author = author;
+            inventory.date = date;
+            inventory.description = description;
+            inventory.submitToServer = true;
+            
+            
+            // Add area to the areas array
+            [inventories addObject:inventory];
+		}
+        sqlite3_finalize(statement);
+    }
+    return inventories;
+}
+
+- (Inventory *) getInventory:(long long int) inventoryId {
+    
+    Inventory *inventory;
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM inventory ORDER BY DATE DESC WHERE ID = '%lld", inventoryId];
+    
+    sqlite3_stmt *statement;
+    
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+        int areaId = sqlite3_column_int(statement, 1);
+        NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 2)];
+        NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+        NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+        
+        NSString *description;
+        
+        // Check if description is null
+        if(sqlite3_column_text(statement, 5) == NULL) {
+            description = @"";
+        } else {
+            description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+        }
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+        NSDate *date = [dateFormatter dateFromString:dateString];
+        
+        // Create Inventory
+        inventory = [[Inventory alloc] init];
+        inventory.inventoryId = inventoryId;
+        inventory.area = [self getArea:areaId];
+        inventory.observations = [self getObservationsFromInventory:inventoryId];
+        inventory.name = name;
+        inventory.author = author;
+        inventory.date = date;
+        inventory.description = description;
+        inventory.submitToServer = true;
+        
+        sqlite3_finalize(statement);
+    }
+    return inventory;
 }
 
 - (NSMutableArray *) getObservationsFromInventory:(long long int) inventoryId {
-    return nil;
+    // All observations are stored in here
+    NSMutableArray *observations = [[NSMutableArray alloc] init];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM observation ORDER BY DATE DESC WHERE INVENTORY_ID = '%lld", inventoryId];
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			
+            int observationId = sqlite3_column_int(statement, 0);
+            //int inventoryId = sqlite3_column_int(statement, 1);
+            int organismId = sqlite3_column_int(statement, 2);
+            int organismGroupId = sqlite3_column_int(statement, 3);
+            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+            int amount = sqlite3_column_int(statement, 9);
+            double locationLat = sqlite3_column_double(statement, 10);
+            double locationLon = sqlite3_column_double(statement, 11);
+            int accuracy = sqlite3_column_int(statement, 12);
+            NSString *comment;
+            NSString *organismFamily;
+            
+            
+            // Check if the comment is null
+            if(sqlite3_column_text(statement, 6) == NULL) {
+                organismFamily = @"";
+            } else {
+                organismFamily = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+            }
+            
+            // Check if the comment is null
+            if(sqlite3_column_text(statement, 13) == NULL) {
+                comment = @"";
+            } else {
+                comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 13)];
+            }
+            
+            // Get the image
+            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 14) length:sqlite3_column_bytes(statement, 14)];
+            
+            NSMutableArray *arrayImages = [[NSMutableArray alloc] init];
+            
+            if(data != nil) {
+                UIImage *image = [UIImage imageWithData:data];
+                
+                if(image != nil) {
+                    [arrayImages addObject:image];
+                }
+            }
+            
+            // Create organism and set the id
+            Organism *organism = [[Organism alloc] init];
+            organism.organismId = organismId;
+            organism.organismGroupId = organismGroupId;
+            organism.nameDe = organismNameDe;
+            organism.family = organismFamily;
+            
+            // Split the lat name into two pieces
+            NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+            
+            if([latNames count] == 2) {
+                organism.genus = [latNames objectAtIndex:0];
+                organism.species = [latNames objectAtIndex:1];
+            } else {
+                organism.genus = @"";
+                organism.species = @"";
+            }
+            
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            
+            
+            NSString *amountString = [[NSString alloc] initWithFormat:@"%d", amount];
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:locationLat longitude:locationLon];
+            
+            // Create observation
+            Observation *observation = [[Observation alloc] init];
+            observation.inventory = [self getInventory:inventoryId];
+            observation.observationId = observationId;
+            observation.organism = organism;
+            observation.author = author;
+            observation.date = date;
+            observation.amount = amountString;
+            observation.location = location;
+            observation.accuracy = accuracy;
+            observation.comment = comment;
+            observation.submitToServer = true;
+            observation.pictures = arrayImages;
+            
+            
+            // Add area to the areas array
+            [observations addObject:observation];
+		}
+        sqlite3_finalize(statement);
+    }
+    return observations;
 }
-
 
 // ORGANISMGROUPS
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel

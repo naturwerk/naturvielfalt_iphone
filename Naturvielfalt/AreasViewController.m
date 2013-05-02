@@ -763,7 +763,6 @@
 
             newAnnotationView = [[CustomAnnotationView alloc] initWithAnnotation:customAnnotation reuseIdentifier:identifier navigationController:self.navigationController areasViewController:self];
 
-                
             customAnnotationView = newAnnotationView;
             break;
         }

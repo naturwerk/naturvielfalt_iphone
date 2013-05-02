@@ -84,6 +84,10 @@
 		27F8C3D51727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */; };
 		27FB850F1720054200A7632D /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FB850E1720054200A7632D /* CustomAnnotation.m */; };
 		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
+		27FED4E81730FC260030886F /* CheckboxInventoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FED4E71730FC260030886F /* CheckboxInventoryCell.m */; };
+		27FED4EA1730FC3F0030886F /* CheckboxInventoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */; };
+		27FED4ED173102E60030886F /* CheckboxAreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FED4EC173102E60030886F /* CheckboxAreaCell.m */; };
+		27FED4EF173102F90030886F /* CheckboxAreaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FED4EE173102F90030886F /* CheckboxAreaCell.xib */; };
 		CB08912B1430B67F00E846A1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891131430B67F00E846A1 /* NSObject+SBJson.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB08912C1430B67F00E846A1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891161430B67F00E846A1 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB08912D1430B67F00E846A1 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891181430B67F00E846A1 /* SBJsonStreamParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -291,6 +295,12 @@
 		27FB850D1720054200A7632D /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
 		27FB850E1720054200A7632D /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
 		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
+		27FED4E61730FC260030886F /* CheckboxInventoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckboxInventoryCell.h; sourceTree = "<group>"; };
+		27FED4E71730FC260030886F /* CheckboxInventoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckboxInventoryCell.m; sourceTree = "<group>"; };
+		27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckboxInventoryCell.xib; sourceTree = "<group>"; };
+		27FED4EB173102E60030886F /* CheckboxAreaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckboxAreaCell.h; sourceTree = "<group>"; };
+		27FED4EC173102E60030886F /* CheckboxAreaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckboxAreaCell.m; sourceTree = "<group>"; };
+		27FED4EE173102F90030886F /* CheckboxAreaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckboxAreaCell.xib; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		CB0891131430B67F00E846A1 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
@@ -558,6 +568,40 @@
 			name = submitNewInventoryHelper;
 			sourceTree = "<group>";
 		};
+		27FED4E51730F5890030886F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CBE89101144C487300E8B559 /* CustomCell.h */,
+				CBE89102144C487300E8B559 /* CustomCell.m */,
+				CBE89105144C488100E8B559 /* CustomCell.xib */,
+				27F114E5171BFDAC0017DAF0 /* CustomAddCell.h */,
+				27F114E6171BFDAC0017DAF0 /* CustomAddCell.m */,
+				27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */,
+				27F02D5C171D797900BAEFF0 /* CustomAreaCell.h */,
+				27F02D5D171D797900BAEFF0 /* CustomAreaCell.m */,
+				27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */,
+				CB18F9E0145A966700772E9B /* CheckboxCell.h */,
+				CB18F9E1145A966700772E9B /* CheckboxCell.m */,
+				CB18F9E2145A966700772E9B /* CheckboxCell.xib */,
+				27FED4E61730FC260030886F /* CheckboxInventoryCell.h */,
+				27FED4E71730FC260030886F /* CheckboxInventoryCell.m */,
+				27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */,
+				27FED4EB173102E60030886F /* CheckboxAreaCell.h */,
+				27FED4EC173102E60030886F /* CheckboxAreaCell.m */,
+				27FED4EE173102F90030886F /* CheckboxAreaCell.xib */,
+				27904162172EBA11002D08E3 /* InventoryCell.h */,
+				27904163172EBA11002D08E3 /* InventoryCell.m */,
+				27904165172EBA38002D08E3 /* InventoryCell.xib */,
+				27F0336E172FF224009217B7 /* ObservationCell.h */,
+				27F0336F172FF224009217B7 /* ObservationCell.m */,
+				27F03371172FF242009217B7 /* ObservationCell.xib */,
+				F664006F157CAD770092A9D0 /* CustomOrganismCell.h */,
+				F6640070157CAD770092A9D0 /* CustomOrganismCell.m */,
+				F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		CB08910F1430B66B00E846A1 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -684,6 +728,7 @@
 		CB8095C514431AFC003D3764 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				27FED4E51730F5890030886F /* Cells */,
 				CB8095C614431B3B003D3764 /* LocationHelper.h */,
 				CB8095C714431B3B003D3764 /* LocationHelper.m */,
 				CBDDB54C144EABC8007E48AB /* CameraViewController.h */,
@@ -693,27 +738,6 @@
 				CBDDB55E14555882007E48AB /* NSDictionary-MutableDeepCopy.m */,
 				CBDDB57714594800007E48AB /* PersistenceManager.h */,
 				CBDDB57814594801007E48AB /* PersistenceManager.m */,
-				CBE89101144C487300E8B559 /* CustomCell.h */,
-				CBE89102144C487300E8B559 /* CustomCell.m */,
-				CBE89105144C488100E8B559 /* CustomCell.xib */,
-				27F114E5171BFDAC0017DAF0 /* CustomAddCell.h */,
-				27F114E6171BFDAC0017DAF0 /* CustomAddCell.m */,
-				27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */,
-				27F02D5C171D797900BAEFF0 /* CustomAreaCell.h */,
-				27F02D5D171D797900BAEFF0 /* CustomAreaCell.m */,
-				27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */,
-				CB18F9E0145A966700772E9B /* CheckboxCell.h */,
-				CB18F9E1145A966700772E9B /* CheckboxCell.m */,
-				CB18F9E2145A966700772E9B /* CheckboxCell.xib */,
-				27904162172EBA11002D08E3 /* InventoryCell.h */,
-				27904163172EBA11002D08E3 /* InventoryCell.m */,
-				27904165172EBA38002D08E3 /* InventoryCell.xib */,
-				27F0336E172FF224009217B7 /* ObservationCell.h */,
-				27F0336F172FF224009217B7 /* ObservationCell.m */,
-				27F03371172FF242009217B7 /* ObservationCell.xib */,
-				F664006F157CAD770092A9D0 /* CustomOrganismCell.h */,
-				F6640070157CAD770092A9D0 /* CustomOrganismCell.m */,
-				F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */,
 				27FB850D1720054200A7632D /* CustomAnnotation.h */,
 				27FB850E1720054200A7632D /* CustomAnnotation.m */,
 				27ED2B40172174E300A45687 /* CustomAnnotationView.h */,
@@ -1088,6 +1112,8 @@
 				27F033771730061E009217B7 /* CollectionInventoriesController.xib in Resources */,
 				27F0337D17300698009217B7 /* CollectionAreasController.xib in Resources */,
 				27F03382173006BE009217B7 /* CollectionObservationsController.xib in Resources */,
+				27FED4EA1730FC3F0030886F /* CheckboxInventoryCell.xib in Resources */,
+				27FED4EF173102F90030886F /* CheckboxAreaCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1177,6 +1203,8 @@
 				27F033761730061E009217B7 /* CollectionInventoriesController.m in Sources */,
 				27F0337C17300698009217B7 /* CollectionAreasController.m in Sources */,
 				27F03381173006BE009217B7 /* CollectionObservationsController.m in Sources */,
+				27FED4E81730FC260030886F /* CheckboxInventoryCell.m in Sources */,
+				27FED4ED173102E60030886F /* CheckboxAreaCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,7 +34,7 @@ static Area *area;
             
             
             //test data
-            for (int i = 0; i < 4; i++) {
+            /*for (int i = 0; i < 4; i++) {
                 Inventory *inv = [[Inventory alloc] getInventory];
                 inv.author = area.author;
                 inv.date = [NSDate date];
@@ -42,7 +42,7 @@ static Area *area;
                 inv.description = @"Libellen-Inventar";
                 [area.inventories addObject:inv];
                 [inv setInventory:nil];
-            }
+            }*/
         }
         return area;
     }

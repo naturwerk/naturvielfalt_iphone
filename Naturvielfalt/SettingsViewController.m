@@ -120,9 +120,9 @@
               
             // Username
             // Store the username in the appSettings
-            [appSettings setObject:@"waebi07" forKey:@"username"];
+            [appSettings setObject:username forKey:@"username"];
             [appSettings synchronize];
-            cell.detailTextLabel.text = (username.length > 0) ? username : @"waebi07";
+            cell.detailTextLabel.text = (username.length > 0) ? username : @"";
         } else {
             
             NSString *password = @"";
@@ -133,9 +133,9 @@
              
             // Password
             // Store the username in the appSettings
-            [appSettings setObject:@"natur498" forKey:@"password"];
+            [appSettings setObject:password forKey:@"password"];
             [appSettings synchronize];
-            cell.detailTextLabel.text = (password.length > 0) ? @"*********" : @"natur498";
+            cell.detailTextLabel.text = (password.length > 0) ? @"*********" : @"";
         }
         
     } else {

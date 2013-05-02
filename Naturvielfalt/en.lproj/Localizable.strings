@@ -99,14 +99,24 @@
 "collectionNavTitle"            = "Collection";
 
 // Collection alert messages
-"collectionAlertMessageTitle"	= "Submit observations?";
-"collectionAlertMessageDetail"	= "Are you sure you want to submit observations over cellular network? It takes time and data volume in calm.";
-"collectionAlertErrorObs"		= "No observation are saved or selected";
+"collectionAlertObsTitle"		= "Submit observations?";
+"collectionAlertInvTitle"		= "Submit inventories?";
+"collectionAlertAreaTitle"		= "Submit areas?";
+"collectionAlertObsDetail"		= "Are you sure you want to submit observations over cellular network? It takes time and data volume in calm.";
+"collectionAlertInvDetail"		= "Are you sure you want to submit inventories over cellular network? It takes time and data volume in calm.";
+"collectionAlertAreaDetail"	= "Are you sure you want to submit areas over cellular network? It takes time and data volume in calm.";
+"collectionAlertErrorObs"		= "No observations are saved or selected";
+"collectionAlertErrorInv"		= "No inventories are saved or selected";
+"collectionAlertErrorAreas"		= "No areas are saved or selected";
 "collectionAlertErrorSettings"	= "Username/Password was not set. It can be set in the settings";
-"collectionAlertErrorSubmit"	= "Not all observations are submitted successfully. Please check your settings. Eventually you have not an account on our internet portal yet.";
+"collectionAlertErrorObsSubmit"	= "Not all observations are submitted successfully. Please check your settings. Eventually you have not an account on our internet portal yet.";
+"collectionAlertErrorInvSubmit"	= "Not all inventories are submitted successfully. Please check your settings. Eventually you have not an account on our internet portal yet.";
+"collectionAlertErrorAreSubmit"	= "Not all areas are submitted successfully. Please check your setting. Eventually you have not an account on our internet portal yet.";
 
 // Collection success message
-"collectionSuccessMessageDetail"= "All observation are submitted successfully.";
+"collectionSuccessObsDetail"	= "All observations are submitted successfully.";
+"collectionSuccessInvDetail"	= "All inventories are submitted successfully.";
+"collectionSuccessAreaDetail"	= "All areas are submitted successfully.";
 
 
 // Collection HUD messages

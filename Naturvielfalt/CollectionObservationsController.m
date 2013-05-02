@@ -13,7 +13,7 @@
 #import "ASIFormDataRequest.h"
 
 @implementation CollectionObservationsController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, progressView, operationQueue, curIndex, doSubmit;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,7 +39,7 @@
     [super viewDidLoad];
     
     // Set the title of the Navigationbar
-    NSString *title = NSLocalizedString(@"collectionNavTitle", nil);
+    NSString *title = NSLocalizedString(@"observationTabLabel", nil);
     self.navigationItem.title = title;
     
     // Create filter button and add it to the NavigationBar
@@ -53,13 +53,13 @@
     
     
     // Create filter button and add it to the NavigationBar
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
+    /*UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
                                    initWithTitle:NSLocalizedString(@"navDel", nil)
                                    style:UIBarButtonItemStyleBordered
                                    target:self
                                    action: @selector(removeObservations)];
     
-    self.navigationItem.leftBarButtonItem = editButton;
+    self.navigationItem.leftBarButtonItem = editButton;*/
     
     // Reload the observations
     operationQueue = [[NSOperationQueue alloc] init];
@@ -93,8 +93,8 @@
         [self sendObservations];
     }
     else {
-        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"collectionAlertMessageTitle", nil)
-                                                              message:NSLocalizedString(@"collectionAlertMessageDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil)
+        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"collectionAlertObsTitle", nil)
+                                                              message:NSLocalizedString(@"collectionAlertObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil)
                                                     otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
         [submitAlert show];
     }
@@ -231,10 +231,10 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     if(!transmission_problem) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessMessageDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
         [alert show];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObsSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
         [alert show];
     }
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];

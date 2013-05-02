@@ -149,11 +149,39 @@
     }
     area.persisted = YES;
 
-    // Save area
+    // Save area, inventories and observations
     if(review) {
+        for (Inventory *inventory in area.inventories) {
+            if (inventory.inventoryId) {
+                [persistenceManager updateInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    if (observation.observationId) {
+                        [persistenceManager updateObservation:observation];
+                    } else {
+                        observation.inventory = inventory;
+                        observation.observationId = [persistenceManager saveObservation:observation];
+                    }
+                }
+            } else {
+                inventory.area = area;
+                inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    observation.inventory = inventory;
+                    observation.observationId = [persistenceManager saveObservation:observation];
+                }
+            }
+        }
         [persistenceManager updateArea:area];
     } else {
         area.areaId = [persistenceManager saveArea:area];
+        for (Inventory *inventory in area.inventories) {
+            inventory.area = area;
+            inventory.inventoryId = [persistenceManager saveInventory:inventory];
+            for (Observation *observation in inventory.observations) {
+                observation.inventory = inventory;
+                observation.observationId = [persistenceManager saveObservation:observation];
+            }
+        }
     }
     
     // Close connection

@@ -30,10 +30,11 @@ static Inventory *inventory;
             inventory.pictures = pictures;
             
             //test data
-            for (int i = 0; i < 4; i++) {
+            /*for (int i = 0; i < 4; i++) {
                 Observation *obs = [[Observation alloc] getObservation];
                 obs.author = inventory.author;
                 obs.date = [NSDate date];
+                obs.inventory = self;
                 Organism *org = [[Organism alloc] init];
                 org.genus = @"";
                 org.nameDe = [NSString stringWithFormat:@"Organism %i", i];
@@ -42,7 +43,7 @@ static Inventory *inventory;
                 obs.amount = [NSString stringWithFormat:@"%i", i];
                 [inventory.observations addObject:obs];
                 [obs setObservation:nil];
-            }
+            }*/
         }
         return inventory;
     }

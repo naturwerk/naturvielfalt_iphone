@@ -131,7 +131,12 @@
         return;
     }
     
-    if (!persistenceManager) {
+    inventory.area = area;
+    // No duplicates, so remove if contains
+    [area.inventories removeObject:inventory];
+    [area.inventories addObject:inventory];
+    
+    /*if (!persistenceManager) {
         persistenceManager = [[PersistenceManager alloc] init];
         [persistenceManager establishConnection];
     }
@@ -145,7 +150,7 @@
     }
     
     // Close connection
-    [persistenceManager closeConnection];
+    [persistenceManager closeConnection];*/
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];

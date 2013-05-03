@@ -8,11 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
+#import "PersistenceManager.h"
+#import "ASINetworkQueue.h"
 
 @interface CollectionAreasController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate> {
     
-    IBOutlet UITableView *tableView;
+    PersistenceManager *persistenceManager;
     NSMutableArray *areas;
+    NSMutableArray *areasToSubmit;
+    int *countAreas;
+    IBOutlet UITableView *tableView;
+    ASINetworkQueue *queue;
+    NSOperationQueue *operationQueue;
+    NSIndexPath *curIndex;
     BOOL doSubmit;
 }
 

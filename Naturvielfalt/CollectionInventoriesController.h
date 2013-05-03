@@ -8,12 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
+#import "PersistenceManager.h"
+#import "ASINetworkQueue.h"
 
 @interface CollectionInventoriesController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate> {
     
-    NSOperationQueue *operationQueue;
-    IBOutlet UITableView *tableView;
+    PersistenceManager *persistenceManager;
     NSMutableArray *inventories;
+    NSMutableArray *inventoriesToSubmit;
+    int *countInventories;
+    IBOutlet UITableView *tableView;
+    ASINetworkQueue *queue;
+    NSOperationQueue *operationQueue;
+    NSIndexPath *curIndex;
     BOOL doSubmit;
 }
 

@@ -32,6 +32,7 @@
     CustomPolygonView *customPolygonView;
     NSMutableArray *longitudeArray;
     NSMutableArray *latitudeArray;
+    NSMutableArray *locationPoints;
     DrawMode currentDrawMode;
     UIActionSheet *modeOptions;
     Area *area;

@@ -10,6 +10,7 @@
 #import "AreasSubmitController.h"
 #import "MKPolyline+MKPolylineCategory.h"
 #import "MKPolygon+MKPolygonCategory.h"
+#import "LocationPoint.h"
 
 #define imgX      70
 #define pinY      31

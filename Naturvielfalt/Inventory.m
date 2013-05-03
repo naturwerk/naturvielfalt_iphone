@@ -10,7 +10,7 @@
 #import "Observation.h"
 
 @implementation Inventory 
-@synthesize inventoryId, author, name, description, date, pictures, submitToServer, area, observations;
+@synthesize inventoryId, areaId, author, name, description, date, pictures, submitToServer, area, observations;
 
 static Inventory *inventory;
 

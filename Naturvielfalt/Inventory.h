@@ -12,6 +12,7 @@
 @interface Inventory : NSObject {
     
     long long int inventoryId;
+    long long int areaId;
     NSString *author;
     NSString *name;
     NSString *description;
@@ -23,6 +24,7 @@
 }
 
 @property (nonatomic, assign) long long int inventoryId;
+@property (nonatomic, assign) long long int areaId;
 @property (nonatomic) NSString *author;
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *description;

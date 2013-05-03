@@ -26,5 +26,5 @@
 @property (nonatomic) UILabel *date;
 @property (nonatomic) UILabel *amount;
 @property (nonatomic) IBOutlet UIImageView *image;
-@property (weak, nonatomic) IBOutlet UIImageView *areaImage;
+@property (nonatomic) IBOutlet UIImageView *areaImage;
 @end

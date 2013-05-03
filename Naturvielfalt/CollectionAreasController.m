@@ -7,6 +7,7 @@
 //
 
 #import "CollectionAreasController.h"
+#import "AreasSubmitController.h"
 #import "CheckboxAreaCell.h"
 #import "Area.h"
 #import "Reachability.h"
@@ -23,7 +24,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        doSubmit = FALSE;
     }
+    persistenceManager = [[PersistenceManager alloc] init];
     return self;
 }
 
@@ -46,15 +49,14 @@
     
     tableView.delegate = self;
     
-    [self prepareData];
+    // Reload the areas
+    operationQueue = [[NSOperationQueue alloc] init];
+    [operationQueue setMaxConcurrentOperationCount:1];
+    [self reloadAreas];
+    
+    [tableView reloadData];
 }
 
-- (void) prepareData {
-    
-    if (!areas) {
-        areas = [[NSMutableArray alloc] init];
-    }
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -65,6 +67,12 @@
 - (void)viewDidUnload {
     [self setTableView:nil];
     [super viewDidUnload];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    tableView.editing = FALSE;
+    [self beginLoadingAreas];
 }
 
 //Check if there is an active WiFi connection
@@ -107,7 +115,81 @@
 }
 
 - (void) sendAreas {
-    NSLog(@"send Inventories");
+    NSLog(@"send Areas");
+}
+
+- (void) reloadAreas
+{
+    // Reset observations
+    areas = nil;
+    
+    [self beginLoadingAreas];
+}
+
+- (void)beginLoadingAreas
+{
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(synchronousLoadAreas) object:nil];
+    [operationQueue addOperation:operation];
+}
+
+- (void)synchronousLoadAreas
+{
+    // Establish a connection
+    [persistenceManager establishConnection];
+    
+    // Get all observations
+    NSMutableArray *arrNewAreas = [persistenceManager getAreas];
+    
+    [persistenceManager closeConnection];
+    
+    [self performSelectorOnMainThread:@selector(didFinishLoadingAreas:) withObject:arrNewAreas waitUntilDone:YES];
+}
+
+- (void)didFinishLoadingAreas:(NSMutableArray *)arrNewAreas {
+    
+    if(areas != nil){
+        if([areas count] != [arrNewAreas count]){
+            areas = arrNewAreas;
+        }
+    }
+    else {
+        areas = arrNewAreas;
+    }
+    
+    countAreas = (int *)self.areas.count;
+    
+    if(tableView.editing)
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
+    
+    [tableView reloadData];
+    
+    // If there aren't any observations in the list. Stop the editing mode.
+    if([areas count] < 1) {
+        tableView.editing = FALSE;
+    }
+}
+
+- (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        CheckboxAreaCell *cell = (CheckboxAreaCell *)[tv cellForRowAtIndexPath:indexPath];
+        UIButton *button = cell.checkbox;
+        curIndex = indexPath;
+        
+        // Also delete it from the Database
+        // Establish a connection
+        [persistenceManager establishConnection];
+        
+        // If Yes, delete the areas with the persistence manager
+        [persistenceManager deleteArea:button.tag];
+        
+        // Close connection to the database
+        [persistenceManager closeConnection];
+        
+        // Reload the areas from the database and refresh the TableView
+        [self reloadAreas];
+    }
 }
 
 #pragma UITableViewDelegates methods
@@ -173,6 +255,9 @@
         checkboxAreaCell.count.text = [NSString stringWithFormat:@"%i", area.inventories.count];
         checkboxAreaCell.subtitle.text = area.author;
         
+        // Set the image of area type
+        checkboxAreaCell.areaMode.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:area]]];
+        
         // Define the action on the button and the current row index as tag
         [checkboxAreaCell.checkbox addTarget:self action:@selector(checkboxEvent:) forControlEvents:UIControlEventTouchUpInside];
         [checkboxAreaCell.checkbox setTag:area.areaId];
@@ -192,15 +277,42 @@
     return checkboxAreaCell;
 }
 
-- (void) checkboxEvent {
+- (void) checkboxEvent:(UIButton *)sender
+{
     NSLog(@"checkboxEvent");
-}
-
-- (void) removeEvent {
-    NSLog(@"removeEvent");
+    UIButton *button = (UIButton *)sender;
+    NSNumber *number = [NSNumber numberWithInt:button.tag];
+    
+    for(Area *area in areas) {
+        if(area.areaId == [number longLongValue]) {
+            area.submitToServer = !area.submitToServer;
+        }
+    }
+    
+    [tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Create the ObservationsOrganismViewController
+    AreasSubmitController *areasSubmitController = [[AreasSubmitController alloc]
+                                                                      initWithNibName:@"AreasSubmitController"
+                                                                      bundle:[NSBundle mainBundle]];
+    
+    Area *area = [areas objectAtIndex:indexPath.row];
+    
+    // Store the current observation object
+    Area *areaShared = [[Area alloc] getArea];
+    [areaShared setArea:area];
+    
+    NSLog(@"Observation in CollectionOverView: %@", [areaShared getArea]);
+    
+    // Set the current displayed organism
+    areasSubmitController.area = area;
+    areasSubmitController.review = YES;
+    
+    // Switch the View & Controller
+    [self.navigationController pushViewController:areasSubmitController animated:TRUE];
+    areasSubmitController = nil;
 }
 
 @end

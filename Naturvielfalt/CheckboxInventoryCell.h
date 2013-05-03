@@ -25,4 +25,7 @@
 @property (nonatomic) IBOutlet UILabel *date;
 @property (nonatomic) IBOutlet UILabel *count;
 @property (nonatomic) IBOutlet UIButton *remove;
+
+
+
 @end

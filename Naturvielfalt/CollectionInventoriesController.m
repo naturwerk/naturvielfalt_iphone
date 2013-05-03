@@ -10,6 +10,8 @@
 #import "CheckboxInventoryCell.h"
 #import "Inventory.h"
 #import "Reachability.h"
+#import "AreasSubmitNewInventoryController.h"
+#import "AreasSubmitController.h"
 
 @interface CollectionInventoriesController ()
 
@@ -23,7 +25,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        doSubmit = FALSE;
     }
+    persistenceManager = [[PersistenceManager alloc] init];
     return self;
 }
 
@@ -46,7 +50,7 @@
 
     tableView.delegate = self;
     
-    // Reload the observations
+    // Reload the inventories
     operationQueue = [[NSOperationQueue alloc] init];
     [operationQueue setMaxConcurrentOperationCount:1];
     [self reloadInventories];
@@ -67,10 +71,21 @@
     [super viewDidUnload];
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    tableView.editing = FALSE;
+    [self beginLoadingInventories];
+}
+
+- (void) removeInventories
+{
+    [tableView setEditing:!tableView.editing animated:YES];
+}
+
 - (void) reloadInventories {
     NSLog(@"reload inventories");
     
-    // Reset observations
+    // Reset inventories
     inventories = nil;
     
     [self beginLoadingInventories];
@@ -85,8 +100,40 @@
 
 - (void) synchronousLoadInventories {
     NSLog(@"synchronousLoadInventories");
+    // Establish a connection
+    [persistenceManager establishConnection];
     
+    // Get all inventories
+    NSMutableArray *arrNewInventories = [persistenceManager getInventories];
     
+    [persistenceManager closeConnection];
+    
+    [self performSelectorOnMainThread:@selector(didFinishLoadingInventories:) withObject:arrNewInventories waitUntilDone:YES];
+}
+
+- (void)didFinishLoadingInventories:(NSMutableArray *)arrNewInventories
+{
+    if(inventories != nil){
+        if([inventories count] != [arrNewInventories count]){
+            inventories = arrNewInventories;
+        }
+    }
+    else {
+        inventories = arrNewInventories;
+    }
+    
+    countInventories = (int *)self.inventories.count;
+    
+    if(tableView.editing) {
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
+    }
+    
+    [tableView reloadData];
+    
+    // If there aren't any inventories in the list. Stop the editing mode.
+    if([inventories count] < 1) {
+        tableView.editing = FALSE;
+    }
 }
 
 
@@ -133,6 +180,29 @@
     NSLog(@"send Inventories");
 }
 
+- (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        CheckboxInventoryCell *cell = (CheckboxInventoryCell *)[tv cellForRowAtIndexPath:indexPath];
+        UIButton *button = cell.checkbox;
+        curIndex = indexPath;
+        
+        // Also delete it from the Database
+        // Establish a connection
+        [persistenceManager establishConnection];
+        
+        // If Yes, delete the observation with the persistence manager
+        [persistenceManager deleteInventory:button.tag];
+        
+        // Close connection to the database
+        [persistenceManager closeConnection];
+        
+        // Reload the observations from the database and refresh the TableView
+        [self reloadInventories];
+    }
+}
+
+
 #pragma UITableViewDelegates methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -175,7 +245,8 @@
         checkboxInventoryCell.title.text = inventory.name;
         checkboxInventoryCell.date.text = nowString;
         checkboxInventoryCell.count.text = [NSString stringWithFormat:@"%i", inventory.observations.count];
-        checkboxInventoryCell.subtitle.text = inventory.author;
+        checkboxInventoryCell.subtitle.text = inventory.area.name;
+        checkboxInventoryCell.areaMode.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:inventory.area]]];
         
         // Define the action on the button and the current row index as tag
         [checkboxInventoryCell.checkbox addTarget:self action:@selector(checkboxEvent:) forControlEvents:UIControlEventTouchUpInside];
@@ -196,15 +267,41 @@
     return checkboxInventoryCell;
 }
 
-- (void) checkboxEvent {
+- (void) checkboxEvent:(UIButton *)sender {
     NSLog(@"checkboxEvent");
-}
-
-- (void) removeEvent {
-    NSLog(@"removeEvent");
+    UIButton *button = (UIButton *)sender;
+    NSNumber *number = [NSNumber numberWithInt:button.tag];
+    
+    for(Inventory *iv in inventories) {
+        if(iv.inventoryId == [number longLongValue]) {
+            iv.submitToServer = !iv.submitToServer;
+        }
+    }
+    [tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    // Create the ObservationsOrganismViewController
+    AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
+                                                                      initWithNibName:@"AreasSubmitNewInventoryController"
+                                                                      bundle:[NSBundle mainBundle]];
+    
+    Inventory *inventory = [inventories objectAtIndex:indexPath.row];
+    
+    // Store the current observation object
+    Inventory *inventoryShared = [[Inventory alloc] getInventory];
+    [inventoryShared setInventory:inventory];
+    
+    NSLog(@"Observation in CollectionOverView: %@", [inventoryShared getInventory]);
+    
+    // Set the current displayed organism
+    areasSubmitNewInventoryController.inventory = inventory;
+    areasSubmitNewInventoryController.area = inventory.area;
+    areasSubmitNewInventoryController.review = YES;
+    
+    // Switch the View & Controller
+    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    areasSubmitNewInventoryController = nil;
 }
 @end

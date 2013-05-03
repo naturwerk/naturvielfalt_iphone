@@ -13,6 +13,7 @@
 
 @interface Observation : NSObject {
     long long int observationId;
+    long long int inventoryId;
     Organism *organism;
     NSString *author;
     NSDate *date;
@@ -27,6 +28,7 @@
 }
 
 @property (nonatomic, assign) long long int observationId;
+@property (nonatomic, assign) long long int inventoryId;
 @property (nonatomic) Organism *organism;
 @property (nonatomic) NSString *author;
 @property (nonatomic) NSDate *date;

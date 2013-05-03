@@ -48,7 +48,7 @@
 - (void) deleteArea:(long long int) areaId;
 - (NSMutableArray *) getAreas;
 - (Area *) getArea:(long long int)areaId;
-- (NSMutableArray *) getInventoriesFromArea:(long long int) areaId;
+- (NSMutableArray *) getInventoriesFromArea:(Area *) area;
 
 //Inventories
 - (long long int) saveInventory:(Inventory *) inventory;
@@ -56,7 +56,13 @@
 - (void) deleteInventory:(long long int) inventoryId;
 - (NSMutableArray *) getInventories;
 - (Inventory *) getInventory:(long long int) inventoryId;
-- (NSMutableArray *) getObservationsFromInventory:(long long int) inventoryId;
+- (NSMutableArray *) getObservationsFromInventory:(Inventory *)inventory;
+
+//Point: Needed for Area feature
+- (void) saveLocationPoints: (NSMutableArray *)locationPoints;
+- (void) updateLocationPoints:(NSMutableArray *)locationPoints;
+- (void) deleteLocationPoints:(NSMutableArray *) locationPoints;
+- (NSMutableArray *) getLocationPointsFromArea:(long long int) areaId;
 
 // Organismgroups;
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel;

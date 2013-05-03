@@ -45,6 +45,7 @@
 		27D2B068170F17C500D6815B /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B067170F17C500D6815B /* CameraViewController.m */; };
 		27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB14322C148616E700BBA78D /* CameraViewController.xib */; };
 		27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06A170F18D000D6815B /* Default-568h@2x.png */; };
+		27E8A1C81732950A00871706 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27E8A1C71732950A00871706 /* hairelinecross.png */; };
 		27ED2B42172174E300A45687 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27ED2B41172174E300A45687 /* CustomAnnotationView.m */; };
 		27EDCE0C171E9390009D94F8 /* symbol-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE09171E9390009D94F8 /* symbol-pin.png */; };
 		27EDCE0D171E9390009D94F8 /* symbol-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE0A171E9390009D94F8 /* symbol-line.png */; };
@@ -55,7 +56,6 @@
 		27F02D60171D799400BAEFF0 /* CustomAreaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */; };
 		27F03364172FCB30009217B7 /* symbol-pin-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F03360172FCB30009217B7 /* symbol-pin-edit.png */; };
 		27F03365172FCB30009217B7 /* symbol-line-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F03361172FCB30009217B7 /* symbol-line-edit.png */; };
-		27F03367172FCB30009217B7 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F03363172FCB30009217B7 /* hairelinecross.png */; };
 		27F0336B172FCE0C009217B7 /* symbol-polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F03369172FCE0C009217B7 /* symbol-polygon.png */; };
 		27F0336D172FCF33009217B7 /* symbol-polygon-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F0336C172FCF33009217B7 /* symbol-polygon-edit.png */; };
 		27F03370172FF224009217B7 /* ObservationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F0336F172FF224009217B7 /* ObservationCell.m */; };
@@ -74,6 +74,7 @@
 		27F114E9171BFDCD0017DAF0 /* CustomAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */; };
 		27F399611716BBF7000433F7 /* Inventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F399601716BBF7000433F7 /* Inventory.m */; };
 		27F3996D1716F5B0000433F7 /* AreasSubmitInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */; };
+		27F6285D1733EF7C0089CC3C /* LocationPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F6285C1733EF7C0089CC3C /* LocationPoint.m */; };
 		27F7842B1715472D00081A1F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784261715472D00081A1F /* 19-gear.png */; };
 		27F7842C1715472D00081A1F /* 12-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784271715472D00081A1F /* 12-eye.png */; };
 		27F7842D1715472D00081A1F /* 151-telescope.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784281715472D00081A1F /* 151-telescope.png */; };
@@ -242,6 +243,7 @@
 		27D2B064170F165D00D6815B /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Area.m; sourceTree = "<group>"; };
 		27D2B067170F17C500D6815B /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		27D2B06A170F18D000D6815B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		27E8A1C71732950A00871706 /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
 		27ED2B40172174E300A45687 /* CustomAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotationView.h; sourceTree = "<group>"; };
 		27ED2B41172174E300A45687 /* CustomAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotationView.m; sourceTree = "<group>"; };
 		27EDCE09171E9390009D94F8 /* symbol-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-pin.png"; sourceTree = "<group>"; };
@@ -256,7 +258,6 @@
 		27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAreaCell.xib; sourceTree = "<group>"; };
 		27F03360172FCB30009217B7 /* symbol-pin-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-pin-edit.png"; sourceTree = "<group>"; };
 		27F03361172FCB30009217B7 /* symbol-line-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-line-edit.png"; sourceTree = "<group>"; };
-		27F03363172FCB30009217B7 /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
 		27F03369172FCE0C009217B7 /* symbol-polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-polygon.png"; sourceTree = "<group>"; };
 		27F0336C172FCF33009217B7 /* symbol-polygon-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-polygon-edit.png"; sourceTree = "<group>"; };
 		27F0336E172FF224009217B7 /* ObservationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationCell.h; sourceTree = "<group>"; };
@@ -283,6 +284,8 @@
 		27F3995F1716BBF7000433F7 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
 		27F399601716BBF7000433F7 /* Inventory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inventory.m; sourceTree = "<group>"; };
 		27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryController.xib; sourceTree = "<group>"; };
+		27F6285B1733EF7C0089CC3C /* LocationPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationPoint.h; sourceTree = "<group>"; };
+		27F6285C1733EF7C0089CC3C /* LocationPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationPoint.m; sourceTree = "<group>"; };
 		27F784261715472D00081A1F /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
 		27F784271715472D00081A1F /* 12-eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12-eye.png"; sourceTree = "<group>"; };
 		27F784281715472D00081A1F /* 151-telescope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "151-telescope.png"; sourceTree = "<group>"; };
@@ -660,6 +663,8 @@
 				CBDDB540144D9E96007E48AB /* Observation.m */,
 				27F3995F1716BBF7000433F7 /* Inventory.h */,
 				27F399601716BBF7000433F7 /* Inventory.m */,
+				27F6285B1733EF7C0089CC3C /* LocationPoint.h */,
+				27F6285C1733EF7C0089CC3C /* LocationPoint.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -774,7 +779,7 @@
 				27F03361172FCB30009217B7 /* symbol-line-edit.png */,
 				27F03369172FCE0C009217B7 /* symbol-polygon.png */,
 				27F0336C172FCF33009217B7 /* symbol-polygon-edit.png */,
-				27F03363172FCB30009217B7 /* hairelinecross.png */,
+				27E8A1C71732950A00871706 /* hairelinecross.png */,
 				27EDCE10171EA563009D94F8 /* startPoint.png */,
 				CBD9563A144807AB00890319 /* navigationbar.png */,
 				CB1D68FE1444463E003230B4 /* status-green.png */,
@@ -1105,7 +1110,6 @@
 				27904166172EBA38002D08E3 /* InventoryCell.xib in Resources */,
 				27F03364172FCB30009217B7 /* symbol-pin-edit.png in Resources */,
 				27F03365172FCB30009217B7 /* symbol-line-edit.png in Resources */,
-				27F03367172FCB30009217B7 /* hairelinecross.png in Resources */,
 				27F0336B172FCE0C009217B7 /* symbol-polygon.png in Resources */,
 				27F0336D172FCF33009217B7 /* symbol-polygon-edit.png in Resources */,
 				27F03372172FF242009217B7 /* ObservationCell.xib in Resources */,
@@ -1114,6 +1118,7 @@
 				27F03382173006BE009217B7 /* CollectionObservationsController.xib in Resources */,
 				27FED4EA1730FC3F0030886F /* CheckboxInventoryCell.xib in Resources */,
 				27FED4EF173102F90030886F /* CheckboxAreaCell.xib in Resources */,
+				27E8A1C81732950A00871706 /* hairelinecross.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1205,6 +1210,7 @@
 				27F03381173006BE009217B7 /* CollectionObservationsController.m in Sources */,
 				27FED4E81730FC260030886F /* CheckboxInventoryCell.m in Sources */,
 				27FED4ED173102E60030886F /* CheckboxAreaCell.m in Sources */,
+				27F6285D1733EF7C0089CC3C /* LocationPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

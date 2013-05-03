@@ -9,6 +9,7 @@
 #import "CollectionObservationsController.h"
 #import "CheckboxCell.h"
 #import "ObservationsOrganismSubmitController.h"
+#import "AreasSubmitController.h"
 #import "MBProgressHUD.h"
 #import "ASIFormDataRequest.h"
 
@@ -424,6 +425,7 @@
         checkboxCell.date.text = nowString;
         checkboxCell.amount.text = observation.amount;
         checkboxCell.latName.text = [observation.organism getLatName];
+        checkboxCell.areaImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:observation.inventory.area]]];
         
         // Define the action on the button and the current row index as tag
         [checkboxCell.checkbox addTarget:self action:@selector(checkboxEvent:) forControlEvents:UIControlEventTouchUpInside];

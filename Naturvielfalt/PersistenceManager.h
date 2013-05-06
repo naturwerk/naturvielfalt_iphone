@@ -11,6 +11,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import "Observation.h"
 #import "Area.h"
+#import "LocationPoint.h"
 #import "Inventory.h"
 #import <sqlite3.h>
 
@@ -59,9 +60,8 @@
 - (NSMutableArray *) getObservationsFromInventory:(Inventory *)inventory;
 
 //Point: Needed for Area feature
-- (void) saveLocationPoints: (NSMutableArray *)locationPoints;
-- (void) updateLocationPoints:(NSMutableArray *)locationPoints;
-- (void) deleteLocationPoints:(NSMutableArray *) locationPoints;
+- (void) saveLocationPoints: (NSMutableArray *)locationPoints areaId:(long long int)aId;
+- (void) deleteLocationPoints:(long long int) aId;
 - (NSMutableArray *) getLocationPointsFromArea:(long long int) areaId;
 
 // Organismgroups;

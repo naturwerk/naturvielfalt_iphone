@@ -33,8 +33,7 @@
     area = annotation.area;
     area.persisted = NO;
     
-    longitudeArray = [[NSMutableArray alloc] initWithArray:annotation.area.longitudeArray];
-    latitudeArray = [[NSMutableArray alloc] initWithArray:annotation.area.latitudeArray];
+    locationPoints = [[NSMutableArray alloc] initWithArray:annotation.area.locationPoints];
     currentDrawMode = annotation.annotationType;
     startPoint = annotation;
     
@@ -43,8 +42,8 @@
     span.latitudeDelta = 0.005;
     span.longitudeDelta = 0.005;
     CLLocationCoordinate2D cll;
-    cll.latitude = [(NSNumber*)latitudeArray.lastObject doubleValue];
-    cll.longitude = [(NSNumber*)longitudeArray.lastObject doubleValue];
+    cll.latitude = ((LocationPoint*)locationPoints.lastObject).latitude;
+    cll.longitude = ((LocationPoint*)locationPoints.lastObject).longitude;
     MKCoordinateRegion region;
     region.span = span;
     region.center = cll;
@@ -136,6 +135,9 @@
     [setButton setTitle:NSLocalizedString(@"areaAdd", nil) forState:UIControlStateNormal];
     
     shouldAdjustZoom = YES;
+    
+    [self loadAreas];
+    [self relocate:nil];
 }
 
 
@@ -169,9 +171,80 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void) loadOutAnnotations
+- (void) deleteAllAreas {
+    [mapView removeAnnotations:mapView.annotations];
+    [mapView removeOverlays:mapView.overlays];
+}
+
+- (void) loadAreas
 {
+    [self deleteAllAreas];
     
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
+    [persistenceManager establishConnection];
+    
+    NSMutableArray *areas = [persistenceManager getAreas];
+    for (Area *a in areas) {
+        area = a;
+        locationPoints = [[NSMutableArray alloc] initWithArray:area.locationPoints];
+        area.persisted = YES;
+        currentDrawMode = area.typeOfArea;
+        
+        points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
+        
+        for (int index = 0; index < locationPoints.count; index++) {
+            CLLocationCoordinate2D coordinate;
+            coordinate.latitude = ((LocationPoint*)locationPoints[index]).latitude;
+            coordinate.longitude = ((LocationPoint*)locationPoints[index]).longitude;
+            MKMapPoint newPoint = MKMapPointForCoordinate(coordinate);
+            points[index] = newPoint;
+        }
+        
+        switch (area.typeOfArea) {
+            case POINT:
+            {
+                CLLocationCoordinate2D coordinate;
+                coordinate.longitude = ((LocationPoint*)locationPoints[0]).longitude;
+                coordinate.latitude = ((LocationPoint*)locationPoints[0]).latitude;
+                pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode area:area];
+                pinAnnotation.persisted = YES;
+                pinAnnotation.area = area;
+                [self drawPoint];
+                break;
+            }
+            case LINE:
+            {
+                customLine = [MKPolyline polylineWithPoints:points count:locationPoints.count];
+                customLine.persisted = YES;
+                customLine.area = area;
+                [self drawLine];
+                startPoint.overlay = customLine;
+                break;
+            }
+            case POLYGON:
+            {
+                if (locationPoints.count > 2) {
+                    customPolygon = [MKPolygon polygonWithPoints:points count:locationPoints.count];
+                    customPolygon.persisted = YES;
+                    customPolygon.area = area;
+                    [self drawPolygon];
+                    startPoint.overlay = customPolygon;
+                } else {
+                    customLine = [MKPolyline polylineWithPoints:points count:locationPoints.count];
+                    customLine.persisted = YES;
+                    customLine.area = area;
+                    [self drawPolygon];
+                    startPoint.overlay = customLine;
+                }
+            }
+        }
+        [self showPersistedAppearance];
+    }
+    
+    // Close connection
+    [persistenceManager closeConnection];
 }
 
 - (void) showPersistedAppearance {
@@ -205,9 +278,7 @@
             break;
         }
     }
-    
-    [longitudeArray removeAllObjects];
-    [latitudeArray removeAllObjects];
+    [locationPoints removeAllObjects];
     currentDrawMode = 0;
     customLine = nil;
     customPolygon = nil;
@@ -216,7 +287,6 @@
     overlayView = nil;
     [area setArea:nil];
     area = nil;
-    
 }
 
 - (void) saveArea {
@@ -231,8 +301,7 @@
     }
 
     area.typeOfArea = currentDrawMode;
-    area.longitudeArray = [[NSMutableArray alloc] initWithArray:longitudeArray];
-    area.latitudeArray = [[NSMutableArray alloc] initWithArray:latitudeArray];
+    area.locationPoints = [[NSMutableArray alloc] initWithArray:locationPoints];
     areasSubmitController.area = area;
     
     if (!overlaysArray) {
@@ -263,6 +332,10 @@
     // POP
     [self.navigationController popViewControllerAnimated:TRUE];
     
+    if (area.areaId) {
+        areasSubmitController.review = YES;
+    }
+    
     // PUSH
     [self.navigationController pushViewController:areasSubmitController animated:TRUE];
 }
@@ -270,7 +343,7 @@
 - (void) cancelPressed {
     NSLog(@"cancel current drawing!");
     
-    if (longitudeArray.count > 0) {
+    if (locationPoints.count > 0) {
        // remove polygon or line
         if (currentDrawMode != POINT) {
             // Remove startPoint from map
@@ -280,16 +353,14 @@
             // Remove pin from map
             [mapView removeAnnotation:pinAnnotation];
         }
-        
-        [longitudeArray removeAllObjects];
-        [latitudeArray removeAllObjects];
+        [locationPoints removeAllObjects];
     }
     cancelButton.enabled = NO;
     startPoint = nil;
     [self showStartModeAppearance];
 }
 
-// Action Method, when the "setzen" button was pressed
+// Action Method, when "add" button was pressed
 - (IBAction)setPoint:(id)sender {
     NSLog(@"set new point");
     undoButton.enabled = YES;
@@ -303,30 +374,28 @@
         }
     }
     
-    if (!latitudeArray) {
-        latitudeArray = [[NSMutableArray alloc] init];
-        longitudeArray = [[NSMutableArray alloc] init];
+    if (!locationPoints) {
+        locationPoints = [[NSMutableArray alloc] init];
     }
     
     MKCoordinateRegion mapRegion = mapView.region;
-    NSNumber *longi = [NSNumber numberWithDouble:mapRegion.center.longitude];
-    NSNumber *lati = [NSNumber numberWithDouble:mapRegion.center.latitude];
-    [longitudeArray addObject:longi];
-    [latitudeArray addObject:lati];
+    LocationPoint *lp = [[LocationPoint alloc] init];
+    lp.longitude = mapRegion.center.longitude;
+    lp.latitude = mapRegion.center.latitude;
+    [locationPoints addObject:lp];
     
     switch (currentDrawMode) {
         case POINT:
         {
             NSLog(@"draw a point");
-            [longitudeArray removeAllObjects];
-            [latitudeArray removeAllObjects];
+            [locationPoints removeAllObjects];
             MKCoordinateRegion mapRegion = mapView.region;
-            NSNumber *longi = [NSNumber numberWithDouble:mapRegion.center.longitude];
-            NSNumber *lati = [NSNumber numberWithDouble:mapRegion.center.latitude];
-            [longitudeArray addObject:longi];
-            [latitudeArray addObject:lati];
-            saveButton.enabled = YES;
+            LocationPoint *lp = [[LocationPoint alloc] init];
+            lp.longitude = mapRegion.center.longitude;
+            lp.latitude = mapRegion.center.latitude;
+            [locationPoints addObject:lp];
             [self drawPoint];
+            saveButton.enabled = YES;
             break;
         }
             
@@ -351,10 +420,9 @@
 
 // draw a single point (PIN)
 - (void) drawPoint {
-    
     CLLocationCoordinate2D coordinate;
-    coordinate.longitude = [(NSNumber*)longitudeArray[0] doubleValue];
-    coordinate.latitude = [(NSNumber*)latitudeArray[0] doubleValue];
+    coordinate.longitude = ((LocationPoint*)locationPoints[0]).longitude;
+    coordinate.latitude = ((LocationPoint*)locationPoints[0]).latitude;
     
     // Sets the pin in the middle of the hairline cross
     if (pinAnnotation) {
@@ -376,26 +444,26 @@
 // draw a line, it must have two points at least for saving
 - (void) drawLine {
     
-    if (longitudeArray.count > 1) {
-        points = malloc(sizeof(CLLocationCoordinate2D) * longitudeArray.count);
+    if (locationPoints.count > 1) {
+        points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
         
-        for (int index = 0; index < longitudeArray.count; index++) {
+        for (int index = 0; index < locationPoints.count; index++) {
             CLLocationCoordinate2D coordinate;
-            coordinate.latitude = [(NSNumber*)latitudeArray[index] doubleValue];
-            coordinate.longitude = [(NSNumber*)longitudeArray[index] doubleValue];
+            coordinate.latitude = ((LocationPoint*)locationPoints[index]).latitude;
+            coordinate.longitude = ((LocationPoint*)locationPoints[index]).longitude;
             MKMapPoint newPoint = MKMapPointForCoordinate(coordinate);
             points[index] = newPoint;
         }
         if (customLine) {
             if (!customLine.persisted) {
-                customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+                customLine = [MKPolyline polylineWithPoints:points count:locationPoints.count];
                 [customLine setPersisted:NO];
             } else {
-                customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+                customLine = [MKPolyline polylineWithPoints:points count:locationPoints.count];
                 [customLine setPersisted:YES];
             }
         } else {
-            customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+            customLine = [MKPolyline polylineWithPoints:points count:locationPoints.count];
             [customLine setPersisted:NO];
         }
         [customLine setType:currentDrawMode];
@@ -409,30 +477,30 @@
 
 // draw a polygon, it must have three points at least
 - (void) drawPolygon {
-    points = malloc(sizeof(CLLocationCoordinate2D) * longitudeArray.count);
+    points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
         
-    for (int index = 0; index < longitudeArray.count; index++) {
+    for (int index = 0; index < locationPoints.count; index++) {
         CLLocationCoordinate2D coordinate;
-        coordinate.latitude = [(NSNumber*)latitudeArray[index] doubleValue];
-        coordinate.longitude = [(NSNumber*)longitudeArray[index] doubleValue];
+        coordinate.latitude = ((LocationPoint*)locationPoints[index]).latitude;
+        coordinate.longitude = ((LocationPoint*)locationPoints[index]).longitude;
         MKMapPoint newPoint = MKMapPointForCoordinate(coordinate);
         points[index] = newPoint;
     }
     
-    if (longitudeArray.count < 3) {
+    if (locationPoints.count < 3) {
         if (customLine) {
             if (!customLine.persisted) {
-                customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+                customLine = [MKPolyline polylineWithPoints:points count:locationPoints.count];
                 [customLine setPersisted:NO];
                 
             } else {
-                customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+                customLine = [MKPolyline polylineWithPoints:points count:locationPoints.count];
                 [customLine setPersisted:YES];
             }
             [customLine setType:currentDrawMode];
             [mapView addOverlay:customLine];
         } else {
-            customLine = [MKPolyline polylineWithPoints:points count:longitudeArray.count];
+            customLine = [MKPolyline polylineWithPoints:points count:locationPoints.count];
             [customLine setPersisted:NO];
             [customLine setType:currentDrawMode];
             [mapView addOverlay:customLine];
@@ -442,17 +510,17 @@
     } else {
         if (customPolygon) {
             if (!customPolygon.persisted) {
-                customPolygon = [MKPolygon polygonWithPoints:points count:longitudeArray.count];
+                customPolygon = [MKPolygon polygonWithPoints:points count:locationPoints.count];
                 [customPolygon setPersisted:NO];
                 
             } else {
-                customPolygon = [MKPolygon polygonWithPoints:points count:longitudeArray.count];
+                customPolygon = [MKPolygon polygonWithPoints:points count:locationPoints.count];
                 [customPolygon setPersisted:YES];
             }
             [customPolygon setType:currentDrawMode];
             [mapView addOverlay:customPolygon];
         } else {
-            customPolygon = [MKPolygon polygonWithPoints:points count:longitudeArray.count];
+            customPolygon = [MKPolygon polygonWithPoints:points count:locationPoints.count];
             [customPolygon setPersisted:NO];
             [customPolygon setType:currentDrawMode];
             [mapView addOverlay:customPolygon];
@@ -468,8 +536,8 @@
 - (void) drawStartPoint {
     NSLog(@"draw start point");
     CLLocationCoordinate2D coordinate;
-    coordinate.longitude = [(NSNumber*)longitudeArray[0] doubleValue];
-    coordinate.latitude = [(NSNumber*)latitudeArray[0] doubleValue];
+    coordinate.latitude = ((LocationPoint*)locationPoints[0]).latitude;
+    coordinate.longitude = ((LocationPoint*)locationPoints[0]).longitude;
     if (startPoint) {
         [mapView removeAnnotation:startPoint];
         if (startPoint.persisted) {
@@ -502,8 +570,7 @@
         case POINT:
         {
             [mapView removeAnnotation:customAnnotationView.annotation];
-            [longitudeArray removeLastObject];
-            [latitudeArray removeLastObject];
+            [locationPoints removeLastObject];
             saveButton.enabled = NO;
             break;
         }
@@ -511,15 +578,14 @@
         {
             [mapView removeOverlay:overlayView.overlay];
             isOnlyOnePoint = [self deleteStartPoint];
-            [longitudeArray removeLastObject];
-            [latitudeArray removeLastObject];
+            [locationPoints removeLastObject];
 
             if (!isOnlyOnePoint) {
                 // set hairline cross to the last location
                 span.latitudeDelta = 0.005;
                 span.longitudeDelta = 0.005;
-                cll.latitude = [(NSNumber*)latitudeArray.lastObject doubleValue];
-                cll.longitude = [(NSNumber*)longitudeArray.lastObject doubleValue];
+                cll.latitude = ((LocationPoint*)locationPoints.lastObject).latitude;
+                cll.longitude = ((LocationPoint*)locationPoints.lastObject).longitude;
                 region.span = span;
                 region.center = cll;
                 [mapView setRegion:region animated:YES];
@@ -532,15 +598,14 @@
         {
             [mapView removeOverlay:overlayView.overlay];
             isOnlyOnePoint = [self deleteStartPoint];
-            [longitudeArray removeLastObject];
-            [latitudeArray removeLastObject];
+            [locationPoints removeLastObject];
 
             if (!isOnlyOnePoint) {
                 // set hairline cross to the last location
                 span.latitudeDelta = 0.005;
                 span.longitudeDelta = 0.005;
-                cll.latitude = [(NSNumber*)latitudeArray.lastObject doubleValue];
-                cll.longitude = [(NSNumber*)longitudeArray.lastObject doubleValue];
+                cll.latitude = ((LocationPoint*)locationPoints.lastObject).latitude;
+                cll.longitude = ((LocationPoint*)locationPoints.lastObject).longitude;
                 region.span = span;
                 region.center = cll;
                 [mapView setRegion:region animated:YES];
@@ -558,7 +623,7 @@
 // checks if the undo button should be enabled or not
 - (void) checkForUndo {
     
-    if (longitudeArray.count > 0) {
+    if (locationPoints.count > 0) {
         undoButton.enabled = YES;
         return;
     }
@@ -568,9 +633,15 @@
 - (void) checkForSaving {
     
     switch (currentDrawMode) {
+        case POINT: {
+            if (locationPoints.count > 0) {
+                saveButton.enabled = YES;
+            }
+            return;
+        }
         case LINE:
         {
-            if (longitudeArray.count > 1) {
+            if (locationPoints.count > 1) {
                 saveButton.enabled = YES;
                 return;
             }
@@ -579,7 +650,7 @@
         }
         case POLYGON:
         {
-            if (longitudeArray.count > 2) {
+            if (locationPoints.count > 2) {
                 saveButton.enabled = YES;
                 return;
             }
@@ -590,7 +661,7 @@
 }
 
 - (BOOL) deleteStartPoint {
-    if (longitudeArray.count == 1) {
+    if (locationPoints.count == 1) {
         NSLog(@"delete start point");
         [mapView removeAnnotation:customAnnotationView.annotation];
         saveButton.enabled = NO;

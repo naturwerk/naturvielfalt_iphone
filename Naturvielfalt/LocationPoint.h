@@ -11,11 +11,12 @@
 
 @interface LocationPoint : NSObject {
     long long int areaId;
-    CLLocationCoordinate2D location;
-    
+    double longitude;
+    double latitude;
 }
 
 @property (nonatomic, assign) long long int areaId;
-@property (nonatomic) CLLocationCoordinate2D location;
+@property (nonatomic) double longitude;
+@property (nonatomic) double latitude;
 
 @end

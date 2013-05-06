@@ -136,21 +136,38 @@
     [area.inventories removeObject:inventory];
     [area.inventories addObject:inventory];
     
-    /*if (!persistenceManager) {
+    if (!persistenceManager) {
         persistenceManager = [[PersistenceManager alloc] init];
-        [persistenceManager establishConnection];
     }
     
-    // Save inventory
+    [persistenceManager establishConnection];
+    
+    // Save inventory and update area
     if(review) {
-        [persistenceManager updateInventory:inventory];
-    } else {
-        inventory.inventoryId = [persistenceManager saveInventory:inventory];
-        [area.inventories addObject:inventory];
+        if (area.areaId) {
+            if (inventory.inventoryId) {
+                [persistenceManager updateInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    if (observation.observationId) {
+                        [persistenceManager updateObservation:observation];
+                    } else {
+                        observation.inventory = inventory;
+                        observation.observationId = [persistenceManager saveObservation:observation];
+                    }
+                }
+            } else {
+                inventory.area = area;
+                inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    observation.inventory = inventory;
+                    observation.observationId = [persistenceManager saveObservation:observation];
+                }
+            }
+        } 
     }
     
     // Close connection
-    [persistenceManager closeConnection];*/
+    [persistenceManager closeConnection];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -170,6 +187,8 @@
     // Set review flag
     review = true;
     
+    [inventory setInventory:nil];
+    
     // Set top navigation bar button
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
                                      initWithTitle:NSLocalizedString(@"navChange", nil)
@@ -179,7 +198,7 @@
     
     self.navigationItem.rightBarButtonItem = submitButton;
     [tableView reloadData];
-    [inventory setInventory:nil];
+
     
     [self.navigationController popViewControllerAnimated:TRUE];
     [self.navigationController pushViewController:self.parentViewController animated:TRUE];

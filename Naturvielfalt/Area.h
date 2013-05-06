@@ -23,8 +23,6 @@ typedef enum DrawMode{
     NSDate *date;
     NSMutableArray *pictures;
     NSMutableArray *inventories;
-    NSMutableArray *longitudeArray;
-    NSMutableArray *latitudeArray;
     NSMutableArray *locationPoints;
     BOOL submitToServer;
     BOOL persisted;
@@ -37,8 +35,6 @@ typedef enum DrawMode{
 @property (nonatomic) NSDate *date;
 @property (nonatomic) NSMutableArray *pictures;
 @property (nonatomic) NSMutableArray *inventories;
-@property (nonatomic) NSMutableArray *longitudeArray;
-@property (nonatomic) NSMutableArray *latitudeArray;
 @property (nonatomic) NSMutableArray *locationPoints;
 @property (nonatomic) NSString *description;
 @property (nonatomic, assign) BOOL submitToServer;

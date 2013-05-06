@@ -9,6 +9,6 @@
 #import "LocationPoint.h"
 
 @implementation LocationPoint
-@synthesize areaId, location;
+@synthesize areaId, longitude, latitude;
 
 @end

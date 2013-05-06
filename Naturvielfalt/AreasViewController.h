@@ -13,9 +13,11 @@
 #import "CustomAnnotationView.h"
 #import "CustomLineView.h"
 #import "CustomPolygonView.h"
+#import "PersistenceManager.h"
 
 @class CustomAnnotationView;
 @interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate> {
+    PersistenceManager *persistenceManager;
     IBOutlet MKMapView *mapView;
     MKOverlayView *overlayView;
     CLLocationManager *locationManager;

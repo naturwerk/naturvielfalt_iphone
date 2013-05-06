@@ -145,12 +145,14 @@
     NSLog(@"save area");
     if (!persistenceManager) {
         persistenceManager = [[PersistenceManager alloc] init];
-        [persistenceManager establishConnection];
     }
+    
+    [persistenceManager establishConnection];
     area.persisted = YES;
 
     // Save area, inventories and observations
     if(review) {
+        [persistenceManager updateArea:area];
         for (Inventory *inventory in area.inventories) {
             if (inventory.inventoryId) {
                 [persistenceManager updateInventory:inventory];
@@ -171,9 +173,9 @@
                 }
             }
         }
-        [persistenceManager updateArea:area];
     } else {
         area.areaId = [persistenceManager saveArea:area];
+        [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
         for (Inventory *inventory in area.inventories) {
             inventory.area = area;
             inventory.inventoryId = [persistenceManager saveInventory:inventory];
@@ -216,11 +218,10 @@
     [tableView reloadData];;
 
 
-    if (!areasViewController) {
-        areasViewController = [[AreasViewController alloc]
+
+    areasViewController = [[AreasViewController alloc]
                                                     initWithNibName:@"AreasViewController"
                                                     bundle:[NSBundle mainBundle] area:area];
-    }
     
     [self.navigationController popViewControllerAnimated:TRUE];
     [self.navigationController pushViewController:areasViewController animated:TRUE];

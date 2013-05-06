@@ -9,7 +9,6 @@
 #import "PersistenceManager.h"
 #import "OrganismGroup.h"
 #import "Organism.h"
-#import "LocationPoint.h"
 #import "sys/xattr.h"
 
 @implementation PersistenceManager
@@ -456,6 +455,8 @@
         } else {
             sqlite3_bind_blob(stmt, 6, nil , -1, NULL);
         }
+        
+        [self saveLocationPoints:area.locationPoints areaId:area.areaId];
         NSLog(@"Update area in db: %@", area);
     }
     
@@ -528,9 +529,7 @@
             dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
             NSDate *date = [dateFormatter dateFromString:dateString];
             
-            // Get longitudeArray and latitudeArray from Documents
-            
-            // Create observation
+            // Create area
             Area *area = [[Area alloc] init];
             area.areaId = areaId;
             area.name = name;
@@ -539,6 +538,7 @@
             area.description = description;
             area.submitToServer = true;
             area.pictures = arrayImages;
+            area.persisted = YES;
             
             switch (mode) {
                 case 1: {area.typeOfArea = POINT; break;}
@@ -546,7 +546,9 @@
                 case 4: {area.typeOfArea = POLYGON;break;}
             }
             
+            area.locationPoints = [self getLocationPointsFromArea:areaId];
             area.inventories = [self getInventoriesFromArea:area];
+
             
             // Add area to the areas array
             [areas addObject:area];
@@ -622,64 +624,46 @@
     return area;
 }
 
-- (void) saveLocationPoints: (NSMutableArray *)locationPoints {
+- (void) saveLocationPoints: (NSMutableArray *)locationPoints areaId:(long long)aId{
     char *sql = "INSERT INTO locationPoint (AREA_ID, LAT, LON) VALUES (?, ?, ?)";
     sqlite3_stmt *stmt;
     
-    // Put the data into the insert statement
-    if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
-        
-        for (LocationPoint *lp in locationPoints) {
-            sqlite3_bind_int(stmt, 0, lp.areaId);
-            sqlite3_bind_double(stmt, 1, lp.location.latitude);
-            sqlite3_bind_double(stmt, 2, lp.location.longitude);
-        }
-        
-        NSLog(@"Insert locationPoints in db:");
-        
-        if (sqlite3_step(stmt) != SQLITE_DONE) {
-            NSAssert1(0, @"Error inserting into table: %@", LocationPoint.class);
-        }
-        sqlite3_finalize(stmt);
-    }
-}
-- (void) updateLocationPoints:(NSMutableArray *)locationPoints {
-    char *sql = "UPDATE locationPoint SET AREA_ID = ?, LAT = ?, LON = ? WHERE ID = ?";
-    
-    sqlite3_stmt *stmt;
-    
-    // Put the data into the insert statement
-    if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
-        
-        for (LocationPoint *lp in locationPoints) {
-            sqlite3_bind_int(stmt, 0, lp.areaId);
-            sqlite3_bind_double(stmt, 1, lp.location.latitude);
-            sqlite3_bind_double(stmt, 2, lp.location.longitude);
-            sqlite3_bind_int(stmt, 3, lp.areaId);
-        }
-    }
-    
-    if (sqlite3_step(stmt) != SQLITE_DONE) {
-        NSAssert1(0, @"Error inserting into table: %@", locationPoints.class);
-    }
-    sqlite3_finalize(stmt);
-}
-
-- (void) deleteLocationPoints:(NSMutableArray *) locationPoints {
-    sqlite3_stmt* statement;
+    [self deleteLocationPoints:aId];
     
     for (LocationPoint *lp in locationPoints) {
-        // Create Query String.
-        NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM locationPoint WHERE AREA_ID = '%lld'", lp.areaId];
-        
-        if( sqlite3_prepare_v2(dbUser, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
-            if( sqlite3_step(statement) == SQLITE_DONE) {
-            } else {
-                NSLog(@"DeleteFromDataBase: Failed from sqlite3_step. Error is:  %s", sqlite3_errmsg(dbUser) );
+    // Put the data into the insert statement
+        if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
+            
+            
+                sqlite3_bind_int(stmt, 1, aId);
+                sqlite3_bind_double(stmt, 2, lp.latitude);
+                sqlite3_bind_double(stmt, 3, lp.longitude);
+            
+            
+            NSLog(@"Insert locationPoints in db:");
+            
+            if (sqlite3_step(stmt) != SQLITE_DONE) {
+                NSAssert1(0, @"Error inserting into table: %@", LocationPoint.class);
             }
-        } else {
-            NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
+            sqlite3_finalize(stmt);
         }
+    }
+}
+
+- (void) deleteLocationPoints:(long long int)aId{
+    sqlite3_stmt* statement;
+    
+
+    // Create Query String.
+    NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM locationPoint WHERE AREA_ID = '%lld'", aId];
+    
+    if( sqlite3_prepare_v2(dbUser, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
+        if( sqlite3_step(statement) == SQLITE_DONE) {
+        } else {
+            NSLog(@"DeleteFromDataBase: Failed from sqlite3_step. Error is:  %s", sqlite3_errmsg(dbUser) );
+        }
+    } else {
+        NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
     }
     // Finalize and close database.
     sqlite3_finalize(statement);
@@ -689,7 +673,7 @@
     // All points are stored in here
     NSMutableArray *locationPoints = [[NSMutableArray alloc] init];
     
-    NSString *query = [NSString stringWithFormat:@"SELECT * FROM point WHERE AREA_ID = '%lld'", areaId];
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM locationPoint WHERE AREA_ID = '%lld'", areaId];
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
         
@@ -699,15 +683,13 @@
             double locationLat = sqlite3_column_double(statement, 1);
             double locationLon = sqlite3_column_double(statement, 2);
             
-            // Create Inventory
+            // Create locataion point
             LocationPoint *locationPoint = [[LocationPoint alloc] init];
             locationPoint.areaId = areaId;
-            CLLocationCoordinate2D coo;
-            coo.latitude = locationLat;
-            coo.longitude = locationLon;
-            locationPoint.location = coo;
+            locationPoint.longitude = locationLon;
+            locationPoint.latitude = locationLat;
             
-            // Add area to the areas array
+            // Add points to the locationsPoints array
             [locationPoints addObject:locationPoint];
 		}
         sqlite3_finalize(statement);
@@ -805,7 +787,7 @@
 }
 
 - (void) updateInventory:(Inventory *) inventory {
-    char *sql = "UPDATE inventory SET NAME = ?, AUTHOR = ?, DATE = ?, DESCRIPTION = ?, IMAGE = ? WHERE ID = ?";
+    char *sql = "UPDATE inventory SET AREA_ID = ?, NAME = ?, AUTHOR = ?, DATE = ?, DESCRIPTION = ? WHERE ID = ?";
     
     sqlite3_stmt *stmt;
     

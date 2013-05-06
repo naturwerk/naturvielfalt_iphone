@@ -120,12 +120,6 @@
     // Set delegation and show users current position
     mapView.delegate = self;
     
-    // Register event for handling zooming in on users current position
-    [mapView.userLocation addObserver:self  
-                                forKeyPath:@"location"  
-                                   options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)  
-                                   context:NULL];
-    
     
     // Set navigation bar title    
     NSString *title = NSLocalizedString(@"areaNavTitle", nil);
@@ -137,7 +131,7 @@
     shouldAdjustZoom = YES;
     
     [self loadAreas];
-    [self relocate:nil];
+    [self showAllAreasInRect];
 }
 
 
@@ -245,6 +239,39 @@
     
     // Close connection
     [persistenceManager closeConnection];
+}
+
+- (void) showAllAreasInRect {
+    
+    NSLog(@"showAllAreasInRect");
+    
+    // Walk the list of overlays and annotations and create a MKMapRect that
+    // bounds all of them and store it into flyTo.
+    MKMapRect flyTo = MKMapRectNull;
+    for (id <MKOverlay> overlay in mapView.overlays) {
+        if (MKMapRectIsNull(flyTo)) {
+            flyTo = [overlay boundingMapRect];
+        } else {
+            flyTo = MKMapRectUnion(flyTo, [overlay boundingMapRect]);
+        }
+    }
+    
+    for (id <MKAnnotation> annotation in mapView.annotations) {
+        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 25, 25);
+        if (MKMapRectIsNull(flyTo)) {
+            flyTo = pointRect;
+        } else {
+            flyTo = MKMapRectUnion(flyTo, pointRect);
+        }
+    }
+    
+    flyTo.origin.x -= 25000;
+    //flyTo.origin.y += 25000;
+    flyTo.size.width += 50000;
+    //flyTo.size.height +=50000;
+    // Position the map so that all overlays and annotations are visible on screen.
+    mapView.visibleMapRect = flyTo;
 }
 
 - (void) showPersistedAppearance {
@@ -717,6 +744,12 @@
 }
 
 - (IBAction)relocate:(id)sender {
+    
+    // Register event for handling zooming in on users current position
+    [mapView.userLocation addObserver:self
+     forKeyPath:@"location"
+     options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+     context:NULL];
     
     if ([CLLocationManager locationServicesEnabled]) {
         NSLog( @"start relocate");

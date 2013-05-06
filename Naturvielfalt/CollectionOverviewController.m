@@ -70,7 +70,7 @@
     // Use normal cell layout
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
-        [cell setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     }
     
     // Set up the cell...

@@ -17,7 +17,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 @end
 
 @implementation CameraViewController
-@synthesize imageView, takePictureButton, moviePlayerController,image,movieURL,lastChosenMediaType,observation, chooseExistingButton, takePhotoButton;
+@synthesize imageView, takePictureButton, moviePlayerController,image,movieURL,lastChosenMediaType,observation, chooseExistingButton, takePhotoButton, area;
 
 - (void)viewDidLoad {
     if (![UIImagePickerController isSourceTypeAvailable:
@@ -38,14 +38,26 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     [super viewDidAppear:animated];
     
     // Get current observation
-    observation = [[Observation alloc] getObservation];
-      
-    if(observation.pictures.count > 0) {
-        self.image = (UIImage *)[observation.pictures objectAtIndex:0];
-        
-        // Set the media type
-        lastChosenMediaType = (NSString *)kUTTypeImage;
-    } 
+    //observation = [[Observation alloc] getObservation];
+    
+    // Get current area;
+    //area = [[Area alloc] getArea];
+    
+    if (observation) {
+        if(observation.pictures.count > 0) {
+            self.image = (UIImage *)[observation.pictures objectAtIndex:0];
+            
+            // Set the media type
+            lastChosenMediaType = (NSString *)kUTTypeImage;
+        } 
+    } else if (area) {
+        if(area.pictures.count > 0) {
+            self.image = (UIImage *)[area.pictures objectAtIndex:0];
+            
+            // Set the media type
+            lastChosenMediaType = (NSString *)kUTTypeImage;
+        }
+    }
     
     [self updateDisplay];
 }
@@ -90,7 +102,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         NSMutableArray *arrPictures = [[NSMutableArray alloc] init];
         [arrPictures addObject:shrunkenImage];
         
-        observation.pictures = arrPictures;
+        if (area) {
+            area.pictures = arrPictures;
+        } else if(observation) {
+            observation.pictures = arrPictures;
+        }
         
     } else if ([lastChosenMediaType isEqual:(NSString *)kUTTypeMovie]) {
         self.movieURL = [info objectForKey:UIImagePickerControllerMediaURL];

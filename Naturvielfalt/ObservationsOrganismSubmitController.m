@@ -416,7 +416,7 @@
         
     }  else if (indexPath.row == 3) {
         // COMMENT    
-        // Create the ObservationsOrganismSubmitCameraController
+        // Create the ObservationsOrganismSubmitCommentController
         ObservationsOrganismSubmitCommentController *organismSubmitCommentController = [[ObservationsOrganismSubmitCommentController alloc] 
                                                                                         initWithNibName:@"ObservationsOrganismSubmitCommentController" 
                                                                                         bundle:[NSBundle mainBundle]];

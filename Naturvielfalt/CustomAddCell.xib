@@ -45,7 +45,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{155, 8}, {29, 29}}</string>
 								<reference key="NSSuperview" ref="460267705"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -134,7 +133,7 @@
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 						</array>
-						<string key="NSFrameSize">{287, 43}</string>
+						<string key="NSFrameSize">{300, 43}</string>
 						<reference key="NSSuperview" ref="476763478"/>
 						<reference key="NSNextKeyView" ref="701916502"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
@@ -154,7 +153,7 @@
 				<reference key="NSNextKeyView" ref="460267705"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-				<int key="IBUIAccessoryType">2</int>
+				<int key="IBUIAccessoryType">1</int>
 				<reference key="IBUIContentView" ref="460267705"/>
 				<string key="IBUIReuseIdentifier">CustomInventoryAddCell</string>
 			</object>

@@ -398,8 +398,6 @@
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         NSString *nowString = [dateFormatter stringFromDate:observation.date];
         
-        
-        
         if(observation.pictures.count > 0){
             UIImage *original = (UIImage *)[observation.pictures objectAtIndex:0];
             CGFloat scale = [UIScreen mainScreen].scale;

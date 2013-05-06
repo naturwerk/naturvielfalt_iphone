@@ -23,6 +23,7 @@
     NSString *lastChosenMediaType;
     CGRect imageFrame;
     Observation *observation;
+    Area *area;
     
     IBOutlet UIButton *takePhotoButton;
     IBOutlet UIButton *chooseExistingButton;

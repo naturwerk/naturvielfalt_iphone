@@ -139,6 +139,27 @@
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         NSString *nowString = [dateFormatter stringFromDate:observation.date];
         
+        if(observation.pictures.count > 0){
+            UIImage *original = (UIImage *)[observation.pictures objectAtIndex:0];
+            CGFloat scale = [UIScreen mainScreen].scale;
+            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+            
+            CGContextRef context = CGBitmapContextCreate(NULL, 26, 26, 8, 0, colorSpace, kCGImageAlphaPremultipliedFirst);
+            CGContextDrawImage(context,
+                               CGRectMake(0, 0, 26, 26 * scale),
+                               original.CGImage);
+            CGImageRef shrunken = CGBitmapContextCreateImage(context);
+            UIImage *final = [UIImage imageWithCGImage:shrunken];
+            
+            CGContextRelease(context);
+            CGImageRelease(shrunken);
+            observationCell.photo.image = final;
+            NSLog(@"Image!: %@", [observation.organism getNameDe]);
+        }
+        else {
+            observationCell.photo.image = [UIImage imageNamed:@"blank.png"];
+        }
+        
         observationCell.name.text = observation.organism.getNameDe;
         observationCell.latName.text = observation.organism.getLatName;
         observationCell.date.text = nowString;

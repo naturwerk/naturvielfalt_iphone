@@ -855,7 +855,6 @@
     Inventory *inventory;
     
     NSString *query = [NSString stringWithFormat:@"SELECT * FROM inventory WHERE ID = '%lld'", inventoryId];
-    NSLog(@"%@", query);
     sqlite3_stmt *statement;
     
     if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
@@ -990,7 +989,6 @@
             observation.comment = comment;
             observation.submitToServer = true;
             observation.pictures = arrayImages;
-            
             
             // Add area to the areas array
             [observations addObject:observation];

@@ -70,6 +70,7 @@
 "areaNavTitle"                  = "Localization";
 "areaUndo"						= "Undo";
 "areaAdd"						= "Add";
+"areaDelete"					= "Delete area";
 
 // Area actionSheet
 "areaPinMod"                    = "Pin";
@@ -88,12 +89,17 @@
 "areaSubmitInventoryName"		= "Inventory name";
 "areaSubmitObservations"		= "Observations";
 "areaSubmitNewInventory"		= "Inventory";
+"areaEmptyTitle"				= "No area title";
 
 // Area submit HUD
 "areaSubmitHudSuccess"			= "Area saved";
 
 // Area inventory HUD
 "areaInventoryHudSuccess"		= "Inventory saved";
+
+// Area inventory
+"areaInventoryDelete"			= "Delete inventory";
+"areaInventoryEmptyTitle"		= "No inventory title";
 
 /** Collection **/
 "collectionNavTitle"            = "Collection";

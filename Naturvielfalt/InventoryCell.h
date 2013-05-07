@@ -14,12 +14,14 @@
     IBOutlet UILabel *name;
     IBOutlet UILabel *observationsCount;
     IBOutlet UILabel *author;
+    IBOutlet UIButton *remove;
 }
 
 @property (nonatomic) IBOutlet UILabel *date;
 @property (nonatomic) IBOutlet UILabel *name;
 @property (nonatomic) IBOutlet UILabel *observationsCount;
 @property (nonatomic) IBOutlet UILabel *author;
+@property (nonatomic) IBOutlet UIButton *remove;
 
 
 @end

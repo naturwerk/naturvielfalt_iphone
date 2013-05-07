@@ -85,6 +85,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self rowClicked:indexPath];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void) rowClicked:(NSIndexPath *) indexPath {

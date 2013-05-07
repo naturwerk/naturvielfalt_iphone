@@ -11,13 +11,16 @@
 #import "Inventory.h"
 #import "PersistenceManager.h"
 
-@interface AreasSubmitNewInventoryController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface AreasSubmitNewInventoryController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
     Area *area;
     Inventory *inventory;
     NSArray *arrayKeys;
     NSArray *arrayValues;
     PersistenceManager *persistenceManager;
     IBOutlet UITableView *tableView;
+    IBOutlet UILabel *inventoryName;
+    UIActionSheet *deleteInventorySheet;
+    NSIndexPath *currIndexPath;
     
     BOOL review;
 }
@@ -26,5 +29,6 @@
 @property (nonatomic) Inventory *inventory;
 @property (nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) BOOL review;
+@property (nonatomic) IBOutlet UILabel *inventoryName;
 
 @end

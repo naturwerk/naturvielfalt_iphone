@@ -8,11 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ObservationCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *name;
-@property (weak, nonatomic) IBOutlet UILabel *latName;
-@property (weak, nonatomic) IBOutlet UIImageView *photo;
-@property (weak, nonatomic) IBOutlet UILabel *date;
-@property (weak, nonatomic) IBOutlet UILabel *count;
+@interface ObservationCell : UITableViewCell {
+    IBOutlet UILabel *name;
+    IBOutlet UILabel *latName;
+    IBOutlet UIImageView *photo;
+    IBOutlet UILabel *date;
+    IBOutlet UILabel *count;
+    IBOutlet UIButton *remove;
+}
+@property (nonatomic) IBOutlet UILabel *name;
+@property (nonatomic) IBOutlet UILabel *latName;
+@property (nonatomic) IBOutlet UIImageView *photo;
+@property (nonatomic) IBOutlet UILabel *date;
+@property (nonatomic) IBOutlet UILabel *count;
+@property (nonatomic) IBOutlet UIButton *remove;
 
 @end

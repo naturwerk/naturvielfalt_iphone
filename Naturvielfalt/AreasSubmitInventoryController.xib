@@ -45,7 +45,7 @@
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="256505270"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<object class="NSColor" key="IBUIBackgroundColor">
+						<object class="NSColor" key="IBUIBackgroundColor" id="389580036">
 							<int key="NSColorSpace">10</int>
 							<object class="NSImage" key="NSImage">
 								<int key="NSImageFlags">549453824</int>
@@ -4587,10 +4587,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="200841268"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
-						</object>
+						<reference key="IBUIBackgroundColor" ref="389580036"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIButton" id="402857009">

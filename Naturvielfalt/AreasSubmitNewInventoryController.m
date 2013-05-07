@@ -12,6 +12,7 @@
 #import "AreasSubmitInventoryObservationController.h"
 #import "ObservationsViewController.h"
 #import "CustomCell.h"
+#import "DeleteCell.h"
 #import "CustomAddCell.h"
 #import "MBProgressHUD.h"
 
@@ -20,7 +21,7 @@
 @end
 
 @implementation AreasSubmitNewInventoryController
-@synthesize area, inventory, tableView, review;
+@synthesize area, inventory, tableView, review, inventoryName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +40,14 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [tableView reloadData];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    if ([inventory.name compare:@""] == 0) {
+        inventoryName.text = NSLocalizedString(@"areaInventoryEmptyTitle", nil);
+    } else {
+        inventoryName.text = inventory.name;
+    }
 }
 
 - (void)viewDidLoad
@@ -75,6 +84,11 @@
     [self prepareData];
 }
 
+- (void)viewDidUnload {
+    [self setTableView:nil];
+    [self setInventoryName:nil];
+    [super viewDidUnload];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -145,17 +159,23 @@
     // Save inventory and update area
     if(review) {
         if (area.areaId) {
+            // update area
+            [persistenceManager updateArea:area];
             if (inventory.inventoryId) {
+                // update inventory
                 [persistenceManager updateInventory:inventory];
                 for (Observation *observation in inventory.observations) {
                     if (observation.observationId) {
+                        // update observation
                         [persistenceManager updateObservation:observation];
                     } else {
+                        // persist observation
                         observation.inventory = inventory;
                         observation.observationId = [persistenceManager saveObservation:observation];
                     }
                 }
             } else {
+                // persist inventory and observations
                 inventory.area = area;
                 inventory.inventoryId = [persistenceManager saveInventory:inventory];
                 for (Observation *observation in inventory.observations) {
@@ -163,7 +183,57 @@
                     observation.observationId = [persistenceManager saveObservation:observation];
                 }
             }
-        } 
+        } else {
+            // persist area, inventories and observations
+            area.areaId = [persistenceManager saveArea:area];
+            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
+            for (Inventory *iv in area.inventories) {
+                iv.area = area;
+                iv.inventoryId = [persistenceManager saveInventory:iv];
+                for (Observation *observation in iv.observations) {
+                    observation.inventory = iv;
+                    observation.observationId = [persistenceManager saveObservation:observation];
+                }
+            }
+        }
+    } else {
+        if (area.areaId) {
+            // update area
+            [persistenceManager updateArea:area];
+            if (inventory.inventoryId) {
+                // update inventory
+                [persistenceManager updateInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    if (observation.observationId) {
+                        // update observation
+                        [persistenceManager updateObservation:observation];
+                    } else {
+                        // persist observation
+                        [persistenceManager saveObservation:observation];
+                    }
+                }
+            } else {
+                // persist inventory and observations
+                inventory.area = area;
+                inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    observation.inventory = inventory;
+                    observation.observationId = [persistenceManager saveObservation:observation];
+                }
+            }
+        } else {
+            // persist area, inventories and observations
+            area.areaId = [persistenceManager saveArea:area];
+            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
+            for (Inventory *iv in area.inventories) {
+                iv.area = area;
+                iv.inventoryId = [persistenceManager saveInventory:inventory];
+                for (Observation *observation in iv.observations) {
+                    observation.inventory = iv;
+                    observation.observationId = [persistenceManager saveObservation:observation];
+                }
+            }
+        }
     }
     
     // Close connection
@@ -237,6 +307,9 @@
 #pragma UITableViewDelegate Methodes
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSLog(@"numberOfSectionsInTableView");
+    if (inventory.inventoryId) {
+        return 3;
+    }
     return 2;
 }
 
@@ -253,6 +326,7 @@
     static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
     CustomCell *customCell;
+    DeleteCell *deleteCell;
     CustomAddCell *customAddCell;
     
     if (indexPath.section == 0) {
@@ -308,7 +382,7 @@
             
             return cell;
         }
-    } else {
+    } else if (indexPath.section == 1) {
         
         if(cell == nil) {
             NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAddCell" owner:self options:nil];
@@ -327,6 +401,19 @@
             
             return customAddCell;
         }
+    } else {
+        if(cell == nil) {
+            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DeleteCell" owner:self options:nil];
+            
+            for (id currentObject in topLevelObjects){
+                if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                    deleteCell =  (DeleteCell *)currentObject;
+                    break;
+                }
+            }
+            deleteCell.deleteLabel.text = NSLocalizedString(@"areaInventoryDelete", nil);
+            return deleteCell;
+        }
     }
     return cell;
 }
@@ -344,7 +431,7 @@
     AreasSubmitInventoryNameController *areasSubmitInventoryNameController;
     AreasSubmitInventoryDescriptionController *areasSubmitInventoryDescriptionController;
     AreasSubmitInventoryObservationController *areasSubmitInventoryObservationController;
-    
+    currIndexPath = indexPath;
     
     if (indexPath.section == 0) {
         switch (indexPath.row) {
@@ -378,7 +465,7 @@
                 
                 break;
         }
-    } else {
+    } else if (indexPath.section == 1) {
         
         if ([inventory.name compare:@""] == 0) {
             UIAlertView *inventoryAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageInventoryTitle", nil)
@@ -401,11 +488,48 @@
         // Switch the View & Controller
         [self.navigationController pushViewController:areasSubmitInventoryObservationController animated:TRUE];
         areasSubmitInventoryObservationController = nil;
+    } else {
+        if (!deleteInventorySheet) {
+            deleteInventorySheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil) destructiveButtonTitle:NSLocalizedString(@"areaInventoryDelete", nil) otherButtonTitles: nil];
+            
+            deleteInventorySheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        }
+        [deleteInventorySheet showFromTabBar:self.tabBarController.tabBar];
     }
 }
 
-- (void)viewDidUnload {
-    [self setTableView:nil];
-    [super viewDidUnload];
+#pragma mark
+#pragma UIActionSheetDelegate Methods
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (buttonIndex) {
+        case 0:
+        {
+            NSLog(@"delete Area");
+            if (!persistenceManager) {
+                persistenceManager = [[PersistenceManager alloc] init];
+            }
+            [persistenceManager establishConnection];
+            [persistenceManager deleteObservations:inventory.observations];
+            [persistenceManager deleteInventory:inventory.inventoryId];
+            [persistenceManager closeConnection];
+            
+            [area.inventories removeObjectAtIndex:currIndexPath.row];
+            
+            [inventory setInventory:nil];
+            
+            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
+            break;
+        }
+        case 1:
+        {
+            NSLog(@"cancel delete Area");
+            [tableView deselectRowAtIndexPath:currIndexPath animated:NO];
+            break;
+        }
+    }
 }
+
+
 @end

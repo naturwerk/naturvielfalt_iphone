@@ -180,6 +180,15 @@
     NSLog(@"send Inventories");
 }
 
+#pragma UITableViewDelegates methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [inventories count];
+}
+
 - (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
@@ -191,7 +200,10 @@
         // Establish a connection
         [persistenceManager establishConnection];
         
-        // If Yes, delete the observation with the persistence manager
+        Inventory *inventory = [persistenceManager getInventory:button.tag];
+        
+        // If Yes, delete the observation and inventory with the persistence manager
+        [persistenceManager deleteObservations:inventory.observations];
         [persistenceManager deleteInventory:button.tag];
         
         // Close connection to the database
@@ -200,16 +212,6 @@
         // Reload the observations from the database and refresh the TableView
         [self reloadInventories];
     }
-}
-
-
-#pragma UITableViewDelegates methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
--(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [inventories count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {

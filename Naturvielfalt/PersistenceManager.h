@@ -41,6 +41,8 @@
 - (long long int) saveObservation:(Observation *) observation;
 - (void) updateObservation:(Observation *) observation;
 - (void) deleteObservation:(long long int)observationId;
+- (void) deleteObservations:(NSMutableArray *)observations;
+- (Observation *) getObservation:(long long int) observationId;
 - (NSMutableArray *) getObservations;
 
 // Areas
@@ -55,6 +57,7 @@
 - (long long int) saveInventory:(Inventory *) inventory;
 - (void) updateInventory:(Inventory *) inventory;
 - (void) deleteInventory:(long long int) inventoryId;
+- (void) deleteInventories:(NSMutableArray *)inventories;
 - (NSMutableArray *) getInventories;
 - (Inventory *) getInventory:(long long int) inventoryId;
 - (NSMutableArray *) getObservationsFromInventory:(Inventory *)inventory;

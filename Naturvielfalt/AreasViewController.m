@@ -131,7 +131,11 @@
     shouldAdjustZoom = YES;
     
     [self loadAreas];
-    [self showAllAreasInRect];
+    if (mapView.overlays.count > 0 || mapView.annotations.count > 0) {
+        [self showAllAreasInRect];
+    } else {
+        [self relocate:nil];
+    }
 }
 
 
@@ -142,10 +146,14 @@
         [self showPersistedAppearance];
         [self showStartModeAppearance];
     }
+    [self showStartModeAppearance];
+    locationPoints = nil;
+    currentDrawMode = 0;
 
     for (id<MKAnnotation> annotation in mapView.selectedAnnotations) {
         [mapView deselectAnnotation:annotation animated:NO];
     }
+    [self loadAreas];
 }
 
 - (void)viewDidUnload
@@ -180,6 +188,7 @@
     [persistenceManager establishConnection];
     
     NSMutableArray *areas = [persistenceManager getAreas];
+
     for (Area *a in areas) {
         area = a;
         locationPoints = [[NSMutableArray alloc] initWithArray:area.locationPoints];

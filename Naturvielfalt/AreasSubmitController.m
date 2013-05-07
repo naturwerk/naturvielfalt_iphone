@@ -17,13 +17,14 @@
 #import "MBProgressHUD.h"
 #import "CustomAddCell.h"
 #import "CustomAreaCell.h"
+#import "DeleteCell.h"
 
 @interface AreasSubmitController ()
 
 @end
 
 @implementation AreasSubmitController
-@synthesize areaChanged, area, tableView, drawMode, customAnnotation, review;
+@synthesize areaChanged, area, tableView, drawMode, customAnnotation, review, areaName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -123,11 +124,18 @@
                                          action: @selector(saveArea)];
         self.navigationItem.rightBarButtonItem = submitButton;
     }
+    
+    if ([area.name compare:@""] == 0) {
+        areaName.text = NSLocalizedString(@"areaEmptyTitle", nil);
+    } else {
+        areaName.text = area.name;
+    }
 }
 
 
 - (void)viewDidUnload {
     [self setTableView:nil];
+    [self setAreaName:nil];
     [super viewDidUnload];
 }
 
@@ -279,6 +287,9 @@
 #pragma UITableViewDelegate Methodes
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSLog(@"numberOfSectionsInTableView");
+    if (area.areaId) {
+        return 3;
+    }
     return 2;
 }
 
@@ -295,6 +306,7 @@
     static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
     CustomCell *customCell;
+    DeleteCell *deleteCell;
     CustomAddCell *customAddCell;
     CustomAreaCell *customAreaCell;
     
@@ -302,7 +314,6 @@
         if(indexPath.row > 1) {
             // use CustomCell layout
 
-            
             if(cell == nil) {
                 NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
                 
@@ -374,7 +385,8 @@
             
             return cell;
         }
-    } else {
+    } else if (indexPath.section == 1)
+    {
         
         if(cell == nil) {
             NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAddCell" owner:self options:nil];
@@ -392,6 +404,21 @@
 
             //[NSString stringWithFormat:@"%i", area.inventories.count];
             return customAddCell;
+        }
+    } else {
+        if(cell == nil) {
+            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DeleteCell" owner:self options:nil];
+            
+            for (id currentObject in topLevelObjects){
+                if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                    deleteCell =  (DeleteCell *)currentObject;
+                    break;
+                }
+            }
+            
+            deleteCell.deleteLabel.text = NSLocalizedString(@"areaDelete", nil);
+            
+            return deleteCell;
         }
     }
     return cell;
@@ -412,6 +439,7 @@
     AreasSubmitDescriptionController *areasSubmitDescriptionController;
     CameraViewController *areaSubmitCameraController;
     AreasSubmitInventoryController *areasSubmitInventoryController;
+    currIndexPath = indexPath;
 
     
     if (indexPath.section == 0) {
@@ -462,7 +490,7 @@
             default:
                 break;
         }
-    } else {
+    } else if (indexPath.section == 1) {
         
         if ([area.name compare:@""] == 0) {
             UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
@@ -483,6 +511,48 @@
         // Switch the View & Controller
         [self.navigationController pushViewController:areasSubmitInventoryController animated:TRUE];
         areasSubmitInventoryController = nil;
+    } else {
+        if (!deleteAreaSheet) {
+            deleteAreaSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil) destructiveButtonTitle:NSLocalizedString(@"areaDelete", nil) otherButtonTitles: nil];
+            
+            deleteAreaSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        }
+        [deleteAreaSheet showFromTabBar:self.tabBarController.tabBar];
+    }
+}
+
+#pragma mark
+#pragma UIActionSheetDelegate Methods
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (buttonIndex) {
+        case 0:
+        {
+            NSLog(@"delete Area");
+            if (!persistenceManager) {
+                persistenceManager = [[PersistenceManager alloc] init];
+            }
+            [persistenceManager establishConnection];
+            [persistenceManager deleteArea:area.areaId];
+            [persistenceManager closeConnection];
+            
+            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
+            [area setArea:nil];
+            
+            if (!areasViewController) {
+                areasViewController = [[AreasViewController alloc]
+                                       initWithNibName:@"AreasViewController"
+                                       bundle:[NSBundle mainBundle] area:area];
+            }
+            break;
+        }
+        case 1:
+        {
+            NSLog(@"cancel delete Area");
+            [tableView deselectRowAtIndexPath:currIndexPath animated:NO];
+            break;
+        }
     }
 }
 @end

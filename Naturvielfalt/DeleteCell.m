@@ -1,15 +1,15 @@
 //
-//  ObservationCell.m
+//  DeleteCell.m
 //  Naturvielfalt
 //
-//  Created by Albert von Felten on 30.04.13.
+//  Created by Albert von Felten on 07.05.13.
 //
 //
 
-#import "ObservationCell.h"
+#import "DeleteCell.h"
 
-@implementation ObservationCell
-@synthesize name, latName, remove, photo, date, count;
+@implementation DeleteCell
+@synthesize deleteLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

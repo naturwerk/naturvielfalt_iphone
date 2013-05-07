@@ -181,7 +181,13 @@
         // Establish a connection
         [persistenceManager establishConnection];
         
-        // If Yes, delete the areas with the persistence manager
+        Area *area = [persistenceManager getArea:button.tag];
+        
+        // If Yes, delete the areas with the persistence manager and all inventories and observations from area
+        for (Inventory *inventory in area.inventories) {
+            [persistenceManager deleteObservations:inventory.observations];
+        }
+        [persistenceManager deleteInventories:area.inventories];
         [persistenceManager deleteArea:button.tag];
         
         // Close connection to the database

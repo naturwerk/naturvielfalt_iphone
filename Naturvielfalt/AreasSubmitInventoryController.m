@@ -145,8 +145,42 @@
         inventoryCell.name.text = inventory.name;
         inventoryCell.date.text = nowString;
         inventoryCell.observationsCount.text = [NSString stringWithFormat:@"%i",inventory.observations.count];
+        
+        // Define the action on the button and the current row index as tag
+        [inventoryCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
+        [inventoryCell.name setTag:inventory.inventoryId];
     }
     return inventoryCell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        InventoryCell *cell = (InventoryCell *)[tableView cellForRowAtIndexPath:indexPath];
+        UILabel *label = cell.name;
+        
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        
+        // Also delete it from the Database
+        // Establish a connection
+        [persistenceManager establishConnection];
+        
+        Inventory *inventory = [persistenceManager getInventory:label.tag];
+        
+        // If Yes, delete the observation and inventory with the persistence manager
+        [persistenceManager deleteObservations:inventory.observations];
+        [persistenceManager deleteInventory:label.tag];
+        
+        // Close connection to the database
+        [persistenceManager closeConnection];
+        
+        [area.inventories removeObjectAtIndex:indexPath.row];
+        
+        // refresh the TableView
+        [tableView reloadData];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

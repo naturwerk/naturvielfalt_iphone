@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		27008FEF1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */; };
+		270D38FE1738D09400D94568 /* DeleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D38FD1738D09400D94568 /* DeleteCell.m */; };
 		272D3A671714172300588328 /* AreasSubmitNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A651714172300588328 /* AreasSubmitNameController.m */; };
 		272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A661714172300588328 /* AreasSubmitNameController.xib */; };
 		272D3A6C1714176D00588328 /* AreasSubmitDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */; };
@@ -89,6 +90,7 @@
 		27FED4EA1730FC3F0030886F /* CheckboxInventoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */; };
 		27FED4ED173102E60030886F /* CheckboxAreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FED4EC173102E60030886F /* CheckboxAreaCell.m */; };
 		27FED4EF173102F90030886F /* CheckboxAreaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FED4EE173102F90030886F /* CheckboxAreaCell.xib */; };
+		27FFD26C1737FBDE00DFD1C4 /* DeleteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FFD26B1737FBDD00DFD1C4 /* DeleteCell.xib */; };
 		CB08912B1430B67F00E846A1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891131430B67F00E846A1 /* NSObject+SBJson.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB08912C1430B67F00E846A1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891161430B67F00E846A1 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB08912D1430B67F00E846A1 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891181430B67F00E846A1 /* SBJsonStreamParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -195,6 +197,8 @@
 /* Begin PBXFileReference section */
 		27008FED1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolygon+MKPolygonCategory.h"; sourceTree = "<group>"; };
 		27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolygon+MKPolygonCategory.m"; sourceTree = "<group>"; };
+		270D38FC1738D09400D94568 /* DeleteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteCell.h; sourceTree = "<group>"; };
+		270D38FD1738D09400D94568 /* DeleteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteCell.m; sourceTree = "<group>"; };
 		272D3A641714172300588328 /* AreasSubmitNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNameController.h; sourceTree = "<group>"; };
 		272D3A651714172300588328 /* AreasSubmitNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNameController.m; sourceTree = "<group>"; };
 		272D3A661714172300588328 /* AreasSubmitNameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNameController.xib; sourceTree = "<group>"; };
@@ -304,6 +308,7 @@
 		27FED4EB173102E60030886F /* CheckboxAreaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckboxAreaCell.h; sourceTree = "<group>"; };
 		27FED4EC173102E60030886F /* CheckboxAreaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckboxAreaCell.m; sourceTree = "<group>"; };
 		27FED4EE173102F90030886F /* CheckboxAreaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckboxAreaCell.xib; sourceTree = "<group>"; };
+		27FFD26B1737FBDD00DFD1C4 /* DeleteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeleteCell.xib; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		CB0891131430B67F00E846A1 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
@@ -601,6 +606,9 @@
 				F664006F157CAD770092A9D0 /* CustomOrganismCell.h */,
 				F6640070157CAD770092A9D0 /* CustomOrganismCell.m */,
 				F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */,
+				270D38FC1738D09400D94568 /* DeleteCell.h */,
+				270D38FD1738D09400D94568 /* DeleteCell.m */,
+				27FFD26B1737FBDD00DFD1C4 /* DeleteCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1119,6 +1127,7 @@
 				27FED4EA1730FC3F0030886F /* CheckboxInventoryCell.xib in Resources */,
 				27FED4EF173102F90030886F /* CheckboxAreaCell.xib in Resources */,
 				27E8A1C81732950A00871706 /* hairelinecross.png in Resources */,
+				27FFD26C1737FBDE00DFD1C4 /* DeleteCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1211,6 +1220,7 @@
 				27FED4E81730FC260030886F /* CheckboxInventoryCell.m in Sources */,
 				27FED4ED173102E60030886F /* CheckboxAreaCell.m in Sources */,
 				27F6285D1733EF7C0089CC3C /* LocationPoint.m in Sources */,
+				270D38FE1738D09400D94568 /* DeleteCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,7 @@
 #import "CustomAnnotation.h"
 
 @class AreasViewController;
-@interface AreasSubmitController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface AreasSubmitController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
     
     Area *area;
     PersistenceManager *persistenceManager;
@@ -20,9 +20,12 @@
     DrawMode drawMode;
     CustomAnnotation *customAnnotation;
     AreasViewController *areasViewController;
+    UIActionSheet *deleteAreaSheet;
+    NSIndexPath *currIndexPath;;
     
     BOOL review;
     IBOutlet UITableView *tableView;
+    IBOutlet UILabel *areaName;
 }
 
 @property (nonatomic, assign) BOOL areaChanged;
@@ -31,6 +34,7 @@
 @property (nonatomic) DrawMode drawMode;
 @property (nonatomic) CustomAnnotation *customAnnotation;
 @property (nonatomic) BOOL review;
+@property (nonatomic) IBOutlet UILabel *areaName;
 
 
 - (void) prepareData;

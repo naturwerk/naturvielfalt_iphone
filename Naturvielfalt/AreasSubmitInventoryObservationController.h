@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "Area.h"
 #import "Inventory.h"
+#import "PersistenceManager.h"
 
 @interface AreasSubmitInventoryObservationController : UIViewController <UITableViewDelegate> {
     
+    PersistenceManager *persistenceManager;
     IBOutlet UILabel *dateLabel;
     IBOutlet UILabel *inventoryLabel;
     IBOutlet UILabel *areaLabel;

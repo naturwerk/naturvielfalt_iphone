@@ -164,8 +164,37 @@
         observationCell.latName.text = observation.organism.getLatName;
         observationCell.date.text = nowString;
         observationCell.count.text = [NSString stringWithFormat:@"%@",observation.amount];
+        // Define the action on the button and the current row index as tag
+        [observationCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
+        [observationCell.name setTag:observation.observationId];
     }
     return observationCell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        ObservationCell *cell = (ObservationCell *)[tableView cellForRowAtIndexPath:indexPath];
+        UILabel *label = cell.name;
+        
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        // Also delete it from the Database
+        // Establish a connection
+        [persistenceManager establishConnection];
+        
+        // If Yes, delete the observation with the persistence manager
+        [persistenceManager deleteObservation:label.tag];
+        
+        // Close connection to the database
+        [persistenceManager closeConnection];
+        
+        [inventory.observations removeObjectAtIndex:indexPath.row];
+        
+        // refresh the TableView
+        [tableView reloadData];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

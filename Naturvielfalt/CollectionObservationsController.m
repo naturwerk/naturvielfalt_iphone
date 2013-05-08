@@ -9,12 +9,14 @@
 #import "CollectionObservationsController.h"
 #import "CheckboxCell.h"
 #import "ObservationsOrganismSubmitController.h"
+#import "CustomObservationAnnotation.h"
+#import "CustomObservationAnnotationView.h"
 #import "AreasSubmitController.h"
 #import "MBProgressHUD.h"
 #import "ASIFormDataRequest.h"
 
 @implementation CollectionObservationsController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, segmentControl, mapView, observationsView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +35,13 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewDidUnload {
+    [self setSegmentControl:nil];
+    [self setMapView:nil];
+    [self setObservationsView:nil];
+    [super viewDidUnload];
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -43,6 +52,16 @@
     NSString *title = NSLocalizedString(@"observationTabLabel", nil);
     self.navigationItem.title = title;
     
+    // Set keys of segment control
+    NSArray *keys = [NSArray arrayWithObjects:NSLocalizedString(@"collectionTableControl", nil), NSLocalizedString(@"collectionMapControl", nil), nil];
+    segmentControl = [[UISegmentedControl alloc] initWithItems:keys];
+    segmentControl.frame = CGRectMake(83, 12, 155, 44);
+    segmentControl.selectedSegmentIndex = 0;
+    
+    [segmentControl addTarget:self action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    [self.view addSubview:segmentControl];
+    
     // Create filter button and add it to the NavigationBar
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]
                                      initWithTitle:NSLocalizedString(@"navSubmit", nil)
@@ -51,6 +70,8 @@
                                      action: @selector(alertOnSendObservationsDialog)];
     
     self.navigationItem.rightBarButtonItem = filterButton;
+    
+    mapView.delegate = self;
     
     
     // Create filter button and add it to the NavigationBar
@@ -69,6 +90,41 @@
     
     // Reload table
     [table reloadData];
+
+
+}
+
+- (void) reloadAnnotations {
+    observationAnnotations = [[NSMutableArray alloc] init];
+    
+    for (Observation *observation in observations) {
+        CLLocationCoordinate2D cll;
+        cll.latitude = observation.location.coordinate.latitude;
+        cll.longitude = observation.location.coordinate.longitude;
+        CustomObservationAnnotation *obsAnno = [[CustomObservationAnnotation alloc] initWithWithCoordinate:cll type:observation.inventory.area.typeOfArea observation:observation];
+    
+        [observationAnnotations addObject:obsAnno];
+    }
+    
+    [mapView removeAnnotations:mapView.annotations];
+    [mapView addAnnotations:observationAnnotations];
+    [self showAnnotationsInRect];
+}
+
+- (void) showAnnotationsInRect {
+    
+    MKMapRect flyTo = MKMapRectNull;
+    for (id <MKAnnotation> annotation in observationAnnotations) {
+        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0);
+        if (MKMapRectIsNull(flyTo)) {
+            flyTo = pointRect;
+        } else {
+            flyTo = MKMapRectUnion(flyTo, pointRect);
+        }
+    }
+	
+    mapView.visibleMapRect = flyTo;
 }
 
 //Check if there is an active WiFi connection
@@ -267,6 +323,27 @@
     }
 }
 
+- (IBAction)segmentChanged:(id)sender {
+    switch (segmentControl.selectedSegmentIndex) {
+        case 0:
+        {
+            [UIView transitionWithView:observationsView duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+                table.hidden = NO;
+                mapView.hidden = YES;
+            }completion:nil];
+            break;
+        }
+            
+        case 1:
+        {
+            [UIView transitionWithView:observationsView duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+                table.hidden = YES;
+                mapView.hidden = NO;
+            }completion:nil];
+        }
+    }
+}
+
 - (void) removeObservations
 {
     [self.table setEditing:!self.table.editing animated:YES];
@@ -313,6 +390,8 @@
     if([observations count] < 1) {
         table.editing = FALSE;
     }
+    
+    [self reloadAnnotations];
 }
 
 - (void) reloadObservations
@@ -413,7 +492,6 @@
             CGContextRelease(context);
             CGImageRelease(shrunken);
             checkboxCell.image.image = final;
-            NSLog(@"Image!: %@", [observation.organism getNameDe]);
         }
         else {
             checkboxCell.image.image = [UIImage imageNamed:@"blank.png"];
@@ -482,5 +560,26 @@
     organismSubmitController = nil;
 }
 
+#pragma MKMapViewDelegate methods
+
+- (MKAnnotationView *)mapView:(MKMapView *)map viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    NSLog(@"mapView viewForAnnotation");
+    
+    // return nil, if annotation is user location
+    if ([annotation class] == MKUserLocation.class) {
+        return nil;
+    }
+
+    CustomObservationAnnotation *observationAnnotation = (CustomObservationAnnotation*) annotation;
+
+    NSString *identifier = @"AnnotationId";
+    CustomObservationAnnotationView *newAnnotationView = (CustomObservationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    newAnnotationView = [[CustomObservationAnnotationView alloc] initWithAnnotation:observationAnnotation reuseIdentifier:identifier];
+    CustomObservationAnnotationView *customObservationAnnotationView = newAnnotationView;
+    [customObservationAnnotationView setEnabled:YES];
+    
+    return customObservationAnnotationView;
+}
 
 @end

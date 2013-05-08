@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		27008FEF1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */; };
 		270D38FE1738D09400D94568 /* DeleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D38FD1738D09400D94568 /* DeleteCell.m */; };
+		270D390117393DE600D94568 /* CustomObservationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D390017393DE600D94568 /* CustomObservationAnnotation.m */; };
+		270D3904173940C300D94568 /* CustomObservationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D3903173940C200D94568 /* CustomObservationAnnotationView.m */; };
 		272D3A671714172300588328 /* AreasSubmitNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A651714172300588328 /* AreasSubmitNameController.m */; };
 		272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A661714172300588328 /* AreasSubmitNameController.xib */; };
 		272D3A6C1714176D00588328 /* AreasSubmitDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */; };
@@ -199,6 +201,10 @@
 		27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolygon+MKPolygonCategory.m"; sourceTree = "<group>"; };
 		270D38FC1738D09400D94568 /* DeleteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteCell.h; sourceTree = "<group>"; };
 		270D38FD1738D09400D94568 /* DeleteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteCell.m; sourceTree = "<group>"; };
+		270D38FF17393DE500D94568 /* CustomObservationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObservationAnnotation.h; sourceTree = "<group>"; };
+		270D390017393DE600D94568 /* CustomObservationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObservationAnnotation.m; sourceTree = "<group>"; };
+		270D3902173940C200D94568 /* CustomObservationAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObservationAnnotationView.h; sourceTree = "<group>"; };
+		270D3903173940C200D94568 /* CustomObservationAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObservationAnnotationView.m; sourceTree = "<group>"; };
 		272D3A641714172300588328 /* AreasSubmitNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNameController.h; sourceTree = "<group>"; };
 		272D3A651714172300588328 /* AreasSubmitNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNameController.m; sourceTree = "<group>"; };
 		272D3A661714172300588328 /* AreasSubmitNameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNameController.xib; sourceTree = "<group>"; };
@@ -751,6 +757,10 @@
 				CBDDB55E14555882007E48AB /* NSDictionary-MutableDeepCopy.m */,
 				CBDDB57714594800007E48AB /* PersistenceManager.h */,
 				CBDDB57814594801007E48AB /* PersistenceManager.m */,
+				270D38FF17393DE500D94568 /* CustomObservationAnnotation.h */,
+				270D390017393DE600D94568 /* CustomObservationAnnotation.m */,
+				270D3902173940C200D94568 /* CustomObservationAnnotationView.h */,
+				270D3903173940C200D94568 /* CustomObservationAnnotationView.m */,
 				27FB850D1720054200A7632D /* CustomAnnotation.h */,
 				27FB850E1720054200A7632D /* CustomAnnotation.m */,
 				27ED2B40172174E300A45687 /* CustomAnnotationView.h */,
@@ -1221,6 +1231,8 @@
 				27FED4ED173102E60030886F /* CheckboxAreaCell.m in Sources */,
 				27F6285D1733EF7C0089CC3C /* LocationPoint.m in Sources */,
 				270D38FE1738D09400D94568 /* DeleteCell.m in Sources */,
+				270D390117393DE600D94568 /* CustomObservationAnnotation.m in Sources */,
+				270D3904173940C300D94568 /* CustomObservationAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

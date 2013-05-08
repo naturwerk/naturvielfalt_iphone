@@ -12,19 +12,25 @@
 #import "ASINetworkQueue.h"
 #import "Reachability.h"
 #import "MBProgressHUD.h"
+#import <MapKit/MapKit.h>
 
-@interface CollectionObservationsController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate> {
+@interface CollectionObservationsController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate,MKMapViewDelegate, CLLocationManagerDelegate> {
     PersistenceManager *persistenceManager;
     NSMutableArray *observations;
     NSMutableArray *observationsToSubmit;
+    NSMutableArray *observationAnnotations;
     int *countObservations;
     IBOutlet UITableView *table;
+    IBOutlet UISegmentedControl *segmentControl;
+    IBOutlet MKMapView *mapView;
+    IBOutlet UIView *observationsView;
     ASINetworkQueue *queue;
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
 }
 
+@property (nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) PersistenceManager *persistenceManager;
 @property (nonatomic) NSMutableArray *observations;
 @property (nonatomic) NSMutableArray *observationsToSubmit;
@@ -34,6 +40,8 @@
 @property (nonatomic) NSOperationQueue *operationQueue;
 @property (nonatomic) NSIndexPath *curIndex;
 @property (nonatomic) BOOL doSubmit;
+@property (nonatomic) IBOutlet UISegmentedControl *segmentControl;
+@property (nonatomic) IBOutlet UIView *observationsView;
 
 
 - (void) sendObservations;
@@ -43,6 +51,7 @@
 - (BOOL) connectedToWiFi;
 - (void) checkboxEvent:(UIButton *)sender;
 - (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request;
+- (IBAction)segmentChanged:(id)sender;
 
 
 @end

@@ -104,6 +104,10 @@
 /** Collection **/
 "collectionNavTitle"            = "Collection";
 
+// Collection segment control
+"collectionTableControl"		= "Table";
+"collectionMapControl"			= "Map";
+
 // Collection alert messages
 "collectionAlertObsTitle"		= "Submit observations?";
 "collectionAlertInvTitle"		= "Submit inventories?";

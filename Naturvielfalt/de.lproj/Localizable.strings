@@ -108,6 +108,10 @@
 /** Collection **/
 "collectionNavTitle"            = "Erfassungen";
 
+// Collection segment control
+"collectionTableControl"		= "Tabelle";
+"collectionMapControl"			= "Karte";
+
 // Collection alert messages
 "collectionAlertObsTitle"	= "Beobachtungen übermitteln?";
 "collectionAlertInvTitle"		= "Inventare übermitteln?";

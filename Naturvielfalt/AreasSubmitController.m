@@ -160,19 +160,32 @@
 
     // Save area, inventories and observations
     if(review) {
-        [persistenceManager updateArea:area];
-        for (Inventory *inventory in area.inventories) {
-            if (inventory.inventoryId) {
-                [persistenceManager updateInventory:inventory];
-                for (Observation *observation in inventory.observations) {
-                    if (observation.observationId) {
-                        [persistenceManager updateObservation:observation];
-                    } else {
+        if (area.areaId) {
+            [persistenceManager updateArea:area];
+            for (Inventory *inventory in area.inventories) {
+                if (inventory.inventoryId) {
+                    [persistenceManager updateInventory:inventory];
+                    for (Observation *observation in inventory.observations) {
+                        if (observation.observationId) {
+                            [persistenceManager updateObservation:observation];
+                        } else {
+                            observation.inventory = inventory;
+                            observation.observationId = [persistenceManager saveObservation:observation];
+                        }
+                    }
+                } else {
+                    inventory.area = area;
+                    inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                    for (Observation *observation in inventory.observations) {
                         observation.inventory = inventory;
                         observation.observationId = [persistenceManager saveObservation:observation];
                     }
                 }
-            } else {
+            }
+        } else {
+            area.areaId = [persistenceManager saveArea:area];
+            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
+            for (Inventory *inventory in area.inventories) {
                 inventory.area = area;
                 inventory.inventoryId = [persistenceManager saveInventory:inventory];
                 for (Observation *observation in inventory.observations) {
@@ -182,14 +195,38 @@
             }
         }
     } else {
-        area.areaId = [persistenceManager saveArea:area];
-        [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
-        for (Inventory *inventory in area.inventories) {
-            inventory.area = area;
-            inventory.inventoryId = [persistenceManager saveInventory:inventory];
-            for (Observation *observation in inventory.observations) {
-                observation.inventory = inventory;
-                observation.observationId = [persistenceManager saveObservation:observation];
+        if (area.areaId) {
+            [persistenceManager updateArea:area];
+            for (Inventory *inventory in area.inventories) {
+                if (inventory.inventoryId) {
+                    [persistenceManager updateInventory:inventory];
+                    for (Observation *observation in inventory.observations) {
+                        if (observation.observationId) {
+                            [persistenceManager updateObservation:observation];
+                        } else {
+                            observation.inventory = inventory;
+                            observation.observationId = [persistenceManager saveObservation:observation];
+                        }
+                    }
+                } else {
+                    inventory.area = area;
+                    inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                    for (Observation *observation in inventory.observations) {
+                        observation.inventory = inventory;
+                        observation.observationId = [persistenceManager saveObservation:observation];
+                    }
+                }
+            }
+        } else {
+            area.areaId = [persistenceManager saveArea:area];
+            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
+            for (Inventory *inventory in area.inventories) {
+                inventory.area = area;
+                inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    observation.inventory = inventory;
+                    observation.observationId = [persistenceManager saveObservation:observation];
+                }
             }
         }
     }

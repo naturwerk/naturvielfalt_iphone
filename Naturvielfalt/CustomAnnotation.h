@@ -12,7 +12,7 @@
 
 
 @interface CustomAnnotation : NSObject <MKAnnotation> {
-    //Area *area;
+
     DrawMode annotationType;
     BOOL persisted;
     NSString *title;

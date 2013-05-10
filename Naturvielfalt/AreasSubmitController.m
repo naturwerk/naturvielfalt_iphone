@@ -35,27 +35,6 @@
     return self;
 }
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [tableView reloadData];
-    
-    if (area.persisted) {
-        // Set top navigation bar button
-        UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                         initWithTitle:NSLocalizedString(@"navChange", nil)
-                                         style:UIBarButtonItemStyleBordered
-                                         target:self
-                                         action: @selector(saveArea)];
-        self.navigationItem.rightBarButtonItem = submitButton;
-    }
-    
-    if ([area.name compare:@""] == 0) {
-        areaName.text = NSLocalizedString(@"areaEmptyTitle", nil);
-    } else {
-        areaName.text = area.name;
-    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -130,7 +109,7 @@
     arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.name, area.description, @">", nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     
     if (area.areaId) {
         if (!persistenceManager) {
@@ -155,6 +134,25 @@
             lps = nil;
         }
     }
+    
+    [tableView reloadData];
+    
+    if (area.persisted) {
+        // Set top navigation bar button
+        UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
+                                         initWithTitle:NSLocalizedString(@"navChange", nil)
+                                         style:UIBarButtonItemStyleBordered
+                                         target:self
+                                         action: @selector(saveArea)];
+        self.navigationItem.rightBarButtonItem = submitButton;
+    }
+    
+    if ([area.name compare:@""] == 0) {
+        areaName.text = NSLocalizedString(@"areaEmptyTitle", nil);
+    } else {
+        areaName.text = area.name;
+    }
+
 }
 
 

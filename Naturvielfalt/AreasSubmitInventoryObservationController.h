@@ -33,6 +33,5 @@
 @property (nonatomic) IBOutlet UILabel *observationLabel;
 @property (nonatomic) IBOutlet UITableView *observationsTableView;
 
-
 - (IBAction)newObservation:(id)sender;
 @end

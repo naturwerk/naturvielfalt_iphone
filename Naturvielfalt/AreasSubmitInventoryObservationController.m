@@ -46,13 +46,6 @@
     // Reload table
     [observationsTableView reloadData];
 }
-- (void)viewWillAppear:(BOOL)animated {
-    
-    [self prepareData];
-    
-    // Reload table
-    [observationsTableView reloadData];
-}
 
 - (void)viewDidAppear:(BOOL)animated {
     if (inventory.inventoryId) {
@@ -100,7 +93,10 @@
             lps = nil;
         }
     }
-
+    [self prepareData];
+    
+    // Reload table
+    [observationsTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning

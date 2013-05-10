@@ -37,12 +37,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [self prepareData];
-    [tableView reloadData];
-}
-
 - (void) viewDidAppear:(BOOL)animated {
     if (inventory.inventoryId) {
         if (!persistenceManager) {
@@ -88,7 +82,9 @@
             lps = nil;
         }
     }
-
+    
+    [self prepareData];
+    [tableView reloadData];
 }
 
 - (void)viewDidLoad

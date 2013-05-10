@@ -55,12 +55,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    
-    // Reload table
-    [inventoriesTable reloadData];
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     
     if (area.areaId) {
@@ -85,6 +79,8 @@
             lps = nil;
         }
     }
+    // Reload table
+    [inventoriesTable reloadData];
 }
 
 - (void)viewDidUnload {

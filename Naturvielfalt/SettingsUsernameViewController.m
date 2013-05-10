@@ -62,25 +62,14 @@
 }
 
 - (void) saveUsername {
-    // Change view back to submitController
-    SettingsViewController *settingsViewController = [[SettingsViewController alloc] 
-                                                      initWithNibName:@"SettingsViewController" 
-                                                      bundle:[NSBundle mainBundle]];
-    
-
     // Store the username in the appSettings
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     [appSettings setObject:textView.text forKey:@"username"];
     [appSettings synchronize];
     
-    
     // Switch the View & Controller
     // POP
     [self.navigationController popViewControllerAnimated:TRUE];
-    
-    // PUSH
-    [self.navigationController pushViewController:settingsViewController animated:TRUE];
-    settingsViewController = nil;
 }
 
 - (void)viewDidUnload

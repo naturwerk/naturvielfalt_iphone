@@ -32,12 +32,12 @@
         [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationbar.png"] forBarMetrics:UIBarMetricsDefault];
     }
     
-    // Create the ObservationsOrganismViewController
+    // Create the AreasViewController
     AreasViewController *viewController = [[AreasViewController alloc] 
                                               initWithNibName:@"AreasViewController" 
                                               bundle:[NSBundle mainBundle]];
     
-    // Load first Observations view controller
+    // Load first areas view controller
     [self pushViewController:viewController animated:YES];
     
     viewController = nil;

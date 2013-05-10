@@ -22,9 +22,11 @@
     return self;
 }
 
-- (id) initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
-    
+- (id) initWithAnnotation:(id<MKAnnotation>)annotation navigationController:(UINavigationController*)nc observationsOrganismSubmitController:(ObservationsOrganismSubmitController*)oc reuseIdentifier:(NSString *)reuseIdentifier{
+
     observationAnnotation = (CustomObservationAnnotation *)annotation;
+    organismSubmitController = oc;
+    navigationController = nc;
     
     self = [super initWithAnnotation:observationAnnotation reuseIdentifier:reuseIdentifier];
     
@@ -103,23 +105,28 @@
 - (IBAction)showSettingsPressed:(id)sender {
     NSLog(@"showSettingsPressed");
     
-    /*if (!areasSubmitController) {
-        areasSubmitController = [[AreasSubmitController alloc]
-                                 initWithNibName:@"AreasSubmitController"
-                                 bundle:[NSBundle mainBundle]];
+    if (!organismSubmitController) {
+        // Create the ObservationsOrganismViewController
+        organismSubmitController = [[ObservationsOrganismSubmitController alloc]
+                                                                          initWithNibName:@"ObservationsOrganismSubmitController"
+                                                                          bundle:[NSBundle mainBundle]];
     }
     
     if (navigationController) {
+
+        // Store the current observation object
+        Observation *observationShared = [[Observation alloc] getObservation];
+        [observationShared setObservation:observationAnnotation.observation];
         
-        areasSubmitController.area = customAnnotation.area;
-        areasSubmitController.review = YES;
+        // Set the current displayed organism
+        organismSubmitController.observation = observationAnnotation.observation;
+        organismSubmitController.organism = observationAnnotation.observation.organism;
+        organismSubmitController.review = YES;
+        
         // Switch the View & Controller
-        // POP
-        [navigationController popViewControllerAnimated:TRUE];
-        
-        // PUSH
-        [navigationController pushViewController:areasSubmitController animated:TRUE];
-    }*/
+        [navigationController pushViewController:organismSubmitController animated:TRUE];
+        organismSubmitController = nil;
+    }
 }
 
 /*

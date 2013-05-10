@@ -59,21 +59,18 @@
     // Save the description
     inventory.name = textView.text;
     
-    
-    // Change view back to submitController
-    AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
-                                                    initWithNibName:@"AreasSubmitNewInventoryController"
-                                                    bundle:[NSBundle mainBundle]];
-    
+    if (inventory.inventoryId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        [persistenceManager establishConnection];
+        [persistenceManager updateInventory:inventory];
+        [persistenceManager closeConnection];
+    }
     
     // Switch the View & Controller
-    
     // POP
     [self.navigationController popViewControllerAnimated:TRUE];
-    
-    // PUSH
-    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
-    areasSubmitNewInventoryController = nil;
 }
 
 

@@ -46,10 +46,61 @@
     // Reload table
     [observationsTableView reloadData];
 }
-
 - (void)viewWillAppear:(BOOL)animated {
+    
+    [self prepareData];
+    
     // Reload table
     [observationsTableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (inventory.inventoryId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        
+        [persistenceManager establishConnection];
+        inventory = [persistenceManager getInventory:inventory.inventoryId];
+
+        [persistenceManager closeConnection];
+        
+        if (!inventory) {
+            NSLog(@"inventory was deleted, go back");
+            [inventory setInventory:nil];
+            inventory = nil;
+            [self.navigationController popViewControllerAnimated:TRUE];
+            return;
+        }
+    }
+    
+    if (area.areaId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        
+        [persistenceManager establishConnection];
+        Area *tmpArea = [persistenceManager getArea:area.areaId];
+        [persistenceManager closeConnection];
+        
+        if (!tmpArea) {
+            NSLog(@"area was deleted, go back");
+            [inventory setInventory:nil];
+            inventory = nil;
+            [area setArea:nil];
+            area = nil;
+            [self.navigationController popViewControllerAnimated:TRUE];
+            return;
+        } else {
+            // copy locationpoints from old area object
+            NSMutableArray *lps = [[NSMutableArray alloc] initWithArray:area.locationPoints];
+            area = tmpArea;
+            area.locationPoints = [[NSMutableArray alloc] initWithArray:lps];
+            inventory.area = area;
+            lps = nil;
+        }
+    }
+
 }
 
 - (void)didReceiveMemoryWarning

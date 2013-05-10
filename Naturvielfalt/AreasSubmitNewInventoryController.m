@@ -37,17 +37,58 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void) viewDidAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
+    [self prepareData];
     [tableView reloadData];
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-    if ([inventory.name compare:@""] == 0) {
-        inventoryName.text = NSLocalizedString(@"areaInventoryEmptyTitle", nil);
-    } else {
-        inventoryName.text = inventory.name;
+- (void) viewDidAppear:(BOOL)animated {
+    if (inventory.inventoryId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        
+        [persistenceManager establishConnection];
+        inventory = [persistenceManager getInventory:inventory.inventoryId];
+        [persistenceManager closeConnection];
+        
+        if (!inventory) {
+            NSLog(@"inventory was deleted, go back");
+            [inventory setInventory:nil];
+            inventory = nil;
+            [self.navigationController popViewControllerAnimated:TRUE];
+            return;
+        }
     }
+    
+    if (area.areaId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        
+        [persistenceManager establishConnection];
+        Area *tmpArea = [persistenceManager getArea:area.areaId];
+        [persistenceManager closeConnection];
+        
+        if (!tmpArea) {
+            NSLog(@"area was deleted, go back");
+            [inventory setInventory:nil];
+            inventory = nil;
+            [area setArea:nil];
+            area = nil;
+            [self.navigationController popViewControllerAnimated:TRUE];
+            return;
+        } else {
+            // copy locationpoints from old area object
+            NSMutableArray *lps = [[NSMutableArray alloc] initWithArray:area.locationPoints];
+            area = tmpArea;
+            area.locationPoints = [[NSMutableArray alloc] initWithArray:lps];
+            inventory.area = area;
+            lps = nil;
+        }
+    }
+
 }
 
 - (void)viewDidLoad
@@ -122,6 +163,11 @@
         inventory.author = area.author;
     }
     
+    if ([inventory.name compare:@""] == 0) {
+        inventoryName.text = NSLocalizedString(@"areaInventoryEmptyTitle", nil);
+    } else {
+        inventoryName.text = inventory.name;
+    }
     
     // Get formatted date string
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -269,15 +315,12 @@
     self.navigationItem.rightBarButtonItem = submitButton;
     [tableView reloadData];
 
-    
     [self.navigationController popViewControllerAnimated:TRUE];
-    [self.navigationController pushViewController:self.parentViewController animated:TRUE];
 }
 
 - (void) abortInventory {
     NSLog(@"Abort Inventory pressed");
     [self.navigationController popViewControllerAnimated:TRUE];
-    [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
 }
 
 - (void) newObservation {
@@ -519,7 +562,6 @@
             [inventory setInventory:nil];
             
             [self.navigationController popViewControllerAnimated:TRUE];
-            [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
             break;
         }
         case 1:

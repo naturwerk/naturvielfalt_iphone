@@ -35,9 +35,25 @@
     return self;
 }
 
-- (void) viewDidAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
     [tableView reloadData];
+    
+    if (area.persisted) {
+        // Set top navigation bar button
+        UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
+                                         initWithTitle:NSLocalizedString(@"navChange", nil)
+                                         style:UIBarButtonItemStyleBordered
+                                         target:self
+                                         action: @selector(saveArea)];
+        self.navigationItem.rightBarButtonItem = submitButton;
+    }
+    
+    if ([area.name compare:@""] == 0) {
+        areaName.text = NSLocalizedString(@"areaEmptyTitle", nil);
+    } else {
+        areaName.text = area.name;
+    }
 }
 
 - (void)viewDidLoad
@@ -114,21 +130,30 @@
     arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.name, area.description, @">", nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    if (area.persisted) {
-        // Set top navigation bar button
-        UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                         initWithTitle:NSLocalizedString(@"navChange", nil)
-                                         style:UIBarButtonItemStyleBordered
-                                         target:self
-                                         action: @selector(saveArea)];
-        self.navigationItem.rightBarButtonItem = submitButton;
-    }
+- (void)viewDidAppear:(BOOL)animated {
     
-    if ([area.name compare:@""] == 0) {
-        areaName.text = NSLocalizedString(@"areaEmptyTitle", nil);
-    } else {
-        areaName.text = area.name;
+    if (area.areaId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        
+        [persistenceManager establishConnection];
+        Area *tmpArea = [persistenceManager getArea:area.areaId];
+        [persistenceManager closeConnection];
+        
+        if (!tmpArea) {
+            NSLog(@"area was deleted, go back to map");
+            [area setArea:nil];
+            area = nil;
+            [self.navigationController popViewControllerAnimated:TRUE];
+            return;
+        } else {
+            // copy locationpoints from old area object
+            NSMutableArray *lps = [[NSMutableArray alloc] initWithArray:area.locationPoints];
+            area = tmpArea;
+            area.locationPoints = [[NSMutableArray alloc] initWithArray:lps];
+            lps = nil;
+        }
     }
 }
 
@@ -263,32 +288,25 @@
     [tableView reloadData];;
 
 
+    if (!areasViewController) {
+        areasViewController = [[AreasViewController alloc]
+                               initWithNibName:@"AreasViewController"
+                               bundle:[NSBundle mainBundle] area:area];
+    } else {
+        areasViewController.area = area;
+    }
 
-    areasViewController = [[AreasViewController alloc]
-                                                    initWithNibName:@"AreasViewController"
-                                                    bundle:[NSBundle mainBundle] area:area];
-    
     [self.navigationController popViewControllerAnimated:TRUE];
-    [self.navigationController pushViewController:areasViewController animated:TRUE];
-
 }
 
 - (void) abortArea
 {
     NSLog(@"abortArea");
     [self.navigationController popViewControllerAnimated:TRUE];
-    [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
-    
-    if (!areasViewController) {
-        areasViewController = [[AreasViewController alloc]
-                               initWithNibName:@"AreasViewController"
-                               bundle:[NSBundle mainBundle] area:area];
-    }
 }
 
 - (void) newInventory {
     NSLog(@"new inventory pressed");
-    
     if ([area.name compare:@""] == 0) {
         UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
                                                             message:NSLocalizedString(@"alertMessageAreaName", nil) delegate:self cancelButtonTitle:nil
@@ -574,7 +592,6 @@
             [persistenceManager closeConnection];
             
             [self.navigationController popViewControllerAnimated:TRUE];
-            [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
             [area setArea:nil];
             
             if (!areasViewController) {

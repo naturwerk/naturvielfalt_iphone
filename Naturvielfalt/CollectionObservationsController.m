@@ -575,7 +575,7 @@
 
     NSString *identifier = @"AnnotationId";
     CustomObservationAnnotationView *newAnnotationView = (CustomObservationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-    newAnnotationView = [[CustomObservationAnnotationView alloc] initWithAnnotation:observationAnnotation reuseIdentifier:identifier];
+    newAnnotationView = [[CustomObservationAnnotationView alloc] initWithAnnotation:observationAnnotation  navigationController:self.navigationController observationsOrganismSubmitController:nil reuseIdentifier:identifier];
     CustomObservationAnnotationView *customObservationAnnotationView = newAnnotationView;
     [customObservationAnnotationView setEnabled:YES];
     

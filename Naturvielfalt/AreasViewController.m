@@ -149,6 +149,7 @@
     [self showStartModeAppearance];
     locationPoints = nil;
     currentDrawMode = 0;
+    area = nil;
 
     for (id<MKAnnotation> annotation in mapView.selectedAnnotations) {
         [mapView deselectAnnotation:annotation animated:NO];
@@ -173,14 +174,14 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void) deleteAllAreas {
+- (void) deleteAllAreasOnMap {
     [mapView removeAnnotations:mapView.annotations];
     [mapView removeOverlays:mapView.overlays];
 }
 
 - (void) loadAreas
 {
-    [self deleteAllAreas];
+    [self deleteAllAreasOnMap];
     
     if (!persistenceManager) {
         persistenceManager = [[PersistenceManager alloc] init];
@@ -188,6 +189,8 @@
     [persistenceManager establishConnection];
     
     NSMutableArray *areas = [persistenceManager getAreas];
+    // Close connection
+    [persistenceManager closeConnection];
 
     for (Area *a in areas) {
         area = a;
@@ -245,9 +248,6 @@
         }
         [self showPersistedAppearance];
     }
-    
-    // Close connection
-    [persistenceManager closeConnection];
 }
 
 - (void) showAllAreasInRect {
@@ -366,7 +366,7 @@
     }
     // Switch the View & Controller
     // POP
-    [self.navigationController popViewControllerAnimated:TRUE];
+    //[self.navigationController popViewControllerAnimated:TRUE];
     
     if (area.areaId) {
         areasSubmitController.review = YES;

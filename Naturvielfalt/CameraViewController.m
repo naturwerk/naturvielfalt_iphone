@@ -62,6 +62,21 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     [self updateDisplay];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    if (area) {
+        if(!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        [persistenceManager establishConnection];
+        Area *tmpArea = [persistenceManager getArea:area.areaId];
+        [persistenceManager closeConnection];
+        
+        if (!tmpArea) {
+            [self.navigationController popViewControllerAnimated:TRUE];
+        }
+    }
+}
+
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];

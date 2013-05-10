@@ -43,6 +43,10 @@
 
 #pragma mark - View lifecycle
 
+- (void) viewWillAppear:(BOOL)animated {
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -151,6 +155,11 @@
 
 - (void) saveObservation 
 {
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
+    [persistenceManager establishConnection];
+    
     // Area feature if inventory object is set
     if (inventory) {
         //Do not persist, if inventory is cancelled later.
@@ -159,20 +168,26 @@
         // No duplicates, so remove if contains
         [inventory.observations removeObject:observation];
         [inventory.observations addObject:observation];
-    } else {
-        persistenceManager = [[PersistenceManager alloc] init];
-        [persistenceManager establishConnection];
         
+        if (inventory.inventoryId) {
+            if (observation.observationId) {
+                [persistenceManager updateObservation:observation];
+            } else {
+                [persistenceManager saveObservation:observation];
+            }
+        }
+    } else {
+
         // Save and persist observation
         if(review) {
             [persistenceManager updateObservation:observation];
         } else {
             observation.observationId = [persistenceManager saveObservation:observation];
         }
-        
-        // Close connection
-        [persistenceManager closeConnection];
     }
+    
+    // Close connection
+    [persistenceManager closeConnection];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -209,13 +224,11 @@
         //TODO go back to the artgroup
     }
     [self.navigationController popViewControllerAnimated:TRUE];
-    [self.navigationController pushViewController:self.parentViewController animated:TRUE];
 }
 
 - (void) abortObservation
 {
     [self.navigationController popViewControllerAnimated:TRUE];
-    [self.navigationController pushViewController:self.navigationController.parentViewController animated:TRUE];
 }
 
 - (void)viewDidUnload

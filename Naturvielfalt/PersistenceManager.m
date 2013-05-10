@@ -593,6 +593,7 @@
     } else {
         NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
     }
+    [self deleteLocationPoints:areaId];
     // Finalize and close database.
     sqlite3_finalize(statement);
 }

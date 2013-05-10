@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "Area.h"
+#import "PersistenceManager.h"
 
 @interface AreasSubmitDescriptionController : UIViewController {
     
     Area *area;
+    PersistenceManager *persistenceManager;
     IBOutlet UITextView *textView;
 }
 

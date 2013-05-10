@@ -58,21 +58,17 @@
     // Save the description
     area.description = textView.text;
     
-    
-    // Change view back to submitController
-    AreasSubmitController *areasSubmitController = [[AreasSubmitController alloc]
-                                                                      initWithNibName:@"AreasSubmitController"
-                                                                      bundle:[NSBundle mainBundle]];
-    
-    
-    // Switch the View & Controller
+    if (area.areaId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        [persistenceManager establishConnection];
+        [persistenceManager updateArea:area];
+        [persistenceManager closeConnection];
+    }
     
     // POP
     [self.navigationController popViewControllerAnimated:TRUE];
-    
-    // PUSH
-    [self.navigationController pushViewController:areasSubmitController animated:TRUE];
-    areasSubmitController = nil;
 }
 
 - (void)viewDidUnload {

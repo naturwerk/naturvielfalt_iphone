@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "Inventory.h"
+#import "PersistenceManager.h"
 
 @interface AreasSubmitInventoryNameController : UIViewController {
     
     IBOutlet UITextView *textView;
+    PersistenceManager *persistenceManager;
     Inventory *inventory;
 }
 

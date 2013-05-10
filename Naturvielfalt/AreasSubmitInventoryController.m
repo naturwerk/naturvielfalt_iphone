@@ -56,8 +56,35 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     // Reload table
     [inventoriesTable reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    if (area.areaId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        
+        [persistenceManager establishConnection];
+        Area *tmpArea = [persistenceManager getArea:area.areaId];
+        [persistenceManager closeConnection];
+        
+        if (!tmpArea) {
+            NSLog(@"area was deleted, go back");
+            [area setArea:nil];
+            area = nil;
+            [self.navigationController popViewControllerAnimated:TRUE];
+        } else {
+            // copy locationpoints from old area object
+            NSMutableArray *lps = [[NSMutableArray alloc] initWithArray:area.locationPoints];
+            area = tmpArea;
+            area.locationPoints = [[NSMutableArray alloc] initWithArray:lps];
+            lps = nil;
+        }
+    }
 }
 
 - (void)viewDidUnload {

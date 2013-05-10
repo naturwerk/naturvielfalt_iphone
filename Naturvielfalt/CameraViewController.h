@@ -12,9 +12,11 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "Observation.h"
 #import "Area.h"
+#import "PersistenceManager.h"
 
 @interface CameraViewController : UIViewController
 <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+    PersistenceManager *persistenceManager;
     UIImageView *imageView;
     UIButton *takePictureButton;
     MPMoviePlayerController *moviePlayerController;

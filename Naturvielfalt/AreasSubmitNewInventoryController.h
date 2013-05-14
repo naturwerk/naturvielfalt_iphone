@@ -11,7 +11,7 @@
 #import "Inventory.h"
 #import "PersistenceManager.h"
 
-@interface AreasSubmitNewInventoryController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
+@interface AreasSubmitNewInventoryController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate> {
     Area *area;
     Inventory *inventory;
     NSArray *arrayKeys;

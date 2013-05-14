@@ -538,26 +538,40 @@
 }
 
 #pragma mark
+#pragma UIAlertViewDelegate Methods
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        //ok pressed
+        NSLog(@"delete Inventory");
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        [persistenceManager establishConnection];
+        [persistenceManager deleteObservations:inventory.observations];
+        [persistenceManager deleteInventory:inventory.inventoryId];
+        [persistenceManager closeConnection];
+        
+        [area.inventories removeObjectAtIndex:currIndexPath.row];
+        
+        [inventory setInventory:nil];
+        
+        [self.navigationController popViewControllerAnimated:TRUE];
+    } else {
+        [tableView deselectRowAtIndexPath:currIndexPath animated:YES];
+    }
+}
+
+#pragma mark
 #pragma UIActionSheetDelegate Methods
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     switch (buttonIndex) {
         case 0:
         {
-            NSLog(@"delete Area");
-            if (!persistenceManager) {
-                persistenceManager = [[PersistenceManager alloc] init];
-            }
-            [persistenceManager establishConnection];
-            [persistenceManager deleteObservations:inventory.observations];
-            [persistenceManager deleteInventory:inventory.inventoryId];
-            [persistenceManager closeConnection];
-            
-            [area.inventories removeObjectAtIndex:currIndexPath.row];
-            
-            [inventory setInventory:nil];
-            
-            [self.navigationController popViewControllerAnimated:TRUE];
+            UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"areaInventoryDelete", nil)
+                                                                message:NSLocalizedString(@"areaInventoryDeleteMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil)
+                                                      otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+            [areaAlert show];
             break;
         }
         case 1:

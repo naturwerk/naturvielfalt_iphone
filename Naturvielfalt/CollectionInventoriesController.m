@@ -74,7 +74,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     tableView.editing = FALSE;
-    [self beginLoadingInventories];
+    [self reloadInventories];
 }
 
 - (void) removeInventories

@@ -72,7 +72,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     tableView.editing = FALSE;
-    [self beginLoadingAreas];
+    [self reloadAreas];
 }
 
 //Check if there is an active WiFi connection

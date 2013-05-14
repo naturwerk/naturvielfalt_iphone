@@ -14,6 +14,7 @@
 @interface AreasSubmitController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
     
     Area *area;
+    Area *persistedArea;
     PersistenceManager *persistenceManager;
     NSArray *arrayKeys;
     NSArray *arrayValues;

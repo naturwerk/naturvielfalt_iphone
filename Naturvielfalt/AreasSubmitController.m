@@ -117,10 +117,16 @@
         }
         
         [persistenceManager establishConnection];
-        Area *tmpArea = [persistenceManager getArea:area.areaId];
+        persistedArea = [persistenceManager getArea:area.areaId];
         [persistenceManager closeConnection];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    if (area.areaId) {
         
-        if (!tmpArea) {
+        if (!persistedArea) {
             NSLog(@"area was deleted, go back to map");
             [area setArea:nil];
             area = nil;
@@ -129,7 +135,7 @@
         } else {
             // copy locationpoints from old area object
             NSMutableArray *lps = [[NSMutableArray alloc] initWithArray:area.locationPoints];
-            area = tmpArea;
+            area = persistedArea;
             area.locationPoints = [[NSMutableArray alloc] initWithArray:lps];
             lps = nil;
         }

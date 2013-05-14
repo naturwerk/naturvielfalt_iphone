@@ -220,6 +220,7 @@
     //[hud hide:true];
     
     [observation setObservation:nil];
+    [inventory setInventory:nil];
     
     if(comeFromOrganism){
         //TODO go back to the artgroup

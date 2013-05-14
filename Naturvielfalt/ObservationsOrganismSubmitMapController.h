@@ -18,6 +18,7 @@
     IBOutlet UIButton *setButton;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
+    NSInteger currentAccuracy;
     Observation *observation;
     DDAnnotation *annotation;
     
@@ -40,7 +41,8 @@
 
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate;
 - (void) returnBack;
-- (void) relocate;
+//- (void) relocate;
+- (IBAction)relocate:(id)sender;
 
 
 @end

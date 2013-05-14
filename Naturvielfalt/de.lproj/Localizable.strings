@@ -75,6 +75,7 @@
 "areaUndo"						= "Zurück";
 "areaAdd"						= "Setzen";
 "areaDelete"					= "Gebiet löschen";
+"areaDeleteMessage"				= "Wollen Sie wirklich das Gebiet und die dazugehörigen Inventare löschen?";
 
 // Area actionSheet
 "areaPinMod"                    = "Pin";
@@ -104,6 +105,11 @@
 // Area inventory
 "areaInventoryDelete"			= "Inventar löschen";
 "areaInventoryEmptyTitle"		= "Kein Inventarname";
+"areaInventoryDeleteMessage"	= "Wollen Sie wirklich das Inventar und die dazugehörigen Beobachtungen löschen?";
+
+// Area observation
+"areaObservationDelete"			= "Beobachtung löschen";
+"areaObservationDelete"			= "Wollen Sie wirklich die Beobachtung löschen?";
 
 /** Collection **/
 "collectionNavTitle"            = "Erfassungen";

@@ -71,6 +71,7 @@
 "areaUndo"						= "Undo";
 "areaAdd"						= "Add";
 "areaDelete"					= "Delete area";
+"areaDeleteMessage"				= "Are you sure you want to delete area and included inventories?";
 
 // Area actionSheet
 "areaPinMod"                    = "Pin";
@@ -100,6 +101,11 @@
 // Area inventory
 "areaInventoryDelete"			= "Delete inventory";
 "areaInventoryEmptyTitle"		= "No inventory title";
+"areaInventoryDeleteMessage"	= "Are you sure you want to delete inventory and included observations?";
+
+// Area observation
+"areaObservationDelete"			= "Delete observation";
+"areaObservationDeleteMessage"	= "Are you sure you want to delete observation?";
 
 /** Collection **/
 "collectionNavTitle"            = "Collection";

@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "PersistenceManager.h"
 
-@interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>  {
+@interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>  {
     Organism *__weak organism;
     Observation *__weak observation;
     IBOutlet UILabel *nameDe;
@@ -22,6 +22,9 @@
     UIImage *accuracyImage;
     NSString *accuracyText;
     CLLocationManager *locationManager;
+    UIActionSheet *deleteObservationSheet;
+    NSIndexPath *currIndexPath;
+    
     
     NSArray *arrayKeys;
     NSArray *arrayValues;

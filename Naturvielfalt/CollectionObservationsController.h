@@ -51,7 +51,7 @@
 - (BOOL) connectedToWiFi;
 - (void) checkboxEvent:(UIButton *)sender;
 - (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request;
-- (IBAction)segmentChanged:(id)sender;
+
 
 
 @end

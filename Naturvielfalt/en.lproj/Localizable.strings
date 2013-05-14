@@ -146,6 +146,10 @@
 "settingsPwd"                   = "Password";
 "settingsWikiImg"               = "Load Wikipedia images";
 "settingsWikiArt"               = "Check Wikipedia article";
+"settingsMap"					= "Map";
+"settingsMapSatellite"			= "Satellite";
+"settingsMapHybrid"				= "Hybrid";
+"settingsMapStandard"			= "Standard";
 
 /** Info **/
 "infoNavTitle"                  = "Naturvielfalt";

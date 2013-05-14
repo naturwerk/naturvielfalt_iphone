@@ -11,7 +11,9 @@
 
 @interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     IBOutlet UITableView *tableView;
-    NSMutableArray *titles;
+    NSMutableArray *titlesSectionOne;
+    NSMutableArray *titlesSectionTwo;
+    UISegmentedControl *segmentControl;
 }
 
 @property (nonatomic) IBOutlet UITableView *tableView;

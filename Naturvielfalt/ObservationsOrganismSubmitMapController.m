@@ -127,6 +127,16 @@
 - (void) viewWillAppear:(BOOL)animated {
     currentLocation = observation.location;
     currentAccuracy = observation.accuracy;
+    
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    
+    int mapType = [[appSettings stringForKey:@"mapType"] integerValue];
+    
+    switch (mapType) {
+        case 1:{mapView.mapType = MKMapTypeSatellite;break;}
+        case 2:{mapView.mapType = MKMapTypeHybrid;break;}
+        case 3:{mapView.mapType = MKMapTypeStandard;break;}
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated {

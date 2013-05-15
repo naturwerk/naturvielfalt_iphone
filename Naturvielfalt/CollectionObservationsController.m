@@ -243,7 +243,7 @@
             [request setValidatesSecureCertificate: YES];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"dd.MM.yyyy";
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
             [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
             NSString *dateString = [dateFormatter stringFromDate:ob.date];
             

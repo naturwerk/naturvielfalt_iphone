@@ -109,7 +109,7 @@
 
 // Area observation
 "areaObservationDelete"			= "Beobachtung löschen";
-"areaObservationDelete"			= "Wollen Sie wirklich die Beobachtung löschen?";
+"areaObservationDeleteMessage"			= "Wollen Sie wirklich die Beobachtung löschen?";
 
 /** Collection **/
 "collectionNavTitle"            = "Erfassungen";

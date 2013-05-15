@@ -137,10 +137,8 @@
         case 2:{mapView.mapType = MKMapTypeHybrid;break;}
         case 3:{mapView.mapType = MKMapTypeStandard;break;}
     }
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-    [self zoomToUserLocation];
+    
+    [self zoomToAnnotation];
 }
 
 - (IBAction)setPin:(id)sender {
@@ -226,14 +224,14 @@
     self.mapView.showsUserLocation = YES;
     
 }*/
-- (void) zoomToUserLocation {
+- (void) zoomToAnnotation {
     MKCoordinateRegion region;
     MKCoordinateSpan span;
     span.latitudeDelta = 0.005;
     span.longitudeDelta = 0.005;
     CLLocationCoordinate2D location;
-    location.latitude = mapView.userLocation.coordinate.latitude;
-    location.longitude = mapView.userLocation.coordinate.longitude;
+    location.latitude = annotation.coordinate.latitude;
+    location.longitude = annotation.coordinate.longitude;
     region.span = span;
     region.center = location;
     [mapView setRegion:region animated:YES];

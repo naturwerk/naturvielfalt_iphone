@@ -29,9 +29,10 @@
     self.settingsTabItem.title = NSLocalizedString(@"settingsTabLabel", nil);
     [self.window makeKeyAndVisible];
     
-    // Store the username in the appSettings
+    // Store default settings in the appSettings
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     [appSettings setObject:@"waebi07" forKey:@"username"];
+    [appSettings setObject:@"2" forKey:@"mapType"];
     [appSettings synchronize];
     
     return YES;

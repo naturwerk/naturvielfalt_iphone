@@ -19,6 +19,10 @@
 #define imgWidht  25
 #define imgHeight 25
 
+#define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
+#define ANNOTATION_REGION_PAD_FACTOR 1.15
+#define MAX_DEGREES_ARC 360
+
 @implementation AreasViewController
 @synthesize area, cancelButton, saveButton, undoButton, setButton, gpsButton, modeButton, hairlinecross;
 
@@ -131,11 +135,6 @@
     shouldAdjustZoom = YES;
     
     [self loadAreas];
-    if (mapView.overlays.count > 0 || mapView.annotations.count > 0) {
-        [self showAllAreasInRect];
-    } else {
-        [self relocate:nil];
-    }
 }
 
 
@@ -165,6 +164,8 @@
         case 2:{mapView.mapType = MKMapTypeHybrid;break;}
         case 3:{mapView.mapType = MKMapTypeStandard;break;}
     }
+    
+    [self zoomMapViewToFitAnnotations:YES];
 }
 
 - (void)viewDidUnload
@@ -260,38 +261,44 @@
     }
 }
 
-- (void) showAllAreasInRect {
+- (void)zoomMapViewToFitAnnotations:(BOOL)animated
+{
+    NSArray *annotations = mapView.annotations;
+    int count = [mapView.annotations count];
+    if ( count == 0) { return; } //bail if no annotations
     
-    NSLog(@"showAllAreasInRect");
-    
-    // Walk the list of overlays and annotations and create a MKMapRect that
-    // bounds all of them and store it into flyTo.
-    MKMapRect flyTo = MKMapRectNull;
-    for (id <MKOverlay> overlay in mapView.overlays) {
-        if (MKMapRectIsNull(flyTo)) {
-            flyTo = [overlay boundingMapRect];
-        } else {
-            flyTo = MKMapRectUnion(flyTo, [overlay boundingMapRect]);
-        }
+    //convert NSArray of id <MKAnnotation> into an MKCoordinateRegion that can be used to set the map size
+    //can't use NSArray with MKMapPoint because MKMapPoint is not an id
+    MKMapPoint points[count]; //C array of MKMapPoint struct
+    for( int i=0; i<count; i++ ) //load points C array by converting coordinates to points
+    {
+        CLLocationCoordinate2D coordinate = [(id <MKAnnotation>)[annotations objectAtIndex:i] coordinate];
+        points[i] = MKMapPointForCoordinate(coordinate);
     }
+    //create MKMapRect from array of MKMapPoint
+    MKMapRect mapRect = [[MKPolygon polygonWithPoints:points count:count] boundingMapRect];
+    //convert MKCoordinateRegion from MKMapRect
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(mapRect);
     
-    for (id <MKAnnotation> annotation in mapView.annotations) {
-        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
-        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 25, 25);
-        if (MKMapRectIsNull(flyTo)) {
-            flyTo = pointRect;
-        } else {
-            flyTo = MKMapRectUnion(flyTo, pointRect);
-        }
+    //add padding so pins aren't scrunched on the edges
+    region.span.latitudeDelta  *= ANNOTATION_REGION_PAD_FACTOR;
+    region.span.longitudeDelta *= ANNOTATION_REGION_PAD_FACTOR;
+    //but padding can't be bigger than the world
+    if( region.span.latitudeDelta > MAX_DEGREES_ARC ) { region.span.latitudeDelta  = MAX_DEGREES_ARC; }
+    if( region.span.longitudeDelta > MAX_DEGREES_ARC ){ region.span.longitudeDelta = MAX_DEGREES_ARC; }
+    
+    //and don't zoom in stupid-close on small samples
+    if( region.span.latitudeDelta  < MINIMUM_ZOOM_ARC ) { region.span.latitudeDelta  = MINIMUM_ZOOM_ARC; }
+    if( region.span.longitudeDelta < MINIMUM_ZOOM_ARC ) { region.span.longitudeDelta = MINIMUM_ZOOM_ARC; }
+    //and if there is a sample of 1 we want the max zoom-in instead of max zoom-out
+    if( count == 1 )
+    {
+        region.span.latitudeDelta = MINIMUM_ZOOM_ARC;
+        region.span.longitudeDelta = MINIMUM_ZOOM_ARC;
     }
-    
-    flyTo.origin.x -= 25000;
-    //flyTo.origin.y += 25000;
-    flyTo.size.width += 50000;
-    //flyTo.size.height +=50000;
-    // Position the map so that all overlays and annotations are visible on screen.
-    mapView.visibleMapRect = flyTo;
+    [mapView setRegion:region animated:animated];
 }
+
 
 - (void) showPersistedAppearance {
     NSLog(@"show persisted area appereance");

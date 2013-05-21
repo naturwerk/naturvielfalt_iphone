@@ -13,34 +13,37 @@
 #import "Observation.h"
 #import "Area.h"
 #import "PersistenceManager.h"
+#import "PhotoViewController.h"
+#import "AFImageViewer.h"
 
 @interface CameraViewController : UIViewController
 <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     PersistenceManager *persistenceManager;
-    UIImageView *imageView;
     UIButton *takePictureButton;
     MPMoviePlayerController *moviePlayerController;
-    UIImage *image;
     NSURL *movieURL;
     NSString *lastChosenMediaType;
     CGRect imageFrame;
     Observation *observation;
     Area *area;
+    AFImageViewer *imageViewer;
     
     IBOutlet UIButton *takePhotoButton;
     IBOutlet UIButton *chooseExistingButton;
+    IBOutlet UIButton *deletePhotoButton;
 }
-@property (nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic) IBOutlet UIButton *takePictureButton;
 @property (nonatomic) MPMoviePlayerController *moviePlayerController;
-@property (nonatomic) UIImage *image;
 @property (nonatomic) NSURL *movieURL;
 @property (nonatomic, copy) NSString *lastChosenMediaType;
 @property (nonatomic) Observation *observation;
 @property (nonatomic) Area *area;
 @property (nonatomic) IBOutlet UIButton *chooseExistingButton;
 @property (nonatomic) IBOutlet UIButton *takePhotoButton;
+@property (nonatomic) IBOutlet UIButton *deletePhotoButton;
 
 - (IBAction)shootPictureOrVideo:(id)sender;
 - (IBAction)selectExistingPictureOrVideo:(id)sender;
+- (IBAction)deleteCurrentPhoto:(id)sender;
+
 @end

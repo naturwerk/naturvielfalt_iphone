@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		27008FEF1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */; };
+		2703452F1743A0DF00AF0C3A /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2703452E1743A0DF00AF0C3A /* ImageScrollView.m */; };
+		270345331743A19100AF0C3A /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 270345321743A19100AF0C3A /* PhotoViewController.m */; };
 		270D38FE1738D09400D94568 /* DeleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D38FD1738D09400D94568 /* DeleteCell.m */; };
 		270D390117393DE600D94568 /* CustomObservationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D390017393DE600D94568 /* CustomObservationAnnotation.m */; };
 		270D3904173940C300D94568 /* CustomObservationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D3903173940C200D94568 /* CustomObservationAnnotationView.m */; };
@@ -49,6 +51,13 @@
 		27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB14322C148616E700BBA78D /* CameraViewController.xib */; };
 		27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06A170F18D000D6815B /* Default-568h@2x.png */; };
 		27E8A1C81732950A00871706 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27E8A1C71732950A00871706 /* hairelinecross.png */; };
+		27E913701744BF70001701D9 /* AFImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E9136F1744BF70001701D9 /* AFImageViewer.m */; };
+		27E913751744CF9F001701D9 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27E913711744CF9F001701D9 /* 1.jpg */; };
+		27E913761744CF9F001701D9 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27E913721744CF9F001701D9 /* 2.jpg */; };
+		27E913771744CF9F001701D9 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27E913731744CF9F001701D9 /* 3.jpg */; };
+		27E913781744CF9F001701D9 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27E913741744CF9F001701D9 /* 4.jpg */; };
+		27E9137C1744F286001701D9 /* ObservationImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E9137B1744F286001701D9 /* ObservationImage.m */; };
+		27E9137F1744F29C001701D9 /* AreaImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E9137E1744F29C001701D9 /* AreaImage.m */; };
 		27ED2B42172174E300A45687 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27ED2B41172174E300A45687 /* CustomAnnotationView.m */; };
 		27EDCE0C171E9390009D94F8 /* symbol-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE09171E9390009D94F8 /* symbol-pin.png */; };
 		27EDCE0D171E9390009D94F8 /* symbol-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE0A171E9390009D94F8 /* symbol-line.png */; };
@@ -199,6 +208,10 @@
 /* Begin PBXFileReference section */
 		27008FED1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolygon+MKPolygonCategory.h"; sourceTree = "<group>"; };
 		27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolygon+MKPolygonCategory.m"; sourceTree = "<group>"; };
+		2703452D1743A0DF00AF0C3A /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
+		2703452E1743A0DF00AF0C3A /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
+		270345311743A19100AF0C3A /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
+		270345321743A19100AF0C3A /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 		270D38FC1738D09400D94568 /* DeleteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteCell.h; sourceTree = "<group>"; };
 		270D38FD1738D09400D94568 /* DeleteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteCell.m; sourceTree = "<group>"; };
 		270D38FF17393DE500D94568 /* CustomObservationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObservationAnnotation.h; sourceTree = "<group>"; };
@@ -254,6 +267,16 @@
 		27D2B067170F17C500D6815B /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		27D2B06A170F18D000D6815B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		27E8A1C71732950A00871706 /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
+		27E9136E1744BF70001701D9 /* AFImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFImageViewer.h; sourceTree = "<group>"; };
+		27E9136F1744BF70001701D9 /* AFImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFImageViewer.m; sourceTree = "<group>"; };
+		27E913711744CF9F001701D9 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
+		27E913721744CF9F001701D9 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
+		27E913731744CF9F001701D9 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
+		27E913741744CF9F001701D9 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
+		27E9137A1744F286001701D9 /* ObservationImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationImage.h; sourceTree = "<group>"; };
+		27E9137B1744F286001701D9 /* ObservationImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationImage.m; sourceTree = "<group>"; };
+		27E9137D1744F29C001701D9 /* AreaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaImage.h; sourceTree = "<group>"; };
+		27E9137E1744F29C001701D9 /* AreaImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaImage.m; sourceTree = "<group>"; };
 		27ED2B40172174E300A45687 /* CustomAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotationView.h; sourceTree = "<group>"; };
 		27ED2B41172174E300A45687 /* CustomAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotationView.m; sourceTree = "<group>"; };
 		27EDCE09171E9390009D94F8 /* symbol-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "symbol-pin.png"; sourceTree = "<group>"; };
@@ -505,6 +528,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270345301743A0E500AF0C3A /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				2703452D1743A0DF00AF0C3A /* ImageScrollView.h */,
+				2703452E1743A0DF00AF0C3A /* ImageScrollView.m */,
+				270345311743A19100AF0C3A /* PhotoViewController.h */,
+				270345321743A19100AF0C3A /* PhotoViewController.m */,
+			);
+			name = Gallery;
+			sourceTree = "<group>";
+		};
 		272D3A631714168500588328 /* SubmitHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -548,6 +582,26 @@
 				272D3A631714168500588328 /* SubmitHelper */,
 			);
 			name = Areas;
+			sourceTree = "<group>";
+		};
+		27E9136D1744BF55001701D9 /* AFImageViewer */ = {
+			isa = PBXGroup;
+			children = (
+				27E9136E1744BF70001701D9 /* AFImageViewer.h */,
+				27E9136F1744BF70001701D9 /* AFImageViewer.m */,
+			);
+			name = AFImageViewer;
+			sourceTree = "<group>";
+		};
+		27E913791744CFA7001701D9 /* testImagesForImageViewer */ = {
+			isa = PBXGroup;
+			children = (
+				27E913711744CF9F001701D9 /* 1.jpg */,
+				27E913721744CF9F001701D9 /* 2.jpg */,
+				27E913731744CF9F001701D9 /* 3.jpg */,
+				27E913741744CF9F001701D9 /* 4.jpg */,
+			);
+			name = testImagesForImageViewer;
 			sourceTree = "<group>";
 		};
 		27F0337817300625009217B7 /* collections */ = {
@@ -679,6 +733,10 @@
 				27F399601716BBF7000433F7 /* Inventory.m */,
 				27F6285B1733EF7C0089CC3C /* LocationPoint.h */,
 				27F6285C1733EF7C0089CC3C /* LocationPoint.m */,
+				27E9137A1744F286001701D9 /* ObservationImage.h */,
+				27E9137B1744F286001701D9 /* ObservationImage.m */,
+				27E9137D1744F29C001701D9 /* AreaImage.h */,
+				27E9137E1744F29C001701D9 /* AreaImage.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -779,6 +837,7 @@
 				CB1432331486642200BBA78D /* SwissCoordinates.m */,
 				CB1EE5D814893F3400FF286F /* Settings.h */,
 				CB1EE5D914893F3400FF286F /* Settings.m */,
+				270345301743A0E500AF0C3A /* Gallery */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -786,6 +845,7 @@
 		CBB070C2143053D500D3D0B5 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				27E913791744CFA7001701D9 /* testImagesForImageViewer */,
 				27C5847B15AD7D770085F719 /* 15-warning.png */,
 				CB143230148639EC00BBA78D /* bildvorschaudeaktiviert.png */,
 				CBD2C2EB146988B8003F1B90 /* 37x-Checkmark.png */,
@@ -991,6 +1051,7 @@
 		CBEBAA23147A7E04009AC6C0 /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				27E9136D1744BF55001701D9 /* AFImageViewer */,
 				CB1432251484D87200BBA78D /* DDAnnotation */,
 				CBEBA9F814763709009AC6C0 /* ASIHttpRequest */,
 				CB08910F1430B66B00E846A1 /* JSON */,
@@ -1138,6 +1199,10 @@
 				27FED4EF173102F90030886F /* CheckboxAreaCell.xib in Resources */,
 				27E8A1C81732950A00871706 /* hairelinecross.png in Resources */,
 				27FFD26C1737FBDE00DFD1C4 /* DeleteCell.xib in Resources */,
+				27E913751744CF9F001701D9 /* 1.jpg in Resources */,
+				27E913761744CF9F001701D9 /* 2.jpg in Resources */,
+				27E913771744CF9F001701D9 /* 3.jpg in Resources */,
+				27E913781744CF9F001701D9 /* 4.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1233,6 +1298,11 @@
 				270D38FE1738D09400D94568 /* DeleteCell.m in Sources */,
 				270D390117393DE600D94568 /* CustomObservationAnnotation.m in Sources */,
 				270D3904173940C300D94568 /* CustomObservationAnnotationView.m in Sources */,
+				2703452F1743A0DF00AF0C3A /* ImageScrollView.m in Sources */,
+				270345331743A19100AF0C3A /* PhotoViewController.m in Sources */,
+				27E913701744BF70001701D9 /* AFImageViewer.m in Sources */,
+				27E9137C1744F286001701D9 /* ObservationImage.m in Sources */,
+				27E9137F1744F29C001701D9 /* AreaImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

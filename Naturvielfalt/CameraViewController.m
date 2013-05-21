@@ -17,14 +17,14 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 @end
 
 @implementation CameraViewController
-@synthesize imageView, takePictureButton, moviePlayerController,image,movieURL,lastChosenMediaType,observation, chooseExistingButton, takePhotoButton, area;
+@synthesize takePictureButton, moviePlayerController,movieURL,lastChosenMediaType,observation, chooseExistingButton, takePhotoButton, area, deletePhotoButton;
 
 - (void)viewDidLoad {
     if (![UIImagePickerController isSourceTypeAvailable:
           UIImagePickerControllerSourceTypeCamera]) {
         takePictureButton.hidden = YES;
     }
-    imageFrame = imageView.frame;
+    imageFrame = CGRectMake(0, 0, 320, 270);
     
     // Set navigation bar title    
     NSString *title = NSLocalizedString(@"photoNavTitle", nil);
@@ -45,21 +45,37 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     
     if (observation) {
         if(observation.pictures.count > 0) {
-            self.image = (UIImage *)[observation.pictures objectAtIndex:0];
-            
             // Set the media type
             lastChosenMediaType = (NSString *)kUTTypeImage;
         } 
     } else if (area) {
         if(area.pictures.count > 0) {
-            self.image = (UIImage *)[area.pictures objectAtIndex:0];
-            
             // Set the media type
             lastChosenMediaType = (NSString *)kUTTypeImage;
         }
     }
-    
     [self updateDisplay];
+}
+
+-(NSArray *) images
+{
+    NSMutableArray *images = [[NSMutableArray alloc] init];
+    if (observation) {
+        for (ObservationImage *obsImg in observation.pictures) {
+            [images addObject:obsImg.image];
+        }
+    } else if (area) {
+        for (AreaImage *areaImg in area.pictures) {
+            [images addObject:areaImg.image];
+        }
+    }
+    
+    //Sample data
+    /*NSArray *imageNames = [NSArray arrayWithObjects:@"1.jpg", @"2.jpg", @"3.jpg", @"4.jpg", nil];
+    NSMutableArray *images = [NSMutableArray array];
+    for (NSString *imageName in imageNames) [images addObject:[UIImage imageNamed:imageName]];*/
+    
+    return images;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -87,12 +103,12 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 - (void)viewDidUnload {
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    self.imageView = nil;
     self.takePictureButton = nil;
     self.moviePlayerController = nil;
     
     [self setChooseExistingButton:nil];
     [self setTakePhotoButton:nil];
+    [self setDeletePhotoButton:nil];
     [super viewDidUnload];
 }
 
@@ -105,6 +121,9 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     [self getMediaFromSource:UIImagePickerControllerSourceTypePhotoLibrary];
 }
 
+- (IBAction)deleteCurrentPhoto:(id)sender {
+}
+
 #pragma mark UIImagePickerController delegate methods
 - (void)imagePickerController:(UIImagePickerController *)picker 
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -112,17 +131,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([lastChosenMediaType isEqual:(NSString *)kUTTypeImage]) {
         UIImage *chosenImage = [info objectForKey:UIImagePickerControllerEditedImage];
         UIImage *shrunkenImage = shrinkImage(chosenImage, imageFrame.size);
-        self.image = shrunkenImage;
-        
-        NSMutableArray *arrPictures = [[NSMutableArray alloc] init];
-        [arrPictures addObject:shrunkenImage];
         
         if (area) {
-            area.pictures = arrPictures;
+            AreaImage *aImg = [[AreaImage alloc] getAreaImage];
+            aImg.image = shrunkenImage;
+            [area.pictures addObject:aImg];
+            [aImg setAreaImage:nil];
         } else if(observation) {
-            observation.pictures = arrPictures;
+            ObservationImage *oImg = [[ObservationImage alloc] getObservationImage];
+            oImg.image = shrunkenImage;
+            [observation.pictures addObject:oImg];
+            [oImg setObservationImage:nil];
         }
-        
     } else if ([lastChosenMediaType isEqual:(NSString *)kUTTypeMovie]) {
         self.movieURL = [info objectForKey:UIImagePickerControllerMediaURL];
     }
@@ -154,9 +174,17 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
 
 - (void)updateDisplay {
     if ([lastChosenMediaType isEqual:(NSString *)kUTTypeImage]) {
-        imageView.image = image;
-        imageView.hidden = NO;
-        moviePlayerController.view.hidden = YES;
+        if (imageViewer) {
+            [imageViewer removeFromSuperview];
+        }
+        
+        imageViewer = [[AFImageViewer alloc] initWithFrame:CGRectMake(0, 0, 320, 270)];
+        
+        imageViewer.images = [[NSMutableArray alloc] initWithArray:[self images]];
+        imageViewer.contentMode = UIViewContentModeScaleAspectFit;
+        imageViewer.backgroundColor = [UIColor blackColor];
+        [self.view addSubview:imageViewer];
+        
     } else if ([lastChosenMediaType isEqual:(NSString *)kUTTypeMovie]) {
         [self.moviePlayerController.view removeFromSuperview];
         MPMoviePlayerController *mpController = [[MPMoviePlayerController alloc] initWithContentURL:movieURL];
@@ -164,8 +192,9 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
         moviePlayerController.view.frame = imageFrame;
         moviePlayerController.view.clipsToBounds = YES;
         [self.view addSubview:moviePlayerController.view];
-        imageView.hidden = YES;
     }
+    
+    [self.view bringSubviewToFront:deletePhotoButton];
 }
 
 - (void)getMediaFromSource:(UIImagePickerControllerSourceType)sourceType {

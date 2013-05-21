@@ -11,6 +11,8 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import "Observation.h"
 #import "Area.h"
+#import "ObservationImage.h"
+#import "AreaImage.h"
 #import "LocationPoint.h"
 #import "Inventory.h"
 #import <sqlite3.h>
@@ -45,6 +47,12 @@
 - (Observation *) getObservation:(long long int) observationId;
 - (NSMutableArray *) getObservations;
 
+// ObservationImages
+- (long long int) saveObservationImage:(ObservationImage *) observationImage;
+- (void) deleteObservationImage:(long long int) observationImageId;
+- (void) deleteObservationImagesFromObservation:(long long int) observationId;
+- (NSMutableArray *) getObservationImagesFromObservation: (long long int) observationId;
+
 // Areas
 - (long long int) saveArea:(Area *) area;
 - (void) updateArea:(Area *) area;
@@ -52,6 +60,12 @@
 - (NSMutableArray *) getAreas;
 - (Area *) getArea:(long long int)areaId;
 - (NSMutableArray *) getInventoriesFromArea:(Area *) area;
+
+// AreaImages
+- (long long int) saveAreaImage:(AreaImage *) areaImage;
+- (void) deleteAreaImage:(long long int) areaImageId;
+- (void) deleteAreaImagesFromArea:(long long int) areaId;
+- (NSMutableArray *) getAreaImagesFromArea: (long long int) areaId;
 
 //Inventories
 - (long long int) saveInventory:(Inventory *) inventory;

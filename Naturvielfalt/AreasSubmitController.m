@@ -159,6 +159,23 @@
         areaName.text = area.name;
     }
 
+    
+    if (!review) {
+        // NAME
+        // Create the AreasSubmitNameController
+        AreasSubmitNameController *areasSubmitNameController = [[AreasSubmitNameController alloc]
+                                                                initWithNibName:@"AreasSubmitNameController"
+                                                                bundle:[NSBundle mainBundle]];
+        
+        
+        areasSubmitNameController.area = area;
+        
+        // Switch the View & Controller
+        [self.navigationController pushViewController:areasSubmitNameController animated:TRUE];
+        areasSubmitNameController = nil;
+        
+        review = YES;
+    }
 }
 
 
@@ -505,7 +522,7 @@
         switch (indexPath.row) {
             case 2:
                 // NAME
-                // Create the ObservationsOrganismSubmitCameraController
+                // Create the AreasSubmitNameController
                 areasSubmitNameController = [[AreasSubmitNameController alloc]
                                                                         initWithNibName:@"AreasSubmitNameController"
                                                                         bundle:[NSBundle mainBundle]];
@@ -520,7 +537,7 @@
                 break;
             case 3:
                 // DESCRIPTION
-                // Create the ObservationsOrganismSubmitCameraController
+                // Create the AreasSubmitDescriptionController
                 areasSubmitDescriptionController = [[AreasSubmitDescriptionController alloc]
                                                                                       initWithNibName:@"AreasSubmitDescriptionController"
                                                                                       bundle:[NSBundle mainBundle]];
@@ -534,7 +551,7 @@
                 break;
             case 4:
                 // CAMERA
-                // Create the ObservationsOrganismSubmitCameraController
+                // Create the AreaSubmitCameraController
                 areaSubmitCameraController = [[CameraViewController alloc]
                                                                     initWithNibName:@"CameraViewController"
                                                                     bundle:[NSBundle mainBundle]];
@@ -560,7 +577,7 @@
         }
 
     // INVENTORY
-        // Create the ObservationsOrganismSubmitMapController
+        // Create the AreasSubmitInventoryController
         areasSubmitInventoryController = [[AreasSubmitInventoryController alloc]
                                                                                 initWithNibName:@"AreasSubmitInventoryController"
                                                                                 bundle:[NSBundle mainBundle]];

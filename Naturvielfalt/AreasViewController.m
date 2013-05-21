@@ -269,14 +269,14 @@
     
     //convert NSArray of id <MKAnnotation> into an MKCoordinateRegion that can be used to set the map size
     //can't use NSArray with MKMapPoint because MKMapPoint is not an id
-    MKMapPoint points[count]; //C array of MKMapPoint struct
+    MKMapPoint zoomPoints[count]; //C array of MKMapPoint struct
     for( int i=0; i<count; i++ ) //load points C array by converting coordinates to points
     {
         CLLocationCoordinate2D coordinate = [(id <MKAnnotation>)[annotations objectAtIndex:i] coordinate];
-        points[i] = MKMapPointForCoordinate(coordinate);
+        zoomPoints[i] = MKMapPointForCoordinate(coordinate);
     }
     //create MKMapRect from array of MKMapPoint
-    MKMapRect mapRect = [[MKPolygon polygonWithPoints:points count:count] boundingMapRect];
+    MKMapRect mapRect = [[MKPolygon polygonWithPoints:zoomPoints count:count] boundingMapRect];
     //convert MKCoordinateRegion from MKMapRect
     MKCoordinateRegion region = MKCoordinateRegionForMapRect(mapRect);
     
@@ -400,7 +400,9 @@
        // remove polygon or line
         if (currentDrawMode != POINT) {
             // Remove startPoint from map
-            [mapView removeAnnotation:customAnnotationView.annotation];
+            if (customAnnotationView.annotation) {
+                [mapView removeAnnotation:customAnnotationView.annotation];
+            }
             [mapView removeOverlay:overlayView.overlay];
         } else {
             // Remove pin from map
@@ -410,7 +412,9 @@
     }
     cancelButton.enabled = NO;
     startPoint = nil;
+    currentDrawMode = 0;
     [self showStartModeAppearance];
+    [self loadAreas];
 }
 
 // Action Method, when "add" button was pressed
@@ -729,6 +733,17 @@
     setButton.hidden = NO;
     modeButton.hidden = YES;
     undoButton.enabled = NO;
+    cancelButton.enabled = YES;
+    
+    [self annosCanNOTShowCallout];
+}
+
+- (void) annosCanNOTShowCallout {
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        [mapView deselectAnnotation:annotation animated:NO];
+        MKAnnotationView *anView = [mapView viewForAnnotation:annotation];
+        anView.canShowCallout = NO;
+    }
 }
 
 - (void) showStartModeAppearance {

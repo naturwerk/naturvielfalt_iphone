@@ -44,10 +44,6 @@
 
 #pragma mark - View lifecycle
 
-- (void) viewWillAppear:(BOOL)animated {
-
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -110,6 +106,7 @@
         observation.comment = @"";
         observation.pictures = pictures;
         observation.locationLocked = false;
+        observation.inventory = inventory;
     } else {
         [self updateAccuracyIcon: (int)observation.accuracy];
         [tableView reloadData];

@@ -13,6 +13,9 @@
 #import "ObservationsOrganismSubmitController.h"
 #import "SwissCoordinates.h"
 
+#define pWidth 5
+#define pAlpha 0.3
+
 @implementation ObservationsOrganismSubmitMapController
 @synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton;
 
@@ -121,7 +124,8 @@
     [setButton setTitle:NSLocalizedString(@"observationAdd", nil) forState:UIControlStateNormal];
     
     self.mapView.mapType = MKMapTypeHybrid;
-	[self.mapView addAnnotation:annotation];	
+	[self.mapView addAnnotation:annotation];
+    [self loadArea];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -139,6 +143,54 @@
     }
     
     [self zoomToAnnotation];
+    [self loadArea];
+}
+
+- (void) loadArea {
+    if (observation.inventory) {
+        NSMutableArray *locationPoints = [[NSMutableArray alloc] initWithArray:observation.inventory.area.locationPoints];
+        
+        MKMapPoint *points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
+        
+        for (int index = 0; index < locationPoints.count; index++) {
+            CLLocationCoordinate2D coordinate;
+            coordinate.latitude = ((LocationPoint*)locationPoints[index]).latitude;
+            coordinate.longitude = ((LocationPoint*)locationPoints[index]).longitude;
+            MKMapPoint newPoint = MKMapPointForCoordinate(coordinate);
+            points[index] = newPoint;
+        }
+        
+        switch (observation.inventory.area.typeOfArea) {
+            case POINT:
+            {
+                /*CLLocationCoordinate2D coordinate;
+                coordinate.longitude = ((LocationPoint*)locationPoints[0]).longitude;
+                coordinate.latitude = ((LocationPoint*)locationPoints[0]).latitude;
+                pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode area:area];
+                pinAnnotation.persisted = YES;
+                pinAnnotation.area = area;
+                [self drawPoint];*/
+                break;
+            }
+            case LINE:
+            {
+                MKPolyline *line = [MKPolyline polylineWithPoints:points count:locationPoints.count];
+                [mapView addOverlay:line];
+                break;
+            }
+            case POLYGON:
+            {
+                if (locationPoints.count > 2) {
+                    MKPolygon *polygon = [MKPolygon polygonWithPoints:points count:locationPoints.count];
+                    [mapView addOverlay:polygon];
+
+                } else {
+                    MKPolyline *line = [MKPolyline polylineWithPoints:points count:locationPoints.count];
+                    [mapView addOverlay:line];
+                }
+            }
+        }
+    }
 }
 
 - (IBAction)setPin:(id)sender {
@@ -419,6 +471,30 @@
 	}*/		
 	
 	return draggablePinView;
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+    MKOverlayView *overlayView;
+    
+    NSLog(@"test %@", [overlay class]);
+    
+    if ([overlay class] == MKPolyline.class) {
+        NSLog(@"overlay LINE");
+        MKPolylineView *lineView = [[MKPolylineView alloc] initWithPolyline:overlay];
+        lineView.fillColor = [UIColor colorWithRed:0 green:255/255.0 blue:0 alpha:pAlpha];
+        lineView.strokeColor = [UIColor greenColor];
+        lineView.lineWidth = pWidth;
+        overlayView = lineView;
+    } else if ([overlay class] == MKPolygon.class) {
+        NSLog(@"overlay POLYGON");
+        MKPolygonView *polyView = [[MKPolygonView alloc] initWithPolygon:overlay];
+        polyView.fillColor = [UIColor colorWithRed:0 green:255/255.0 blue:0 alpha:pAlpha];
+        polyView.strokeColor = [UIColor greenColor];
+        polyView.lineWidth = pWidth;
+        overlayView = polyView;
+    }
+    return overlayView;
+
 }
 
 @end

@@ -548,7 +548,7 @@
     // All observations are stored in here
     NSMutableArray *observationImages = [[NSMutableArray alloc] init];
     
-    NSString *query = [NSString stringWithFormat:@"SELECT * FROM observationImage WHERE ID = '%lld'", observationId];
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM observationImage WHERE OBSERVATION_ID = '%lld'", observationId];
     
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
@@ -598,14 +598,14 @@
         sqlite3_bind_text(stmt, 5, [[area description] UTF8String], -1, NULL);
         
 
-        // Check if there are any images, if yes then save it
-        if(area.pictures.count > 0) {
+        // Check if there are any images, if yes then save it. Doesn't work because areaId is missing at this point
+        /*if(area.pictures.count > 0) {
             for (AreaImage *areaImg in area.pictures) {
                 if (!areaImg.areaImageId) {
                     areaImg.areaImageId = [self saveAreaImage:areaImg];
                 }
             }
-        }
+        }*/
     }
     
     // Check for inventories, doesn't work because areaId is missing at this point
@@ -711,19 +711,6 @@
                 description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
             }
             
-            // Get the image
-            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 6) length:sqlite3_column_bytes(statement, 6)];
-            
-            NSMutableArray *arrayImages = [[NSMutableArray alloc] init];
-            
-            if(data != nil) {
-                UIImage *image = [UIImage imageWithData:data];
-                
-                if(image != nil) {
-                    [arrayImages addObject:image];
-                }
-            }
-            
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
             NSDate *date = [dateFormatter dateFromString:dateString];
@@ -736,7 +723,7 @@
             area.date = date;
             area.description = description;
             area.submitToServer = true;
-            area.pictures = arrayImages;
+            area.pictures = [self getAreaImagesFromArea:areaId];
             area.persisted = YES;
             
             switch (mode) {
@@ -875,10 +862,10 @@
     sqlite3_finalize(statement);
 }
 - (NSMutableArray *) getAreaImagesFromArea: (long long int) areaId {
-    // All observations are stored in here
+    // All areaImages are stored in here
     NSMutableArray *areaImages = [[NSMutableArray alloc] init];
     
-    NSString *query = [NSString stringWithFormat:@"SELECT * FROM areaImage WHERE ID = '%lld'", areaId];
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM areaImage WHERE AREA_ID = '%lld'", areaId];
     
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
@@ -893,13 +880,13 @@
             UIImage *image = [UIImage imageWithData:data];
             
             
-            // Create observationImage
+            // Create areaImage
             AreaImage *areaImage = [[AreaImage alloc] init];
             areaImage.areaImageId = areaImageId;
             areaImage.areaId = areaId;
             areaImage.image = image;
             
-            // Add observationImage to the observationImages array
+            // Add areaImage to the areaImages array
             [areaImages addObject:areaImage];
 		}
         sqlite3_finalize(statement);

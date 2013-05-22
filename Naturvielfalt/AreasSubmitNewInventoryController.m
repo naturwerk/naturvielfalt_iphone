@@ -185,7 +185,44 @@
                                                   otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
         [inventoryAlert show];
         return;
+    } else {
+        [self persistInventory];
     }
+        
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
+    [self.navigationController.parentViewController.view addSubview:hud];
+    
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    hud.customView = image;
+    
+    // Set custom view mode
+    hud.mode = MBProgressHUDModeCustomView;
+    
+    //hud.delegate = self;
+    hud.labelText = NSLocalizedString(@"areaInventoryHudSuccess", nil);
+    
+    [hud show:YES];
+    [hud hide:YES afterDelay:1];
+    
+    // Set review flag
+    review = true;
+    
+    [inventory setInventory:nil];
+    
+    // Set top navigation bar button
+    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
+                                     initWithTitle:NSLocalizedString(@"navChange", nil)
+                                     style:UIBarButtonItemStyleBordered
+                                     target:self
+                                     action: @selector(saveInventory)];
+    
+    self.navigationItem.rightBarButtonItem = submitButton;
+    [tableView reloadData];
+
+    [self.navigationController popViewControllerAnimated:TRUE];
+}
+
+- (void) persistInventory {
     
     inventory.area = area;
     // No duplicates, so remove if contains
@@ -280,38 +317,6 @@
     
     // Close connection
     [persistenceManager closeConnection];
-    
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
-    [self.navigationController.parentViewController.view addSubview:hud];
-    
-    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    hud.customView = image;
-    
-    // Set custom view mode
-    hud.mode = MBProgressHUDModeCustomView;
-    
-    //hud.delegate = self;
-    hud.labelText = NSLocalizedString(@"areaInventoryHudSuccess", nil);
-    
-    [hud show:YES];
-    [hud hide:YES afterDelay:1];
-    
-    // Set review flag
-    review = true;
-    
-    [inventory setInventory:nil];
-    
-    // Set top navigation bar button
-    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:NSLocalizedString(@"navChange", nil)
-                                     style:UIBarButtonItemStyleBordered
-                                     target:self
-                                     action: @selector(saveInventory)];
-    
-    self.navigationItem.rightBarButtonItem = submitButton;
-    [tableView reloadData];
-
-    [self.navigationController popViewControllerAnimated:TRUE];
 }
 
 - (void) abortInventory {
@@ -328,6 +333,8 @@
                                                        otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
         [inventoryAlert show];
         return;
+    } else {
+        [self persistInventory];
     }
     
     // new INVENTORY

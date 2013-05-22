@@ -30,6 +30,13 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     NSString *title = NSLocalizedString(@"photoNavTitle", nil);
     self.navigationItem.title = title;
     
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navSave", nil)
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(persistPhotos)];
+    
+    self.navigationItem.leftBarButtonItem = backButton;
+    
     [takePhotoButton setTitle:NSLocalizedString(@"photoNew", nil) forState:UIControlStateNormal];
     [chooseExistingButton setTitle:NSLocalizedString(@"photoExisting", nil) forState:UIControlStateNormal];
 }
@@ -79,7 +86,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    if (area) {
+    if (area.areaId) {
         if(!persistenceManager) {
             persistenceManager = [[PersistenceManager alloc] init];
         }
@@ -101,6 +108,8 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 }
 
 - (void)viewDidUnload {
+    
+    [self persistPhotos];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
     self.takePictureButton = nil;
@@ -122,6 +131,43 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 }
 
 - (IBAction)deleteCurrentPhoto:(id)sender {
+}
+
+- (void) persistPhotos {
+    
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
+    [persistenceManager establishConnection];
+    
+    if (area) {
+        if (area.areaId) {
+            //Delete all photos from area first, then save the new images
+            [persistenceManager deleteAreaImagesFromArea:area.areaId];
+            for (AreaImage *aImg in area.pictures) {
+                aImg.areaId = area.areaId;
+                aImg.areaImageId = [persistenceManager saveAreaImage:aImg];
+            }
+        } else {
+            [area setArea:area];
+        }
+    } else if (observation) {
+        if (observation.observationId) {
+            //Delete all photos from observation first, then save the new images
+            [persistenceManager deleteObservationImagesFromObservation:observation.observationId];
+            for (ObservationImage *oImg in observation.pictures) {
+                oImg.observationId = observation.observationId;
+                oImg.observationImageId = [persistenceManager saveObservationImage:oImg];
+            }
+        } else {
+            [observation setObservation:observation];
+        }
+    }
+    [persistenceManager closeConnection];
+    
+    // Switch the View & Controller
+    // POP
+    [self.navigationController popViewControllerAnimated:TRUE];
 }
 
 #pragma mark UIImagePickerController delegate methods

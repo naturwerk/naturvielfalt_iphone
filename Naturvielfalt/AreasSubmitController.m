@@ -65,8 +65,6 @@
     // Table init
     tableView.delegate = self;
     
-    NSMutableArray *pictures = [[NSMutableArray alloc] init];
-    
     [self prepareData];
 }
 
@@ -195,90 +193,7 @@
         return;
     }
 
-    
-    NSLog(@"save area");
-    if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
-    
-    [persistenceManager establishConnection];
-    area.persisted = YES;
-
-    // Save area, inventories and observations
-    if(review) {
-        if (area.areaId) {
-            [persistenceManager updateArea:area];
-            for (Inventory *inventory in area.inventories) {
-                if (inventory.inventoryId) {
-                    [persistenceManager updateInventory:inventory];
-                    for (Observation *observation in inventory.observations) {
-                        if (observation.observationId) {
-                            [persistenceManager updateObservation:observation];
-                        } else {
-                            observation.inventory = inventory;
-                            observation.observationId = [persistenceManager saveObservation:observation];
-                        }
-                    }
-                } else {
-                    inventory.area = area;
-                    inventory.inventoryId = [persistenceManager saveInventory:inventory];
-                    for (Observation *observation in inventory.observations) {
-                        observation.inventory = inventory;
-                        observation.observationId = [persistenceManager saveObservation:observation];
-                    }
-                }
-            }
-        } else {
-            area.areaId = [persistenceManager saveArea:area];
-            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
-            for (Inventory *inventory in area.inventories) {
-                inventory.area = area;
-                inventory.inventoryId = [persistenceManager saveInventory:inventory];
-                for (Observation *observation in inventory.observations) {
-                    observation.inventory = inventory;
-                    observation.observationId = [persistenceManager saveObservation:observation];
-                }
-            }
-        }
-    } else {
-        if (area.areaId) {
-            [persistenceManager updateArea:area];
-            for (Inventory *inventory in area.inventories) {
-                if (inventory.inventoryId) {
-                    [persistenceManager updateInventory:inventory];
-                    for (Observation *observation in inventory.observations) {
-                        if (observation.observationId) {
-                            [persistenceManager updateObservation:observation];
-                        } else {
-                            observation.inventory = inventory;
-                            observation.observationId = [persistenceManager saveObservation:observation];
-                        }
-                    }
-                } else {
-                    inventory.area = area;
-                    inventory.inventoryId = [persistenceManager saveInventory:inventory];
-                    for (Observation *observation in inventory.observations) {
-                        observation.inventory = inventory;
-                        observation.observationId = [persistenceManager saveObservation:observation];
-                    }
-                }
-            }
-        } else {
-            area.areaId = [persistenceManager saveArea:area];
-            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
-            for (Inventory *inventory in area.inventories) {
-                inventory.area = area;
-                inventory.inventoryId = [persistenceManager saveInventory:inventory];
-                for (Observation *observation in inventory.observations) {
-                    observation.inventory = inventory;
-                    observation.observationId = [persistenceManager saveObservation:observation];
-                }
-            }
-        }
-    }
-    
-    // Close connection
-    [persistenceManager closeConnection];
+    [self persistArea];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -320,6 +235,99 @@
     [self.navigationController popViewControllerAnimated:TRUE];
 }
 
+- (void) persistArea {
+    
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
+    
+    [persistenceManager establishConnection];
+    area.persisted = YES;
+    
+    // Save area, inventories and observations
+    if(review) {
+        if (area.areaId) {
+            [persistenceManager updateArea:area];
+            for (Inventory *inventory in area.inventories) {
+                if (inventory.inventoryId) {
+                    [persistenceManager updateInventory:inventory];
+                    for (Observation *observation in inventory.observations) {
+                        if (observation.observationId) {
+                            [persistenceManager updateObservation:observation];
+                        } else {
+                            observation.inventory = inventory;
+                            observation.observationId = [persistenceManager saveObservation:observation];
+                        }
+                    }
+                } else {
+                    inventory.area = area;
+                    inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                    for (Observation *observation in inventory.observations) {
+                        observation.inventory = inventory;
+                        observation.observationId = [persistenceManager saveObservation:observation];
+                    }
+                }
+            }
+        } else {
+            area.areaId = [persistenceManager saveArea:area];
+            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
+            for (AreaImage *aImg in area.pictures) {
+                aImg.areaId = area.areaId;
+                aImg.areaImageId = [persistenceManager saveAreaImage:aImg];
+            }
+            for (Inventory *inventory in area.inventories) {
+                inventory.area = area;
+                inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    observation.inventory = inventory;
+                    observation.observationId = [persistenceManager saveObservation:observation];
+                }
+            }
+        }
+    } else {
+        if (area.areaId) {
+            [persistenceManager updateArea:area];
+            for (Inventory *inventory in area.inventories) {
+                if (inventory.inventoryId) {
+                    [persistenceManager updateInventory:inventory];
+                    for (Observation *observation in inventory.observations) {
+                        if (observation.observationId) {
+                            [persistenceManager updateObservation:observation];
+                        } else {
+                            observation.inventory = inventory;
+                            observation.observationId = [persistenceManager saveObservation:observation];
+                        }
+                    }
+                } else {
+                    inventory.area = area;
+                    inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                    for (Observation *observation in inventory.observations) {
+                        observation.inventory = inventory;
+                        observation.observationId = [persistenceManager saveObservation:observation];
+                    }
+                }
+            }
+        } else {
+            area.areaId = [persistenceManager saveArea:area];
+            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
+            for (AreaImage *aImg in area.pictures) {
+                aImg.areaId = area.areaId;
+                aImg.areaImageId = [persistenceManager saveAreaImage:aImg];
+            }
+            for (Inventory *inventory in area.inventories) {
+                inventory.area = area;
+                inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    observation.inventory = inventory;
+                    observation.observationId = [persistenceManager saveObservation:observation];
+                }
+            }
+        }
+    }
+    // Close connection
+    [persistenceManager closeConnection];
+}
+
 - (void) abortArea
 {
     NSLog(@"abortArea");
@@ -335,6 +343,9 @@
         [areaAlert show];
         return;
     }
+    
+    [self persistArea];
+    
     // new INVENTORY
     AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
                                       initWithNibName:@"AreasSubmitNewInventoryController"
@@ -568,15 +579,19 @@
         }
     } else if (indexPath.section == 1) {
         
+    // INVENTORY
         if ([area.name compare:@""] == 0) {
             UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
                                                                 message:NSLocalizedString(@"alertMessageAreaName", nil) delegate:self cancelButtonTitle:nil
                                                       otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
             [areaAlert show];
             return;
+        } else {
+            [self persistArea];
         }
 
-    // INVENTORY
+
+
         // Create the AreasSubmitInventoryController
         areasSubmitInventoryController = [[AreasSubmitInventoryController alloc]
                                                                                 initWithNibName:@"AreasSubmitInventoryController"

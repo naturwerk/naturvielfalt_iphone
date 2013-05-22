@@ -86,6 +86,7 @@
 		27F114E9171BFDCD0017DAF0 /* CustomAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */; };
 		27F399611716BBF7000433F7 /* Inventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F399601716BBF7000433F7 /* Inventory.m */; };
 		27F3996D1716F5B0000433F7 /* AreasSubmitInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */; };
+		27F5FA13174CF6A300575327 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F5FA12174CF6A300575327 /* delete.png */; };
 		27F6285D1733EF7C0089CC3C /* LocationPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F6285C1733EF7C0089CC3C /* LocationPoint.m */; };
 		27F7842B1715472D00081A1F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784261715472D00081A1F /* 19-gear.png */; };
 		27F7842C1715472D00081A1F /* 12-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784271715472D00081A1F /* 12-eye.png */; };
@@ -317,6 +318,7 @@
 		27F3995F1716BBF7000433F7 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
 		27F399601716BBF7000433F7 /* Inventory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inventory.m; sourceTree = "<group>"; };
 		27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryController.xib; sourceTree = "<group>"; };
+		27F5FA12174CF6A300575327 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		27F6285B1733EF7C0089CC3C /* LocationPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationPoint.h; sourceTree = "<group>"; };
 		27F6285C1733EF7C0089CC3C /* LocationPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationPoint.m; sourceTree = "<group>"; };
 		27F784261715472D00081A1F /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
@@ -864,6 +866,7 @@
 				27F7844017156FD000081A1F /* 07-map-marker.png */,
 				27F784331715699800081A1F /* 193-locaction-arrow.png */,
 				CB1D68FF1444463E003230B4 /* status-orange.png */,
+				27F5FA12174CF6A300575327 /* delete.png */,
 				CB1D69001444463E003230B4 /* status-red.png */,
 				CB7FA21014335033006BD29D /* Default.png */,
 				F619A26115766BDE00F0C842 /* blank.png */,
@@ -1203,6 +1206,7 @@
 				27E913761744CF9F001701D9 /* 2.jpg in Resources */,
 				27E913771744CF9F001701D9 /* 3.jpg in Resources */,
 				27E913781744CF9F001701D9 /* 4.jpg in Resources */,
+				27F5FA13174CF6A300575327 /* delete.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

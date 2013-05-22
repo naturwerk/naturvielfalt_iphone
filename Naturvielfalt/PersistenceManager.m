@@ -190,15 +190,6 @@
         sqlite3_bind_double(stmt, 11, observation.location.coordinate.longitude);
         sqlite3_bind_int(stmt, 12, observation.accuracy);
         sqlite3_bind_text(stmt, 13, [observation.comment UTF8String], -1, NULL);
-        
-        // Check if there are any images, if yes then save it
-        if(observation.pictures.count > 0) {
-            for (ObservationImage *obsImg in observation.pictures) {
-                if (!obsImg.observationImageId) {
-                    obsImg.observationImageId = [self saveObservationImage:obsImg];
-                }
-            }
-        }
     }
     
     NSLog(@"Insert observation in db: %@", observation);
@@ -245,6 +236,7 @@
         if(observation.pictures.count > 0) {
             for (ObservationImage *obsImg in observation.pictures) {
                 if (!obsImg.observationImageId) {
+                    obsImg.observationId = observation.observationId;
                     obsImg.observationImageId = [self saveObservationImage:obsImg];
                 }
             }
@@ -1214,19 +1206,6 @@
                 comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 13)];
             }
             
-            // Get the image
-            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 14) length:sqlite3_column_bytes(statement, 14)];
-            
-            NSMutableArray *arrayImages = [[NSMutableArray alloc] init];
-            
-            if(data != nil) {
-                UIImage *image = [UIImage imageWithData:data];
-                
-                if(image != nil) {
-                    [arrayImages addObject:image];
-                }
-            }
-            
             // Create organism and set the id
             Organism *organism = [[Organism alloc] init];
             organism.organismId = organismId;
@@ -1266,7 +1245,7 @@
             observation.accuracy = accuracy;
             observation.comment = comment;
             observation.submitToServer = true;
-            observation.pictures = arrayImages;
+            observation.pictures = [self getObservationImagesFromObservation:observationId];
             
             // Add area to the areas array
             [observations addObject:observation];

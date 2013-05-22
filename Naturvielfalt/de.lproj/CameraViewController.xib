@@ -45,7 +45,6 @@
 						<string key="NSFrame">{{77, 321}, {167, 37}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -98,8 +97,8 @@
 					</object>
 					<object class="IBUIButton" id="422986214">
 						<reference key="NSNextResponder" ref="774585933"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{291, 245}, {29, 29}}</string>
+						<int key="NSvFlags">-2147483356</int>
+						<string key="NSFrame">{{290, 235}, {25, 25}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="46090631"/>
@@ -117,7 +116,7 @@
 						<reference key="IBUINormalTitleShadowColor" ref="498063642"/>
 						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">papierkorb.png</string>
+							<string key="NSResourceName">delete.png</string>
 						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">2</int>
@@ -4817,8 +4816,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">papierkorb.png</string>
-			<string key="NS.object.0">{16, 16}</string>
+			<string key="NS.key.0">delete.png</string>
+			<string key="NS.object.0">{133, 133}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

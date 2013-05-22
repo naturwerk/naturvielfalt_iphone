@@ -13,7 +13,6 @@
     long long int observationImageId;
     long long int observationId;
     UIImage *image;
-    ObservationImage *observationImage;
 }
 
 @property (nonatomic) long long int observationImageId;

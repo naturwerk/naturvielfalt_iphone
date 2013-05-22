@@ -41,8 +41,6 @@
     // Table init
     inventoriesTable.delegate = self;
     
-    NSMutableArray *pictures = [[NSMutableArray alloc] init];
-    
     [self prepareData];
     
     // Reload table

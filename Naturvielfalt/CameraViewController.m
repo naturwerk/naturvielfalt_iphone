@@ -131,6 +131,10 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 }
 
 - (IBAction)deleteCurrentPhoto:(id)sender {
+    NSLog(@"delete current photo");
+    NSLog(@"%i",[imageViewer currentPage]);
+    [area.pictures removeObjectAtIndex:[imageViewer currentPage]];
+    [self updateDisplay];
 }
 
 - (void) persistPhotos {
@@ -228,7 +232,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
         
         imageViewer.images = [[NSMutableArray alloc] initWithArray:[self images]];
         imageViewer.contentMode = UIViewContentModeScaleAspectFit;
-        imageViewer.backgroundColor = [UIColor blackColor];
+        imageViewer.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
         [self.view addSubview:imageViewer];
         
     } else if ([lastChosenMediaType isEqual:(NSString *)kUTTypeMovie]) {
@@ -239,8 +243,24 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
         moviePlayerController.view.clipsToBounds = YES;
         [self.view addSubview:moviePlayerController.view];
     }
-    
+    [self checkPhotoDeleteButton];
     [self.view bringSubviewToFront:deletePhotoButton];
+}
+
+- (void) checkPhotoDeleteButton {
+    if (area) {
+        if (area.pictures.count > 0) {
+            deletePhotoButton.hidden = NO;
+        } else {
+            deletePhotoButton.hidden = YES;
+        }
+    } else if (observation) {
+        if (observation.pictures.count > 0) {
+            deletePhotoButton.hidden = NO;
+        } else {
+            deletePhotoButton.hidden = YES;
+        }
+    }
 }
 
 - (void)getMediaFromSource:(UIImagePickerControllerSourceType)sourceType {

@@ -237,7 +237,7 @@
         NSString *nowString = [dateFormatter stringFromDate:area.date];
         
         if(area.pictures.count > 0){
-            UIImage *original = (UIImage *)[area.pictures objectAtIndex:0];
+            UIImage *original = ((AreaImage *)[area.pictures objectAtIndex:0]).image;
             CGFloat scale = [UIScreen mainScreen].scale;
             CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
             

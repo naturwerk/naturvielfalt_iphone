@@ -76,6 +76,8 @@
 "areaAdd"						= "Setzen";
 "areaDelete"					= "Gebiet löschen";
 "areaDeleteMessage"				= "Wollen Sie wirklich das Gebiet und die dazugehörigen Inventare löschen?";
+"areaDeletePhoto"				= "Belegfoto löschen";
+"areaDeletePhotoMessage"		= "Belegfoto unwiderruflich löschen?";
 
 // Area actionSheet
 "areaPinMod"                    = "Pin";

@@ -131,11 +131,24 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 }
 
 - (IBAction)deleteCurrentPhoto:(id)sender {
-    NSLog(@"delete current photo");
-    NSLog(@"%i",[imageViewer currentPage]);
-    [area.pictures removeObjectAtIndex:[imageViewer currentPage]];
-    [self updateDisplay];
+    UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"areaDeletePhoto", nil)
+                                                        message:NSLocalizedString(@"areaDeletePhotoMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil)
+                                              otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+    [areaAlert show];
+
+
 }
+
+#pragma mark
+#pragma UIAlertViewDelegate Methods
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        //ok pressed
+        [area.pictures removeObjectAtIndex:[imageViewer currentPage]];
+        [self updateDisplay];
+    }
+}
+
 
 - (void) persistPhotos {
     

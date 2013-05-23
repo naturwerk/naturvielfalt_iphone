@@ -27,12 +27,12 @@
     
     if (self = [super initWithPolygon:polygon]) {
         if (!polygon.persisted) {
-            self.fillColor = [UIColor colorWithRed:0 green:0 blue:255/255.0 alpha:pAlpha];
+            self.fillColor = [[UIColor blueColor] colorWithAlphaComponent:pAlpha];
             self.strokeColor = [UIColor blueColor];
             self.lineDashPattern = [NSArray arrayWithObjects:[NSNumber numberWithFloat:12], [NSNumber numberWithFloat:8], nil];
             self.lineWidth = pWidth;
         } else {
-            self.fillColor = [UIColor colorWithRed:0 green:255/255.0 blue:0 alpha:pAlpha];
+            self.fillColor = [[UIColor greenColor] colorWithAlphaComponent:pAlpha];
             self.strokeColor = [UIColor greenColor];
             self.lineWidth = pWidth;
         }

@@ -72,6 +72,8 @@
 "areaAdd"						= "Add";
 "areaDelete"					= "Delete area";
 "areaDeleteMessage"				= "Are you sure you want to delete area and included inventories?";
+"areaDeletePhoto"				= "Delete photo";
+"areaDeletePhotoMessage"		= "Are you sure you want to delete this?";
 
 // Area actionSheet
 "areaPinMod"                    = "Pin";

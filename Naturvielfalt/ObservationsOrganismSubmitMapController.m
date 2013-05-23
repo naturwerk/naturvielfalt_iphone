@@ -14,7 +14,7 @@
 #import "SwissCoordinates.h"
 
 #define pWidth 5
-#define pAlpha 0.3
+#define pAlpha 0.1
 
 @implementation ObservationsOrganismSubmitMapController
 @synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton;
@@ -151,9 +151,9 @@
         NSMutableArray *locationPoints = [[NSMutableArray alloc] initWithArray:observation.inventory.area.locationPoints];
         
         MKMapPoint *points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
+        CLLocationCoordinate2D coordinate;
         
         for (int index = 0; index < locationPoints.count; index++) {
-            CLLocationCoordinate2D coordinate;
             coordinate.latitude = ((LocationPoint*)locationPoints[index]).latitude;
             coordinate.longitude = ((LocationPoint*)locationPoints[index]).longitude;
             MKMapPoint newPoint = MKMapPointForCoordinate(coordinate);
@@ -163,13 +163,10 @@
         switch (observation.inventory.area.typeOfArea) {
             case POINT:
             {
-                /*CLLocationCoordinate2D coordinate;
-                coordinate.longitude = ((LocationPoint*)locationPoints[0]).longitude;
-                coordinate.latitude = ((LocationPoint*)locationPoints[0]).latitude;
-                pinAnnotation = [[CustomAnnotation alloc]initWithWithCoordinate:coordinate type:currentDrawMode area:area];
-                pinAnnotation.persisted = YES;
-                pinAnnotation.area = area;
-                [self drawPoint];*/
+                MKPointAnnotation *anno = [[MKPointAnnotation alloc] init];
+                anno.coordinate = coordinate;
+                //DDAnnotation *anno = [[DDAnnotation alloc] initWithCoordinate:coordinate addressDictionary:nil];
+                [mapView addAnnotation:anno];
                 break;
             }
             case LINE:
@@ -457,20 +454,28 @@
         return nil;		
 	}
 	
-	static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
-    MKPinAnnotationView *draggablePinView = [[MKPinAnnotationView alloc] initWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier];
-    draggablePinView.animatesDrop = YES;
-    draggablePinView.draggable = YES;
-	/*MKAnnotationView *draggablePinView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];*/
-	
-	/*if (draggablePinView) {
-		draggablePinView.annotation = annot;
-	} else {
-		// Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
-		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier mapView:self.mapView];
-	}*/		
-	
-	return draggablePinView;
+    if ([annot class] != MKPointAnnotation.class) {
+        static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
+        MKPinAnnotationView *draggablePinView = [[MKPinAnnotationView alloc] initWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier];
+        draggablePinView.animatesDrop = YES;
+        draggablePinView.pinColor = MKPinAnnotationColorRed;
+        draggablePinView.draggable = YES;
+        /*MKAnnotationView *draggablePinView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];*/
+        
+        /*if (draggablePinView) {
+         draggablePinView.annotation = annot;
+         } else {
+         // Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
+         draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier mapView:self.mapView];
+         }*/		
+        
+        return draggablePinView;
+    } else {
+        static NSString * const kPinAnnotationIdentifier = @"PinAreaIdentifier";
+        MKPinAnnotationView *areaPinView = [[MKPinAnnotationView alloc] initWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier];
+        areaPinView.pinColor = MKPinAnnotationColorGreen;
+        return areaPinView;
+    }
 }
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
@@ -481,15 +486,15 @@
     if ([overlay class] == MKPolyline.class) {
         NSLog(@"overlay LINE");
         MKPolylineView *lineView = [[MKPolylineView alloc] initWithPolyline:overlay];
-        lineView.fillColor = [UIColor colorWithRed:0 green:255/255.0 blue:0 alpha:pAlpha];
-        lineView.strokeColor = [UIColor greenColor];
+        lineView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:pAlpha];
+        lineView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.5];
         lineView.lineWidth = pWidth;
         overlayView = lineView;
     } else if ([overlay class] == MKPolygon.class) {
         NSLog(@"overlay POLYGON");
         MKPolygonView *polyView = [[MKPolygonView alloc] initWithPolygon:overlay];
-        polyView.fillColor = [UIColor colorWithRed:0 green:255/255.0 blue:0 alpha:pAlpha];
-        polyView.strokeColor = [UIColor greenColor];
+        polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:pAlpha];
+        polyView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.5];
         polyView.lineWidth = pWidth;
         overlayView = polyView;
     }

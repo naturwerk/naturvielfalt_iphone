@@ -35,7 +35,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
                                                                   target:self
                                                                   action:@selector(persistPhotos)];
     
-    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.rightBarButtonItem = backButton;
     
     [takePhotoButton setTitle:NSLocalizedString(@"photoNew", nil) forState:UIControlStateNormal];
     [chooseExistingButton setTitle:NSLocalizedString(@"photoExisting", nil) forState:UIControlStateNormal];
@@ -135,8 +135,6 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
                                                         message:NSLocalizedString(@"areaDeletePhotoMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil)
                                               otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
     [areaAlert show];
-
-
 }
 
 #pragma mark
@@ -144,7 +142,11 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         //ok pressed
-        [area.pictures removeObjectAtIndex:[imageViewer currentPage]];
+        if (area) {
+            [area.pictures removeObjectAtIndex:[imageViewer currentPage]];
+        } else if (observation) {
+            [observation.pictures removeObjectAtIndex:[imageViewer currentPage]];
+        }
         [self updateDisplay];
     }
 }

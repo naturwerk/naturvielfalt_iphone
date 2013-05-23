@@ -48,7 +48,7 @@
                                                            target:self 
                                                            action:@selector(saveComment)];
     
-    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.rightBarButtonItem = backButton;
     
     // Load the current observation comment into the textview
     textView.text = observation.comment;

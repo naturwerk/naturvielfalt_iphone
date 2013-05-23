@@ -41,7 +41,7 @@
                                                                   target:self
                                                                   action:@selector(saveDescription)];
     
-    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.rightBarButtonItem = backButton;
     
     // Load the current observation comment into the textview
     textView.text = area.description;

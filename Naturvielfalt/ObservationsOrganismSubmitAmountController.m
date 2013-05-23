@@ -84,7 +84,7 @@
         counter++;
     }
     
-    //observation = [[[Observation alloc] init] getObservation];
+    //observation = [[Observation alloc] getObservation];
     amount.text = observation.amount;
     
     // set the picker value to the current stored amount value

@@ -117,7 +117,7 @@
 - (void) prepareData 
 {
     // Create new observation object, will late be used as data transfer object
-    if(!observation) observation = [[[Observation alloc] init] getObservation];
+    if(!observation) observation = [[[Observation alloc]init]getObservation];
     
     NSString *nowString;
     
@@ -138,6 +138,13 @@
 
         // Update date in observation data object
         observation.date = now;
+        
+        // Set Observation location of first point of area if area is available
+        if (inventory) {
+            LocationPoint *locationPoint = ((LocationPoint *)[inventory.area.locationPoints objectAtIndex:0]);
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:locationPoint.latitude longitude:locationPoint.longitude];
+            observation.location = location;
+        }
     }
      
     // Get formatted date string
@@ -317,9 +324,11 @@
         [self updateAccuracyIcon: (int)newLocation.horizontalAccuracy];
 
         // update the observation data object
-        observation.location = newLocation;
-        observation.accuracy = (int)newLocation.horizontalAccuracy;
-        NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
+        if (!inventory) {
+            observation.location = newLocation;
+            observation.accuracy = (int)newLocation.horizontalAccuracy;
+            NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
+        }
     } else {
         // Update the Accuracy Image
         //observation.accuracy = observation.location.horizontalAccuracy;

@@ -50,7 +50,7 @@
     
     self.navigationItem.rightBarButtonItem = backButton;
     
-    observation = [[[Observation alloc] init] getObservation];
+    observation = [[Observation alloc] getObservation];
     
     // Start locationManager
     locationManager = [[CLLocationManager alloc] init];
@@ -123,7 +123,6 @@
     pinMoved = false;
     [setButton setTitle:NSLocalizedString(@"observationAdd", nil) forState:UIControlStateNormal];
     
-    self.mapView.mapType = MKMapTypeHybrid;
 	[self.mapView addAnnotation:annotation];
     [self loadArea];
 }
@@ -499,7 +498,6 @@
         overlayView = polyView;
     }
     return overlayView;
-
 }
 
 @end

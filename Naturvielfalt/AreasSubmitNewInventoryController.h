@@ -31,4 +31,6 @@
 @property (nonatomic) BOOL review;
 @property (nonatomic) IBOutlet UILabel *inventoryName;
 
+
++ (void) persistInventory:(Inventory*)ivToSave area:(Area*)areaToSave;
 @end

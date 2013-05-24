@@ -43,5 +43,6 @@
 - (void) saveArea;
 
 + (NSString *) getStringOfDrawMode:(Area*)area;
++ (void) persistArea:(Area*)areaToSave;
 
 @end

@@ -123,7 +123,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     if (area.areaId) {
-        
         if (!persistedArea) {
             NSLog(@"area was deleted, go back to map");
             [area setArea:nil];
@@ -193,7 +192,7 @@
         return;
     }
 
-    [self persistArea];
+    [AreasSubmitController persistArea:area];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -235,97 +234,95 @@
     [self.navigationController popViewControllerAnimated:TRUE];
 }
 
-- (void) persistArea {
++ (void) persistArea:(Area *)areaToSave {
     
-    if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
+    PersistenceManager *pm = [[PersistenceManager alloc] init];
     
-    [persistenceManager establishConnection];
-    area.persisted = YES;
+    [pm establishConnection];
+    areaToSave.persisted = YES;
     
     // Save area, inventories and observations
-    if(review) {
-        if (area.areaId) {
-            [persistenceManager updateArea:area];
-            for (Inventory *inventory in area.inventories) {
+    /*if(review) {*/
+        if (areaToSave.areaId) {
+            [pm updateArea:areaToSave];
+            for (Inventory *inventory in areaToSave.inventories) {
                 if (inventory.inventoryId) {
-                    [persistenceManager updateInventory:inventory];
+                    [pm updateInventory:inventory];
                     for (Observation *observation in inventory.observations) {
                         if (observation.observationId) {
-                            [persistenceManager updateObservation:observation];
+                            [pm updateObservation:observation];
                         } else {
                             observation.inventory = inventory;
-                            observation.observationId = [persistenceManager saveObservation:observation];
+                            observation.observationId = [pm saveObservation:observation];
                         }
                     }
                 } else {
-                    inventory.area = area;
-                    inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                    inventory.area = areaToSave;
+                    inventory.inventoryId = [pm saveInventory:inventory];
                     for (Observation *observation in inventory.observations) {
                         observation.inventory = inventory;
-                        observation.observationId = [persistenceManager saveObservation:observation];
+                        observation.observationId = [pm saveObservation:observation];
                     }
                 }
             }
         } else {
-            area.areaId = [persistenceManager saveArea:area];
-            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
-            for (AreaImage *aImg in area.pictures) {
-                aImg.areaId = area.areaId;
-                aImg.areaImageId = [persistenceManager saveAreaImage:aImg];
+            areaToSave.areaId = [pm saveArea:areaToSave];
+            [pm saveLocationPoints:areaToSave.locationPoints areaId:areaToSave.areaId];
+            for (AreaImage *aImg in areaToSave.pictures) {
+                aImg.areaId = areaToSave.areaId;
+                aImg.areaImageId = [pm saveAreaImage:aImg];
             }
-            for (Inventory *inventory in area.inventories) {
-                inventory.area = area;
-                inventory.inventoryId = [persistenceManager saveInventory:inventory];
+            for (Inventory *inventory in areaToSave.inventories) {
+                inventory.area = areaToSave;
+                inventory.inventoryId = [pm saveInventory:inventory];
                 for (Observation *observation in inventory.observations) {
                     observation.inventory = inventory;
-                    observation.observationId = [persistenceManager saveObservation:observation];
+                    observation.observationId = [pm saveObservation:observation];
                 }
             }
         }
-    } else {
-        if (area.areaId) {
-            [persistenceManager updateArea:area];
-            for (Inventory *inventory in area.inventories) {
+    /*} else {
+        if (areaToSave.areaId) {
+            [pm updateArea:areaToSave];
+            for (Inventory *inventory in areaToSave.inventories) {
                 if (inventory.inventoryId) {
-                    [persistenceManager updateInventory:inventory];
+                    [pm updateInventory:inventory];
                     for (Observation *observation in inventory.observations) {
                         if (observation.observationId) {
-                            [persistenceManager updateObservation:observation];
+                            [pm updateObservation:observation];
                         } else {
                             observation.inventory = inventory;
-                            observation.observationId = [persistenceManager saveObservation:observation];
+                            observation.observationId = [pm saveObservation:observation];
                         }
                     }
                 } else {
-                    inventory.area = area;
-                    inventory.inventoryId = [persistenceManager saveInventory:inventory];
+                    inventory.area = areaToSave;
+                    inventory.inventoryId = [pm saveInventory:inventory];
                     for (Observation *observation in inventory.observations) {
                         observation.inventory = inventory;
-                        observation.observationId = [persistenceManager saveObservation:observation];
+                        observation.observationId = [pm saveObservation:observation];
                     }
                 }
             }
         } else {
-            area.areaId = [persistenceManager saveArea:area];
-            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
-            for (AreaImage *aImg in area.pictures) {
-                aImg.areaId = area.areaId;
-                aImg.areaImageId = [persistenceManager saveAreaImage:aImg];
+            areaToSave.areaId = [pm saveArea:areaToSave];
+            [pm saveLocationPoints:areaToSave.locationPoints areaId:areaToSave.areaId];
+            for (AreaImage *aImg in areaToSave.pictures) {
+                aImg.areaId = areaToSave.areaId;
+                aImg.areaImageId = [pm saveAreaImage:aImg];
             }
-            for (Inventory *inventory in area.inventories) {
-                inventory.area = area;
-                inventory.inventoryId = [persistenceManager saveInventory:inventory];
+            for (Inventory *inventory in areaToSave.inventories) {
+                inventory.area = areaToSave;
+                inventory.inventoryId = [pm saveInventory:inventory];
                 for (Observation *observation in inventory.observations) {
                     observation.inventory = inventory;
-                    observation.observationId = [persistenceManager saveObservation:observation];
+                    observation.observationId = [pm saveObservation:observation];
                 }
             }
         }
-    }
+    }*/
     // Close connection
-    [persistenceManager closeConnection];
+    [pm closeConnection];
 }
 
 - (void) abortArea
@@ -344,7 +341,7 @@
         return;
     }
     
-    [self persistArea];
+    [AreasSubmitController persistArea:area];
     
     // new INVENTORY
     AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
@@ -587,7 +584,7 @@
             [areaAlert show];
             return;
         } else {
-            [self persistArea];
+            [AreasSubmitController persistArea:area];
         }
 
 

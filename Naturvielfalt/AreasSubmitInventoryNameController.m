@@ -41,7 +41,11 @@
                                                                   target:self
                                                                   action:@selector(saveInventoryName)];
     
-    self.navigationItem.rightBarButtonItem = backButton;
+    if ([inventory.name compare:@""] == 0) {
+        self.navigationItem.leftBarButtonItem = backButton;
+    } else {
+        self.navigationItem.rightBarButtonItem = backButton;
+    }
     
     // Load the current observation comment into the textview
     textView.text = inventory.name;
@@ -59,14 +63,26 @@
     // Save the description
     inventory.name = textView.text;
     
-    if (inventory.inventoryId) {
+    if ([inventory.name compare:@""] == 0) {
+        UIAlertView *inventoryAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageInventoryTitle", nil)
+                                                                 message:NSLocalizedString(@"alertMessageInventoryName", nil) delegate:self cancelButtonTitle:nil
+                                                       otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+        [inventoryAlert show];
+        return;
+    } else {
+        [AreasSubmitNewInventoryController persistInventory: inventory area:inventory.area];
+    }
+
+    
+    /*if (inventory.inventoryId) {
         if (!persistenceManager) {
             persistenceManager = [[PersistenceManager alloc] init];
         }
         [persistenceManager establishConnection];
         [persistenceManager updateInventory:inventory];
         [persistenceManager closeConnection];
-    }
+    }*/
+    [AreasSubmitNewInventoryController persistInventory:inventory area:inventory.area];
     
     // Switch the View & Controller
     // POP

@@ -15,6 +15,8 @@
     IBOutlet UILabel *amountLabel;
     NSMutableArray *arrayValues;
     Observation *observation;
+    NSString *currentAmount;
+    
 }
 
 @property (nonatomic) IBOutlet UIPickerView *picker;
@@ -22,5 +24,6 @@
 @property (nonatomic) IBOutlet NSMutableArray *arrayValues;
 @property (nonatomic) IBOutlet Observation *observation;
 @property (nonatomic) IBOutlet UILabel *amountLabel;
+@property (nonatomic) IBOutlet NSString *currentAmount;
 
 @end

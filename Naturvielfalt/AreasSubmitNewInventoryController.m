@@ -11,6 +11,7 @@
 #import "AreasSubmitInventoryDescriptionController.h"
 #import "AreasSubmitInventoryObservationController.h"
 #import "ObservationsViewController.h"
+#import "AreasSubmitController.h"
 #import "CustomCell.h"
 #import "DeleteCell.h"
 #import "CustomAddCell.h"
@@ -82,6 +83,24 @@
             lps = nil;
         }
     }
+    
+    if (!review) {
+        // NAME
+        // Create the AreasSubmitNameController
+        AreasSubmitInventoryNameController *areasSubmitInventoryNameController = [[AreasSubmitInventoryNameController alloc]
+                                                                initWithNibName:@"AreasSubmitInventoryNameController"
+                                                                bundle:[NSBundle mainBundle]];
+        
+        
+        areasSubmitInventoryNameController.inventory = inventory;
+        
+        // Switch the View & Controller
+        [self.navigationController pushViewController:areasSubmitInventoryNameController animated:TRUE];
+        areasSubmitInventoryNameController = nil;
+        
+        review = YES;
+    }
+
     
     [self prepareData];
     [tableView reloadData];
@@ -186,7 +205,7 @@
         [inventoryAlert show];
         return;
     } else {
-        [self persistInventory];
+        [AreasSubmitNewInventoryController persistInventory: inventory area:area];
     }
         
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
@@ -222,56 +241,56 @@
     [self.navigationController popViewControllerAnimated:TRUE];
 }
 
-- (void) persistInventory {
++ (void) persistInventory:(Inventory *)ivToSave area:(Area*)areaToSave {
     
-    inventory.area = area;
+    ivToSave.area = areaToSave;
     // No duplicates, so remove if contains
-    [area.inventories removeObject:inventory];
-    [area.inventories addObject:inventory];
+    [areaToSave.inventories removeObject:ivToSave];
+    [areaToSave.inventories addObject:ivToSave];
     
-    if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
+    [AreasSubmitController persistArea:areaToSave];
     
-    [persistenceManager establishConnection];
+    /*PersistenceManager *pm = [[PersistenceManager alloc] init];
+    
+    [pm establishConnection];*/
     
     // Save inventory and update area
-    if(review) {
-        if (area.areaId) {
+    //if(review) {
+    /*    if (areaToSave.areaId) {
             // update area
-            [persistenceManager updateArea:area];
-            if (inventory.inventoryId) {
+            [pm updateArea:areaToSave];
+            if (ivToSave.inventoryId) {
                 // update inventory
-                [persistenceManager updateInventory:inventory];
-                for (Observation *observation in inventory.observations) {
+                [pm updateInventory:ivToSave];
+                for (Observation *observation in ivToSave.observations) {
                     if (observation.observationId) {
                         // update observation
-                        [persistenceManager updateObservation:observation];
+                        [pm updateObservation:observation];
                     } else {
                         // persist observation
-                        observation.inventory = inventory;
-                        observation.observationId = [persistenceManager saveObservation:observation];
+                        observation.inventory = ivToSave;
+                        observation.observationId = [pm saveObservation:observation];
                     }
                 }
             } else {
                 // persist inventory and observations
-                inventory.area = area;
-                inventory.inventoryId = [persistenceManager saveInventory:inventory];
-                for (Observation *observation in inventory.observations) {
-                    observation.inventory = inventory;
-                    observation.observationId = [persistenceManager saveObservation:observation];
+                ivToSave.area = areaToSave;
+                ivToSave.inventoryId = [pm saveInventory:ivToSave];
+                for (Observation *observation in ivToSave.observations) {
+                    observation.inventory = ivToSave;
+                    observation.observationId = [pm saveObservation:observation];
                 }
             }
         } else {
             // persist area, inventories and observations
-            area.areaId = [persistenceManager saveArea:area];
-            [persistenceManager saveLocationPoints:area.locationPoints areaId:area.areaId];
-            for (Inventory *iv in area.inventories) {
-                iv.area = area;
-                iv.inventoryId = [persistenceManager saveInventory:iv];
+            areaToSave.areaId = [pm saveArea:areaToSave];
+            [pm saveLocationPoints:areaToSave.locationPoints areaId:areaToSave.areaId];
+            for (Inventory *iv in areaToSave.inventories) {
+                iv.area = areaToSave;
+                iv.inventoryId = [pm saveInventory:iv];
                 for (Observation *observation in iv.observations) {
                     observation.inventory = iv;
-                    observation.observationId = [persistenceManager saveObservation:observation];
+                    observation.observationId = [pm saveObservation:observation];
                 }
             }
         }
@@ -313,10 +332,10 @@
                 }
             }
         }
-    }
+    }*/
     
     // Close connection
-    [persistenceManager closeConnection];
+    //[pm closeConnection];
 }
 
 - (void) abortInventory {
@@ -334,7 +353,7 @@
         [inventoryAlert show];
         return;
     } else {
-        [self persistInventory];
+        [AreasSubmitNewInventoryController persistInventory: inventory area:area];
     }
     
     // new INVENTORY

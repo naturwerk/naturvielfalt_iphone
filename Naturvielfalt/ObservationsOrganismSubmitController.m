@@ -11,13 +11,14 @@
 #import "CustomCell.h"
 #import "DeleteCell.h"
 #import "ObservationsOrganismSubmitMapController.h"
+#import "AreasSubmitNewInventoryController.h"
 #import "CameraViewController.h"
 #import "ObservationsOrganismSubmitAmountController.h"
 #import "ObservationsOrganismSubmitCommentController.h"
 #import "MBProgressHUD.h"
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, inventory;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, inventory, persistedObservation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,6 +41,23 @@
 {
     NSLog(@"didAppear");
     [tableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    if (observation.observationId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        
+        [persistenceManager establishConnection];
+        persistedObservation = [persistenceManager getObservation:observation.observationId];
+        persistedObservation.inventory = inventory;
+        [persistenceManager closeConnection];
+        
+        if (persistedObservation) {
+            observation = persistedObservation;
+        }
+    }
 }
 
 #pragma mark - View lifecycle
@@ -117,7 +135,10 @@
 - (void) prepareData 
 {
     // Create new observation object, will late be used as data transfer object
-    if(!observation) observation = [[[Observation alloc]init]getObservation];
+    if(!observation) {
+        observation = [[Observation alloc] getObservation];
+    }
+    observation.inventoryId = inventory.inventoryId;
     
     NSString *nowString;
     
@@ -160,47 +181,7 @@
 
 - (void) saveObservation 
 {
-    if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
-    [persistenceManager establishConnection];
-    
-    // Area feature if inventory object is set
-    if (inventory) {
-        //Do not persist, if inventory is cancelled later.
-        //Observation Object will be persisted together with the inventory object.
-        observation.inventory = inventory;
-        // No duplicates, so remove if contains
-        [inventory.observations removeObject:observation];
-        [inventory.observations addObject:observation];
-        
-        if (inventory.inventoryId) {
-            if (observation.observationId) {
-                [persistenceManager updateObservation:observation];
-            } else {
-                observation.observationId = [persistenceManager saveObservation:observation];
-                for (ObservationImage *oImg in observation.pictures) {
-                    oImg.observationId = observation.observationId;
-                    oImg.observationImageId = [persistenceManager saveObservationImage:oImg];
-                }
-            }
-        }
-    } else {
-
-        // Save and persist observation
-        if(review) {
-            [persistenceManager updateObservation:observation];
-        } else {
-            observation.observationId = [persistenceManager saveObservation:observation];
-            for (ObservationImage *oImg in observation.pictures) {
-                oImg.observationId = observation.observationId;
-                oImg.observationImageId = [persistenceManager saveObservationImage:oImg];
-            }
-        }
-    }
-    
-    // Close connection
-    [persistenceManager closeConnection];
+    [ObservationsOrganismSubmitController persistObservation:observation inventory:inventory];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -240,6 +221,50 @@
     [self.navigationController popViewControllerAnimated:TRUE];
 }
 
++ (void) persistObservation:(Observation *)obsToSave inventory:(Inventory *) ivToSave {
+    
+    PersistenceManager *pm = [[PersistenceManager alloc] init];
+    [pm establishConnection];
+    
+    // Area feature if inventory object is set
+    if (ivToSave) {
+        //Do not persist, if inventory is cancelled later.
+        //Observation Object will be persisted together with the inventory object.
+        obsToSave.inventory = ivToSave;
+        // No duplicates, so remove if contains
+        [ivToSave.observations removeObject:obsToSave];
+        [ivToSave.observations addObject:obsToSave];
+        
+        [AreasSubmitNewInventoryController persistInventory:ivToSave area:ivToSave.area];
+        
+        /*if (ivToSave.inventoryId) {
+            if (obsToSave.observationId) {
+                [pm updateObservation:obsToSave];
+            } else {
+                obsToSave.observationId = [pm saveObservation:obsToSave];
+                for (ObservationImage *oImg in obsToSave.pictures) {
+                    oImg.observationId = obsToSave.observationId;
+                    oImg.observationImageId = [pm saveObservationImage:oImg];
+                }
+            }
+        }*/
+    } else {
+        // Save and persist observation
+        if(obsToSave.observationId) {
+            [pm updateObservation:obsToSave];
+        } else {
+            obsToSave.observationId = [pm saveObservation:obsToSave];
+            for (ObservationImage *oImg in obsToSave.pictures) {
+                oImg.observationId = obsToSave.observationId;
+                oImg.observationImageId = [pm saveObservationImage:oImg];
+            }
+        }
+    }
+    
+    // Close connection
+    [pm closeConnection];
+}
+
 - (void) abortObservation
 {
     [self.navigationController popViewControllerAnimated:TRUE];
@@ -251,9 +276,9 @@
 
     if(locationManager){
         [locationManager stopUpdatingLocation];
-       
          locationManager = nil;
     }
+    [observation setObservation:nil];
 }
 
 - (void) dealloc 
@@ -333,7 +358,6 @@
         // Update the Accuracy Image
         //observation.accuracy = observation.location.horizontalAccuracy;
         [self updateAccuracyIcon: (int)observation.accuracy];
-        
     } 
     
     // reload the table with the new data
@@ -506,6 +530,8 @@
             organismSubmitMapController.observation = observation;
             organismSubmitMapController.review = review;
             
+            NSLog(@"longi: %f and lati: %f", observation.location.coordinate.longitude, observation.location.coordinate.latitude);
+            
             
             // Switch the View & Controller
             [self.navigationController pushViewController:organismSubmitMapController animated:TRUE];
@@ -526,7 +552,7 @@
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         //ok pressed
-        NSLog(@"delete Area");
+        NSLog(@"delete Observation");
         if (!persistenceManager) {
             persistenceManager = [[PersistenceManager alloc] init];
         }

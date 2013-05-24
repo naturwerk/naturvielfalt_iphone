@@ -58,14 +58,15 @@
     // Save the description
     area.description = textView.text;
     
-    if (area.areaId) {
+    /*if (area.areaId) {
         if (!persistenceManager) {
             persistenceManager = [[PersistenceManager alloc] init];
         }
         [persistenceManager establishConnection];
         [persistenceManager updateArea:area];
         [persistenceManager closeConnection];
-    }
+    }*/
+    [AreasSubmitController persistArea:area];
     
     // POP
     [self.navigationController popViewControllerAnimated:TRUE];

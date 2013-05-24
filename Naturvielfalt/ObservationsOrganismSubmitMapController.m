@@ -50,7 +50,7 @@
     
     self.navigationItem.rightBarButtonItem = backButton;
     
-    observation = [[Observation alloc] getObservation];
+    //observation = [[Observation alloc] getObservation];
     
     // Start locationManager
     locationManager = [[CLLocationManager alloc] init];
@@ -290,22 +290,23 @@
     observation.locationLocked = true;
     observation.accuracy = currentAccuracy;
     observation.location = currentLocation;
+    
+    [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+    
     // Change view back to submitController
-    ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc] 
+    /*ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
                                                                       initWithNibName:@"ObservationsOrganismSubmitController" 
                                                                       bundle:[NSBundle mainBundle]];
     
     // Set the current displayed organism
-    organismSubmitController.organism = observation.organism;
-    
-    
+    organismSubmitController.organism = observation.organism;*/
     
     // Switch the View & Controller
     // POP
     [self.navigationController popViewControllerAnimated:TRUE];
     
     // PUSH
-    [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+    //[self.navigationController pushViewController:organismSubmitController animated:TRUE];
 }
 
 

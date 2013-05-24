@@ -30,6 +30,7 @@
     NSArray *arrayValues;
     
     PersistenceManager *persistenceManager;
+    Observation *persistedObservation;
     
     // It's needed for navigation with area feature
     Inventory *inventory;
@@ -52,6 +53,7 @@
 @property (nonatomic) CLLocationManager *locationManager;
 
 @property (nonatomic) Inventory *inventory;
+@property (nonatomic) Observation *persistedObservation;
 
 @property (nonatomic) NSArray *arrayKeys;
 @property (nonatomic) NSArray *arrayValues;
@@ -65,5 +67,7 @@
 - (void) prepareData;
 - (void) rowClicked:(NSIndexPath *)indexPath;
 - (void) saveObservation;
+
++ (void) persistObservation:(Observation *)obsToSave inventory:(Inventory*)ivToSave;
 
 @end

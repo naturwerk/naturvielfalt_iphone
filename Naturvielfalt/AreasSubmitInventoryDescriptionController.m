@@ -58,14 +58,15 @@
     // Save the description
     inventory.description = textView.text;
     
-    if (inventory.inventoryId) {
+    /*if (inventory.inventoryId) {
         if (!persistenceManager) {
             persistenceManager = [[PersistenceManager alloc] init];
         }
         [persistenceManager establishConnection];
         [persistenceManager updateInventory:inventory];
         [persistenceManager closeConnection];
-    }
+    }*/
+    [AreasSubmitNewInventoryController persistInventory:inventory area:inventory.area];
     
     // Switch the View & Controller
     // POP

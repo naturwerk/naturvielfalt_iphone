@@ -41,7 +41,11 @@
                                                                   target:self
                                                                   action:@selector(saveAreaName)];
     
-    self.navigationItem.rightBarButtonItem = backButton;
+    if ([area.name compare:@""] == 0) {
+        self.navigationItem.leftBarButtonItem = backButton;
+    } else {
+        self.navigationItem.rightBarButtonItem = backButton;
+    }
     
     // Load the current observation comment into the textview
     textView.text = area.name;
@@ -58,14 +62,24 @@
     // Save the description
     area.name = textView.text;
     
-    if (area.areaId) {
+    /*if (area.areaId) {
         if (!persistenceManager) {
             persistenceManager = [[PersistenceManager alloc] init];
         }
         [persistenceManager establishConnection];
         [persistenceManager updateArea:area];
         [persistenceManager closeConnection];
+    }*/
+    
+    if ([area.name compare:@""] == 0) {
+        UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
+                                                            message:NSLocalizedString(@"alertMessageAreaName", nil) delegate:self cancelButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+        [areaAlert show];
+        return;
     }
+
+    [AreasSubmitController persistArea:area];
     
     // Switch the View & Controller
     // POP

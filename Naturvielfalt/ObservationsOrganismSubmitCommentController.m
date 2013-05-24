@@ -59,14 +59,15 @@
     // Save the comment
     observation.comment = textView.text;
     
+    [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
 
     // Change view back to submitController
-    ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc] 
+    /*ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
                                                                       initWithNibName:@"ObservationsOrganismSubmitController" 
                                                                       bundle:[NSBundle mainBundle]];
     
     // Set the current displayed organism
-    organismSubmitController.organism = observation.organism;
+    organismSubmitController.organism = observation.organism;*/
     
     // Switch the View & Controller
     
@@ -74,8 +75,8 @@
     [self.navigationController popViewControllerAnimated:TRUE];
     
     // PUSH
-    [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-    organismSubmitController = nil;
+    //[self.navigationController pushViewController:organismSubmitController animated:TRUE];
+    //organismSubmitController = nil;
 }
 
 - (void)viewDidUnload

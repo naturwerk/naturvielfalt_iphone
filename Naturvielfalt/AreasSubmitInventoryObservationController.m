@@ -251,7 +251,7 @@
                                                                             bundle:[NSBundle mainBundle]];
     
     Observation *observation = [inventory.observations objectAtIndex:indexPath.row];
-    [observation setObservation:observation];
+    //[observation setObservation:observation];
     
     // Set the current displayed organism
     observationsOrganismSubmitController.observation = observation;

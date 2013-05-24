@@ -443,7 +443,6 @@
         // Switch the View & Controller
         [self.navigationController pushViewController:organismSubmitController animated:TRUE];
         organismSubmitController = nil;
-        
     }
 }
 

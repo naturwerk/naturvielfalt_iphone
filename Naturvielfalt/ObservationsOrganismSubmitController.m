@@ -18,7 +18,7 @@
 #import "MBProgressHUD.h"
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, inventory, persistedObservation;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, persistedObservation, inventory;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +37,11 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+    [observation setObservation:nil];
+    [inventory setInventory:nil];
+}
+
 - (void) viewDidAppear:(BOOL)animated 
 {
     NSLog(@"didAppear");
@@ -51,12 +56,28 @@
         
         [persistenceManager establishConnection];
         persistedObservation = [persistenceManager getObservation:observation.observationId];
-        persistedObservation.inventory = inventory;
+        Area *currentArea = [persistenceManager getArea:persistedObservation.inventory.areaId];
         [persistenceManager closeConnection];
         
         if (persistedObservation) {
+            persistedObservation.inventory.area = currentArea;
             observation = persistedObservation;
         }
+    } else {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        
+        [persistenceManager establishConnection];
+        inventory = [persistenceManager getInventory:inventory.inventoryId];
+        Area *currentArea = [persistenceManager getArea:inventory.areaId];
+        [persistenceManager closeConnection];
+        
+        if (inventory) {
+            inventory.area = currentArea;
+            observation.inventory = inventory;
+        }
+        [self prepareData];
     }
 }
 
@@ -124,7 +145,6 @@
         observation.comment = @"";
         observation.pictures = pictures;
         observation.locationLocked = false;
-        observation.inventory = inventory;
     } else {
         [self updateAccuracyIcon: (int)observation.accuracy];
         [tableView reloadData];
@@ -136,9 +156,10 @@
 {
     // Create new observation object, will late be used as data transfer object
     if(!observation) {
-        observation = [[Observation alloc] getObservation];
+        observation = [[Observation alloc]getObservation];
+        observation.inventory = inventory;
     }
-    observation.inventoryId = inventory.inventoryId;
+
     
     NSString *nowString;
     
@@ -161,11 +182,12 @@
         observation.date = now;
         
         // Set Observation location of first point of area if area is available
-        if (inventory) {
-            LocationPoint *locationPoint = ((LocationPoint *)[inventory.area.locationPoints objectAtIndex:0]);
+        if (observation.inventory) {
+            LocationPoint *locationPoint = ((LocationPoint *)[observation.inventory.area.locationPoints objectAtIndex:0]);
             CLLocation *location = [[CLLocation alloc] initWithLatitude:locationPoint.latitude longitude:locationPoint.longitude];
             observation.location = location;
         }
+        review = true;
     }
      
     // Get formatted date string
@@ -181,7 +203,7 @@
 
 - (void) saveObservation 
 {
-    [ObservationsOrganismSubmitController persistObservation:observation inventory:inventory];
+    [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -212,8 +234,8 @@
     [tableView reloadData];
     //[hud hide:true];
     
-    [observation setObservation:nil];
-    [inventory setInventory:nil];
+    /*[observation setObservation:nil];
+    [inventory setObservations:nil];*/
     
     if(comeFromOrganism){
         //TODO go back to the artgroup
@@ -227,7 +249,7 @@
     [pm establishConnection];
     
     // Area feature if inventory object is set
-    if (ivToSave) {
+    /*if (ivToSave) {
         //Do not persist, if inventory is cancelled later.
         //Observation Object will be persisted together with the inventory object.
         obsToSave.inventory = ivToSave;
@@ -237,7 +259,7 @@
         
         [AreasSubmitNewInventoryController persistInventory:ivToSave area:ivToSave.area];
         
-        /*if (ivToSave.inventoryId) {
+        if (ivToSave.inventoryId) {
             if (obsToSave.observationId) {
                 [pm updateObservation:obsToSave];
             } else {
@@ -247,10 +269,11 @@
                     oImg.observationImageId = [pm saveObservationImage:oImg];
                 }
             }
-        }*/
-    } else {
+        }
+    } else {*/
         // Save and persist observation
         if(obsToSave.observationId) {
+            [pm deleteObservationImagesFromObservation:obsToSave.observationId];
             [pm updateObservation:obsToSave];
         } else {
             obsToSave.observationId = [pm saveObservation:obsToSave];
@@ -259,7 +282,7 @@
                 oImg.observationImageId = [pm saveObservationImage:oImg];
             }
         }
-    }
+    //}
     
     // Close connection
     [pm closeConnection];
@@ -278,7 +301,7 @@
         [locationManager stopUpdatingLocation];
          locationManager = nil;
     }
-    [observation setObservation:nil];
+    //[observation setObservation:nil];
 }
 
 - (void) dealloc 
@@ -349,7 +372,7 @@
         [self updateAccuracyIcon: (int)newLocation.horizontalAccuracy];
 
         // update the observation data object
-        if (!inventory) {
+        if (!observation.inventory) {
             observation.location = newLocation;
             observation.accuracy = (int)newLocation.horizontalAccuracy;
             NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
@@ -528,7 +551,7 @@
                                                                                     bundle:[NSBundle mainBundle]];
             
             organismSubmitMapController.observation = observation;
-            organismSubmitMapController.review = review;
+            organismSubmitMapController.review = NO;
             
             NSLog(@"longi: %f and lati: %f", observation.location.coordinate.longitude, observation.location.coordinate.latitude);
             
@@ -560,7 +583,7 @@
         [persistenceManager deleteObservation:observation.observationId];
         [persistenceManager closeConnection];
         
-        [inventory.observations removeObjectAtIndex:currIndexPath.row];
+        [observation.inventory.observations removeObjectAtIndex:currIndexPath.row];
         
         [observation setObservation:nil];
         

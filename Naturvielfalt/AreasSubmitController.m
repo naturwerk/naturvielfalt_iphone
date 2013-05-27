@@ -68,6 +68,10 @@
     [self prepareData];
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+    [area setArea:nil];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);

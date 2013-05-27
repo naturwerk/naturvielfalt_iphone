@@ -581,10 +581,10 @@
     Observation *observation = [observations objectAtIndex:indexPath.row];
     
     // Store the current observation object
-    Observation *observationShared = [[Observation alloc] getObservation];
+    /*Observation *observationShared = [[Observation alloc] getObservation];
     [observationShared setObservation:observation];
     
-    NSLog(@"Observation in CollectionOverView: %@", [observationShared getObservation]);
+    NSLog(@"Observation in CollectionOverView: %@", [observationShared getObservation]);*/
     
     // Set the current displayed organism
     organismSubmitController.observation = observation;

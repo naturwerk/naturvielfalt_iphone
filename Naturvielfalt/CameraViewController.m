@@ -9,6 +9,7 @@
 #import "CameraViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "Observation.h"
+#import "ObservationsOrganismSubmitController.h"
 
 @interface CameraViewController ()
 static UIImage *shrinkImage(UIImage *original, CGSize size);
@@ -96,7 +97,34 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
         
         if (!tmpArea) {
             [self.navigationController popViewControllerAnimated:TRUE];
+        } else {
+            for (AreaImage *aImg in area.pictures) {
+                if (!aImg.areaImageId) {
+                    [tmpArea.pictures addObject:aImg];
+                }
+            }
+            area = tmpArea;
         }
+        tmpArea = nil;
+    } else if (observation.observationId) {
+        if(!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        [persistenceManager establishConnection];
+        Observation *tmpObservation = [persistenceManager getObservation:observation.observationId];
+        [persistenceManager closeConnection];
+        
+        if (!tmpObservation) {
+            [self.navigationController popViewControllerAnimated:TRUE];
+        } else {
+            for (ObservationImage *oImg in observation.pictures) {
+                if (!oImg.observationImageId) {
+                    [tmpObservation.pictures addObject:oImg];
+                }
+            }
+            observation = tmpObservation;
+        }
+        tmpObservation = nil;
     }
 }
 
@@ -169,9 +197,10 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
             }
         } else {
             [area setArea:area];
+            
         }
     } else if (observation) {
-        if (observation.observationId) {
+        /*if (observation.observationId) {
             //Delete all photos from observation first, then save the new images
             [persistenceManager deleteObservationImagesFromObservation:observation.observationId];
             for (ObservationImage *oImg in observation.pictures) {
@@ -180,7 +209,8 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
             }
         } else {
             [observation setObservation:observation];
-        }
+        }*/
+        [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
     }
     [persistenceManager closeConnection];
     
@@ -295,10 +325,10 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
     }
     else {
         UIAlertView *alert = [[UIAlertView alloc] 
-                              initWithTitle:@"Error accessing media" 
-                              message:@"Device doesn’t support that media source." 
+                              initWithTitle:NSLocalizedString(@"alertMessageMediaTitle", nil)
+                              message:NSLocalizedString(@"alertMessageMedia", nil)
                               delegate:nil 
-                              cancelButtonTitle:@"Drat!" 
+                              cancelButtonTitle:NSLocalizedString(@"navCancel", nil)
                               otherButtonTitles:nil];
         [alert show];
     }

@@ -38,6 +38,11 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+    [inventory setInventory:nil];
+    [area setArea:nil];
+}
+
 - (void) viewDidAppear:(BOOL)animated {
     if (inventory.inventoryId) {
         if (!persistenceManager) {

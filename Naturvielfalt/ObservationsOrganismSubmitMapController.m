@@ -107,10 +107,17 @@
     NSString *title = NSLocalizedString(@"observationLocalization", nil);
     self.navigationItem.title = title;
     
-    CLLocationCoordinate2D theCoordinate;
+    /*CLLocationCoordinate2D theCoordinate;
     
-    theCoordinate.longitude = observation.location.coordinate.longitude;
-    theCoordinate.latitude = observation.location.coordinate.latitude;
+    if (observation.location) {
+        theCoordinate.longitude = observation.location.coordinate.longitude;
+        theCoordinate.latitude = observation.location.coordinate.latitude;
+    } else {
+        mapView.showsUserLocation = YES;
+        theCoordinate.longitude = mapView.userLocation.coordinate.longitude;
+        theCoordinate.latitude = mapView.userLocation.coordinate.latitude;
+    }
+
 	
 	annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
 	annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getNameDe]];
@@ -118,18 +125,46 @@
     shouldAdjustZoom = YES;
     
     // Calculate swiss coordinates
-    annotation = [self adaptPinSubtitle: theCoordinate];
+    annotation = [self adaptPinSubtitle: theCoordinate];*/
     
     pinMoved = false;
     [setButton setTitle:NSLocalizedString(@"observationAdd", nil) forState:UIControlStateNormal];
     
-	[self.mapView addAnnotation:annotation];
+	//[self.mapView addAnnotation:annotation];
     [self loadArea];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+       
+	if (!review) {
+        CLLocationCoordinate2D theCoordinate;
+        
+        if (observation.location) {
+            theCoordinate.longitude = observation.location.coordinate.longitude;
+            theCoordinate.latitude = observation.location.coordinate.latitude;
+        } else {
+            mapView.showsUserLocation = YES;
+            theCoordinate.longitude = mapView.userLocation.coordinate.longitude;
+            theCoordinate.latitude = mapView.userLocation.coordinate.latitude;
+        }
+
+        annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
+        annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getNameDe]];
+        
+        shouldAdjustZoom = YES;
+        
+        // Calculate swiss coordinates
+        annotation = [self adaptPinSubtitle: theCoordinate];
+        
+        pinMoved = false;
+        
+        [self.mapView addAnnotation:annotation];
+        review = YES;
+    }
+	
     currentLocation = observation.location;
     currentAccuracy = observation.accuracy;
+    
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     
@@ -143,6 +178,12 @@
     
     [self zoomToAnnotation];
     [self loadArea];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    if (!observation.locationLocked && !observation.inventory) {
+        [self relocate:nil];
+    }
 }
 
 - (void) loadArea {
@@ -487,14 +528,14 @@
         NSLog(@"overlay LINE");
         MKPolylineView *lineView = [[MKPolylineView alloc] initWithPolyline:overlay];
         lineView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:pAlpha];
-        lineView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.5];
+        lineView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
         lineView.lineWidth = pWidth;
         overlayView = lineView;
     } else if ([overlay class] == MKPolygon.class) {
         NSLog(@"overlay POLYGON");
         MKPolygonView *polyView = [[MKPolygonView alloc] initWithPolygon:overlay];
         polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:pAlpha];
-        polyView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.5];
+        polyView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
         polyView.lineWidth = pWidth;
         overlayView = polyView;
     }

@@ -13,8 +13,8 @@
 #import "PersistenceManager.h"
 
 @interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>  {
-    Organism *__weak organism;
-    Observation *__weak observation;
+    Organism *organism;
+    Observation *observation;
     IBOutlet UILabel *nameDe;
     IBOutlet UILabel *nameLat;
     IBOutlet UILabel *family;
@@ -31,8 +31,6 @@
     
     PersistenceManager *persistenceManager;
     Observation *persistedObservation;
-    
-    // It's needed for navigation with area feature
     Inventory *inventory;
     
     BOOL review;
@@ -42,8 +40,8 @@
 
 
 @property (nonatomic, assign) BOOL observationChanged;
-@property (nonatomic, weak) Organism *organism;
-@property (nonatomic, weak) Observation *observation;
+@property (nonatomic) Organism *organism;
+@property (nonatomic) Observation *observation;
 @property (nonatomic) IBOutlet UILabel *nameDe;
 @property (nonatomic) IBOutlet UILabel *nameLat;
 @property (nonatomic) IBOutlet UILabel *family;

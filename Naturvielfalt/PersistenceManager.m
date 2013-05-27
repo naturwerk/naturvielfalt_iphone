@@ -205,6 +205,9 @@
 
 - (void) updateObservation:(Observation *) observation
 {
+    // Delete all images from observation first
+    [self deleteObservationImagesFromObservation:observation.observationId];
+    
     char *sql = "UPDATE observation SET INVENTORY_ID = ?, ORGANISM_ID = ?, ORGANISMGROUP_ID = ?, ORGANISM_NAME = ?, ORGANISM_NAME_LAT = ?, ORGANISM_FAMILY = ?, AUTHOR = ?, DATE = ?, AMOUNT = ?, LOCATION_LAT = ?, LOCATION_LON = ?, ACCURACY = ?, COMMENT = ? WHERE ID = ?";
     
     sqlite3_stmt *stmt;
@@ -235,10 +238,8 @@
         // Check if there are any images
         if(observation.pictures.count > 0) {
             for (ObservationImage *obsImg in observation.pictures) {
-                if (!obsImg.observationImageId) {
-                    obsImg.observationId = observation.observationId;
-                    obsImg.observationImageId = [self saveObservationImage:obsImg];
-                }
+                obsImg.observationId = observation.observationId;
+                obsImg.observationImageId = [self saveObservationImage:obsImg];
             }
         }
         NSLog(@"Update observation in db: %@", observation);

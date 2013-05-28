@@ -15,7 +15,7 @@
 #import "CustomOrganismCell.h"
 
 @implementation ObservationsOrganismViewController
-@synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, inventory;
+@synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, inventory, persistenceManager;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -78,6 +78,24 @@
 
 
 - (void) viewDidAppear:(BOOL)animated {
+    if (inventory.inventoryId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        [persistenceManager establishConnection];
+        Area *tmpArea = [persistenceManager getArea:inventory.areaId];
+        inventory = [persistenceManager getInventory:inventory.inventoryId];
+        inventory.area = tmpArea;
+        [persistenceManager closeConnection];
+
+        
+        if (!inventory) {
+            [inventory setInventory:nil];
+            inventory = nil;
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+    }
 }
 
 - (NSMutableDictionary *) getCurrentDict 
@@ -115,9 +133,10 @@
     keysDE = [[NSMutableArray alloc] init];
     keysLAT = [[NSMutableArray alloc] init];
     
-    
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
     // Get all oranismGroups
-    PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
     [persistenceManager establishConnection];
     
     NSMutableArray *organisms;

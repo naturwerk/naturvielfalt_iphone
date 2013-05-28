@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Inventory.h"
+#import "PersistenceManager.h"
 
 
 @interface ObservationsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
@@ -19,6 +20,7 @@
     
     // It's needed for navigation with area feature
     Inventory *inventory;
+    PersistenceManager *persistenceManager;
 }
 
 @property (nonatomic) NSMutableArray *listData;
@@ -27,5 +29,6 @@
 @property (nonatomic, assign) int groupId;
 @property (nonatomic, assign) int classlevel;
 @property (nonatomic) Inventory *inventory;
+@property (nonatomic) PersistenceManager *persistenceManager;
 
 @end

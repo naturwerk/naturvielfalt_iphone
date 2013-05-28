@@ -10,7 +10,7 @@
 #import "ObservationsOrganismSubmitController.h"
 
 @implementation ObservationsOrganismSubmitAmountController
-@synthesize picker, amount, arrayValues, observation, amountLabel, currentAmount;
+@synthesize picker, amount, arrayValues, observation, amountLabel, currentAmount, persistenceManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -93,6 +93,25 @@
     
     // set the picker value to the current stored amount value
     [picker selectRow:selectedRowId inComponent:0 animated:true];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    if (observation.observationId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        [persistenceManager establishConnection];
+        observation = [persistenceManager getObservation:observation.observationId];
+        Area *tmpArea = [persistenceManager getArea:observation.inventory.areaId];
+        observation.inventory.area = tmpArea;
+        
+        if (!observation) {
+            [observation setObservation:nil];
+            observation = nil;
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+    }
 }
 
 - (void) saveAmount {

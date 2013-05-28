@@ -15,7 +15,7 @@
 #import "ObservationsOrganismSubmitController.h"
 
 @implementation ObservationsViewController
-@synthesize listData, table, spinner, groupId, classlevel, inventory;
+@synthesize listData, table, spinner, groupId, classlevel, inventory, persistenceManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -90,7 +90,23 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated {
-    
+    if (inventory.inventoryId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        [persistenceManager establishConnection];
+        Area *tmpArea = [persistenceManager getArea:inventory.areaId];
+        inventory = [persistenceManager getInventory:inventory.inventoryId];
+        inventory.area = tmpArea;
+        [persistenceManager closeConnection];
+        
+        if (!inventory) {
+            [inventory setInventory:nil];
+            inventory = nil;
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+    }
     [table reloadData];
 }
 
@@ -178,7 +194,9 @@
     organismController.organismGroupName = currentSelectedOrganismGroup.name;
     
     // Find out if this organism group has at least one child
-    PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
     [persistenceManager establishConnection];
     BOOL hasChild = [persistenceManager organismGroupHasChild:currentSelectedOrganismGroup.organismGroupId];
     [persistenceManager closeConnection];
@@ -239,9 +257,10 @@
 
 -(void) loadOrganismusGroups 
 {
-    
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
     // Get all oranismGroups
-    PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
     [persistenceManager establishConnection];
     
     // Get all Root elements (Root elements have the id 1)

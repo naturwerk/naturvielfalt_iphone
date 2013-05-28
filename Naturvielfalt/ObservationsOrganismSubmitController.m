@@ -45,10 +45,7 @@
 - (void) viewDidAppear:(BOOL)animated 
 {
     NSLog(@"didAppear");
-    [tableView reloadData];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
+    
     if (observation.observationId) {
         if (!persistenceManager) {
             persistenceManager = [[PersistenceManager alloc] init];
@@ -62,23 +59,37 @@
         if (persistedObservation) {
             persistedObservation.inventory.area = currentArea;
             observation = persistedObservation;
+        } else {
+            [observation setObservation:nil];
+            observation = nil;
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
         }
-    } else {
+    } else if (inventory){
         if (!persistenceManager) {
             persistenceManager = [[PersistenceManager alloc] init];
         }
         
         [persistenceManager establishConnection];
+        Area *tmpArea = [persistenceManager getArea:inventory.areaId];
         inventory = [persistenceManager getInventory:inventory.inventoryId];
-        Area *currentArea = [persistenceManager getArea:inventory.areaId];
+        inventory.area = tmpArea;
         [persistenceManager closeConnection];
         
         if (inventory) {
-            inventory.area = currentArea;
             observation.inventory = inventory;
+        } else {
+            [inventory setInventory:nil];
+            inventory = nil;
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
         }
         [self prepareData];
     }
+    [tableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
 }
 
 #pragma mark - View lifecycle
@@ -186,6 +197,11 @@
             LocationPoint *locationPoint = ((LocationPoint *)[observation.inventory.area.locationPoints objectAtIndex:0]);
             CLLocation *location = [[CLLocation alloc] initWithLatitude:locationPoint.latitude longitude:locationPoint.longitude];
             observation.location = location;
+            
+            // Save the new location for de map controller if observation has an idea
+            if (observation.observationId) {
+                [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+            }
         }
         review = true;
     }
@@ -551,7 +567,6 @@
                                                                                     bundle:[NSBundle mainBundle]];
             
             organismSubmitMapController.observation = observation;
-            organismSubmitMapController.review = NO;
             
             NSLog(@"longi: %f and lati: %f", observation.location.coordinate.longitude, observation.location.coordinate.latitude);
             

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Observation.h"
+#import "PersistenceManager.h"
 
 @interface ObservationsOrganismSubmitAmountController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource> {
     IBOutlet UITextField *amount;
@@ -16,6 +17,7 @@
     NSMutableArray *arrayValues;
     Observation *observation;
     NSString *currentAmount;
+    PersistenceManager *persistenceManager;
     
 }
 
@@ -25,5 +27,6 @@
 @property (nonatomic) IBOutlet Observation *observation;
 @property (nonatomic) IBOutlet UILabel *amountLabel;
 @property (nonatomic) IBOutlet NSString *currentAmount;
+@property (nonatomic) IBOutlet PersistenceManager *persistenceManager;
 
 @end

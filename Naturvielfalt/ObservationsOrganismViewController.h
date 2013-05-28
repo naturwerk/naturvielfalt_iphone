@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "Organism.h"
 #import "Inventory.h"
+#import "PersistenceManager.h"
 
 @interface ObservationsOrganismViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate> {
     
     NSMutableArray *listData;
+    PersistenceManager *persistenceManager;
     NSInteger organismGroupId;
     NSString *organismGroupName;
     BOOL displayGermanNames;
@@ -59,6 +61,7 @@
 @property (nonatomic, assign) BOOL isSearching;
 @property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic) Inventory *inventory;
+@property (nonatomic) PersistenceManager *persistenceManager;
 
 - (void) appendToDictionary:(Organism *)organism;
 - (void) resetSearch;

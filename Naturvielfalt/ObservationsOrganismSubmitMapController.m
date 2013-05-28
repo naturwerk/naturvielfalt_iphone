@@ -17,7 +17,7 @@
 #define pAlpha 0.1
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, persistenceManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -135,32 +135,6 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-       
-	if (!review) {
-        CLLocationCoordinate2D theCoordinate;
-        
-        if (observation.location) {
-            theCoordinate.longitude = observation.location.coordinate.longitude;
-            theCoordinate.latitude = observation.location.coordinate.latitude;
-        } else {
-            mapView.showsUserLocation = YES;
-            theCoordinate.longitude = mapView.userLocation.coordinate.longitude;
-            theCoordinate.latitude = mapView.userLocation.coordinate.latitude;
-        }
-
-        annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
-        annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getNameDe]];
-        
-        shouldAdjustZoom = YES;
-        
-        // Calculate swiss coordinates
-        annotation = [self adaptPinSubtitle: theCoordinate];
-        
-        pinMoved = false;
-        
-        [self.mapView addAnnotation:annotation];
-        review = YES;
-    }
 	
     currentLocation = observation.location;
     currentAccuracy = observation.accuracy;
@@ -176,11 +150,57 @@
         case 3:{mapView.mapType = MKMapTypeStandard;break;}
     }
     
-    [self zoomToAnnotation];
-    [self loadArea];
+
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+    
+    if (observation.observationId) {
+        if (!persistenceManager) {
+            persistenceManager = [[PersistenceManager alloc] init];
+        }
+        [persistenceManager establishConnection];
+        observation = [persistenceManager getObservation:observation.observationId];
+        Area *tmpArea = [persistenceManager getArea:observation.inventory.areaId];
+        observation.inventory.area = tmpArea;
+        
+        if (!observation) {
+            [observation setObservation:nil];
+            observation = nil;
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+    }
+    
+    if (!review) {
+        CLLocationCoordinate2D theCoordinate;
+        
+        if (observation.location) {
+            theCoordinate.longitude = observation.location.coordinate.longitude;
+            theCoordinate.latitude = observation.location.coordinate.latitude;
+        } else {
+            mapView.showsUserLocation = YES;
+            theCoordinate.longitude = mapView.userLocation.coordinate.longitude;
+            theCoordinate.latitude = mapView.userLocation.coordinate.latitude;
+        }
+        
+        annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
+        annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getNameDe]];
+        
+        shouldAdjustZoom = YES;
+        
+        // Calculate swiss coordinates
+        annotation = [self adaptPinSubtitle: theCoordinate];
+        
+        pinMoved = false;
+        
+        [self.mapView addAnnotation:annotation];
+        review = YES;
+    }
+    
+    [self zoomToAnnotation];
+    [self loadArea];
+    
     if (!observation.locationLocked && !observation.inventory) {
         [self relocate:nil];
     }

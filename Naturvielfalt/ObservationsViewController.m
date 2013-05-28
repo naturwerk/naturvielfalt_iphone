@@ -57,7 +57,7 @@
     }
     
     // Set the title of the Navigationbar
-    NSString *title = [[NSString alloc] initWithString:@"Naturvielfalt"];
+    NSString *title = @"Naturvielfalt";
     self.navigationItem.title = title;
     
     
@@ -130,7 +130,7 @@
     NSString *detailTextLabel;
     
     if(organismGroup.count == 0) {
-        detailTextLabel = [NSString stringWithString:@"→"];
+        detailTextLabel = @"→";
         cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:24.0];
     } else {
         //changing icons for custom artgroups

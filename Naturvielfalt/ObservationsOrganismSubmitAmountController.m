@@ -44,7 +44,7 @@
     [super viewDidLoad];
 
     // Set navigation bar title    
-    NSString *title = [[NSString alloc] initWithString:@"Anzahl"];
+    NSString *title = @"Anzahl";
     self.navigationItem.title = title;
     
     // Initialize the picker

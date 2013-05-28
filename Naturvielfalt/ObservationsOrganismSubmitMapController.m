@@ -100,7 +100,7 @@
     
     
     // Set navigation bar title    
-    NSString *title = [[NSString alloc] initWithString:@"Lokalisierung"];
+    NSString *title = @"Lokalisierung";
     self.navigationItem.title = title;
     
     CLLocationCoordinate2D theCoordinate;

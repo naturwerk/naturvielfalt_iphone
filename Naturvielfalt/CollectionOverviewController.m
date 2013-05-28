@@ -39,7 +39,7 @@
     [super viewDidLoad];
 
     // Set the title of the Navigationbar
-    NSString *title = [[NSString alloc] initWithString:@"Erfassungen"];
+    NSString *title = @"Erfassungen";
     self.navigationItem.title = title;
     
     // Create filter button and add it to the NavigationBar
@@ -155,8 +155,8 @@
             // Get username and password from the UserDefaults
             NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
             
-            NSString *username = [NSString stringWithString:@""];             
-            NSString *password = [NSString stringWithString:@""];
+            NSString *username = @"";             
+            NSString *password = @"";
             
             BOOL credentialsSetted = true;
             

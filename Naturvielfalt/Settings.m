@@ -36,8 +36,8 @@
 - (id)initWithLocalhost {
     self = [super init]; 
     if (self != nil) {
-        urlWebservice = [NSString stringWithString:@"http://localhost/swissmon/application/api/organismgroups/"];
-        urlSubmitScript = [NSString stringWithString:@"http://localhost/swissmon/webservice/submitData.php"];
+        urlWebservice = @"http://localhost/swissmon/application/api/organismgroups/";
+        urlSubmitScript = @"http://localhost/swissmon/webservice/submitData.php";
     } else {
         NSLog(@"Couldn't initialize object");
     }
@@ -49,8 +49,8 @@
     
     self = [super init]; 
     if (self != nil) {
-        urlWebservice = [NSString stringWithString:@"http://naturvielfalt.ch/swissmon/application/api/organismgroups/"];
-        urlSubmitScript = [NSString stringWithString:@"http://naturvielfalt.ch/swissmon/webservice/submitData.php"];
+        urlWebservice = @"http://naturvielfalt.ch/swissmon/application/api/organismgroups/";
+        urlSubmitScript = @"http://naturvielfalt.ch/swissmon/webservice/submitData.php";
     } else {
         NSLog(@"Couldn't initialize object");
     }

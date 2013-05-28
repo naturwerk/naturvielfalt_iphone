@@ -33,7 +33,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     imageFrame = imageView.frame;
     
     // Set navigation bar title    
-    NSString *title = [[NSString alloc] initWithString:@"Foto"];
+    NSString *title = @"Foto";
     self.navigationItem.title = title;
 }
 

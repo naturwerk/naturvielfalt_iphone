@@ -87,7 +87,7 @@
     self.navigationItem.leftBarButtonItem = chancelButton;
     
     // Set navigation bar title    
-    NSString *title = [[NSString alloc] initWithString:@"Beobachtung"];
+    NSString *title = @"Beobachtung";
     self.navigationItem.title = title;
         
     // Table init

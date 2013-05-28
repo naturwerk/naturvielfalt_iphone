@@ -44,7 +44,7 @@ static Observation *observation;
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     NSString *dateString = [dateFormatter stringFromDate:date];
     
-    NSString *output = [[NSString alloc] initWithFormat:@"[%d] _%d_ %d %@ %@ %@ %@ (%f, %f) #Pics: %d", 
+    NSString *output = [[NSString alloc] initWithFormat:@"[%lld] _%d_ %d %@ %@ %@ %@ (%f, %f) #Pics: %d",
                                                         observationId,
                                                         organism.organismId,
                                                         organism.organismGroupId,

@@ -13,8 +13,8 @@
 
 -(NSString *)getLatName {
     
-    if(genus == @""){
-        if(nameLat == @""){
+    if([genus isEqual: @""]){
+        if([nameLat isEqual: @""]){
             return @"Kein lateinischer Name";
         }
         return nameLat;
@@ -24,7 +24,7 @@
 
 - (NSString *)getNameDe {
     // Only set the german name, genus and species if it exists    
-    NSString *nameDeValue = (nameDe == @"") ? nameLat : [nameDe capitalizedString];
+    NSString *nameDeValue = ([nameDe isEqual: @""]) ? nameLat : [nameDe capitalizedString];
     
     return nameDeValue;
 }

@@ -15,7 +15,7 @@
     
     if([genus isEqual: @""]){
         if([nameLat isEqual: @""]){
-            return @"Kein lateinischer Name";
+            return NSLocalizedString(@"noLatName", nil);
         }
         return nameLat;
     }

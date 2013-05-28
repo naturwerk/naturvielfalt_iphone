@@ -39,12 +39,12 @@
     [super viewDidLoad];
 
     // Set the title of the Navigationbar
-    NSString *title = @"Erfassungen";
+    NSString *title = NSLocalizedString(@"observationTabLabel", nil);
     self.navigationItem.title = title;
     
     // Create filter button and add it to the NavigationBar
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] 
-                                     initWithTitle:@"Übermitteln"
+                                     initWithTitle:NSLocalizedString(@"navSubmit", nil)
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(alertOnSendObservationsDialog)];
@@ -54,7 +54,7 @@
     
     // Create filter button and add it to the NavigationBar
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] 
-                                     initWithTitle:@"Löschen"
+                                     initWithTitle:NSLocalizedString(@"navDel", nil)
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(removeObservations)];
@@ -93,8 +93,9 @@
         [self sendObservations];
     }
     else {
-        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:@"Beobachtungen übermitteln?" 
-                                                        message:@"Sind Sie sicher, dass Sie ihre Beobachtungen über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen." delegate:self cancelButtonTitle:@"Cancel"otherButtonTitles:@"OK", nil];
+        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"collectionAlertObsTitle", nil)
+                                                              message:NSLocalizedString(@"collectionAlertObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil)
+                                                    otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
         [submitAlert show];
     }
 }
@@ -116,8 +117,8 @@
     
     loadingHUD.delegate = self;
     loadingHUD.mode = MBProgressHUDModeCustomView;
-    loadingHUD.labelText = @"Bitte warten";
-    loadingHUD.detailsLabelText = @"Daten werden übermittelt..";
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudWaitMessage", nil);
+    loadingHUD.detailsLabelText = NSLocalizedString(@"collectionHudSubmitMessage", nil);
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -140,7 +141,7 @@
     int i = 1;
 
     if(counter == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Es wurden noch keine Beobachtungen gespeichert oder keine wurde ausgewählt." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
@@ -173,7 +174,7 @@
             }
             
             if(!credentialsSetted) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Benutzername/Passwort wurde noch nicht gesetzt. Dies kann in den Einstellungen gesetzt werden." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorSettings", nil)  delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
                 [alert show];
                 
                 return;
@@ -231,10 +232,10 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     if(!transmission_problem) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Erfolgreich" message:@"Alle Beobachtungen wurden erfolgreich übertragen." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
         [alert show];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:@"Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObsSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
         [alert show];
     }
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];

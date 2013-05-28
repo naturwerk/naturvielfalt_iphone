@@ -70,8 +70,8 @@
     
     // Set top navigation bar button  
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] 
-                                     initWithTitle:(!review) ? @"Sichern" 
-                                                            : @"Ändern"
+                                     initWithTitle:(!review) ? NSLocalizedString(@"navSave", nil) 
+                                                            : NSLocalizedString(@"navChange", nil)
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(saveObservation)];
@@ -80,14 +80,14 @@
     
     // Set top navigation bar button  
     UIBarButtonItem *chancelButton = [[UIBarButtonItem alloc] 
-                                      initWithTitle:@"Abbrechen"
+                                      initWithTitle:NSLocalizedString(@"navCancel", nil)
                                       style:UIBarButtonItemStyleBordered
                                       target:self
                                       action: @selector(abortObsersation)];
     self.navigationItem.leftBarButtonItem = chancelButton;
     
     // Set navigation bar title    
-    NSString *title = @"Beobachtung";
+    NSString *title = NSLocalizedString(@"observationNavTitle", nil);
     self.navigationItem.title = title;
         
     // Table init
@@ -146,7 +146,7 @@
     nowString = [dateFormatter stringFromDate:observation.date];
       
     // Initialize keys/valu es
-    arrayKeys = [[NSArray alloc] initWithObjects:@"Zeit", @"Erfasser", @"Anzahl", @"Bemerkung", @"Belegfotos", @"Genauigkeit", nil];
+    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationTime", nil), NSLocalizedString(@"observationAuthor", nil), NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), nil];
     arrayValues = [[NSArray alloc] initWithObjects:nowString, observation.author, observation.amount, @">", nil];
 }
 
@@ -175,17 +175,17 @@
     hud.mode = MBProgressHUDModeCustomView;
     
     //hud.delegate = self;
-    hud.labelText = @"Beobachtung Gespeichert";
+    hud.labelText = NSLocalizedString(@"observationSuccessMessage", nil);
     
     [hud show:YES];
-    [hud hide:YES afterDelay:5];
+    [hud hide:YES afterDelay:1];
     
     // Set review flag
     review = true;
     
     // Set top navigation bar button  
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] 
-                                     initWithTitle:@"Ändern"
+                                     initWithTitle:NSLocalizedString(@"navChange", nil)
                                      style:UIBarButtonItemStyleBordered
                                      target:self
                                      action: @selector(saveObservation)];
@@ -216,8 +216,6 @@
        
          locationManager = nil;
     }
-
-
 }
 
 

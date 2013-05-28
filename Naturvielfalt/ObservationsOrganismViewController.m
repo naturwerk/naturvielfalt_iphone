@@ -359,7 +359,7 @@
     //show empty message
     if ([[self getCurrentKey] count] == 0){
         cell.textLabel.text = nil;
-        cell.detailTextLabel.text = NSLocalizedString(@"Keine Organismen gefunden", @"");
+        cell.detailTextLabel.text = NSLocalizedString(@"organismNotFound", nil);
         cell.detailTextLabel.textColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7];
         cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:16];
         cell.accessoryType = UITableViewCellAccessoryNone;

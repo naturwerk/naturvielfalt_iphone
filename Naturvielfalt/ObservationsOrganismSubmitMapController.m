@@ -40,7 +40,7 @@
     [super viewDidLoad];
     
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Sichern"
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navSave", nil)
                                                                    style:UIBarButtonItemStylePlain 
                                                                   target:self 
                                                                   action:@selector(returnBack)];
@@ -100,7 +100,7 @@
     
     
     // Set navigation bar title    
-    NSString *title = @"Lokalisierung";
+    NSString *title = NSLocalizedString(@"observationLocalization", nil);
     self.navigationItem.title = title;
     
     CLLocationCoordinate2D theCoordinate;
@@ -270,18 +270,18 @@
     {
         case kCLErrorNetwork: // general, network-related error
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Kein Netzwerk vorhanden. Ev. im Flugmodus?" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"alertMessageNetwork", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
             [alert show];
         }
             break;
         case kCLErrorDenied:{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"GPS wurde vom Benutzer für diese Applikation deaktiviert. " delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"alertMessageGPS", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
             [alert show];
         }
             break;
         default:
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unbekannter Netzwerk Error." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"alertMessageUnknownError", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
             [alert show];
         }
             break;

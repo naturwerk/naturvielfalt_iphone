@@ -17,24 +17,21 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 @end
 
 @implementation CameraViewController
-@synthesize imageView;
-@synthesize takePictureButton;
-@synthesize moviePlayerController;
-@synthesize image;
-@synthesize movieURL;
-@synthesize lastChosenMediaType;
-@synthesize observation;
+@synthesize imageView, moviePlayerController, image, movieURL, lastChosenMediaType, observation, takePhotoButton, chooseExistingButton;
 
 - (void)viewDidLoad {
     if (![UIImagePickerController isSourceTypeAvailable:
           UIImagePickerControllerSourceTypeCamera]) {
-        takePictureButton.hidden = YES;
+        takePhotoButton.hidden = YES;
     }
     imageFrame = imageView.frame;
     
     // Set navigation bar title    
-    NSString *title = @"Foto";
+    NSString *title = NSLocalizedString(@"photoNavTitle", nil);
     self.navigationItem.title = title;
+    
+    [takePhotoButton setTitle:NSLocalizedString(@"photoNew", nil) forState:UIControlStateNormal];
+    [chooseExistingButton setTitle:NSLocalizedString(@"photoExisting", nil) forState:UIControlStateNormal];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -64,7 +61,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
     self.imageView = nil;
-    self.takePictureButton = nil;
+    self.takePhotoButton = nil;
     self.moviePlayerController = nil;
     
     [super viewDidUnload];
@@ -155,10 +152,10 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
     }
     else {
         UIAlertView *alert = [[UIAlertView alloc] 
-                              initWithTitle:@"Error accessing media" 
-                              message:@"Device doesn’t support that media source." 
+                              initWithTitle:NSLocalizedString(@"alertMessageMediaTitle", nil)
+                              message:NSLocalizedString(@"alertMessageMedia", nil)
                               delegate:nil 
-                              cancelButtonTitle:@"Drat!" 
+                              cancelButtonTitle:NSLocalizedString(@"navCancel", nil)
                               otherButtonTitles:nil];
         [alert show];
     }

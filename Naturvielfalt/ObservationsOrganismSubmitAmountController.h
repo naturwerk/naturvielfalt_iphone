@@ -14,11 +14,13 @@
     IBOutlet UIPickerView *picker;
     NSMutableArray *arrayValues;
     Observation *observation;
+    IBOutlet UILabel *amountLabel;
 }
 
 @property (nonatomic) IBOutlet UIPickerView *picker;
 @property (nonatomic) IBOutlet UITextField *amount;
 @property (nonatomic) IBOutlet NSMutableArray *arrayValues;
 @property (nonatomic) IBOutlet Observation *observation;
+@property (nonatomic) IBOutlet UILabel *amountLabel;
 
 @end

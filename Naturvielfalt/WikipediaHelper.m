@@ -48,7 +48,7 @@
     NSString *htmlSrc = [self fetchWikipediaArticle:latName];
     
     if([htmlSrc isEqualToString:@""])
-        return @"Artikel nicht gefunden";
+        return NSLocalizedString(@"organismWikiNotFound", nil);
         
     NSString *formatedHtmlSrc = [htmlSrc stringByReplacingOccurrencesOfString:@"/wiki/" withString:@"http://de.wikipedia.org/wiki/"];
     formatedHtmlSrc = [formatedHtmlSrc stringByReplacingOccurrencesOfString:@"<a href=\"http://de.wikipedia.org/wiki\"" withString:@"<a target=\"blank\" href=\"http://de.wikipedia.org/wiki\""];

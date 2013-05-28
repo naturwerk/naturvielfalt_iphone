@@ -10,6 +10,7 @@
 		2730A12715A31AF400F416D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12615A31AF300F416D9 /* Security.framework */; };
 		2730A12915A31AFC00F416D9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12815A31AFC00F416D9 /* CoreFoundation.framework */; };
 		276C9DEC1754A8AC0035BFA8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 276C9DEB1754A8AC0035BFA8 /* Default-568h@2x.png */; };
+		276C9DF21754CE670035BFA8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 276C9DF01754CE670035BFA8 /* Localizable.strings */; };
 		27746D07159B103900672970 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D02159B103900672970 /* Icon-72.png */; };
 		27746D08159B103900672970 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D03159B103900672970 /* Icon-Small-50.png */; };
 		27746D09159B103900672970 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D04159B103900672970 /* Icon-Small.png */; };
@@ -19,6 +20,7 @@
 		27746D11159B1F9D00672970 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0F159B1F9D00672970 /* Icon@2x.png */; };
 		27B84514159B223500818BCE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B84513159B223500818BCE /* Default@2x.png */; };
 		27B84516159B230C00818BCE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27B84515159B230C00818BCE /* Entitlements.plist */; };
+		27C3DBF01754CF49008E1E58 /* Naturvielfalt-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */; };
 		27C5847C15AD7D770085F719 /* 15-warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C5847B15AD7D770085F719 /* 15-warning.png */; };
 		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
 		27FC05F314A48D0300916B08 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05F114A48D0300916B08 /* MainWindow.xib */; };
@@ -136,6 +138,7 @@
 		2730A12615A31AF300F416D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2730A12815A31AFC00F416D9 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		276C9DEB1754A8AC0035BFA8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		276C9DF11754CE670035BFA8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		27746D02159B103900672970 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = SOURCE_ROOT; };
 		27746D03159B103900672970 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = SOURCE_ROOT; };
 		27746D04159B103900672970 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = SOURCE_ROOT; };
@@ -145,6 +148,7 @@
 		27746D0F159B1F9D00672970 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = SOURCE_ROOT; };
 		27B84513159B223500818BCE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
 		27B84515159B230C00818BCE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		27C3DBEF1754CF49008E1E58 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		27C5847B15AD7D770085F719 /* 15-warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "15-warning.png"; sourceTree = "<group>"; };
 		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -215,7 +219,7 @@
 		CBB7F627142B0409000150AF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CBB7F629142B0409000150AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CBB7F62B142B0409000150AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Naturvielfalt-Info.plist"; sourceTree = "<group>"; };
+		CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Naturvielfalt-Info.plist"; sourceTree = "<group>"; };
 		CBB7F633142B040A000150AF /* Naturvielfalt-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Naturvielfalt-Prefix.pch"; sourceTree = "<group>"; };
 		CBB7F634142B040A000150AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CBB7F636142B040A000150AF /* NaturvielfaltAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NaturvielfaltAppDelegate.h; sourceTree = "<group>"; };
@@ -586,6 +590,7 @@
 				CBB7F633142B040A000150AF /* Naturvielfalt-Prefix.pch */,
 				CBB7F634142B040A000150AF /* main.m */,
 				27B84515159B230C00818BCE /* Entitlements.plist */,
+				276C9DF01754CE670035BFA8 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -730,6 +735,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
 			);
 			mainGroup = CBB7F618142B0409000150AF;
 			productRefGroup = CBB7F624142B0409000150AF /* Products */;
@@ -801,6 +807,8 @@
 				27B84516159B230C00818BCE /* Entitlements.plist in Resources */,
 				27C5847C15AD7D770085F719 /* 15-warning.png in Resources */,
 				276C9DEC1754A8AC0035BFA8 /* Default-568h@2x.png in Resources */,
+				276C9DF21754CE670035BFA8 /* Localizable.strings in Resources */,
+				27C3DBF01754CF49008E1E58 /* Naturvielfalt-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,6 +879,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		276C9DF01754CE670035BFA8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				276C9DF11754CE670035BFA8 /* en */,
+				27C3DBEF1754CF49008E1E58 /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		27FC05F114A48D0300916B08 /* MainWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -947,7 +964,7 @@
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
@@ -1025,7 +1042,7 @@
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1050,7 +1067,7 @@
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;

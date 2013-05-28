@@ -15,5 +15,8 @@
 
 @property (nonatomic) IBOutlet UIWindow *window;
 @property (nonatomic) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic) IBOutlet UITabBarItem *observationTabItem;
+@property (nonatomic) IBOutlet UITabBarItem *collectionTabItem;
+@property (nonatomic) IBOutlet UITabBarItem *settingsTabItem;
 
 @end

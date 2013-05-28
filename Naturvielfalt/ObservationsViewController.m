@@ -57,7 +57,7 @@
     }
     
     // Set the title of the Navigationbar
-    NSString *title = @"Naturvielfalt";
+    NSString *title = NSLocalizedString(@"naturNavTitle", nil);
     self.navigationItem.title = title;
     
     
@@ -137,7 +137,7 @@
         if (organismGroup.organismGroupId == 29) {
             cell.imageView.image = [UIImage imageNamed:@"15-warning.png"];
         }
-        detailTextLabel = [NSString stringWithFormat:@"%d Arten", organismGroup.count];
+        detailTextLabel = [NSString stringWithFormat:@"%d %@", organismGroup.count, NSLocalizedString(@"naturSpecies", nil)];
     }
     
     cell.detailTextLabel.text = detailTextLabel;
@@ -197,7 +197,7 @@
                                                                               bundle:[NSBundle mainBundle]];
             
             Organism *notYetDefinedOrganism = [[Organism alloc] init];
-            notYetDefinedOrganism.nameDe = @"Noch nicht bestimmt";
+            notYetDefinedOrganism.nameDe = NSLocalizedString(@"naturNotDefinedOrganism", nil);
             notYetDefinedOrganism.organismGroupId = currentSelectedOrganismGroup.organismGroupId;
             
             // Set the current displayed organism

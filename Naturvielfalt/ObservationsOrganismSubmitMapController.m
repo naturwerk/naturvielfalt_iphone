@@ -14,7 +14,7 @@
 #import "SwissCoordinates.h"
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,12 +54,12 @@
     
     
     // RELOCATE button
-    UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"GPS"
+    /*UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"GPS"
                                                                  style:UIBarButtonItemStylePlain 
                                                                 target:self 
                                                                 action:@selector(relocate)];
     
-    self.navigationItem.leftBarButtonItem = relocate;
+    self.navigationItem.leftBarButtonItem = relocate;*/
     
     if(review || observation.locationLocked) {        
 
@@ -117,9 +117,67 @@
     annotation = [self adaptPinSubtitle: theCoordinate];
     
     pinMoved = false;
+    [setButton setTitle:NSLocalizedString(@"observationAdd", nil) forState:UIControlStateNormal];
     
     self.mapView.mapType = MKMapTypeHybrid;
 	[self.mapView addAnnotation:annotation];	
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    currentLocation = observation.location;
+    currentAccuracy = observation.accuracy;
+}
+
+- (IBAction)setPin:(id)sender {
+    // Sets the pin in the middle of the hairline cross
+    MKCoordinateRegion mapRegion = mapView.region;
+    NSLog(@"New coordinates: longitude - %g latitude - %g", mapRegion.center.longitude, mapRegion.center.latitude);
+    
+    [annotation setCoordinate:mapRegion.center];
+    
+    // Get annotation and update the observation
+	DDAnnotation *anno = annotation;
+    CLLocation *newLocation = [[CLLocation alloc] initWithCoordinate:CLLocationCoordinate2DMake(anno.coordinate.latitude, anno.coordinate.longitude)
+                                                            altitude:observation.location.altitude
+                                                  horizontalAccuracy:observation.location.horizontalAccuracy
+                                                    verticalAccuracy:observation.location.verticalAccuracy
+                                                           timestamp:[NSDate date]];
+    
+    currentLocation = newLocation;
+    observation.locationLocked = YES;
+    currentAccuracy = 0;
+    
+    pinMoved = true;
+    
+    // Calculate swiss coordinates
+    annotation = [self adaptPinSubtitle:annotation.coordinate];
+}
+
+- (IBAction)relocate:(id)sender {
+    //self.navigationItem.leftBarButtonItem.action = @selector(GPSrelocate);
+    //self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"observationRelocate", nil);
+    
+    
+    if ([CLLocationManager locationServicesEnabled]) {
+        MKCoordinateRegion region;
+        region.center = self.mapView.userLocation.coordinate;
+        
+        MKCoordinateSpan span;
+        span.latitudeDelta  = 0.005; // Change these values to change the zoom
+        span.longitudeDelta = 0.005;
+        region.span = span;
+        
+        [self.mapView setRegion:region animated:YES];
+        
+        /*NSLog( @"start relocate");
+         locationManager.delegate = self;
+         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+         locationManager.distanceFilter = 1000.0f;
+         
+         [locationManager startUpdatingLocation];*/
+    }
+    
+    self.mapView.showsUserLocation = YES;
 }
 
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate
@@ -133,7 +191,20 @@
     return annotation;
 }
 
-- (void) relocate 
+- (void) zoomToAnnotation {
+    MKCoordinateRegion region;
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.005;
+    span.longitudeDelta = 0.005;
+    CLLocationCoordinate2D location;
+    location.latitude = annotation.coordinate.latitude;
+    location.longitude = annotation.coordinate.longitude;
+    region.span = span;
+    region.center = location;
+    [mapView setRegion:region animated:YES];
+}
+
+/*- (void) relocate
 {
     self.navigationItem.leftBarButtonItem.action = @selector(GPSrelocate);
     self.navigationItem.leftBarButtonItem.title = @"GPS setzen";
@@ -150,9 +221,9 @@
     
     self.mapView.showsUserLocation = YES;
     
-}
+}*/
  
-- (void) GPSrelocate{
+/*- (void) GPSrelocate{
     
     [locationManager stopUpdatingLocation];
     
@@ -170,17 +241,21 @@
     
     self.mapView.showsUserLocation = YES;
     
-}
+}*/
+
 - (void) returnBack 
 {
     observation.locationLocked = true;
+    observation.accuracy = currentAccuracy;
+    observation.location = currentLocation;
+    
     // Change view back to submitController
-    ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc] 
+    /*ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
                                                                       initWithNibName:@"ObservationsOrganismSubmitController" 
                                                                       bundle:[NSBundle mainBundle]];
     
     // Set the current displayed organism
-    organismSubmitController.organism = observation.organism;
+    organismSubmitController.organism = observation.organism;*/
     
     
     // Switch the View & Controller
@@ -188,12 +263,12 @@
     [self.navigationController popViewControllerAnimated:TRUE];
     
     // PUSH
-    [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+    //[self.navigationController pushViewController:organismSubmitController animated:TRUE];
 }
 
 - (void) viewDidAppear:(BOOL)animated 
 {
-    
+    [self zoomToAnnotation];
 }
 
 // Listen to change in the userLocation

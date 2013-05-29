@@ -152,14 +152,21 @@
 
 - (void) saveObservation 
 {
-    persistenceManager = [[PersistenceManager alloc] init];
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
     [persistenceManager establishConnection];
     
     // Save observation
     if(review) {
+        [persistenceManager deleteObservationImagesFromObservation:observation.observationId];
         [persistenceManager updateObservation:observation];
     } else {
         observation.observationId = [persistenceManager saveObservation:observation];
+        for (ObservationImage *oImg in observation.pictures) {
+            oImg.observationId = observation.observationId;
+            oImg.observationImageId = [persistenceManager saveObservationImage:oImg];
+        }
     }
     
     // Close connection

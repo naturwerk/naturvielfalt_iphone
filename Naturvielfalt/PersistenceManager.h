@@ -10,6 +10,7 @@
 #import <Security/Security.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import "Observation.h"
+#import "ObservationImage.h"
 #import <sqlite3.h>
 
 
@@ -39,6 +40,12 @@
 - (void) updateObservation:(Observation *) observation;
 - (void) deleteObservation:(long long int)observationId;
 - (NSMutableArray *) getObservations;
+
+// ObservationImages
+- (long long int) saveObservationImage:(ObservationImage *) observationImage;
+- (void) deleteObservationImage:(long long int) observationImageId;
+- (void) deleteObservationImagesFromObservation:(long long int) observationId;
+- (NSMutableArray *) getObservationImagesFromObservation: (long long int) observationId;
 
 // Organismgroups;
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel;

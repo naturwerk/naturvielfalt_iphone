@@ -58,14 +58,23 @@
                                                                      LOCATION_LAT REAL,                    \
                                                                      LOCATION_LON REAL,                    \
                                                                      ACCURACY INTEGER,                     \
-                                                                     COMMENT TEXT,                         \
-                                                                     IMAGE BLOB);";
+                                                                     COMMENT TEXT);";
+    
+    // Create TABLE observationImage
+    NSString *createSQLObservationImage = @"CREATE TABLE IF NOT EXISTS observationImage (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
+    OBSERVATION_ID INTEGER,                             \
+    IMAGE BLOB);";
     
     char *errorMsg;
     
     if (sqlite3_exec (dbUser, [createSQL UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
         sqlite3_close(dbUser);
         NSAssert1(0, @"Error creating table: %s", errorMsg);
+    }
+    
+    if (sqlite3_exec (dbUser, [createSQLObservationImage UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
+        sqlite3_close(dbUser);
+        NSAssert1(0, @"Error creating table OBSERVATIONIMAGE: %s", errorMsg);
     }
     
     // dont' backup the database files to iCloud
@@ -109,7 +118,7 @@
 
 - (long long int) saveObservation:(Observation *) observation
 {
-    char *sql = "INSERT INTO observation (ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, IMAGE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    char *sql = "INSERT INTO observation (ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt;
 
     // Create date string
@@ -135,12 +144,7 @@
         
         // Check if there are any images
         if(observation.pictures.count > 0) {
-            UIImage *image = [observation.pictures objectAtIndex:0];
-            NSData *imageData = UIImagePNGRepresentation(image);
-            
-            sqlite3_bind_blob(stmt, 13, [imageData bytes] , [imageData length], NULL);
-        } else {
-            sqlite3_bind_blob(stmt, 13, nil , -1, NULL);
+            //save ObservationImages
         }
     }
     
@@ -158,12 +162,10 @@
 }
 
 
-
-
 // OBSERVATIONS
 - (void) updateObservation:(Observation *) observation
 {
-    char *sql = "UPDATE observation SET ORGANISM_ID = ?, ORGANISMGROUP_ID = ?, ORGANISM_NAME = ?, ORGANISM_NAME_LAT = ?, ORGANISM_FAMILY = ?, AUTHOR = ?, DATE = ?, AMOUNT = ?, LOCATION_LAT = ?, LOCATION_LON = ?, ACCURACY = ?, COMMENT = ?, IMAGE = ? WHERE ID = ?";
+    char *sql = "UPDATE observation SET ORGANISM_ID = ?, ORGANISMGROUP_ID = ?, ORGANISM_NAME = ?, ORGANISM_NAME_LAT = ?, ORGANISM_FAMILY = ?, AUTHOR = ?, DATE = ?, AMOUNT = ?, LOCATION_LAT = ?, LOCATION_LON = ?, ACCURACY = ?, COMMENT = ? WHERE ID = ?";
     
     sqlite3_stmt *stmt;
     
@@ -191,12 +193,10 @@
         
         // Check if there are any images
         if(observation.pictures.count > 0) {
-            UIImage *image = [observation.pictures objectAtIndex:0];
-            NSData *imageData = UIImagePNGRepresentation(image);
-            
-            sqlite3_bind_blob(stmt, 13, [imageData bytes] , [imageData length], NULL);
-        } else {
-            sqlite3_bind_blob(stmt, 13, nil , -1, NULL);
+            for (ObservationImage *obsImg in observation.pictures) {
+                obsImg.observationId = observation.observationId;
+                obsImg.observationImageId = [self saveObservationImage:obsImg];
+            }
         }
         NSLog(@"Update observation in db: %@", observation);
     }
@@ -252,7 +252,7 @@
             }
             
             // Get the image
-            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 13) length:sqlite3_column_bytes(statement, 13)];
+            /*NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 13) length:sqlite3_column_bytes(statement, 13)];
             
             NSMutableArray *arrayImages = [[NSMutableArray alloc] init];
             
@@ -262,7 +262,7 @@
                 if(image != nil) {
                     [arrayImages addObject:image];
                 }
-            }
+            }*/
                         
             // Create organism and set the id
             Organism *organism = [[Organism alloc] init];
@@ -302,8 +302,7 @@
             observation.accuracy = accuracy;
             observation.comment = comment;
             observation.submitToServer = true;
-            observation.pictures = arrayImages;
-
+            observation.pictures = [self getObservationImagesFromObservation:observationId];
             
             // Add observation to the observation array
             [observations addObject:observation];
@@ -331,10 +330,110 @@
     } else {
         NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
     }
+    [self deleteObservationImagesFromObservation:observationId];
     
     // Finalize and close database.
     sqlite3_finalize(statement);
-}    
+}
+
+// ObservationImages
+- (long long int) saveObservationImage:(ObservationImage *) observationImage {
+    
+    char *sql = "INSERT INTO observationImage (OBSERVATION_ID, IMAGE) VALUES (?, ?)";
+    sqlite3_stmt *stmt;
+    
+    
+    // Put the data into the insert statement
+    if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
+        sqlite3_bind_int(stmt, 1, observationImage.observationId);
+        
+        NSData *imageData = UIImagePNGRepresentation(observationImage.image);
+        sqlite3_bind_blob(stmt, 2, [imageData bytes] , [imageData length], NULL);
+    }
+    
+    NSLog(@"Insert observationImage in db: %@", observationImage);
+    
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        NSAssert1(0, @"Error inserting into table: %@", observationImage);
+    }
+    
+    sqlite3_finalize(stmt);
+    
+    return sqlite3_last_insert_rowid(dbUser);
+}
+
+- (void) deleteObservationImage:(long long int) observationImageId {
+    sqlite3_stmt* statement;
+    
+    // Create Query String.
+    NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM observationImage WHERE ID = '%lld'", observationImageId];
+    
+    if( sqlite3_prepare_v2(dbUser, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
+        if( sqlite3_step(statement) == SQLITE_DONE) {
+            NSLog(@"ObservationImage deleted!");
+        } else {
+            NSLog(@"DeleteFromDataBase: Failed from sqlite3_step. Error is:  %s", sqlite3_errmsg(dbUser) );
+        }
+    } else {
+        NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
+    }
+    
+    // Finalize and close database.
+    sqlite3_finalize(statement);
+}
+
+- (void) deleteObservationImagesFromObservation:(long long int) observationId {
+    sqlite3_stmt* statement;
+    
+    // Create Query String.
+    NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM observationImage WHERE OBSERVATION_ID = '%lld'", observationId];
+    
+    if( sqlite3_prepare_v2(dbUser, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
+        if( sqlite3_step(statement) == SQLITE_DONE) {
+            NSLog(@"ObservationImages deleted!");
+        } else {
+            NSLog(@"DeleteFromDataBase: Failed from sqlite3_step. Error is:  %s", sqlite3_errmsg(dbUser) );
+        }
+    } else {
+        NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
+    }
+    
+    // Finalize and close database.
+    sqlite3_finalize(statement);
+}
+- (NSMutableArray *) getObservationImagesFromObservation: (long long int) observationId {
+    // All observations are stored in here
+    NSMutableArray *observationImages = [[NSMutableArray alloc] init];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM observationImage WHERE OBSERVATION_ID = '%lld'", observationId];
+    
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			
+            int observationImageId = sqlite3_column_int(statement, 0);
+            int observationId = sqlite3_column_int(statement, 1);
+            
+            // Get the image
+            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 2) length:sqlite3_column_bytes(statement, 2)];
+            UIImage *image = [UIImage imageWithData:data];
+            
+            
+            // Create observationImage
+            ObservationImage *observationImage = [[ObservationImage alloc] init];
+            observationImage.observationImageId = observationImageId;
+            observationImage.observationId = observationId;
+            observationImage.image = image;
+            
+            // Add observationImage to the observationImages array
+            [observationImages addObject:observationImage];
+		}
+        sqlite3_finalize(statement);
+    }
+    return observationImages;
+}
+
 
 
 // ORGANISMGROUPS

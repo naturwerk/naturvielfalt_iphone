@@ -49,7 +49,7 @@
     self.navigationItem.rightBarButtonItem = submitButton;
     
     // Set navigation bar title    
-    NSString *title = @"Wikipedia";
+    NSString *title = NSLocalizedString(@"wikiNavTitle", nil);
     self.navigationItem.title = title;
     
     // Load wikipedia html source code

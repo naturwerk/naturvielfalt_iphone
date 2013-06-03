@@ -17,7 +17,6 @@
 }
 
 @property (nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic) NSMutableArray *titles;
 
 
 @end

@@ -13,13 +13,11 @@
 #import "Observation.h"
 #import "Area.h"
 #import "PersistenceManager.h"
-#import "PhotoViewController.h"
 #import "AFImageViewer.h"
 
 @interface CameraViewController : UIViewController
 <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     PersistenceManager *persistenceManager;
-    UIButton *takePictureButton;
     MPMoviePlayerController *moviePlayerController;
     NSURL *movieURL;
     NSString *lastChosenMediaType;
@@ -32,7 +30,6 @@
     IBOutlet UIButton *chooseExistingButton;
     IBOutlet UIButton *deletePhotoButton;
 }
-@property (nonatomic) IBOutlet UIButton *takePictureButton;
 @property (nonatomic) MPMoviePlayerController *moviePlayerController;
 @property (nonatomic) NSURL *movieURL;
 @property (nonatomic, copy) NSString *lastChosenMediaType;

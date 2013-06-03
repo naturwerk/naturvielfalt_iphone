@@ -20,6 +20,6 @@
 @property (nonatomic) IBOutlet UITabBarItem *observationTabItem;
 @property (nonatomic) IBOutlet UITabBarItem *areaTabItem;
 @property (nonatomic) IBOutlet UITabBarItem *collectionTabItem;
-@property (weak, nonatomic) IBOutlet UITabBarItem *settingsTabItem;
+@property (nonatomic) IBOutlet UITabBarItem *settingsTabItem;
 
 @end

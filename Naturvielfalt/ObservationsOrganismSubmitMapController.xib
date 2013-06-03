@@ -66,6 +66,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{129, 311}, {60, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -236,6 +237,7 @@
 						<reference key="object" ref="714607748"/>
 						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="191373211"/>
+						<string key="objectName">Button - relocate</string>
 					</object>
 				</array>
 			</object>

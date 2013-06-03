@@ -149,8 +149,6 @@
         case 2:{mapView.mapType = MKMapTypeHybrid;break;}
         case 3:{mapView.mapType = MKMapTypeStandard;break;}
     }
-    
-
 }
 
 - (void) viewDidAppear:(BOOL)animated {

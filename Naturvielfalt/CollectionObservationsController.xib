@@ -43,7 +43,7 @@
 							<object class="IBUITableView" id="990427158">
 								<reference key="NSNextResponder" ref="515544337"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrameSize">{320, 305}</string>
+								<string key="NSFrameSize">{320, 323}</string>
 								<reference key="NSSuperview" ref="515544337"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="8305777"/>
@@ -65,9 +65,10 @@
 							<object class="IBMKMapView" id="8305777">
 								<reference key="NSNextResponder" ref="515544337"/>
 								<int key="NSvFlags">-2147483380</int>
-								<string key="NSFrameSize">{320, 305}</string>
+								<string key="NSFrameSize">{320, 323}</string>
 								<reference key="NSSuperview" ref="515544337"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -76,7 +77,7 @@
 								<bool key="IBMKShowsUserLocation">YES</bool>
 							</object>
 						</array>
-						<string key="NSFrame">{{0, 68}, {320, 305}}</string>
+						<string key="NSFrame">{{0, 50}, {320, 323}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="990427158"/>

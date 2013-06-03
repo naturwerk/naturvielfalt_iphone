@@ -18,12 +18,12 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 @end
 
 @implementation CameraViewController
-@synthesize takePictureButton, moviePlayerController,movieURL,lastChosenMediaType,observation, chooseExistingButton, takePhotoButton, area, deletePhotoButton;
+@synthesize moviePlayerController,movieURL,lastChosenMediaType,observation, chooseExistingButton, takePhotoButton, area, deletePhotoButton;
 
 - (void)viewDidLoad {
     if (![UIImagePickerController isSourceTypeAvailable:
           UIImagePickerControllerSourceTypeCamera]) {
-        takePictureButton.hidden = YES;
+        takePhotoButton.hidden = YES;
     }
     imageFrame = CGRectMake(0, 0, 320, 270);
     
@@ -140,7 +140,6 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     [self persistPhotos];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    self.takePictureButton = nil;
     self.moviePlayerController = nil;
     
     [self setChooseExistingButton:nil];

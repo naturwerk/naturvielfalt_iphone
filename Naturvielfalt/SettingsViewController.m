@@ -13,7 +13,7 @@
 
 
 @implementation SettingsViewController
-@synthesize tableView, titles;
+@synthesize tableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -125,7 +125,7 @@
                 // Store the username in the appSettings
                 [appSettings setObject:username forKey:@"username"];
                 [appSettings synchronize];
-                cell.detailTextLabel.text = (username.length > 0) ? username : @"";
+                cell.detailTextLabel.text = (username.length > 0) ? username : @"-";
             } else {
                 
                 NSString *password = @"";
@@ -138,7 +138,7 @@
                 // Store the username in the appSettings
                 [appSettings setObject:password forKey:@"password"];
                 [appSettings synchronize];
-                cell.detailTextLabel.text = (password.length > 0) ? @"*********" : @"";
+                cell.detailTextLabel.text = (password.length > 0) ? @"*********" : @"-";
             }
             
         } else {

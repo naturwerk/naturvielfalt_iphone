@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		27008FEF1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */; };
-		2703452F1743A0DF00AF0C3A /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2703452E1743A0DF00AF0C3A /* ImageScrollView.m */; };
-		270345331743A19100AF0C3A /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 270345321743A19100AF0C3A /* PhotoViewController.m */; };
 		270D38FE1738D09400D94568 /* DeleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D38FD1738D09400D94568 /* DeleteCell.m */; };
 		270D390117393DE600D94568 /* CustomObservationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D390017393DE600D94568 /* CustomObservationAnnotation.m */; };
 		270D3904173940C300D94568 /* CustomObservationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D3903173940C200D94568 /* CustomObservationAnnotationView.m */; };
@@ -209,10 +207,6 @@
 /* Begin PBXFileReference section */
 		27008FED1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolygon+MKPolygonCategory.h"; sourceTree = "<group>"; };
 		27008FEE1727DDD000A088C7 /* MKPolygon+MKPolygonCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolygon+MKPolygonCategory.m"; sourceTree = "<group>"; };
-		2703452D1743A0DF00AF0C3A /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
-		2703452E1743A0DF00AF0C3A /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
-		270345311743A19100AF0C3A /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
-		270345321743A19100AF0C3A /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 		270D38FC1738D09400D94568 /* DeleteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteCell.h; sourceTree = "<group>"; };
 		270D38FD1738D09400D94568 /* DeleteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteCell.m; sourceTree = "<group>"; };
 		270D38FF17393DE500D94568 /* CustomObservationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObservationAnnotation.h; sourceTree = "<group>"; };
@@ -402,7 +396,7 @@
 		CB8095C714431B3B003D3764 /* LocationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationHelper.m; sourceTree = "<group>"; };
 		CBB070C81430542F00D3D0B5 /* 06-magnify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-magnify.png"; sourceTree = "<group>"; };
 		CBB070CA1430544600D3D0B5 /* 84-lightbulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "84-lightbulb.png"; sourceTree = "<group>"; };
-		CBB7F623142B0409000150AF /* NaturvielfaltLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NaturvielfaltLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBB7F623142B0409000150AF /* NaturvielfaltPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NaturvielfaltPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBB7F627142B0409000150AF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CBB7F629142B0409000150AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CBB7F62B142B0409000150AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -530,17 +524,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		270345301743A0E500AF0C3A /* Gallery */ = {
-			isa = PBXGroup;
-			children = (
-				2703452D1743A0DF00AF0C3A /* ImageScrollView.h */,
-				2703452E1743A0DF00AF0C3A /* ImageScrollView.m */,
-				270345311743A19100AF0C3A /* PhotoViewController.h */,
-				270345321743A19100AF0C3A /* PhotoViewController.m */,
-			);
-			name = Gallery;
-			sourceTree = "<group>";
-		};
 		272D3A631714168500588328 /* SubmitHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -839,7 +822,6 @@
 				CB1432331486642200BBA78D /* SwissCoordinates.m */,
 				CB1EE5D814893F3400FF286F /* Settings.h */,
 				CB1EE5D914893F3400FF286F /* Settings.m */,
-				270345301743A0E500AF0C3A /* Gallery */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -900,7 +882,7 @@
 		CBB7F624142B0409000150AF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CBB7F623142B0409000150AF /* NaturvielfaltLite.app */,
+				CBB7F623142B0409000150AF /* NaturvielfaltPro.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1080,7 +1062,7 @@
 			);
 			name = NaturvielfaltLite;
 			productName = Naturvielfalt;
-			productReference = CBB7F623142B0409000150AF /* NaturvielfaltLite.app */;
+			productReference = CBB7F623142B0409000150AF /* NaturvielfaltPro.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1302,8 +1284,6 @@
 				270D38FE1738D09400D94568 /* DeleteCell.m in Sources */,
 				270D390117393DE600D94568 /* CustomObservationAnnotation.m in Sources */,
 				270D3904173940C300D94568 /* CustomObservationAnnotationView.m in Sources */,
-				2703452F1743A0DF00AF0C3A /* ImageScrollView.m in Sources */,
-				270345331743A19100AF0C3A /* PhotoViewController.m in Sources */,
 				27E913701744BF70001701D9 /* AFImageViewer.m in Sources */,
 				27E9137C1744F286001701D9 /* ObservationImage.m in Sources */,
 				27E9137F1744F29C001701D9 /* AreaImage.m in Sources */,
@@ -1389,7 +1369,7 @@
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = NaturvielfaltPro;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;
@@ -1477,7 +1457,7 @@
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = NaturvielfaltPro;
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -1502,7 +1482,7 @@
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = NaturvielfaltPro;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;

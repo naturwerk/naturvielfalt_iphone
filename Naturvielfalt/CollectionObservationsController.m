@@ -59,8 +59,9 @@
     // Set keys of segment control
     NSArray *keys = [NSArray arrayWithObjects:NSLocalizedString(@"collectionTableControl", nil), NSLocalizedString(@"collectionMapControl", nil), nil];
     segmentControl = [[UISegmentedControl alloc] initWithItems:keys];
-    segmentControl.frame = CGRectMake(83, 12, 155, 44);
+    segmentControl.frame = CGRectMake(83, 3, 155, 44);
     segmentControl.selectedSegmentIndex = 0;
+    segmentControl.transform = CGAffineTransformMakeScale(.7f, .7f);
     
     [segmentControl addTarget:self action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
     

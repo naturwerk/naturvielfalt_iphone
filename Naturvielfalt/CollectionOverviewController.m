@@ -276,6 +276,7 @@
 {
     NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(synchronousLoadObservations) object:nil];
     [operationQueue addOperation:operation];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)synchronousLoadObservations
@@ -320,7 +321,20 @@
     // Reset observations
     observations = nil;
     
-    [self beginLoadingObservations];
+    MBProgressHUD *loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    [self.navigationController.view addSubview:loadingHUD];
+    
+    loadingHUD.delegate = self;
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    //loadingHUD.detailsLabelText = NSLocalizedString(@"collectionHudSubmitMessage", nil);
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    [loadingHUD showWhileExecuting:@selector(beginLoadingObservations) onTarget:self withObject:nil animated:YES];
+
+    
+    //[self beginLoadingObservations];
 }
 
 - (void) viewWillAppear:(BOOL)animated 

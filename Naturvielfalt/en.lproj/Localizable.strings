@@ -30,6 +30,7 @@
 "photoNavTitle"					= "Photo";
 "photoNew"						= "Take Photo";
 "photoExisting"					= "Choose Existing";
+"noLatName"						= "No latin name";
 
 /** TabBar **/
 "observationTabLabel"           = "Observations";
@@ -48,6 +49,9 @@
 
 // Organism wiki
 "organismWikiNotFound"			= "Article not found";
+
+/** Wiki **/
+"wikiNavTitle"					= "Wikipedia";
 
 /** Observations **/
 "observationNavTitle"           = "Observations";
@@ -141,6 +145,7 @@
 // Collection HUD messages
 "collectionHudWaitMessage"		= "Please wait";
 "collectionHudSubmitMessage"	= "Submit data…";
+"collectionHudLoadMessage"		= "Loading…";
 
 
 /** Settings **/

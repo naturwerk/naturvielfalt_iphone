@@ -123,6 +123,8 @@
     // Reset observations
     areas = nil;
     
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
     [self beginLoadingAreas];
 }
 
@@ -167,6 +169,7 @@
     if([areas count] < 1) {
         tableView.editing = FALSE;
     }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

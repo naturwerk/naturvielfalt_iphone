@@ -87,7 +87,8 @@
     
     // Reset inventories
     inventories = nil;
-    
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [self beginLoadingInventories];
 }
 
@@ -134,6 +135,7 @@
     if([inventories count] < 1) {
         tableView.editing = FALSE;
     }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 

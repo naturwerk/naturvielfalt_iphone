@@ -24,11 +24,13 @@
 "alertMessageAreaName"			= "No area name found. Please enter area name.";
 "alertMessageInventoryTitle"	= "Inventory name required";
 "alertMessageInventoryName"		= "No inventory name found. Please enter inventory name.";
-
+"alertMessageMediaTitle"		= "Error accessing media";
+"alertMessageMedia"				= "Device doesn't support that media source";
 /** Photo helper **/
 "photoNavTitle"					= "Photo";
 "photoNew"						= "Take Photo";
 "photoExisting"					= "Choose Existing";
+"noLatName"						= "No latin name";
 
 /** TabBar **/
 "observationTabLabel"           = "Observations";
@@ -47,6 +49,9 @@
 
 // Organism wiki
 "organismWikiNotFound"			= "Article not found";
+
+/** Wiki **/
+"wikiNavTitle"					= "Wikipedia";
 
 /** Observations **/
 "observationNavTitle"           = "Observations";
@@ -140,6 +145,7 @@
 // Collection HUD messages
 "collectionHudWaitMessage"		= "Please wait";
 "collectionHudSubmitMessage"	= "Submit data…";
+"collectionHudLoadMessage"		= "Loading…";
 
 
 /** Settings **/

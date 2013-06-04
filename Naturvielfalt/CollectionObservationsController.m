@@ -418,6 +418,8 @@
         table.editing = FALSE;
     }
     
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
     [self reloadAnnotations];
 }
 
@@ -425,7 +427,7 @@
 {
     // Reset observations
     observations = nil;
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [self beginLoadingObservations];
 }
 

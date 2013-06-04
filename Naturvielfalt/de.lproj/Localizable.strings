@@ -24,7 +24,9 @@
 "alertMessageAreaName"			= "Es wurde kein Gebietsname eingetragen. Bitte geben Sie einen Gebietsnamen ein.";
 "alertMessageInventoryTitle"	= "Inventarname erforderlich";
 "alertMessageInventoryName"		= "Es wurde kein Inventarname eingetragen. Bitte geben Sie einen Inventarnamen ein.";
-
+"alertMessageMediaTitle"		= "Fehler";
+"alertMessageMedia"				= "Das Gerät unterstützt diesen Medientyp nicht";
+"noLatName"						= "Kein lateinischer Name";
 
 /** Photo helper **/
 "photoNavTitle"					= "Foto";
@@ -48,6 +50,9 @@
 
 // Organism wiki
 "organismWikiNotFound"			= "Artikel nicht gefunden";
+
+/** Wiki **/
+"wikiNavTitle"					= "Wikipedia";
 
 /** Observations **/
 "observationNavTitle"           = "Beobachtung";
@@ -143,6 +148,7 @@
 // Collection HUD messages
 "collectionHudWaitMessage"		= "Bitte warten";
 "collectionHudSubmitMessage"	= "Daten werden übermittelt…";
+"collectionHudLoadMessage"		= "Lädt…";
 
 /** Settings **/
 "settingsNavTitle"              = "Einstellungen";

@@ -644,13 +644,13 @@
             // Split into species, genus
             NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
-            if([firstSplit count] > 2) {
-                NSString *genus = [firstSplit objectAtIndex:0];
-                NSString *species = [firstSplit objectAtIndex:1];
+            if([firstSplit count] >= 2) {
+                NSString *genus = (NSString*)[firstSplit objectAtIndex:0];
+                NSString *species = (NSString*)[firstSplit objectAtIndex:1];
                 
                 organism.genus = genus;
                 organism.species = species;
-            }else {
+            } else {
                 organism.genus = @"";
                 organism.species = @"";
             }
@@ -734,9 +734,9 @@
             // Split into species, genus
             NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
-            if([firstSplit count] > 2) {
-                NSString *genus = [firstSplit objectAtIndex:0];
-                NSString *species = [firstSplit objectAtIndex:1];
+            if([firstSplit count] >= 2) {
+                NSString *genus = (NSString*)[firstSplit objectAtIndex:0];
+                NSString *species = (NSString*)[firstSplit objectAtIndex:1];
                 
                 organism.genus = genus;
                 organism.species = species;
@@ -825,9 +825,9 @@
             // Split into species, genus
             NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
-            if([firstSplit count] > 2) {
-                NSString *genus = [firstSplit objectAtIndex:0];
-                NSString *species = [firstSplit objectAtIndex:1];
+            if([firstSplit count] >= 2) {
+                NSString *genus = (NSString*)[firstSplit objectAtIndex:0];
+                NSString *species = (NSString*)[firstSplit objectAtIndex:1];
                 
                 organism.genus = genus;
                 organism.species = species;

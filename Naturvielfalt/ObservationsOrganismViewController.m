@@ -209,6 +209,36 @@
     
     // LAT NAME
     if([organism.genus isKindOfClass:[NSString class]] && organism.genus.length > 0) {
+        NSString *firstLetterLAT = [organism.genus substringToIndex:1];
+        
+        if([firstLetterLAT isEqual:@"Ü"]) {
+            firstLetterLAT = @"U";
+        } else if([firstLetterLAT isEqual:@"Ö"]) {
+            firstLetterLAT = @"O";
+        } else if([firstLetterLAT isEqual:@"Ä"]) {
+            firstLetterLAT = @"A";
+        }
+        
+        // Create Letter index if it doesn't already exist
+        if(! [keysLAT containsObject:firstLetterLAT]) {
+            
+            // Does not contain the key letter
+            [keysLAT addObject:[firstLetterLAT uppercaseString]];
+            NSMutableArray *newArray = [[NSMutableArray alloc] init];
+            [newArray addObject:organism];
+            [dictOrganismsLAT setObject:newArray forKey:firstLetterLAT];
+            
+        } else {
+            
+            // Add the organism to the corresponding letter
+            NSMutableArray *arrayOrganisms = [dictOrganismsLAT objectForKey:firstLetterLAT];
+            [arrayOrganisms addObject:organism];
+            
+            [dictOrganismsLAT setObject:arrayOrganisms forKey:firstLetterLAT];
+        }
+    }
+    
+    /*if([organism.genus isKindOfClass:[NSString class]] && organism.genus.length > 0) {
         NSString *firstLetterLAT = [organism.genus substringToIndex:1];  
         
         if([firstLetterLAT isEqual:@"Ü"]) {
@@ -236,7 +266,7 @@
             
             [dictOrganismsLAT setObject:arrayOrganisms forKey:firstLetterLAT];
         }
-    }
+    }*/
 }
 
 - (IBAction) wikipediaLinkClicked:(id)sender

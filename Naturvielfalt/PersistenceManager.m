@@ -1384,7 +1384,7 @@
             // Split into species, genus
             NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
-            if([firstSplit count] > 2) {
+            if([firstSplit count] >= 2) {
                 NSString *genus = [firstSplit objectAtIndex:0];
                 NSString *species = [firstSplit objectAtIndex:1];
                 
@@ -1474,7 +1474,7 @@
             // Split into species, genus
             NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
-            if([firstSplit count] > 2) {
+            if([firstSplit count] >= 2) {
                 NSString *genus = [firstSplit objectAtIndex:0];
                 NSString *species = [firstSplit objectAtIndex:1];
                 
@@ -1564,7 +1564,7 @@
             // Split into species, genus
             NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
-            if([firstSplit count] > 2) {
+            if([firstSplit count] >= 2) {
                 NSString *genus = [firstSplit objectAtIndex:0];
                 NSString *species = [firstSplit objectAtIndex:1];
                 

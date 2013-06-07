@@ -246,7 +246,6 @@
             NSMutableArray *arrayOrganisms = [dictOrganismsLAT objectForKey:firstLetterLAT];
             [arrayOrganisms addObject:organism];
             [dictOrganismsLAT setObject:arrayOrganisms forKey:firstLetterLAT];
-            
         }
     }
 }

@@ -104,11 +104,6 @@
     if(isSearching){
         [self handleSearchForTerm:search.text];
     }
-    
-    /*if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
-    [persistenceManager establishConnection];*/
 
     [table reloadSectionIndexTitles];
     [table reloadData];
@@ -208,23 +203,7 @@
             NSMutableArray *arrayOrganisms = [dictOrganismsDE objectForKey:firstLetterDE];
             [arrayOrganisms addObject:organism];
             
-            //sort the array
-            /*NSArray *sortedArray = [arrayOrganisms sortedArrayUsingComparator:^(id obj1, id obj2) {
-                if([obj1 isKindOfClass:[Organism class]] && [obj2 isKindOfClass:[Organism class]]) {
-                    Organism *org1 = (Organism*)obj1;
-                    Organism *org2 = (Organism*)obj2;
-                    
-                    if ([org1.nameDe compare:org2.nameDe] > 0) {
-                        return (NSComparisonResult)NSOrderedDescending;
-                    } else if ([org1.nameDe compare:org2.nameDe] < 0) {
-                        return (NSComparisonResult)NSOrderedAscending;
-                    }
-                }
-                return (NSComparisonResult)NSOrderedSame;
-            }];*/
-            
             [dictOrganismsDE setObject:arrayOrganisms forKey:firstLetterDE];
-            //[dictOrganismsDE setObject:[[NSMutableArray alloc] initWithArray:sortedArray] forKey:firstLetterDE];
         }
     }
     
@@ -255,23 +234,7 @@
             NSMutableArray *arrayOrganisms = [dictOrganismsLAT objectForKey:firstLetterLAT];
             [arrayOrganisms addObject:organism];
             
-            //sort the array
-            /*NSArray *sortedArray = [arrayOrganisms sortedArrayUsingComparator:^(id obj1, id obj2) {
-                if([obj1 isKindOfClass:[Organism class]] && [obj2 isKindOfClass:[Organism class]]) {
-                    Organism *org1 = (Organism*)obj1;
-                    Organism *org2 = (Organism*)obj2;
-                    
-                    if ([org1.nameLat compare:org2.nameLat] > 0) {
-                        return (NSComparisonResult)NSOrderedAscending;
-                    } else if ([org1.nameLat compare:org2.nameLat] < 0) {
-                        return (NSComparisonResult)NSOrderedDescending;
-                    }
-                }
-                return (NSComparisonResult)NSOrderedSame;
-            }];*/
-            
             [dictOrganismsLAT setObject:arrayOrganisms forKey:firstLetterLAT];
-            //[dictOrganismsLAT setObject:[[NSMutableArray alloc] initWithArray:sortedArray] forKey:firstLetterLAT];
         }
     }
 }
@@ -325,7 +288,7 @@
 //
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView 
 {
-    if(!isSearching) {
+    //if(!isSearching) {
         NSMutableArray *arrKeys = [[NSMutableArray alloc] init];
         
         // Add all keys to the array
@@ -337,9 +300,9 @@
         NSArray *sortedArray = [arrKeys sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
         
         return sortedArray;
-    } else {
+    /*} else {
         return nil;
-    }
+    }*/
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

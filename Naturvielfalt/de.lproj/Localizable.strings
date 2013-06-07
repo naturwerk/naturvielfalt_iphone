@@ -45,8 +45,8 @@
 "naturNotDefinedOrganism"		= "Noch nicht bestimmt";
 
 /** Organism **/
-"organismNotFound"				= "Keine Organismen gefunden";
-"organismNoTransAvailable"      = "Keine Übersetzung vorhanden";
+"organismNotFound"				= "Keine Art gefunden";
+"organismNoTransAvailable"      = "Keine Übersetzung für diese Art vorhanden";
 
 // Organism wiki
 "organismWikiNotFound"			= "Artikel nicht gefunden";
@@ -85,7 +85,7 @@
 "areaDeletePhotoMessage"		= "Belegfoto unwiderruflich löschen?";
 
 // Area actionSheet
-"areaPinMod"                    = "Pin";
+"areaPinMod"                    = "Punkt";
 "areaLineMod"                   = "Linie";
 "areaPolygonMod"                = "Polygon";
 "areaCancelMod"                 = "Abbrechen";
@@ -130,8 +130,8 @@
 "collectionAlertInvTitle"		= "Inventare übermitteln?";
 "collectionAlertAreaTitle"		= "Gebiete übermitteln?";
 "collectionAlertObsDetail"		= "Sind Sie sicher, dass Sie Ihre Beobachtungen über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen.";
-"collectionAlertInvDetail"		= "Sind Sie sicher, dass Sie Ihre Inventare über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen.";
-"collectionAlertAreaDetail"		= "Sind Sie sicher, dass Sie Ihre Gebiete über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen.";
+"collectionAlertInvDetail"		= "Sind Sie sicher, dass Sie Ihre Inventare über das Mobilfunknetz übermitteln wollen? Dies kann viel Zeit und Datenvolumen in Anspruch nehmen.";
+"collectionAlertAreaDetail"		= "Sind Sie sicher, dass Sie Ihre Gebiete über das Mobilfunknetz übermitteln wollen? Dies kann viel Zeit und Datenvolumen in Anspruch nehmen.";
 "collectionAlertErrorObs"		= "Es wurden noch keine Beobachtungen gespeichert oder keine wurden ausgewählt";
 "collectionAlertErrorInv"		= "Es wurden noch keine Inventare gespeichert oder keine wurden ausgewählt";
 "collectionAlertErrorAreas"		= "Es wurden noch keine Gebiete gespeichert oder keine wurden ausgewählt";
@@ -164,4 +164,4 @@
 /** Info **/
 "infoNavTitle"                  = "Naturvielfalt";
 "infoTitle"                     = "Über uns";
-"infoText"                      = "Naturvielfalt (www.naturvielfalt.ch) bietet ein vielseitiges Informations- und Erfassungsportal für Flora und Fauna in der Schweiz und Umgebung.\nErstellen Sie ein Konto um Beobachtungen zu erfassen und verwalten.\n\nDieses App wurde vom Verein Naturwerk (www.naturwerk.info) aus Brugg entwickelt.\nDer Verein für Mensch, Natur und Arbeit übernimmt gemeinnützige Aufgaben im Bereich Umwelt-, Natur- und Artenschutz, die von öffentlichem Interesse sind.\n\nDurch die Unterstützung dieser App fördern Sie praktische Artenschutzprojekte sowie die Weiterentwicklung der Applikation.\n\nBei Feedback oder für technischen Support wenden Sie sich bitte an info@naturvielfalt.ch.\n\n© 2012 Naturwerk";
+"infoText"                      = "Naturvielfalt (www.naturvielfalt.ch) ist ein Erfassungsportal für Flora und Fauna in der Schweiz. Mit einem kostenlosen Benutzerkonto auf www.naturvielfalt.ch können Sie die Naturbeobachtungen erfassen, Bilder, Audio- und Videodateien hochladen und verwalten. Die Applikation ermöglicht Ihnen Feldaufnahmen in wenigen Schritten zu erfassen und auf Ihr Benutzerkonto zu übermitteln.\n\nDieses Applikation wurde vom Verein Naturwerk (www.naturwerk.info) aus Brugg entwickelt.\nDer Verein für Mensch, Natur und Arbeit übernimmt gemeinnützige Aufgaben im Bereich Umwelt-, Natur- und Artenschutz, die von öffentlichem Interesse sind.\n\nDurch die Unterstützung dieser App fördern Sie praktische Artenschutzprojekte sowie die Weiterentwicklung der Applikation.\n\nBei Feedback oder für technischen Support wenden Sie sich bitte an info@naturvielfalt.ch.\n\n© 2012 Naturwerk";

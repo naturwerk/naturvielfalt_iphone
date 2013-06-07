@@ -146,7 +146,6 @@
         return;
     }
 
-    
     BOOL successfulTransmission = true;
     BOOL transmission_problem = false;
     
@@ -204,12 +203,13 @@
             
             // Upload image
             if([ob.pictures count] > 0) {
-                
-                // Creare PNG image
-                NSData *imageData = UIImagePNGRepresentation([ob.pictures objectAtIndex:0]);
-                
-                // And add the png image into the request
-                [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+                for (ObservationImage *obsImg in ob.pictures) {
+                    // Create PNG image
+                    NSData *imageData = UIImagePNGRepresentation(obsImg.image);
+                    
+                    // And add the png image into the request
+                    [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+                }
             }
                 
             [request setPostValue:organism forKey:@"organismn_id"];
@@ -225,7 +225,6 @@
             successfulTransmission = [self submitData:ob withRequest:request];
             if(!successfulTransmission) transmission_problem = true;
         }
-        
         i++;
     } 
     
@@ -242,8 +241,9 @@
 }
 
 - (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request {
-    
+    NSLog(@"submitData");
     [request startSynchronous];
+    NSLog(@"startSynchronous");
     
     NSError *error = [request error];
     if (!error) {

@@ -39,12 +39,13 @@
 
 - (void)viewDidLoad
 {
+    // Display names in german
+    displayGermanNames = YES;
+    
     [self loadData];
     
     [super viewDidLoad];
-    
-    // Display names in german
-    displayGermanNames = true;
+
     
     // Set top navigation bar button  
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] 
@@ -89,7 +90,6 @@
 {
     //if([keysDE count] == 0) return keysLAT;
     return (displayGermanNames) ? keysDE : keysLAT;
-    
 }
 
 - (void) changeNameLanguage 
@@ -98,10 +98,18 @@
     self.navigationItem.rightBarButtonItem.title = (displayGermanNames) ? @"DE" : @"LAT";
     displayGermanNames = !displayGermanNames;
     
+    [self loadData];
+    
     // take the search if is active
     if(isSearching){
         [self handleSearchForTerm:search.text];
     }
+    
+    /*if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
+    [persistenceManager establishConnection];*/
+
     [table reloadSectionIndexTitles];
     [table reloadData];
 }
@@ -118,12 +126,15 @@
     
     
     // Get all oranismGroups
-    PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
+    if (!persistenceManager) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
     [persistenceManager establishConnection];
     
     NSMutableArray *organisms;
     
-    organisms = [persistenceManager getAllOrganisms:organismGroupId];
+    organisms = [persistenceManager getAllOrganisms:organismGroupId sortByDe:displayGermanNames];
+
     [persistenceManager closeConnection];
     
     for(Organism *organism in organisms) {
@@ -132,6 +143,8 @@
     
     // copy all values in other dictionary
     dictAllOrganismsDE = [[NSMutableDictionary alloc] initWithDictionary:dictOrganismsDE];
+    
+    
     dictAllOrganismsLAT = [[NSMutableDictionary alloc] initWithDictionary:dictOrganismsLAT];
     
     // SORT KEYS GERMAN
@@ -194,8 +207,24 @@
             // Add the organism to the corresponding letter
             NSMutableArray *arrayOrganisms = [dictOrganismsDE objectForKey:firstLetterDE];
             [arrayOrganisms addObject:organism];
-            [dictOrganismsDE setObject:arrayOrganisms forKey:firstLetterDE];
             
+            //sort the array
+            /*NSArray *sortedArray = [arrayOrganisms sortedArrayUsingComparator:^(id obj1, id obj2) {
+                if([obj1 isKindOfClass:[Organism class]] && [obj2 isKindOfClass:[Organism class]]) {
+                    Organism *org1 = (Organism*)obj1;
+                    Organism *org2 = (Organism*)obj2;
+                    
+                    if ([org1.nameDe compare:org2.nameDe] > 0) {
+                        return (NSComparisonResult)NSOrderedDescending;
+                    } else if ([org1.nameDe compare:org2.nameDe] < 0) {
+                        return (NSComparisonResult)NSOrderedAscending;
+                    }
+                }
+                return (NSComparisonResult)NSOrderedSame;
+            }];*/
+            
+            [dictOrganismsDE setObject:arrayOrganisms forKey:firstLetterDE];
+            //[dictOrganismsDE setObject:[[NSMutableArray alloc] initWithArray:sortedArray] forKey:firstLetterDE];
         }
     }
     
@@ -225,8 +254,24 @@
             // Add the organism to the corresponding letter
             NSMutableArray *arrayOrganisms = [dictOrganismsLAT objectForKey:firstLetterLAT];
             [arrayOrganisms addObject:organism];
-            [dictOrganismsLAT setObject:arrayOrganisms forKey:firstLetterLAT];
             
+            //sort the array
+            /*NSArray *sortedArray = [arrayOrganisms sortedArrayUsingComparator:^(id obj1, id obj2) {
+                if([obj1 isKindOfClass:[Organism class]] && [obj2 isKindOfClass:[Organism class]]) {
+                    Organism *org1 = (Organism*)obj1;
+                    Organism *org2 = (Organism*)obj2;
+                    
+                    if ([org1.nameLat compare:org2.nameLat] > 0) {
+                        return (NSComparisonResult)NSOrderedAscending;
+                    } else if ([org1.nameLat compare:org2.nameLat] < 0) {
+                        return (NSComparisonResult)NSOrderedDescending;
+                    }
+                }
+                return (NSComparisonResult)NSOrderedSame;
+            }];*/
+            
+            [dictOrganismsLAT setObject:arrayOrganisms forKey:firstLetterLAT];
+            //[dictOrganismsLAT setObject:[[NSMutableArray alloc] initWithArray:sortedArray] forKey:firstLetterLAT];
         }
     }
 }
@@ -493,7 +538,6 @@
         self.dictOrganismsLAT = alldictCopy;
     }
     
-    
     NSMutableArray *keyArray = [[NSMutableArray alloc] init];
     [keyArray addObjectsFromArray:[[(displayGermanNames) ? self.dictAllOrganismsDE : self.dictAllOrganismsLAT allKeys] sortedArrayUsingSelector:@selector(compare:)]];
     
@@ -502,7 +546,6 @@
     } else {
         self.keysLAT = keyArray;
     }
-    
 }
 
 - (void)handleSearchForTerm:(NSString *)searchTerm {    

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Organism.h"
+#import "PersistenceManager.h"
 
 @interface ObservationsOrganismViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate> {
     
@@ -17,6 +18,7 @@
     BOOL displayGermanNames;
     IBOutlet UITableView  *table;
     IBOutlet UISearchBar *search;
+    PersistenceManager *persistenceManager;
     
     // FOR SEARCH and INDEXED TABLE
     // Dictionaries
@@ -54,6 +56,7 @@
 @property (nonatomic) NSMutableArray *currKeys;
 @property (nonatomic, assign) BOOL isSearching;
 @property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+
 
 - (void) appendToDictionary:(Organism *)organism;
 - (void) resetSearch;

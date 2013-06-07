@@ -578,6 +578,187 @@
 }
 
 // ORGANISMS
+- (NSMutableArray *) getOrganismsSortByDE:(int) groupId withCustomFilter:(NSString*) filter {
+    NSDate *starttime = [NSDate date];
+    NSMutableArray *organisms = [[NSMutableArray alloc] init];
+    
+    NSMutableString *query;
+    if(groupId == 1){
+        query = [NSMutableString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
+                 FROM organism"];
+        NSLog( @"Get all organism, group id: %i", groupId);
+    }
+    else {
+        query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
+                 FROM classification_taxon ct\
+                 LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
+        
+        //Append Filter to query
+        if([filter length] != 0){
+            [query appendString:filter];
+        }
+        else {
+            [query appendFormat:@" WHERE ct.classification_id = %i", groupId];
+            [query appendFormat:@" ORDER BY name_de "];
+        }
+        
+        NSLog( @"Get single group, group id: %i", groupId);
+    }
+    
+    NSLog( @"DA QUERY: %@", query);
+    
+    sqlite3_stmt *statement;
+    NSInteger numbersOfOrgansim = 0;
+    
+    if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+            
+            
+            // need to check if they are Null!
+            NSString *nameDe;
+            NSString *nameLat;
+            
+            if(sqlite3_column_text(statement, 3) == NULL) {
+                //nameLat = [NSString stringWithString:@""];
+                // if no lat name, skip this
+                continue;
+            } else {
+                nameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+            }
+            
+            if(sqlite3_column_text(statement, 2) == NULL) {
+                nameDe = nameLat;
+            } else {
+                nameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                if([nameDe length] == 0) nameDe = NSLocalizedString(@"organismNoTransAvailable", nil);
+            }
+            
+            // Create OrganismGroup
+            Organism *organism = [[Organism alloc] init];
+            
+            organism.organismId = sqlite3_column_int(statement, 0);
+            organism.organismGroupId = sqlite3_column_int(statement, 1);
+            organism.nameDe = nameDe;
+            organism.nameLat = nameLat;
+            
+            // Split into species, genus
+            NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
+            
+            if([firstSplit count] > 2) {
+                NSString *genus = [firstSplit objectAtIndex:0];
+                NSString *species = [firstSplit objectAtIndex:1];
+                
+                organism.genus = genus;
+                organism.species = species;
+            }else {
+                organism.genus = @"";
+                organism.species = @"";
+            }
+            [organisms addObject:organism];
+            organism = nil;
+            numbersOfOrgansim++;
+		}
+        sqlite3_finalize(statement);
+    } else {
+        NSLog( @"Get organisms: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbStatic));
+    }
+    NSDate *endtime = [NSDate date];
+    NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
+    NSLog(@"PersistenceManager: getAllOrganisms(%i) | running time: %fs", numbersOfOrgansim, executionTime);
+    return organisms;
+}
+
+- (NSMutableArray *) getOrganismsSortByLAT:(int) groupId withCustomFilter: (NSString*) filter {
+    NSDate *starttime = [NSDate date];
+    NSMutableArray *organisms = [[NSMutableArray alloc] init];
+    
+    NSMutableString *query;
+    if(groupId == 1){
+        query = [NSMutableString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
+                 FROM organism"];
+        NSLog( @"Get all organism, group id: %i", groupId);
+    }
+    else {
+        query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
+                 FROM classification_taxon ct\
+                 LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
+        
+        //Append Filter to query
+        if([filter length] != 0){
+            [query appendString:filter];
+        }
+        else {
+            [query appendFormat:@" WHERE ct.classification_id = %i", groupId];
+            [query appendFormat:@" ORDER BY name_sc "];
+        }
+        
+        NSLog( @"Get single group, group id: %i", groupId);
+    }
+    
+    NSLog( @"DA QUERY: %@", query);
+    
+    sqlite3_stmt *statement;
+    NSInteger numbersOfOrgansim = 0;
+    
+    if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+            
+            
+            // need to check if they are Null!
+            NSString *nameDe;
+            NSString *nameLat;
+            
+            if(sqlite3_column_text(statement, 3) == NULL) {
+                //nameLat = [NSString stringWithString:@""];
+                // if no lat name, skip this
+                continue;
+            } else {
+                nameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+            }
+            
+            if(sqlite3_column_text(statement, 2) == NULL) {
+                nameDe = nameLat;
+            } else {
+                nameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                if([nameDe length] == 0) nameDe = NSLocalizedString(@"organismNoTransAvailable", nil);
+            }
+            
+            // Create OrganismGroup
+            Organism *organism = [[Organism alloc] init];
+            
+            organism.organismId = sqlite3_column_int(statement, 0);
+            organism.organismGroupId = sqlite3_column_int(statement, 1);
+            organism.nameDe = nameDe;
+            organism.nameLat = nameLat;
+            
+            // Split into species, genus
+            NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
+            
+            if([firstSplit count] > 2) {
+                NSString *genus = [firstSplit objectAtIndex:0];
+                NSString *species = [firstSplit objectAtIndex:1];
+                
+                organism.genus = genus;
+                organism.species = species;
+            }else {
+                organism.genus = @"";
+                organism.species = @"";
+            }
+            [organisms addObject:organism];
+            organism = nil;
+            numbersOfOrgansim++;
+		}
+        sqlite3_finalize(statement);
+    } else {
+        NSLog( @"Get organisms: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbStatic));
+    }
+    NSDate *endtime = [NSDate date];
+    NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
+    NSLog(@"PersistenceManager: getAllOrganisms(%i) | running time: %fs", numbersOfOrgansim, executionTime);
+    return organisms;
+
+}
+
 - (NSMutableArray *) getOrganisms:(int) groupId withCustomFilter:(NSString *)filter
 {
     NSDate *starttime = [NSDate date];
@@ -668,10 +849,15 @@
     return organisms;
 }
 
-- (NSMutableArray *) getAllOrganisms:(int) groupId
+- (NSMutableArray *) getAllOrganisms:(int) groupId sortByDe:(BOOL)sortByDe
 {
     NSMutableArray *allOrganisms;
-    allOrganisms =[self getOrganisms:groupId withCustomFilter:@""];
+    if (sortByDe) {
+        allOrganisms = [self getOrganismsSortByDE:groupId withCustomFilter:@""];
+    } else {
+        allOrganisms = [self getOrganismsSortByLAT:groupId withCustomFilter:@""];
+    }
+    //allOrganisms =[self getOrganisms:groupId withCustomFilter:@""];
     return allOrganisms;
 }
 

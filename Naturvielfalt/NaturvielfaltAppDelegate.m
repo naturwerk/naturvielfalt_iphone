@@ -35,6 +35,7 @@
     // Store default settings in the appSettings
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     [appSettings setObject:@"waebi07" forKey:@"username"];
+    [appSettings setObject:@"natur498" forKey:@"password"];
     [appSettings setObject:@"2" forKey:@"mapType"];
     [appSettings synchronize];
     

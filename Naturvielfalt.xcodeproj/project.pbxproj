@@ -978,8 +978,8 @@
 		CBDE3DFC1430697100BC1F46 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				27B84513159B223500818BCE /* Default@2x.png */,
 				27D2B06A170F18D000D6815B /* Default-568h@2x.png */,
+				27B84513159B223500818BCE /* Default@2x.png */,
 				27746D0E159B1F9D00672970 /* Icon-Small@2x.png */,
 				27746D0F159B1F9D00672970 /* Icon@2x.png */,
 				27746D02159B103900672970 /* Icon-72.png */,

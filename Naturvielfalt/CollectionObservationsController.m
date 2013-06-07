@@ -287,12 +287,13 @@
             
             // Upload image
             if([ob.pictures count] > 0) {
-                
-                // Create PNG image
-                NSData *imageData = UIImagePNGRepresentation([ob.pictures objectAtIndex:0]);
-                
-                // And add the png image into the request
-                [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+                for (ObservationImage *obsImg in ob.pictures) {
+                    // Create PNG image
+                    NSData *imageData = UIImagePNGRepresentation(obsImg.image);
+                    
+                    // And add the png image into the request
+                    [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+                }
             }
             
             [request setPostValue:organism forKey:@"organismn_id"];

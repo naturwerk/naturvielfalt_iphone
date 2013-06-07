@@ -39,12 +39,12 @@
 
 - (void)viewDidLoad
 {
+    // Display names in german
+    displayGermanNames = true;
+    
     [self loadData];
     
     [super viewDidLoad];
-    
-    // Display names in german
-    displayGermanNames = true;
     
     // Set top navigation bar button  
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] 
@@ -115,6 +115,8 @@
     self.navigationItem.rightBarButtonItem.title = (displayGermanNames) ? @"DE" : @"LAT";
     displayGermanNames = !displayGermanNames;
     
+    [self loadData];
+    
     // take the search if is active
     if(isSearching){
         [self handleSearchForTerm:search.text];
@@ -141,7 +143,7 @@
     
     NSMutableArray *organisms;
     
-    organisms = [persistenceManager getAllOrganisms:organismGroupId];
+    organisms = [persistenceManager getAllOrganisms:organismGroupId sortByDe:displayGermanNames];
     [persistenceManager closeConnection];
     
     for(Organism *organism in organisms) {
@@ -298,7 +300,7 @@
 //
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView 
 {
-    if(!isSearching) {
+    //if(!isSearching) {
         NSMutableArray *arrKeys = [[NSMutableArray alloc] init];
         
         // Add all keys to the array
@@ -310,9 +312,9 @@
         NSArray *sortedArray = [arrKeys sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
         
         return sortedArray;
-    } else {
+    /*} else {
         return nil;
-    }
+    }*/
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

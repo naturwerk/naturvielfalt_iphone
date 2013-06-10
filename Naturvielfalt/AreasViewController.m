@@ -126,6 +126,8 @@
     mapView.delegate = self;
     searchBar.delegate = self;
     
+    //searchBar placeholder
+    searchBar.placeholder = NSLocalizedString(@"searchBarPlaceholder", nil);
     
     // Set navigation bar title    
     NSString *title = NSLocalizedString(@"areaNavTitle", nil);
@@ -994,6 +996,16 @@
     location.longitude = [lngString doubleValue]; //longitude;
     
     return location;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [[event allTouches] anyObject];
+    if ([searchBar isFirstResponder] && [touch view] != searchBar)
+    {
+        [searchBar resignFirstResponder];
+    }
+    [super touchesBegan:touches withEvent:event];
 }
 
 // Funktioniert nich!!

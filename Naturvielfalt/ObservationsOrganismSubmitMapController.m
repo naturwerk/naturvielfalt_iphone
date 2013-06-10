@@ -104,6 +104,8 @@
                                    options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)  
                                    context:NULL];
     
+    //searchBar placeholder
+    searchBar.placeholder = NSLocalizedString(@"searchBarPlaceholder", nil);
     
     // Set navigation bar title    
     NSString *title = NSLocalizedString(@"observationLocalization", nil);
@@ -614,5 +616,14 @@
     return location;
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [[event allTouches] anyObject];
+    if ([searchBar isFirstResponder] && [touch view] != searchBar)
+    {
+        [searchBar resignFirstResponder];
+    }
+    [super touchesBegan:touches withEvent:event];
+}
 
 @end

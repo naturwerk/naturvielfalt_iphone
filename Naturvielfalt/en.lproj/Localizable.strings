@@ -16,6 +16,9 @@
 "navError"						= "Error";
 "navSuccess"					= "Success";
 
+/** Search **/
+"searchBarPlaceholder"			= "Search";
+
 /** Alert **/
 "alertMessageNetwork"			= "No network available.";
 "alertMessageGPS"				= "GPS function deactivated for this application.";

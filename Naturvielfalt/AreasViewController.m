@@ -11,6 +11,7 @@
 #import "MKPolyline+MKPolylineCategory.h"
 #import "MKPolygon+MKPolygonCategory.h"
 #import "LocationPoint.h"
+#import "SBJson.h"
 
 #define imgX      70
 #define pinY      31
@@ -24,7 +25,7 @@
 #define MAX_DEGREES_ARC 360
 
 @implementation AreasViewController
-@synthesize area, cancelButton, saveButton, undoButton, setButton, gpsButton, modeButton, hairlinecross;
+@synthesize area, cancelButton, saveButton, undoButton, setButton, gpsButton, modeButton, hairlinecross, searchBar;
 
 //This method will called from annotations view,
 //if the user clicks on the edit button of a given annotation.
@@ -123,6 +124,7 @@
     
     // Set delegation and show users current position
     mapView.delegate = self;
+    searchBar.delegate = self;
     
     
     // Set navigation bar title    
@@ -177,6 +179,7 @@
     [self setGpsButton:nil];
     [self setHairlinecross:nil];
     locationManager = nil;
+    [self setSearchBar:nil];
     [super viewDidUnload];
 }
 
@@ -803,6 +806,8 @@
     
     shouldAdjustZoom = YES;
     mapView.showsUserLocation = YES;
+    
+    //searchBar.placeholder = [self getAddressFromLatLon:mapView.userLocation.coordinate.latitude withLongitude:mapView.userLocation.coordinate.longitude];
 }
 
 
@@ -855,8 +860,8 @@
         region.center = mapView.userLocation.coordinate;
         
         MKCoordinateSpan span;
-        span.latitudeDelta  = 0.005; // Change these values to change the zoom
-        span.longitudeDelta = 0.005;
+        span.latitudeDelta  = 0.009; // Change these values to change the zoom
+        span.longitudeDelta = 0.009;
         region.span = span;
         
         [mapView setRegion:region animated:YES];
@@ -939,6 +944,68 @@
     
     return customAnnotationView;
 }
+
+#pragma mark -
+#pragma mark UISearchBarDelegate
+- (void) searchBarSearchButtonClicked:(UISearchBar *)sb {
+    NSLog(@"search");
+    [searchBar resignFirstResponder];
+    
+    CLLocationCoordinate2D sLocation;
+    if (searchBar.text.length > 0) {
+        sLocation = [self geoCodeUsingAddress:sb.text];
+    }
+    
+    MKCoordinateRegion region;
+    region.center = sLocation;
+    
+    MKCoordinateSpan span;
+    span.latitudeDelta  = 0.009; // Change these values to change the zoom
+    span.longitudeDelta = 0.009;
+    region.span = span;
+    
+    [mapView setRegion:region animated:YES];
+}
+
+- (CLLocationCoordinate2D) geoCodeUsingAddress:(NSString *)address
+{
+    NSString *esc_addr =  [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *req = [NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?sensor=false&address=%@", esc_addr];
+    
+    NSDictionary *googleResponse = [[NSString stringWithContentsOfURL: [NSURL URLWithString: req] encoding: NSUTF8StringEncoding error: NULL]JSONValue];
+    
+    NSDictionary    *resultsDict = [googleResponse valueForKey:  @"results"];
+    // get the results dictionary
+    NSDictionary   *geometryDict = [resultsDict valueForKey: @"geometry"];
+    // geometry dictionary within the  results dictionary
+    NSDictionary   *locationDict = [geometryDict valueForKey: @"location"];
+    // location dictionary within the geometry dictionary
+    
+    NSArray *latArray = [locationDict valueForKey: @"lat"];
+    NSString *latString = [latArray lastObject];
+    // (one element) array entries provided by the json parser
+    
+    NSArray *lngArray = [locationDict valueForKey: @"lng"];
+    NSString *lngString = [lngArray lastObject];
+    // (one element) array entries provided by the json parser
+    
+    CLLocationCoordinate2D location;
+    location.latitude = [latString doubleValue];// latitude;
+    location.longitude = [lngString doubleValue]; //longitude;
+    
+    return location;
+}
+
+// Funktioniert nich!!
+/*- (NSString *)getAddressFromLatLon:(double)latitude withLongitude:(double)longitude
+{
+    
+    NSString *urlString = [NSString stringWithFormat:@"http://maps.google.com/maps/geo?q=%f,%f&output=csv",latitude, longitude];
+    NSError* error;
+    NSString *locationString = [NSString stringWithContentsOfURL:[NSURL URLWithString:urlString] encoding:NSASCIIStringEncoding error:&error];
+    locationString = [locationString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    return [locationString substringFromIndex:6];
+}*/
 
 
 

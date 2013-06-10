@@ -16,9 +16,9 @@
 #import "PersistenceManager.h"
 
 @class CustomAnnotationView;
-@interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate> {
+@interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate, UISearchBarDelegate> {
     PersistenceManager *persistenceManager;
-    IBOutlet MKMapView *mapView;
+
     MKOverlayView *overlayView;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
@@ -42,6 +42,7 @@
     BOOL undo;
     BOOL shouldAdjustZoom;
     
+    IBOutlet MKMapView *mapView;
     IBOutlet UIBarButtonItem *cancelButton;
     IBOutlet UIBarButtonItem *saveButton;
     IBOutlet UIButton *undoButton;
@@ -49,6 +50,7 @@
     IBOutlet UIButton *gpsButton;
     IBOutlet UIButton *modeButton;
     IBOutlet UIImageView *hairlinecross;
+    IBOutlet UISearchBar *searchBar;
     
     //Custom Annotations and Shapes (Line, Polygon)
     NSMutableArray *annotationsArray;
@@ -63,6 +65,7 @@
 @property (nonatomic) IBOutlet UIButton *gpsButton;
 @property (nonatomic) IBOutlet UIImageView *hairlinecross;
 @property (nonatomic) Area *area;
+@property (nonatomic) IBOutlet UISearchBar *searchBar;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil area:(Area*)a;

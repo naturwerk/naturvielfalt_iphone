@@ -14,9 +14,10 @@
 #import "PersistenceManager.h"
 
 
-@interface ObservationsOrganismSubmitMapController : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate> {    
+@interface ObservationsOrganismSubmitMapController : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate, UISearchBarDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UIButton *setButton;
+    IBOutlet UISearchBar *searchBar;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     NSInteger currentAccuracy;
@@ -39,6 +40,7 @@
 @property (nonatomic, assign) BOOL shouldAdjustZoom;
 @property (nonatomic, assign) BOOL pinMoved;
 @property (nonatomic) IBOutlet UIButton *setButton;
+@property (nonatomic) IBOutlet UISearchBar *searchBar;
 
 - (IBAction)setPin:(id)sender;
 

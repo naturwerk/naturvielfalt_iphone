@@ -12,9 +12,10 @@
 #import "DDAnnotationView.h"
 #import "ObservationsOrganismSubmitController.h"
 #import "SwissCoordinates.h"
+#import "SBJson.h"
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, searchBar, lastPetition;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -91,13 +92,15 @@
     
     // Set delegation and show users current position
     mapView.delegate = self;
+    searchBar.delegate = self;
 
     // Register event for handling zooming in on users current position
     [self.mapView.userLocation addObserver:self  
                                 forKeyPath:@"location"  
                                    options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)  
                                    context:NULL];
-    
+    //searchBar placeholder
+    searchBar.placeholder = NSLocalizedString(@"searchBarPlaceholder", nil);
     
     // Set navigation bar title    
     NSString *title = NSLocalizedString(@"observationLocalization", nil);
@@ -306,6 +309,7 @@
 
 - (void)viewDidUnload
 {
+    [self setSearchBar:nil];
     [super viewDidUnload];
 }
 
@@ -433,4 +437,64 @@
 	return draggablePinView;
 }
 
+#pragma mark -
+#pragma mark UISearchBarDelegate
+- (void) searchBarSearchButtonClicked:(UISearchBar *)sb {
+    NSLog(@"search");
+    [searchBar resignFirstResponder];
+    
+    CLLocationCoordinate2D sLocation;
+    if (searchBar.text.length > 0) {
+        sLocation = [self geoCodeUsingAddress:sb.text];
+    }
+    
+    MKCoordinateRegion region;
+    region.center = sLocation;
+    
+    MKCoordinateSpan span;
+    span.latitudeDelta  = 0.009; // Change these values to change the zoom
+    span.longitudeDelta = 0.009;
+    region.span = span;
+    
+    [self.mapView setRegion:region animated:YES];
+}
+
+- (CLLocationCoordinate2D) geoCodeUsingAddress:(NSString *)address
+{
+    NSString *esc_addr =  [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *req = [NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?sensor=false&address=%@", esc_addr];
+    
+    NSDictionary *googleResponse = [[NSString stringWithContentsOfURL: [NSURL URLWithString: req] encoding: NSUTF8StringEncoding error: NULL]JSONValue];
+    
+    NSDictionary    *resultsDict = [googleResponse valueForKey:  @"results"];
+    // get the results dictionary
+    NSDictionary   *geometryDict = [resultsDict valueForKey: @"geometry"];
+    // geometry dictionary within the  results dictionary
+    NSDictionary   *locationDict = [geometryDict valueForKey: @"location"];
+    // location dictionary within the geometry dictionary
+    
+    NSArray *latArray = [locationDict valueForKey: @"lat"];
+    NSString *latString = [latArray lastObject];
+    // (one element) array entries provided by the json parser
+    
+    NSArray *lngArray = [locationDict valueForKey: @"lng"];
+    NSString *lngString = [lngArray lastObject];
+    // (one element) array entries provided by the json parser
+    
+    CLLocationCoordinate2D location;
+    location.latitude = [latString doubleValue];// latitude;
+    location.longitude = [lngString doubleValue]; //longitude;
+    
+    return location;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [[event allTouches] anyObject];
+    if ([searchBar isFirstResponder] && [touch view] != searchBar)
+    {
+        [searchBar resignFirstResponder];
+    }
+    [super touchesBegan:touches withEvent:event];
+}
 @end

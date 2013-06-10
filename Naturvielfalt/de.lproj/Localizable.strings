@@ -16,6 +16,9 @@
 "navError"						= "Fehler";
 "navSuccess"					= "Erfolgreich";
 
+/** Search **/
+"searchBarPlaceholder"			= "Suche";
+
 /** Alert **/
 "alertMessageNetwork"			= "Kein Netzwerk vorhanden. Ev. im Flugmodus?";
 "alertMessageGPS"				= "GPS wurde vom Benutzer für diese Applikation deaktiviert.";

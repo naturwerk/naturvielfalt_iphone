@@ -13,6 +13,7 @@
 #import "Reachability.h"
 #import "MBProgressHUD.h"
 #import "Listener.h"
+#import "AlertUploadView.h"
 
 @interface CollectionOverviewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate, Listener> {
     PersistenceManager *persistenceManager;
@@ -21,15 +22,17 @@
     int *countObservations;
     IBOutlet UITableView *table;
     ASINetworkQueue *queue;
-    IBOutlet UIProgressView *progressView;
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
     int requestCounter;
+    int totalRequests;
     NSMutableArray *obsToSubmit;
     NSMutableArray *requests;
     NSMutableArray *asyncDelegates;
     MBProgressHUD *loadingHUD;
+    AlertUploadView *uploadView;
+    UIProgressView *progressView;
 }
 
 @property (nonatomic) PersistenceManager *persistenceManager;
@@ -38,7 +41,6 @@
 @property (nonatomic, assign) int *countObservations;
 @property (nonatomic) IBOutlet UITableView *table;
 @property (nonatomic) ASINetworkQueue *queue;
-@property (nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic) NSOperationQueue *operationQueue;
 @property (nonatomic) NSIndexPath *curIndex;
 @property (nonatomic) BOOL doSubmit;

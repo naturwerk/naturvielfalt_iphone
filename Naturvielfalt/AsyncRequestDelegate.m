@@ -20,9 +20,8 @@
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request {
-    NSLog(@"request finished");
-    
     NSString *response = [request responseString];
+    NSLog(@"request finished with Response: %@", response);
     [listener notifyListener:observation response:response];
 }
 

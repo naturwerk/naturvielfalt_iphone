@@ -32,6 +32,7 @@
 		27F2D4851758D104002ABD22 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F630142B040A000150AF /* InfoPlist.strings */; };
 		27F2D4861758D10D002ABD22 /* Naturvielfalt-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */; };
 		27F605D5176AF28400046BD0 /* AsyncRequestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F605D4176AF28400046BD0 /* AsyncRequestDelegate.m */; };
+		27F605DB176B0E5100046BD0 /* AlertUploadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F605DA176B0E5100046BD0 /* AlertUploadView.m */; };
 		27F662A11766F9940080FC4B /* SubmissionCancelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F6629F1766F9940080FC4B /* SubmissionCancelView.m */; };
 		27F662A21766F9940080FC4B /* SubmissionCancelView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F662A01766F9940080FC4B /* SubmissionCancelView.xib */; };
 		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
@@ -176,6 +177,8 @@
 		27F605D4176AF28400046BD0 /* AsyncRequestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncRequestDelegate.m; sourceTree = "<group>"; };
 		27F605D6176AF29600046BD0 /* Listener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Listener.h; sourceTree = "<group>"; };
 		27F605D7176AF2A700046BD0 /* Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Observer.h; sourceTree = "<group>"; };
+		27F605D9176B0E5100046BD0 /* AlertUploadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertUploadView.h; sourceTree = "<group>"; };
+		27F605DA176B0E5100046BD0 /* AlertUploadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertUploadView.m; sourceTree = "<group>"; };
 		27F6629E1766F9940080FC4B /* SubmissionCancelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmissionCancelView.h; sourceTree = "<group>"; };
 		27F6629F1766F9940080FC4B /* SubmissionCancelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmissionCancelView.m; sourceTree = "<group>"; };
 		27F662A01766F9940080FC4B /* SubmissionCancelView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubmissionCancelView.xib; sourceTree = "<group>"; };
@@ -393,6 +396,8 @@
 				27F605D4176AF28400046BD0 /* AsyncRequestDelegate.m */,
 				27F605D6176AF29600046BD0 /* Listener.h */,
 				27F605D7176AF2A700046BD0 /* Observer.h */,
+				27F605D9176B0E5100046BD0 /* AlertUploadView.h */,
+				27F605DA176B0E5100046BD0 /* AlertUploadView.m */,
 			);
 			name = Async;
 			sourceTree = "<group>";
@@ -945,6 +950,7 @@
 				270C589517578BC000CA350F /* CustomObservationAnnotationView.m in Sources */,
 				27F662A11766F9940080FC4B /* SubmissionCancelView.m in Sources */,
 				27F605D5176AF28400046BD0 /* AsyncRequestDelegate.m in Sources */,
+				27F605DB176B0E5100046BD0 /* AlertUploadView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

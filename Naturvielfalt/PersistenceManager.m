@@ -29,7 +29,6 @@
 // CONNECTION
 - (void) establishConnection
 {
-    
     // Create link to user database
     if (sqlite3_open([[self userDataFilePath] UTF8String], &dbUser) != SQLITE_OK) {
         sqlite3_close(dbUser);
@@ -44,7 +43,7 @@
         sqlite3_close(dbStatic);
         NSAssert(0, @"Failed to open static database");
     }
-	
+    
     // Create TABLE (At the moment IMAGE BLOB is missing..)
     // Create TABLE OBSERVATION
     NSString *createSQLObservation = @"CREATE TABLE IF NOT EXISTS observation (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
@@ -74,11 +73,13 @@
         sqlite3_close(dbUser);
         NSAssert1(0, @"Error creating table: %s", errorMsg);
     }
+    sqlite3_finalize((__bridge sqlite3_stmt *)(createSQLObservation));
     
     if (sqlite3_exec (dbUser, [createSQLObservationImage UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
         sqlite3_close(dbUser);
         NSAssert1(0, @"Error creating table OBSERVATIONIMAGE: %s", errorMsg);
     }
+    sqlite3_finalize((__bridge sqlite3_stmt *)(createSQLObservationImage));
     
     // dont' backup the database files to iCloud
     NSString *userPath = [self userDataFilePath];

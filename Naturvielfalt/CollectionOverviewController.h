@@ -12,8 +12,9 @@
 #import "ASINetworkQueue.h"
 #import "Reachability.h"
 #import "MBProgressHUD.h"
+#import "Listener.h"
 
-@interface CollectionOverviewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate> {
+@interface CollectionOverviewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate, Listener> {
     PersistenceManager *persistenceManager;
     NSMutableArray *observations;
     NSMutableArray *observationsToSubmit;
@@ -24,6 +25,11 @@
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
+    int requestCounter;
+    NSMutableArray *obsToSubmit;
+    NSMutableArray *requests;
+    NSMutableArray *asyncDelegates;
+    MBProgressHUD *loadingHUD;
 }
 
 @property (nonatomic) PersistenceManager *persistenceManager;
@@ -44,7 +50,7 @@
 - (void) removeObservations;
 - (BOOL) connectedToWiFi;
 - (void) checkboxEvent:(UIButton *)sender;
-- (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request;
+- (void) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request;
 
 
 @end

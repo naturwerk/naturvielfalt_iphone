@@ -11,6 +11,7 @@
 #import "ObservationsOrganismSubmitController.h"
 #import "MBProgressHUD.h"
 #import "ASIFormDataRequest.h"
+#import "AsyncRequestDelegate.h"
 
 @implementation CollectionOverviewController
 @synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, progressView, operationQueue, curIndex, doSubmit;
@@ -112,7 +113,7 @@
 
 - (void) sendObservations
 {
-    MBProgressHUD *loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     [self.navigationController.view addSubview:loadingHUD];
     
     loadingHUD.delegate = self;
@@ -120,151 +121,147 @@
     loadingHUD.labelText = NSLocalizedString(@"collectionHudWaitMessage", nil);
     loadingHUD.detailsLabelText = NSLocalizedString(@"collectionHudSubmitMessage", nil);
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [loadingHUD show:YES];
+    [self sendRequestToServer];
     
-    [loadingHUD showWhileExecuting:@selector(sendRequestToServer) onTarget:self withObject:nil animated:YES];
+    //[loadingHUD showWhileExecuting:@selector(sendRequestToServer) onTarget:self withObject:nil animated:YES];
 }
 
-- (void) sendRequestToServer 
+- (void) sendRequestToServer
 {
     //new portal
     NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api"];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
-    int counter = 0;
-    for(Observation *ob in observations) {
-        if(ob.submitToServer)
-            counter++;
-    }
     
-    int i = 1;
-
-    if(counter == 0) {
+    obsToSubmit = [[NSMutableArray alloc] init];
+    for (Observation *ob in observations) {
+        if (ob.submitToServer) {
+            [obsToSubmit addObject:ob];
+        }
+    }
+    requestCounter = obsToSubmit.count;
+    
+    if(requestCounter == 0) {
+        [loadingHUD removeFromSuperview];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
-
-    BOOL successfulTransmission = true;
-    BOOL transmission_problem = false;
     
-    for(Observation *ob in observations) {
-        if(ob.submitToServer) {
-
-            // Get username and password from the UserDefaults
-            NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
-            
-            NSString *username = @"";             
-            NSString *password = @"";
-            
-            BOOL credentialsSetted = true;
-            
-            if([appSettings objectForKey:@"username"] != nil) {
-                username = [appSettings stringForKey:@"username"];
-            } else {
-                credentialsSetted = false;
-            }
-            
-            if([appSettings objectForKey:@"password"] != nil) {
-                password = [appSettings stringForKey:@"password"];
-            } else {
-                credentialsSetted = false;
-            }
-            
-            if(!credentialsSetted) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorSettings", nil)  delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
-                [alert show];
-                
-                return;
-            }
-            
-            
-            ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-            [request setUsername:username];
-            [request setPassword:password];
-            [request setValidatesSecureCertificate: YES];
-            
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"dd.MM.yyyy";
-            [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-            NSString *dateString = [dateFormatter stringFromDate:ob.date];
-            
-            // Prepare data
-            NSString *organism = [NSString stringWithFormat:@"%d", ob.organism.organismId];
-            NSString *organismGroupId = [NSString stringWithFormat:@"%d", ob.organism.organismGroupId];
-            NSString *count = [NSString stringWithFormat:@"%@", ob.amount];
-            NSString *date = [NSString stringWithFormat:@"%@", dateString];
-            NSString *accuracy = [NSString stringWithFormat:@"%d", ob.accuracy];
-            NSString *author = [NSString stringWithString:username];
-            NSString *longitude = [NSString stringWithFormat:@"%f", ob.location.coordinate.longitude];
-            NSString *latitude = [NSString stringWithFormat:@"%f", ob.location.coordinate.latitude];
-            NSString *comment = [NSString stringWithFormat:@"%@", ob.comment];
-            
-            // Upload image
-            if([ob.pictures count] > 0) {
-                for (ObservationImage *obsImg in ob.pictures) {
-                    // Create PNG image
-                    NSData *imageData = UIImagePNGRepresentation(obsImg.image);
-                    
-                    // And add the png image into the request
-                    [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
-                }
-            }
-                
-            [request setPostValue:organism forKey:@"organismn_id"];
-            [request setPostValue:organismGroupId forKey:@"organism_artgroup_id"];
-            [request setPostValue:count forKey:@"count"];
-            [request setPostValue:date forKey:@"date"];
-            [request setPostValue:accuracy forKey:@"accuracy"];
-            [request setPostValue:author forKey:@"observer"];
-            [request setPostValue:longitude forKey:@"longitude"];
-            [request setPostValue:latitude forKey:@"latitude"];
-            [request setPostValue:comment forKey:@"comment"];
-
-            successfulTransmission = [self submitData:ob withRequest:request];
-            if(!successfulTransmission) transmission_problem = true;
+    /*BOOL successfulTransmission = true;
+     BOOL transmission_problem = false;*/
+    
+    requests = [[NSMutableArray alloc] init];
+    asyncDelegates = [[NSMutableArray alloc] init];
+    
+    
+    for(Observation *ob in obsToSubmit) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        // Get username and password from the UserDefaults
+        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+        
+        NSString *username = @"";
+        NSString *password = @"";
+        BOOL credentialsSetted = true;
+        
+        if([appSettings objectForKey:@"username"] != nil) {
+            username = [appSettings stringForKey:@"username"];
+        } else {
+            credentialsSetted = false;
         }
-        i++;
-    } 
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    if(!transmission_problem) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
-        [alert show];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObsSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
-        [alert show];
+        
+        if([appSettings objectForKey:@"password"] != nil) {
+            password = [appSettings stringForKey:@"password"];
+        } else {
+            credentialsSetted = false;
+        }
+        
+        if(!credentialsSetted) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorSettings", nil)  delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
+            [alert show];
+            
+            return;
+        }
+        
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+        [request setUsername:username];
+        [request setPassword:password];
+        [request setValidatesSecureCertificate: YES];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        NSString *dateString = [dateFormatter stringFromDate:ob.date];
+        
+        // Prepare data
+        NSString *organism = [NSString stringWithFormat:@"%d", ob.organism.organismId];
+        NSString *organismGroupId = [NSString stringWithFormat:@"%d", ob.organism.organismGroupId];
+        NSString *count = [NSString stringWithFormat:@"%@", ob.amount];
+        NSString *date = [NSString stringWithFormat:@"%@", dateString];
+        NSString *accuracy = [NSString stringWithFormat:@"%d", ob.accuracy];
+        NSString *author = [NSString stringWithString:ob.author];
+        NSString *longitude = [NSString stringWithFormat:@"%f", ob.location.coordinate.longitude];
+        NSString *latitude = [NSString stringWithFormat:@"%f", ob.location.coordinate.latitude];
+        NSString *comment = [NSString stringWithFormat:@"%@", ob.comment];
+        
+        // Upload image
+        if([ob.pictures count] > 0) {
+            for (ObservationImage *obsImg in ob.pictures) {
+                // Create PNG image
+                NSData *imageData = UIImagePNGRepresentation(obsImg.image);
+                
+                // And add the png image into the request
+                [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+            }
+        }
+        [request setPostValue:organism forKey:@"organismn_id"];
+        [request setPostValue:organismGroupId forKey:@"organism_artgroup_id"];
+        [request setPostValue:count forKey:@"count"];
+        [request setPostValue:date forKey:@"date"];
+        [request setPostValue:accuracy forKey:@"accuracy"];
+        [request setPostValue:author forKey:@"observer"];
+        [request setPostValue:longitude forKey:@"longitude"];
+        [request setPostValue:latitude forKey:@"latitude"];
+        [request setPostValue:comment forKey:@"comment"];
+        
+        [requests addObject:request];
+        [self submitData:ob withRequest:request];
+        //if(!successfulTransmission) transmission_problem = true;
     }
-    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
-- (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request {
-    NSLog(@"submitData");
-    [request startSynchronous];
-    NSLog(@"startSynchronous");
+- (void) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request {
     
-    NSError *error = [request error];
-    if (!error) {
-        NSString *response = [request responseString];
-        
-        NSLog(@"Response: '%@'", response);
-        
-        if([response isEqualToString:@"SUCCESS"]) {
-        
-            // And Delete the observation form the database
-            [persistenceManager establishConnection];
-            [persistenceManager deleteObservation:ob.observationId];
-            [persistenceManager closeConnection];
-            // Reload observations
-            [self reloadObservations];
-            return true;
-        }
-        return false;
-    } else {        
-        return false;
-    }
+    AsyncRequestDelegate *asyncDelegate = [[AsyncRequestDelegate alloc] initWithObservation:ob];
+    [asyncDelegate registerListener:self];
+    request.delegate = asyncDelegate;
+    [asyncDelegates addObject:asyncDelegate];
+    
+    [request startAsynchronous];
+    
+    /*NSError *error = [request error];
+     if (!error) {
+     NSString *response = [request responseString];
+     
+     NSLog(@"Response: '%@'", response);
+     
+     if([response isEqualToString:@"SUCCESS"]) {
+     
+     // And Delete the observation form the database
+     [persistenceManager establishConnection];
+     [persistenceManager deleteObservation:ob.observationId];
+     [persistenceManager closeConnection];
+     // Reload observations
+     [self reloadObservations];
+     return true;
+     }
+     return false;
+     } else {
+     return false;
+     }*/
 }
 
 - (void) removeObservations
@@ -400,8 +397,6 @@
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         NSString *nowString = [dateFormatter stringFromDate:observation.date];
         
-        
-            
         if(observation.pictures.count > 0){
             UIImage *original = ((ObservationImage *)[observation.pictures objectAtIndex:0]).image;
             CGFloat scale = [UIScreen mainScreen].scale;
@@ -485,5 +480,37 @@
     organismSubmitController = nil;
 }
 
+# pragma Listener methods
+- (void)notifyListener:(Observation *)observation response:(NSString *)response {
+    if ([response isEqualToString:@"SUCCESS"]) {
+        // And Delete the observation form the database
+        [persistenceManager establishConnection];
+        [persistenceManager deleteObservation:observation.observationId];
+        [persistenceManager closeConnection];
+        // Reload observations
+        [self reloadObservations];
+        [obsToSubmit removeObject:observation];
+        requestCounter--;
+    }
+    
+    if (requestCounter == 0) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        for (AsyncRequestDelegate *asynDelegate in asyncDelegates) {
+            [asynDelegate unregisterListener];
+        }
+        [asyncDelegates removeAllObjects];
+        [requests removeAllObjects];
+        
+        if (obsToSubmit.count == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+            [alert show];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObsSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        [loadingHUD removeFromSuperview];
+        [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    }
+}
 
 @end

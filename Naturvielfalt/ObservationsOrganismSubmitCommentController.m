@@ -10,8 +10,7 @@
 #import "ObservationsOrganismSubmitController.h"
 
 @implementation ObservationsOrganismSubmitCommentController
-@synthesize textView;
-@synthesize observation;
+@synthesize textView, observation, persistenceManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

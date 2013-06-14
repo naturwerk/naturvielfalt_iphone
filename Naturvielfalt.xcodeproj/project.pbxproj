@@ -11,6 +11,7 @@
 		270D38FE1738D09400D94568 /* DeleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D38FD1738D09400D94568 /* DeleteCell.m */; };
 		270D390117393DE600D94568 /* CustomObservationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D390017393DE600D94568 /* CustomObservationAnnotation.m */; };
 		270D3904173940C300D94568 /* CustomObservationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D3903173940C200D94568 /* CustomObservationAnnotationView.m */; };
+		2711A52F1769EB19005A6C32 /* AsyncRequestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711A52E1769EB19005A6C32 /* AsyncRequestDelegate.m */; };
 		272D3A671714172300588328 /* AreasSubmitNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A651714172300588328 /* AreasSubmitNameController.m */; };
 		272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A661714172300588328 /* AreasSubmitNameController.xib */; };
 		272D3A6C1714176D00588328 /* AreasSubmitDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */; };
@@ -213,6 +214,10 @@
 		270D390017393DE600D94568 /* CustomObservationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObservationAnnotation.m; sourceTree = "<group>"; };
 		270D3902173940C200D94568 /* CustomObservationAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObservationAnnotationView.h; sourceTree = "<group>"; };
 		270D3903173940C200D94568 /* CustomObservationAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObservationAnnotationView.m; sourceTree = "<group>"; };
+		2711A52D1769EB19005A6C32 /* AsyncRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncRequestDelegate.h; sourceTree = "<group>"; };
+		2711A52E1769EB19005A6C32 /* AsyncRequestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncRequestDelegate.m; sourceTree = "<group>"; };
+		2711A5311769ED2B005A6C32 /* Listener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Listener.h; sourceTree = "<group>"; };
+		2711A5321769F960005A6C32 /* Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Observer.h; sourceTree = "<group>"; };
 		272D3A641714172300588328 /* AreasSubmitNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNameController.h; sourceTree = "<group>"; };
 		272D3A651714172300588328 /* AreasSubmitNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNameController.m; sourceTree = "<group>"; };
 		272D3A661714172300588328 /* AreasSubmitNameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNameController.xib; sourceTree = "<group>"; };
@@ -524,6 +529,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2711A5301769ED11005A6C32 /* Async */ = {
+			isa = PBXGroup;
+			children = (
+				2711A52D1769EB19005A6C32 /* AsyncRequestDelegate.h */,
+				2711A52E1769EB19005A6C32 /* AsyncRequestDelegate.m */,
+				2711A5311769ED2B005A6C32 /* Listener.h */,
+				2711A5321769F960005A6C32 /* Observer.h */,
+			);
+			name = Async;
+			sourceTree = "<group>";
+		};
 		272D3A631714168500588328 /* SubmitHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -820,6 +836,7 @@
 				CBEBAA2C147CDCA5009AC6C0 /* WikipediaHelper.m */,
 				CB1432321486642200BBA78D /* SwissCoordinates.h */,
 				CB1432331486642200BBA78D /* SwissCoordinates.m */,
+				2711A5301769ED11005A6C32 /* Async */,
 				CB1EE5D814893F3400FF286F /* Settings.h */,
 				CB1EE5D914893F3400FF286F /* Settings.m */,
 			);
@@ -1287,6 +1304,7 @@
 				27E913701744BF70001701D9 /* AFImageViewer.m in Sources */,
 				27E9137C1744F286001701D9 /* ObservationImage.m in Sources */,
 				27E9137F1744F29C001701D9 /* AreaImage.m in Sources */,
+				2711A52F1769EB19005A6C32 /* AsyncRequestDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

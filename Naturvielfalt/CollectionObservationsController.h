@@ -13,8 +13,9 @@
 #import "Reachability.h"
 #import "MBProgressHUD.h"
 #import <MapKit/MapKit.h>
+#import "Listener.h"
 
-@interface CollectionObservationsController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate,MKMapViewDelegate, CLLocationManagerDelegate> {
+@interface CollectionObservationsController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate,MKMapViewDelegate, CLLocationManagerDelegate, ASIHTTPRequestDelegate, Listener> {
     PersistenceManager *persistenceManager;
     NSMutableArray *observations;
     NSMutableArray *observationsToSubmit;
@@ -28,6 +29,11 @@
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
+    int requestCounter;
+    NSMutableArray *obsToSubmit;
+    NSMutableArray *requests;
+    NSMutableArray *asyncDelegates;
+    MBProgressHUD *loadingHUD;
 }
 
 @property (nonatomic) IBOutlet MKMapView *mapView;
@@ -42,6 +48,7 @@
 @property (nonatomic) BOOL doSubmit;
 @property (nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (nonatomic) IBOutlet UIView *observationsView;
+@property (nonatomic) NSMutableArray *obsToSubmit;
 
 
 - (void) sendObservations;
@@ -50,7 +57,7 @@
 - (void) removeObservations;
 - (BOOL) connectedToWiFi;
 - (void) checkboxEvent:(UIButton *)sender;
-- (BOOL) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request;
+- (void) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request;
 
 
 

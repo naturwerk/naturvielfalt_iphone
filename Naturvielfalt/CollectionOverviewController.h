@@ -32,7 +32,7 @@
     NSMutableArray *asyncDelegates;
     MBProgressHUD *loadingHUD;
     AlertUploadView *uploadView;
-    UIProgressView *progressView;
+    BOOL cancelSubmission;
 }
 
 @property (nonatomic) PersistenceManager *persistenceManager;

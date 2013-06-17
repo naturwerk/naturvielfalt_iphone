@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import <MapKit/MapKit.h>
 #import "Listener.h"
+#import "AlertUploadView.h"
 
 @interface CollectionObservationsController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate,MKMapViewDelegate, CLLocationManagerDelegate, ASIHTTPRequestDelegate, Listener> {
     PersistenceManager *persistenceManager;
@@ -30,10 +31,12 @@
     NSIndexPath *curIndex;
     BOOL doSubmit;
     int requestCounter;
+    int totalRequests;
     NSMutableArray *obsToSubmit;
     NSMutableArray *requests;
     NSMutableArray *asyncDelegates;
     MBProgressHUD *loadingHUD;
+    AlertUploadView *uploadView;
 }
 
 @property (nonatomic) IBOutlet MKMapView *mapView;

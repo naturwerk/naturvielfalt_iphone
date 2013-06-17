@@ -92,12 +92,19 @@
     // Reload the observations
     operationQueue = [[NSOperationQueue alloc] init];
     [operationQueue setMaxConcurrentOperationCount:1];
-    [self reloadObservations];
+    
+    loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    [self.navigationController.view addSubview:loadingHUD];
+    
+    loadingHUD.delegate = self;
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    
+    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [loadingHUD showWhileExecuting:@selector(reloadObservations) onTarget:self withObject:nil animated:YES];
     
     // Reload table
     [table reloadData];
-
-
 }
 
 - (void) reloadAnnotations {
@@ -197,16 +204,24 @@
 
 - (void) sendObservations
 {
-    loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-    [self.navigationController.view addSubview:loadingHUD];
+    uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
+    /*UIProgressView *pv = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+     pv.frame = CGRectMake(40, 67, 200, 15);
+     CGAffineTransform myTransform = CGAffineTransformMakeScale(1.0, 2.0f);
+     pv.progress = 0.5;
+     [uploadView addSubview:pv];*/
+    [uploadView show];
     
-    loadingHUD.delegate = self;
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudWaitMessage", nil);
-    loadingHUD.detailsLabelText = NSLocalizedString(@"collectionHudSubmitMessage", nil);
-    
-    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [loadingHUD show:YES];
+    /*loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+     [self.navigationController.view addSubview:loadingHUD];
+     
+     loadingHUD.delegate = self;
+     loadingHUD.mode = MBProgressHUDModeCustomView;
+     loadingHUD.labelText = NSLocalizedString(@"collectionHudWaitMessage", nil);
+     loadingHUD.detailsLabelText = NSLocalizedString(@"collectionHudSubmitMessage", nil);
+     
+     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+     [loadingHUD show:YES];*/
     [self sendRequestToServer];
     
     //[loadingHUD showWhileExecuting:@selector(sendRequestToServer) onTarget:self withObject:nil animated:YES];
@@ -219,7 +234,7 @@
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
-
+    
     obsToSubmit = [[NSMutableArray alloc] init];
     for (Observation *ob in observations) {
         if (ob.submitToServer) {
@@ -227,6 +242,7 @@
         }
     }
     requestCounter = obsToSubmit.count;
+    totalRequests = requestCounter;
     
     if(requestCounter == 0) {
         [loadingHUD removeFromSuperview];
@@ -236,11 +252,11 @@
     }
     
     /*BOOL successfulTransmission = true;
-    BOOL transmission_problem = false;*/
+     BOOL transmission_problem = false;*/
     
     requests = [[NSMutableArray alloc] init];
     asyncDelegates = [[NSMutableArray alloc] init];
-
+    
     
     for(Observation *ob in obsToSubmit) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -382,20 +398,23 @@
 
 - (void)synchronousLoadObservations
 {
-    // Establish a connection
-    [persistenceManager establishConnection];
-    
-    // Get all observations
-    NSMutableArray *arrNewObservations = [persistenceManager getObservations];
-    
-    [persistenceManager closeConnection];
+    NSMutableArray *arrNewObservations;
+    @synchronized (self) {
+        // Establish a connection
+        [persistenceManager establishConnection];
+        
+        // Get all observations
+        arrNewObservations = [persistenceManager getObservations];
+        
+        [persistenceManager closeConnection];
+    }
     
     [self performSelectorOnMainThread:@selector(didFinishLoadingObservations:) withObject:arrNewObservations waitUntilDone:YES];
 }
 
 - (void)didFinishLoadingObservations:(NSMutableArray *)arrNewObservations
 {
-    if(observations != nil){
+    if(observations != nil) {
         if([observations count] != [arrNewObservations count]){
             observations = arrNewObservations;
         }
@@ -415,24 +434,20 @@
     if([observations count] < 1) {
         table.editing = FALSE;
     }
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    [self reloadAnnotations];
 }
 
 - (void) reloadObservations
 {
     // Reset observations
     observations = nil;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [self beginLoadingObservations];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     table.editing = FALSE;
-    [self beginLoadingObservations];
+    [self reloadObservations];
+    [self reloadAnnotations];
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     
@@ -623,15 +638,20 @@
 # pragma Listener methods
 - (void)notifyListener:(Observation *)observation response:(NSString *)response {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    float percent = (100 / totalRequests) * (totalRequests - (--requestCounter));
+    NSLog(@"requestcounter: %d progress: %f",requestCounter + 1,  percent / 100);
+    uploadView.progressView.progress = percent / 100;
+    
     if ([response isEqualToString:@"SUCCESS"]) {
         // And Delete the observation form the database
-        [persistenceManager establishConnection];
-        [persistenceManager deleteObservation:observation.observationId];
-        [persistenceManager closeConnection];
+        @synchronized (self) {
+            [persistenceManager establishConnection];
+            [persistenceManager deleteObservation:observation.observationId];
+            [persistenceManager closeConnection];
+        }
         // Reload observations
         [self reloadObservations];
         [obsToSubmit removeObject:observation];
-        requestCounter--;
     }
     
     if (requestCounter == 0) {
@@ -648,7 +668,8 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObsSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
             [alert show];
         }
-        [loadingHUD removeFromSuperview];
+        //[loadingHUD removeFromSuperview];
+        [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     }
 }

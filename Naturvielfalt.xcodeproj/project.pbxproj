@@ -63,6 +63,7 @@
 		27EDCE11171EA563009D94F8 /* startPoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EDCE10171EA563009D94F8 /* startPoint.png */; };
 		27EE24A3172578F700A48689 /* CustomPolygonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27EE24A2172578F600A48689 /* CustomPolygonView.m */; };
 		27EE24A917257C2D00A48689 /* CustomLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27EE24A817257C2D00A48689 /* CustomLineView.m */; };
+		27EF8BFB176B583800E5F6E7 /* AlertUploadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27EF8BFA176B583800E5F6E7 /* AlertUploadView.m */; };
 		27F02D5E171D797900BAEFF0 /* CustomAreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F02D5D171D797900BAEFF0 /* CustomAreaCell.m */; };
 		27F02D60171D799400BAEFF0 /* CustomAreaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */; };
 		27F03364172FCB30009217B7 /* symbol-pin-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F03360172FCB30009217B7 /* symbol-pin-edit.png */; };
@@ -286,6 +287,8 @@
 		27EE24A2172578F600A48689 /* CustomPolygonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPolygonView.m; sourceTree = "<group>"; };
 		27EE24A717257C2D00A48689 /* CustomLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLineView.h; sourceTree = "<group>"; };
 		27EE24A817257C2D00A48689 /* CustomLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLineView.m; sourceTree = "<group>"; };
+		27EF8BF9176B583800E5F6E7 /* AlertUploadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertUploadView.h; sourceTree = "<group>"; };
+		27EF8BFA176B583800E5F6E7 /* AlertUploadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertUploadView.m; sourceTree = "<group>"; };
 		27F02D5C171D797900BAEFF0 /* CustomAreaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAreaCell.h; sourceTree = "<group>"; };
 		27F02D5D171D797900BAEFF0 /* CustomAreaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAreaCell.m; sourceTree = "<group>"; };
 		27F02D5F171D799400BAEFF0 /* CustomAreaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAreaCell.xib; sourceTree = "<group>"; };
@@ -532,6 +535,8 @@
 		2711A5301769ED11005A6C32 /* Async */ = {
 			isa = PBXGroup;
 			children = (
+				27EF8BF9176B583800E5F6E7 /* AlertUploadView.h */,
+				27EF8BFA176B583800E5F6E7 /* AlertUploadView.m */,
 				2711A52D1769EB19005A6C32 /* AsyncRequestDelegate.h */,
 				2711A52E1769EB19005A6C32 /* AsyncRequestDelegate.m */,
 				2711A5311769ED2B005A6C32 /* Listener.h */,
@@ -1305,6 +1310,7 @@
 				27E9137C1744F286001701D9 /* ObservationImage.m in Sources */,
 				27E9137F1744F29C001701D9 /* AreaImage.m in Sources */,
 				2711A52F1769EB19005A6C32 /* AsyncRequestDelegate.m in Sources */,
+				27EF8BFB176B583800E5F6E7 /* AlertUploadView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

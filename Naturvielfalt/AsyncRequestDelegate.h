@@ -9,15 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "ASIHTTPRequestDelegate.h"
 #import "ASIHTTPRequest.h"
+#import "Listener.h"
 #import "Observer.h"
 
 @interface AsyncRequestDelegate : NSObject <ASIHTTPRequestDelegate, Observer> {
-    Observation *observation;
+    NSObject *object;
     id<Listener> listener;
+    
 }
 
-@property (nonatomic) Observation *observation;
-
-- initWithObservation:(Observation *) obs;
+- initWithObject:(NSObject *) obj;
 
 @end

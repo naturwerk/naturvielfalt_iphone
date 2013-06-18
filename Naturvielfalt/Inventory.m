@@ -10,7 +10,7 @@
 #import "Observation.h"
 
 @implementation Inventory 
-@synthesize inventoryId, areaId, author, name, description, date, pictures, submitToServer, area, observations;
+@synthesize inventoryId, areaId, author, name, description, date, pictures, submitToServer, area, observations, guid;
 
 static Inventory *inventory;
 
@@ -28,6 +28,7 @@ static Inventory *inventory;
             inventory.date = [NSDate date];
             inventory.observations = observations;
             inventory.pictures = pictures;
+            inventory.guid = 0;
             
             //test data
             /*for (int i = 0; i < 4; i++) {

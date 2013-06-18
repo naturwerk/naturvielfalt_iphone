@@ -9,12 +9,11 @@
 #import "AsyncRequestDelegate.h"
 
 @implementation AsyncRequestDelegate
-@synthesize observation;
 
-- (id)initWithObservation:(Observation *)obs {
+- (id)initWithObject:(NSObject *)obj {
     
     if (self = [super init]) {
-        observation = obs;
+        object = obj;
     }
     return  self;
 }
@@ -23,7 +22,7 @@
     NSLog(@"request finished");
     
     NSString *response = [request responseString];
-    [listener notifyListener:observation response:response];
+    [listener notifyListener:object response:response];
 }
 
 - (void)registerListener:(id)l {

@@ -27,6 +27,7 @@ typedef enum DrawMode{
     BOOL submitToServer;
     BOOL persisted;
     DrawMode typeOfArea;
+    int guid;
 }
 
 @property (nonatomic, assign) long long int areaId;
@@ -41,6 +42,7 @@ typedef enum DrawMode{
 @property (nonatomic, assign) BOOL locationLocked;
 @property (nonatomic) DrawMode typeOfArea;
 @property (nonatomic) BOOL persisted;
+@property (nonatomic) int guid;
 
 - (Area *) getArea;
 - (void) setArea:(Area *)a;

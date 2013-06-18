@@ -25,6 +25,7 @@
     Inventory *inventory;
     BOOL submitToServer;
     BOOL locationLocked;
+    int guid;
 }
 
 @property (nonatomic, assign) long long int observationId;
@@ -40,6 +41,7 @@
 @property (nonatomic) Inventory *inventory;
 @property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic, assign) BOOL locationLocked;
+@property (nonatomic) int guid;
 
 - (Observation *) getObservation;
 - (void) setObservation:(Observation *)observation;

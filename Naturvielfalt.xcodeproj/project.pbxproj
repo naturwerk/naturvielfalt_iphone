@@ -98,6 +98,9 @@
 		27F8C3D51727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */; };
 		27FB850F1720054200A7632D /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FB850E1720054200A7632D /* CustomAnnotation.m */; };
 		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
+		27FDA9D3176EF95100B8B01A /* ObservationUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D2176EF95100B8B01A /* ObservationUploadHelper.m */; };
+		27FDA9D7176EF97200B8B01A /* InventoryUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D6176EF97200B8B01A /* InventoryUploadHelper.m */; };
+		27FDA9DA176EF98000B8B01A /* AreaUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D9176EF98000B8B01A /* AreaUploadHelper.m */; };
 		27FED4E81730FC260030886F /* CheckboxInventoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FED4E71730FC260030886F /* CheckboxInventoryCell.m */; };
 		27FED4EA1730FC3F0030886F /* CheckboxInventoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */; };
 		27FED4ED173102E60030886F /* CheckboxAreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FED4EC173102E60030886F /* CheckboxAreaCell.m */; };
@@ -335,6 +338,13 @@
 		27FB850D1720054200A7632D /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
 		27FB850E1720054200A7632D /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
 		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
+		27FDA9D1176EF95100B8B01A /* ObservationUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationUploadHelper.h; sourceTree = "<group>"; };
+		27FDA9D2176EF95100B8B01A /* ObservationUploadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationUploadHelper.m; sourceTree = "<group>"; };
+		27FDA9D5176EF97200B8B01A /* InventoryUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryUploadHelper.h; sourceTree = "<group>"; };
+		27FDA9D6176EF97200B8B01A /* InventoryUploadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryUploadHelper.m; sourceTree = "<group>"; };
+		27FDA9D8176EF98000B8B01A /* AreaUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaUploadHelper.h; sourceTree = "<group>"; };
+		27FDA9D9176EF98000B8B01A /* AreaUploadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaUploadHelper.m; sourceTree = "<group>"; };
+		27FDA9DB176EFA2700B8B01A /* AUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUploadHelper.h; sourceTree = "<group>"; };
 		27FED4E61730FC260030886F /* CheckboxInventoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckboxInventoryCell.h; sourceTree = "<group>"; };
 		27FED4E71730FC260030886F /* CheckboxInventoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckboxInventoryCell.m; sourceTree = "<group>"; };
 		27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckboxInventoryCell.xib; sourceTree = "<group>"; };
@@ -642,6 +652,20 @@
 			name = submitNewInventoryHelper;
 			sourceTree = "<group>";
 		};
+		27FDA9D4176EF95600B8B01A /* UploadHelper */ = {
+			isa = PBXGroup;
+			children = (
+				27FDA9D8176EF98000B8B01A /* AreaUploadHelper.h */,
+				27FDA9D9176EF98000B8B01A /* AreaUploadHelper.m */,
+				27FDA9D5176EF97200B8B01A /* InventoryUploadHelper.h */,
+				27FDA9D6176EF97200B8B01A /* InventoryUploadHelper.m */,
+				27FDA9D1176EF95100B8B01A /* ObservationUploadHelper.h */,
+				27FDA9D2176EF95100B8B01A /* ObservationUploadHelper.m */,
+				27FDA9DB176EFA2700B8B01A /* AUploadHelper.h */,
+			);
+			name = UploadHelper;
+			sourceTree = "<group>";
+		};
 		27FED4E51730F5890030886F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -839,6 +863,7 @@
 				27EE24A817257C2D00A48689 /* CustomLineView.m */,
 				CBEBAA2B147CDCA5009AC6C0 /* WikipediaHelper.h */,
 				CBEBAA2C147CDCA5009AC6C0 /* WikipediaHelper.m */,
+				27FDA9D4176EF95600B8B01A /* UploadHelper */,
 				CB1432321486642200BBA78D /* SwissCoordinates.h */,
 				CB1432331486642200BBA78D /* SwissCoordinates.m */,
 				2711A5301769ED11005A6C32 /* Async */,
@@ -1311,6 +1336,9 @@
 				27E9137F1744F29C001701D9 /* AreaImage.m in Sources */,
 				2711A52F1769EB19005A6C32 /* AsyncRequestDelegate.m in Sources */,
 				27EF8BFB176B583800E5F6E7 /* AlertUploadView.m in Sources */,
+				27FDA9D3176EF95100B8B01A /* ObservationUploadHelper.m in Sources */,
+				27FDA9D7176EF97200B8B01A /* InventoryUploadHelper.m in Sources */,
+				27FDA9DA176EF98000B8B01A /* AreaUploadHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

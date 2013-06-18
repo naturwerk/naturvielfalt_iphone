@@ -292,15 +292,21 @@
         [request setValidatesSecureCertificate: YES];
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+        dateFormatter.dateFormat = @"dd.MM.yyyy";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         NSString *dateString = [dateFormatter stringFromDate:ob.date];
         
+        dateFormatter.dateFormat = @"HH:mm";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        NSString *timeString = [dateFormatter stringFromDate:ob.date];
+        
         // Prepare data
+        NSString *guid = [NSString stringWithFormat:@"%d", ob.guid];
         NSString *organism = [NSString stringWithFormat:@"%d", ob.organism.organismId];
         NSString *organismGroupId = [NSString stringWithFormat:@"%d", ob.organism.organismGroupId];
         NSString *count = [NSString stringWithFormat:@"%@", ob.amount];
         NSString *date = [NSString stringWithFormat:@"%@", dateString];
+        NSString *time = [NSString stringWithFormat:@"%@", timeString];
         NSString *accuracy = [NSString stringWithFormat:@"%d", ob.accuracy];
         NSString *author = [NSString stringWithString:ob.author];
         NSString *longitude = [NSString stringWithFormat:@"%f", ob.location.coordinate.longitude];
@@ -317,10 +323,12 @@
                 [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
             }
         }
-        [request setPostValue:organism forKey:@"organismn_id"];
+        [request setPostValue:guid forKey:@"guid"];
+        [request setPostValue:organism forKey:@"organism_id"];
         [request setPostValue:organismGroupId forKey:@"organism_artgroup_id"];
         [request setPostValue:count forKey:@"count"];
         [request setPostValue:date forKey:@"date"];
+        [request setPostValue:time forKey:@"time"];
         [request setPostValue:accuracy forKey:@"accuracy"];
         [request setPostValue:author forKey:@"observer"];
         [request setPostValue:longitude forKey:@"longitude"];
@@ -335,7 +343,7 @@
 
 - (void) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request {
     
-    AsyncRequestDelegate *asyncDelegate = [[AsyncRequestDelegate alloc] initWithObservation:ob];
+    AsyncRequestDelegate *asyncDelegate = [[AsyncRequestDelegate alloc] initWithObject:ob];
     [asyncDelegate registerListener:self];
     request.delegate = asyncDelegate;
     [asyncDelegates addObject:asyncDelegate];
@@ -434,6 +442,7 @@
     if([observations count] < 1) {
         table.editing = FALSE;
     }
+    [self reloadAnnotations];
 }
 
 - (void) reloadObservations
@@ -447,7 +456,6 @@
 {
     table.editing = FALSE;
     [self reloadObservations];
-    [self reloadAnnotations];
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     
@@ -636,18 +644,29 @@
 
 
 # pragma Listener methods
-- (void)notifyListener:(Observation *)observation response:(NSString *)response {
+- (void)notifyListener:(NSObject *)object response:(NSString *)response {
+    if (object.class != [Observation class]) {
+        return;
+    }
+    Observation *observation = (Observation *) object;
+    
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     float percent = (100 / totalRequests) * (totalRequests - (--requestCounter));
     NSLog(@"requestcounter: %d progress: %f",requestCounter + 1,  percent / 100);
     uploadView.progressView.progress = percent / 100;
     
     if ([response isEqualToString:@"SUCCESS"]) {
-        // And Delete the observation form the database
-        @synchronized (self) {
-            [persistenceManager establishConnection];
-            [persistenceManager deleteObservation:observation.observationId];
-            [persistenceManager closeConnection];
+        /*if (observation.guid == 0 && ) {
+            <#statements#>
+        }*/
+        // And Delete the singel observation from the database
+        if (observation.inventoryId == 0) {
+            @synchronized (self) {
+                [persistenceManager establishConnection];
+                [persistenceManager deleteObservation:observation.observationId];
+                [persistenceManager closeConnection];
+            }
         }
         // Reload observations
         [self reloadObservations];

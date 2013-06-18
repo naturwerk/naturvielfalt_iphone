@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Observation.h"
 
 @protocol Listener <NSObject>
 
-- (void) notifyListener:(Observation *)observation response:(NSString *)response;
+- (void) notifyListener:(NSObject *)object response:(NSString *)response;
 
 @end

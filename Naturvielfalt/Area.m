@@ -12,7 +12,7 @@
 
 @class AreasViewController;
 @implementation Area
-@synthesize areaId, author, name, date, pictures, inventories, description, submitToServer, locationLocked, typeOfArea, persisted, locationPoints;
+@synthesize areaId, author, name, date, pictures, inventories, description, submitToServer, locationLocked, typeOfArea, persisted, locationPoints, guid;
 
 static Area *area;
 
@@ -31,6 +31,7 @@ static Area *area;
             area.description = @"";
             area.pictures = pictures;
             area.inventories = inventories;
+            area.guid = 0;
             
             
             //test data

@@ -64,6 +64,7 @@
     
     if(review || observation.locationLocked) {        
 
+        observation.locationLocked = YES;
         MKCoordinateRegion mapRegion = mapView.region;
         mapRegion.center = observation.location.coordinate;
         
@@ -169,7 +170,6 @@
 - (IBAction)relocate:(id)sender {
     //self.navigationItem.leftBarButtonItem.action = @selector(GPSrelocate);
     //self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"observationRelocate", nil);
-    
     
     if ([CLLocationManager locationServicesEnabled]) {
         MKCoordinateRegion region;
@@ -279,9 +279,40 @@
     //[self.navigationController pushViewController:organismSubmitController animated:TRUE];
 }
 
-- (void) viewDidAppear:(BOOL)animated 
-{
+- (void) viewDidAppear:(BOOL)animated {
+    
+    //if (!review) {
+        CLLocationCoordinate2D theCoordinate;
+        
+        if (observation.location) {
+            theCoordinate.longitude = observation.location.coordinate.longitude;
+            theCoordinate.latitude = observation.location.coordinate.latitude;
+        } else {
+            mapView.showsUserLocation = YES;
+            theCoordinate.longitude = mapView.userLocation.coordinate.longitude;
+            theCoordinate.latitude = mapView.userLocation.coordinate.latitude;
+        }
+        
+        annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
+        annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getNameDe]];
+        
+        shouldAdjustZoom = YES;
+        
+        // Calculate swiss coordinates
+        annotation = [self adaptPinSubtitle: theCoordinate];
+        
+        pinMoved = false;
+        
+        [self.mapView removeAnnotations:mapView.annotations];
+        [self.mapView addAnnotation:annotation];
+        //review = YES;
+    //}
+    
     [self zoomToAnnotation];
+    
+  /*  if (!observation.locationLocked) {
+        [self relocate:nil];
+    }*/
 }
 
 // Listen to change in the userLocation

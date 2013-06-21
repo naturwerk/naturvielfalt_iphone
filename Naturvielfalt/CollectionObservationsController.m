@@ -14,7 +14,6 @@
 #import "AreasSubmitController.h"
 #import "MBProgressHUD.h"
 #import "ASIFormDataRequest.h"
-#import "AsyncRequestDelegate.h"
 
 #define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
 #define ANNOTATION_REGION_PAD_FACTOR 1.15
@@ -93,15 +92,15 @@
     operationQueue = [[NSOperationQueue alloc] init];
     [operationQueue setMaxConcurrentOperationCount:1];
     
-    loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-    [self.navigationController.view addSubview:loadingHUD];
-    
+    loadingHUD = [[MBProgressHUD alloc] initWithView:self.view];
     loadingHUD.delegate = self;
     loadingHUD.mode = MBProgressHUDModeCustomView;
     loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    [self.navigationController.view addSubview:loadingHUD];
     
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [loadingHUD showWhileExecuting:@selector(reloadObservations) onTarget:self withObject:nil animated:YES];
+
     
     // Reload table
     [table reloadData];
@@ -196,6 +195,10 @@
     if(doSubmit){
         if (buttonIndex == 1){
             [self sendObservations];
+        } else{
+            for (ObservationUploadHelper *ouh in observationUploadHelpers) {
+                [ouh cancel];
+            }
         }
         doSubmit = FALSE;
     }
@@ -229,6 +232,8 @@
 
 - (void) sendRequestToServer
 {
+    // old sendRequestToServer version
+    /*
     //new portal
     NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api"];
     
@@ -251,8 +256,8 @@
         return;
     }
     
-    /*BOOL successfulTransmission = true;
-     BOOL transmission_problem = false;*/
+    //BOOL successfulTransmission = true;
+    //BOOL transmission_problem = false;
     
     requests = [[NSMutableArray alloc] init];
     asyncDelegates = [[NSMutableArray alloc] init];
@@ -339,18 +344,61 @@
         [self submitData:ob withRequest:request];
         //if(!successfulTransmission) transmission_problem = true;
     }
+     */
+    // check username and password from the UserDefaults
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    
+    if([appSettings objectForKey:@"username"] == nil || [appSettings objectForKey:@"password"] == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorSettings", nil)  delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+
+    //new portal
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
+    
+    obsToSubmit = [[NSMutableArray alloc] init];
+    for (Observation *obs in observations) {
+        if (obs.submitToServer) {
+            [obsToSubmit addObject:obs];
+        }
+    }
+    observationCounter = obsToSubmit.count;
+    totalRequests = observationCounter;
+    
+    if(observationCounter == 0) {
+        [loadingHUD removeFromSuperview];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    if (!observationUploadHelpers) {
+        observationUploadHelpers = [[NSMutableArray alloc] init];
+    }
+    
+    for (Observation *obs in obsToSubmit) {
+        // single observation
+        if (obs.inventoryId == 0) {
+            ObservationUploadHelper *observationUploadHelper = [[ObservationUploadHelper alloc] init];
+            [observationUploadHelper registerListener:self];
+            [observationUploadHelpers addObject:observationUploadHelper];
+            [observationUploadHelper submit:obs withRecursion:NO];
+        }
+    }
 }
 
 - (void) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request {
     
-    AsyncRequestDelegate *asyncDelegate = [[AsyncRequestDelegate alloc] initWithObject:ob];
+    /*AsyncRequestDelegate *asyncDelegate = [[AsyncRequestDelegate alloc] initWithObject:ob];
     [asyncDelegate registerListener:self];
     request.delegate = asyncDelegate;
     [asyncDelegates addObject:asyncDelegate];
     
     [request startAsynchronous];
     
-    /*NSError *error = [request error];
+    NSError *error = [request error];
     if (!error) {
         NSString *response = [request responseString];
         
@@ -412,7 +460,7 @@
         [persistenceManager establishConnection];
         
         // Get all observations
-        arrNewObservations = [persistenceManager getObservations];
+        arrNewObservations = [persistenceManager getAllSingelObservations];
         
         [persistenceManager closeConnection];
     }
@@ -431,7 +479,7 @@
         observations = arrNewObservations;
     }
     
-    countObservations = (int *)self.observations.count;
+    countObservations = self.observations.count;
     
     if(table.editing)
         [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.curIndex] withRowAnimation:YES];
@@ -644,46 +692,63 @@
 
 
 # pragma Listener methods
-- (void)notifyListener:(NSObject *)object response:(NSString *)response {
+- (void)notifyListener:(NSObject *)object response:(NSString *)response observer:(id<Observer>)observer {
+    [observer unregisterListener];
     if (object.class != [Observation class]) {
         return;
     }
     Observation *observation = (Observation *) object;
     
-    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    float percent = (100 / totalRequests) * (totalRequests - (--requestCounter));
-    NSLog(@"requestcounter: %d progress: %f",requestCounter + 1,  percent / 100);
+    float percent = (100 / totalRequests) * (totalRequests - (--observationCounter));
+    NSLog(@"requestcounter: %d progress: %f",observationCounter + 1,  percent / 100);
     uploadView.progressView.progress = percent / 100;
     
-    if ([response isEqualToString:@"SUCCESS"]) {
-        /*if (observation.guid == 0 && ) {
-            <#statements#>
-        }*/
-        // And Delete the singel observation from the database
-        if (observation.inventoryId == 0) {
-            @synchronized (self) {
-                [persistenceManager establishConnection];
-                [persistenceManager deleteObservation:observation.observationId];
-                [persistenceManager closeConnection];
-            }
+    //Save received guid in object, not persisted yet
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"success=[0 || 1]" options:0 error:nil];
+    NSArray *matches = [regex matchesInString:response options:0 range:NSMakeRange(0, [response length])];
+    NSString *successString;
+    if ([matches count] > 0) {
+        successString = [response substringWithRange:[[matches objectAtIndex:0] range]];
+    } else {
+        NSLog(@"ERROR: NO GUID received!!");
+    }
+    
+    if ([successString isEqualToString:@"success=1"]) {
+        /*if (observation.guid == 0 && response.guid != 0) {
+            //It's an area observation
+            //save response.guid in oberservation.guid and persist in DB.
+        } else {*/
+            //It's a singel observation, no connection to an area object.
+            // And Delete the singel observation from the database
+        @synchronized (self) {
+            [persistenceManager establishConnection];
+            [persistenceManager deleteObservation:observation.observationId];
+            [persistenceManager closeConnection];
         }
+        //}
+
+        /*
+        // update observation (guid)
+        @synchronized (self) {
+            [persistenceManager establishConnection];
+            [persistenceManager updateObservation:observation];
+            [persistenceManager closeConnection];
+        }*/
+        
         // Reload observations
         [self reloadObservations];
         [obsToSubmit removeObject:observation];
     }
     
-    if (requestCounter == 0) {
-        for (AsyncRequestDelegate *asynDelegate in asyncDelegates) {
-            [asynDelegate unregisterListener];
-        }
-        [asyncDelegates removeAllObjects];
-        [requests removeAllObjects];
+    if (observationCounter == 0) {
+        [observationUploadHelpers removeAllObjects];
         
         if (obsToSubmit.count == 0) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
             [alert show];
         } else {
+            [obsToSubmit removeAllObjects];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObsSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
             [alert show];
         }

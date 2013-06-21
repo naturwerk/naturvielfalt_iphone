@@ -7,12 +7,77 @@
 //
 
 #import "InventoryUploadHelper.h"
+#import "ASIFormDataRequest.h"
+#import <Foundation/NSJSONSerialization.h>
 
 @implementation InventoryUploadHelper
 
 - (void)submit:(NSObject *)object withRecursion:(BOOL)recursion {
-    withRecursion = recursion;
     
+    withRecursion = recursion;
+    if (object.class != [Inventory class]) {
+        return;
+    }
+    inventory = (Inventory *) object;
+    
+    //new portal
+    NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api/inventory"];
+    
+    // Get username and password from the UserDefaults
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    
+    NSString *username = @"";
+    NSString *password = @"";
+    
+    username = [appSettings stringForKey:@"username"];
+    password = [appSettings stringForKey:@"password"];
+    
+    request = [ASIFormDataRequest requestWithURL:url];
+    [request setUsername:username];
+    [request setPassword:password];
+    [request setValidatesSecureCertificate: YES];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"dd.MM.yyyy";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString *dateString = [dateFormatter stringFromDate:inventory.date];
+    
+    dateFormatter.dateFormat = @"HH:mm";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSString *timeString = [dateFormatter stringFromDate:inventory.date];
+    
+    // Prepare data
+    NSString *guid = [NSString stringWithFormat:@"%d", inventory.guid];
+    NSString *areaGuid = [NSString stringWithFormat:@"%d", inventory.area.guid];
+    NSString *name = inventory.name;
+    NSString *date = [NSString stringWithFormat:@"%@", dateString];
+    NSString *time = [NSString stringWithFormat:@"%@", timeString];
+    NSString *author = [NSString stringWithString:inventory.author];
+    NSString *description = [NSString stringWithFormat:@"%@", inventory.description];
+    
+    // Upload images, not implemented for inventory yet
+    /*if([inventory.pictures count] > 0) {
+        for (InventoryImage *ivImg in inventory.pictures) {
+            // Create PNG image
+            NSData *imageData = UIImagePNGRepresentation(ivImg.image);
+            
+            // And add the png image into the request
+            [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+        }
+    }*/
+    
+    [request setPostValue:guid forKey:@"guid"];
+    [request setPostValue:areaGuid forKey:@"areaguid"];
+    [request setPostValue:name forKey:@"name"];
+    [request setPostValue:date forKey:@"date"];
+    [request setPostValue:time forKey:@"time"];
+    [request setPostValue:author forKey:@"observer"];
+    [request setPostValue:description forKey:@"description"];
+    
+    asyncRequestDelegate = [[AsyncRequestDelegate alloc] initWithObject:inventory];
+    [asyncRequestDelegate registerListener:self];
+    request.delegate = asyncRequestDelegate;
+    [request startAsynchronous];
 }
 
 - (void)update:(NSObject *)object {
@@ -27,6 +92,69 @@
 
 - (void) unregisterListener {
     listener = nil;
+}
+
+- (void) cancel {
+    if (request) {
+        [request cancel];
+        for (ObservationUploadHelper *ouh in observationUploadHelpers) {
+            [ouh cancel];
+        }
+    }
+}
+
+- (void)notifyListener:(NSObject *)object response:(NSString *)response observer:(id<Observer>)observer{
+    [observer unregisterListener];
+    if ((object.class != [Inventory class] && object.class != [Observation class])) {
+        return;
+    }
+    
+    //Save received guid in object, not persisted yet
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"success=[0 || 1]" options:0 error:nil];
+    NSArray *matches = [regex matchesInString:response options:0 range:NSMakeRange(0, [response length])];
+    NSString *successString;
+    if ([matches count] > 0) {
+        successString = [response substringWithRange:[[matches objectAtIndex:0] range]];
+    } else {
+        NSLog(@"ERROR: NO GUID received!!");
+    }
+    
+    // Inventory submit response
+    if (object.class == [Inventory class]) {
+        if ([response isEqualToString:@"success=1"]) {
+            
+            //Save received guid in object, not persisted yet
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"guid=[0-9]*" options:0 error:nil];
+            NSArray *matches = [regex matchesInString:response options:0 range:NSMakeRange(0, [response length])];
+            NSString *guidString = [response substringWithRange:[[matches objectAtIndex:0] range]];
+            NSArray *guidSplitted = [guidString componentsSeparatedByString:@"="];
+            NSString *guid = [guidSplitted objectAtIndex:1];
+            inventory.guid = [guid intValue];
+            NSLog(@"received area guid: %@", guidString);
+            
+            if (withRecursion) {
+                if (!observationUploadHelpers) {
+                    observationUploadHelpers = [[NSMutableArray alloc] init];
+                }
+                // If inventory submit was successful, start to submit the observations
+                for (Observation *observation in inventory.observations) {
+                    ObservationUploadHelper *observationUploadHelper = [[ObservationUploadHelper alloc] init];
+                    [observationUploadHelper registerListener:self];
+                    [observationUploadHelpers addObject:observationUploadHelper];
+                    [observationUploadHelper submit:observation withRecursion:withRecursion];
+                }
+            }
+        }
+    } else if (object.class == [Inventory class]) {
+        observationCounter--;
+        // If inventory submit was done, decrement counter
+        if(observationCounter == 0) {
+            [observationUploadHelpers removeAllObjects];
+            [listener notifyListener:inventory response:response observer:self];
+        }
+    }
+    
+
 }
 
 @end

@@ -118,6 +118,8 @@
 "areaObservationDeleteMessage"	= "Are you sure you want to delete observation?";
 
 /** Collection **/
+"collectionSingelObsTitle"		= "Singel Observations";
+"collectionAreaObsTitle"		= "Area Observations";
 "collectionNavTitle"            = "Collection";
 
 // Collection segment control

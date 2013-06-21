@@ -203,7 +203,7 @@
                 [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
             }
         }
-        review = true;
+        //review = true;
     }
      
     // Get formatted date string
@@ -388,11 +388,11 @@
         [self updateAccuracyIcon: (int)newLocation.horizontalAccuracy];
 
         // update the observation data object
-        if (!observation.inventory) {
+        //if (!observation.inventory) {
             observation.location = newLocation;
             observation.accuracy = (int)newLocation.horizontalAccuracy;
             NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
-        }
+        //}
     } else {
         // Update the Accuracy Image
         //observation.accuracy = observation.location.horizontalAccuracy;

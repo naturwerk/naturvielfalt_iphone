@@ -10,9 +10,11 @@
 #import "MBProgressHUD.h"
 #import "PersistenceManager.h"
 #import "ASINetworkQueue.h"
+#import "AreaUploadHelper.h"
 
 @interface CollectionInventoriesController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate> {
     
+    MBProgressHUD *loadingHUD;
     PersistenceManager *persistenceManager;
     NSMutableArray *inventories;
     NSMutableArray *inventoriesToSubmit;

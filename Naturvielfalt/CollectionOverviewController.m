@@ -10,6 +10,7 @@
 #import "CollectionObservationsController.h"
 #import "CollectionInventoriesController.h"
 #import "CollectionAreasController.h"
+#import "CollectionAreaObservationsController.h"
 
 @implementation CollectionOverviewController
 @synthesize table;
@@ -40,7 +41,7 @@
     self.navigationItem.title = title;
     
     // Initialize keys/values
-    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationTabLabel", nil), NSLocalizedString(@"areaSubmitInventory", nil), NSLocalizedString(@"areaTabLabel", nil), nil];
+    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"collectionSingelObsTitle", nil), NSLocalizedString(@"collectionAreaObsTitle", nil), NSLocalizedString(@"areaSubmitInventory", nil), NSLocalizedString(@"areaTabLabel", nil), nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -93,12 +94,12 @@
     CollectionObservationsController *collectionObservationsController;
     CollectionInventoriesController *collectionInventoriesController;
     CollectionAreasController *collectionAreasController;
-    
+    CollectionAreaObservationsController *collectionAreaObservationsController;
     
     switch (indexPath.row) {
         case 0:
         {
-            // OBSERVATIONS 
+            // SINGEL OBSERVATIONS 
             // Create the CollectionObservationsController
             collectionObservationsController = [[CollectionObservationsController alloc]initWithNibName:@"CollectionObservationsController" bundle:[NSBundle mainBundle]];
             
@@ -111,6 +112,19 @@
         }
         case 1:
         {
+            // AREA OBSERVATIONS
+            // Create the CollectionAreaObservationsController
+            collectionAreaObservationsController = [[CollectionAreaObservationsController alloc]initWithNibName:@"CollectionAreaObservationsController" bundle:[NSBundle mainBundle]];
+            
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:collectionAreaObservationsController animated:TRUE];
+            collectionAreaObservationsController = nil;
+            
+            break;
+        }
+        case 2:
+        {
             // INVENTORIES
             // Create the CollectionInventoriesController
             collectionInventoriesController = [[CollectionInventoriesController alloc]initWithNibName:@"CollectionInventoriesController" bundle:[NSBundle mainBundle]];
@@ -121,7 +135,7 @@
             
             break;
         }
-        case 2:
+        case 3:
         {
             // AREAS
             // Create the CollectionAreasController

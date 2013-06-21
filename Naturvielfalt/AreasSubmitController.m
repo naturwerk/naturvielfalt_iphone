@@ -181,7 +181,6 @@
 
 
 - (void)viewDidUnload {
-    [self setTableView:nil];
     [self setAreaName:nil];
     [super viewDidUnload];
 }

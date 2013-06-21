@@ -38,26 +38,25 @@
     // Set the title of the Navigationbar
     NSString *title = NSLocalizedString(@"areaSubmitInventory", nil);
     self.navigationItem.title = title;
-    
-    // Create filter button and add it to the NavigationBar
-    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:NSLocalizedString(@"navSubmit", nil)
-                                     style:UIBarButtonItemStyleBordered
-                                     target:self
-                                     action: @selector(alertOnSendInventoriesDialog)];
-    
-    self.navigationItem.rightBarButtonItem = filterButton;
 
     tableView.delegate = self;
     
     // Reload the inventories
     operationQueue = [[NSOperationQueue alloc] init];
     [operationQueue setMaxConcurrentOperationCount:1];
-    [self reloadInventories];
+    
+    loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    [self.navigationController.view addSubview:loadingHUD];
+    
+    loadingHUD.delegate = self;
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    
+    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [loadingHUD showWhileExecuting:@selector(reloadInventories) onTarget:self withObject:nil animated:YES];
     
     // Reload table
     [tableView reloadData];
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -136,50 +135,6 @@
         tableView.editing = FALSE;
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-}
-
-
-//Check if there is an active WiFi connection
-- (BOOL) connectedToWiFi{
-    Reachability *r = [Reachability reachabilityWithHostName:@"www.google.com"];
-	
-	NetworkStatus internetStatus = [r currentReachabilityStatus];
-	
-	bool result = false;
-	
-	if (internetStatus == ReachableViaWiFi)
-	{
-	    result = true;
-	}
-	
-	return result;
-}
-
-//fires an alert if not connected to WiFi
-- (void) alertOnSendInventoriesDialog{
-    doSubmit = TRUE;
-    if([self connectedToWiFi]){
-        [self sendInventories];
-    }
-    else {
-        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"collectionAlertInvTitle", nil)
-                                                              message:NSLocalizedString(@"collectionAlertInvDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil)
-                                                    otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
-        [submitAlert show];
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(doSubmit){
-        if (buttonIndex == 1){
-            [self sendInventories];
-        }
-        doSubmit = FALSE;
-    }
-}
-
-- (void) sendInventories {
-    NSLog(@"send Inventories");
 }
 
 #pragma UITableViewDelegates methods

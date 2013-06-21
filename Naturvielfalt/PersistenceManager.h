@@ -46,6 +46,8 @@
 - (void) deleteObservations:(NSMutableArray *)observations;
 - (Observation *) getObservation:(long long int) observationId;
 - (NSMutableArray *) getObservations;
+- (NSMutableArray *) getAllAreaObservations;
+- (NSMutableArray *) getAllSingelObservations;
 
 // ObservationImages
 - (long long int) saveObservationImage:(ObservationImage *) observationImage;

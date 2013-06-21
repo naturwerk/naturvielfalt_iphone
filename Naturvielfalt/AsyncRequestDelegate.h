@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "ASIHTTPRequestDelegate.h"
 #import "ASIHTTPRequest.h"
-#import "Listener.h"
 #import "Observer.h"
 
 @interface AsyncRequestDelegate : NSObject <ASIHTTPRequestDelegate, Observer> {

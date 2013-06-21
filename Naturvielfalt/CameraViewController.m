@@ -98,11 +98,12 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
         if (!tmpArea) {
             [self.navigationController popViewControllerAnimated:TRUE];
         } else {
-            for (AreaImage *aImg in area.pictures) {
+            /*for (AreaImage *aImg in area.pictures) {
                 if (!aImg.areaImageId) {
                     [tmpArea.pictures addObject:aImg];
                 }
-            }
+            }*/
+            tmpArea.pictures = area.pictures;
             area = tmpArea;
         }
         tmpArea = nil;

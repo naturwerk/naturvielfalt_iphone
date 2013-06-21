@@ -10,18 +10,25 @@
 #import "MBProgressHUD.h"
 #import "PersistenceManager.h"
 #import "ASINetworkQueue.h"
+#import "AreaUploadHelper.h"
+#import "AlertUploadView.h"
 
-@interface CollectionAreasController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate> {
+@interface CollectionAreasController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate, Listener> {
     
     PersistenceManager *persistenceManager;
     NSMutableArray *areas;
     NSMutableArray *areasToSubmit;
-    int *countAreas;
+    NSMutableArray *areaUploadHelpers;
+    int totalRequests;
+    int areasCounter;
+    int totalObjectsToSubmit;
     IBOutlet UITableView *tableView;
     ASINetworkQueue *queue;
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
+    AlertUploadView *uploadView;
+    MBProgressHUD *loadingHUD;
 }
 
 @property (nonatomic) IBOutlet UITableView *tableView;

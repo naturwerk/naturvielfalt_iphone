@@ -22,7 +22,7 @@
     NSLog(@"request finished");
     
     NSString *response = [request responseString];
-    [listener notifyListener:object response:response];
+    [listener notifyListener:object response:response observer:self];
 }
 
 - (void)registerListener:(id)l {

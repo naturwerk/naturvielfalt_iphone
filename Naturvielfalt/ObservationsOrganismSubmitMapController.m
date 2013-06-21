@@ -65,8 +65,9 @@
     
     self.navigationItem.leftBarButtonItem = relocate;*/
     
-    /*if(review || observation.locationLocked) {
+    if(review || observation.locationLocked) {
 
+        observation.locationLocked = YES;
         MKCoordinateRegion mapRegion = mapView.region;
         mapRegion.center = observation.location.coordinate;
         
@@ -91,7 +92,7 @@
             [locationManager startUpdatingLocation];
         }
         self.mapView.showsUserLocation = YES;        
-    }*/
+    }
     
     
     // Set delegation and show users current position
@@ -111,7 +112,7 @@
     NSString *title = NSLocalizedString(@"observationLocalization", nil);
     self.navigationItem.title = title;
     
-    /*CLLocationCoordinate2D theCoordinate;
+    CLLocationCoordinate2D theCoordinate;
     
     if (observation.location) {
         theCoordinate.longitude = observation.location.coordinate.longitude;
@@ -129,7 +130,7 @@
     shouldAdjustZoom = YES;
     
     // Calculate swiss coordinates
-    annotation = [self adaptPinSubtitle: theCoordinate];*/
+    annotation = [self adaptPinSubtitle: theCoordinate];
     
     pinMoved = false;
     [setButton setTitle:NSLocalizedString(@"observationAdd", nil) forState:UIControlStateNormal];
@@ -174,7 +175,7 @@
         }
     }
     
-    if (!review) {
+   // if (!review) {
         CLLocationCoordinate2D theCoordinate;
         
         if (observation.location) {
@@ -197,15 +198,15 @@
         pinMoved = false;
         
         [self.mapView addAnnotation:annotation];
-        review = YES;
-    }
+        //review = YES;
+    //}
     
     [self zoomToAnnotation];
     [self loadArea];
     
-    if (!observation.locationLocked && !observation.inventory) {
+    /*if (!observation.locationLocked && !observation.inventory) {
         [self relocate:nil];
-    }
+    }*/
 }
 
 - (void) loadArea {
@@ -495,7 +496,7 @@
                                                             timestamp:[NSDate date]];
     
     observation.location = newLocation;
-    observation.locationLocked = true;
+    observation.locationLocked = YES;
     
     observation.accuracy = 0;
     

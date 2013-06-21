@@ -8,6 +8,7 @@
 
 #import "CollectionAreasController.h"
 #import "AreasSubmitController.h"
+#import "AreaUploadHelper.h"
 #import "CheckboxAreaCell.h"
 #import "Area.h"
 #import "Reachability.h"
@@ -52,7 +53,16 @@
     // Reload the areas
     operationQueue = [[NSOperationQueue alloc] init];
     [operationQueue setMaxConcurrentOperationCount:1];
-    [self reloadAreas];
+    
+    loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    //[self.navigationController.view addSubview:loadingHUD];
+    
+    loadingHUD.delegate = self;
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    
+    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [loadingHUD showWhileExecuting:@selector(reloadAreas) onTarget:self withObject:nil animated:YES];
     
     [tableView reloadData];
 }
@@ -116,6 +126,85 @@
 
 - (void) sendAreas {
     NSLog(@"send Areas");
+    
+    uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
+    /*UIProgressView *pv = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+     pv.frame = CGRectMake(40, 67, 200, 15);
+     CGAffineTransform myTransform = CGAffineTransformMakeScale(1.0, 2.0f);
+     pv.progress = 0.5;
+     [uploadView addSubview:pv];*/
+    [uploadView show];
+    
+    /*loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+     [self.navigationController.view addSubview:loadingHUD];
+     
+     loadingHUD.delegate = self;
+     loadingHUD.mode = MBProgressHUDModeCustomView;
+     loadingHUD.labelText = NSLocalizedString(@"collectionHudWaitMessage", nil);
+     loadingHUD.detailsLabelText = NSLocalizedString(@"collectionHudSubmitMessage", nil);
+     
+     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+     [loadingHUD show:YES];*/
+    [self sendRequestToServer];
+    
+    //[loadingHUD showWhileExecuting:@selector(sendRequestToServer) onTarget:self withObject:nil animated:YES];
+
+}
+
+- (void) sendRequestToServer
+{
+    // check username and password from the UserDefaults
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    
+    if([appSettings objectForKey:@"username"] == nil || [appSettings objectForKey:@"password"] == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorSettings", nil)  delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    //new portal
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
+    
+    areasToSubmit = [[NSMutableArray alloc] init];
+    for (Area *area in areas) {
+        if (area.submitToServer) {
+            [areasToSubmit addObject:area];
+        }
+    }
+    totalObjectsToSubmit = [self getTotalObjectOfSubmission:areasToSubmit];
+    areasCounter = areasToSubmit.count;
+    totalRequests = areasCounter;
+    
+    if(areasCounter == 0) {
+        [loadingHUD removeFromSuperview];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    if (!areaUploadHelpers) {
+        areaUploadHelpers = [[NSMutableArray alloc] init];
+    }
+    
+    for (Area *area in areasToSubmit) {
+            AreaUploadHelper *areaUploadHelper = [[AreaUploadHelper alloc] init];
+            [areaUploadHelper registerListener:self];
+            [areaUploadHelpers addObject:areaUploadHelper];
+            [areaUploadHelper submit:area withRecursion:NO];
+    }
+}
+
+- (int) getTotalObjectOfSubmission:(NSMutableArray *) array {
+    int totalObjects = 0;
+    for (Area *area in array) {
+        for (Inventory *inventory in area.inventories) {
+            totalObjects += inventory.observations.count;
+        }
+        totalObjects += area.inventories.count;
+    }
+    totalObjects += array.count;
+    return totalObjects;
 }
 
 - (void) reloadAreas
@@ -157,8 +246,6 @@
     else {
         areas = arrNewAreas;
     }
-    
-    countAreas = (int *)self.areas.count;
     
     if(tableView.editing)
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
@@ -323,5 +410,59 @@
     [self.navigationController pushViewController:areasSubmitController animated:TRUE];
     areasSubmitController = nil;
 }
+
+# pragma Listener methods
+- (void)notifyListener:(NSObject *)object response:(NSString *)response observer:(id<Observer>) observer {
+    [observer unregisterListener];
+    if (object.class != [Area class]) {
+        return;
+    }
+    Area *area = (Area *) object;
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    float percent = (100 / totalRequests) * (totalRequests - (--areasCounter));
+    NSLog(@"requestcounter: %d progress: %f",areasCounter + 1,  percent / 100);
+    uploadView.progressView.progress = percent / 100;
+    
+    //Save received guid in object, not persisted yet
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"success=[0 || 1]" options:0 error:nil];
+    NSArray *matches = [regex matchesInString:response options:0 range:NSMakeRange(0, [response length])];
+    NSString *successString;
+    if ([matches count] > 0) {
+        successString = [response substringWithRange:[[matches objectAtIndex:0] range]];
+    } else {
+        NSLog(@"ERROR: NO GUID received!!");
+    }
+    
+    if ([successString isEqualToString:@"success=1"]) {
+        
+         // update area (guid)
+         @synchronized (self) {
+         [persistenceManager establishConnection];
+         [persistenceManager updateArea:area];
+         [persistenceManager closeConnection];
+         }
+        
+        // Reload observations
+        [self reloadAreas];
+        [areasToSubmit removeObject:area];
+    }
+    
+    if (areasCounter == 0) {
+        [areaUploadHelpers removeAllObjects];
+        
+        if (areasToSubmit.count == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+            [alert show];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObsSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        //[loadingHUD removeFromSuperview];
+        [uploadView dismissWithClickedButtonIndex:0 animated:YES];
+        [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    }
+}
+
 
 @end

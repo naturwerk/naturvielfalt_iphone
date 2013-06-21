@@ -13,7 +13,7 @@
 #import "Reachability.h"
 #import "MBProgressHUD.h"
 #import <MapKit/MapKit.h>
-#import "Listener.h"
+#import "AreaUploadHelper.h"
 #import "AlertUploadView.h"
 
 @interface CollectionObservationsController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate,MKMapViewDelegate, CLLocationManagerDelegate, ASIHTTPRequestDelegate, Listener> {
@@ -21,7 +21,7 @@
     NSMutableArray *observations;
     NSMutableArray *observationsToSubmit;
     NSMutableArray *observationAnnotations;
-    int *countObservations;
+    int countObservations;
     IBOutlet UITableView *table;
     IBOutlet UISegmentedControl *segmentControl;
     IBOutlet MKMapView *mapView;
@@ -30,11 +30,10 @@
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
-    int requestCounter;
+    int observationCounter;
     int totalRequests;
     NSMutableArray *obsToSubmit;
-    NSMutableArray *requests;
-    NSMutableArray *asyncDelegates;
+    NSMutableArray *observationUploadHelpers;
     MBProgressHUD *loadingHUD;
     AlertUploadView *uploadView;
 }
@@ -43,7 +42,7 @@
 @property (nonatomic) PersistenceManager *persistenceManager;
 @property (nonatomic) NSMutableArray *observations;
 @property (nonatomic) NSMutableArray *observationsToSubmit;
-@property (nonatomic, assign) int *countObservations;
+@property (nonatomic, assign) int countObservations;
 @property (nonatomic) IBOutlet UITableView *table;
 @property (nonatomic) ASINetworkQueue *queue;
 @property (nonatomic) NSOperationQueue *operationQueue;

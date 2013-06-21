@@ -122,6 +122,8 @@
 "areaObservationDeleteMessage"			= "Wollen Sie wirklich die Beobachtung löschen?";
 
 /** Collection **/
+"collectionSingelObsTitle"		= "Einzelbeobachtungen";
+"collectionAreaObsTitle"		= "Gebietsbeobachtungen";
 "collectionNavTitle"            = "Erfassungen";
 
 // Collection segment control

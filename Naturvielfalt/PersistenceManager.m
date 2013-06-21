@@ -60,7 +60,8 @@
                                                                      LOCATION_LAT REAL,                    \
                                                                      LOCATION_LON REAL,                    \
                                                                      ACCURACY INTEGER,                     \
-                                                                     COMMENT TEXT);";
+                                                                     COMMENT TEXT,                         \
+                                                                     LOCATION_LOCKED INTEGER);";
     
     // Create TABLE INVENTORY (At the moment IMAGE BLOB is missing..)
     NSString *createSQLInventory = @"CREATE TABLE IF NOT EXISTS inventory (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
@@ -169,7 +170,7 @@
 // OBSERVATIONS
 - (long long int) saveObservation:(Observation *) observation
 {
-    char *sql = "INSERT INTO observation (GUID, INVENTORY_ID, ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    char *sql = "INSERT INTO observation (GUID, INVENTORY_ID, ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, LOCATION_LOCKED) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt;
 
     // Create date string
@@ -194,6 +195,7 @@
         sqlite3_bind_double(stmt, 12, observation.location.coordinate.longitude);
         sqlite3_bind_int(stmt, 13, observation.accuracy);
         sqlite3_bind_text(stmt, 14, [observation.comment UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 15, (observation.locationLocked ? 1:0));
     }
     
     NSLog(@"Insert observation in db: %@", observation);
@@ -212,7 +214,7 @@
     // Delete all images from observation first
     [self deleteObservationImagesFromObservation:observation.observationId];
     
-    char *sql = "UPDATE observation SET GUID = ?, INVENTORY_ID = ?, ORGANISM_ID = ?, ORGANISMGROUP_ID = ?, ORGANISM_NAME = ?, ORGANISM_NAME_LAT = ?, ORGANISM_FAMILY = ?, AUTHOR = ?, DATE = ?, AMOUNT = ?, LOCATION_LAT = ?, LOCATION_LON = ?, ACCURACY = ?, COMMENT = ? WHERE ID = ?";
+    char *sql = "UPDATE observation SET GUID = ?, INVENTORY_ID = ?, ORGANISM_ID = ?, ORGANISMGROUP_ID = ?, ORGANISM_NAME = ?, ORGANISM_NAME_LAT = ?, ORGANISM_FAMILY = ?, AUTHOR = ?, DATE = ?, AMOUNT = ?, LOCATION_LAT = ?, LOCATION_LON = ?, ACCURACY = ?, COMMENT = ?, LOCATION_LOCKED = ? WHERE ID = ?";
     
     sqlite3_stmt *stmt;
     
@@ -238,7 +240,8 @@
         sqlite3_bind_double(stmt, 12, observation.location.coordinate.longitude);
         sqlite3_bind_int(stmt, 13, observation.accuracy);
         sqlite3_bind_text(stmt, 14, [observation.comment UTF8String], -1, NULL);
-        sqlite3_bind_int(stmt, 15, observation.observationId);
+        sqlite3_bind_int(stmt, 15, observation.locationLocked ? 1:0);
+        sqlite3_bind_int(stmt, 16, observation.observationId);
         
         // Check if there are any images
         if(observation.pictures.count > 0) {
@@ -280,6 +283,7 @@
             double locationLat = sqlite3_column_double(statement, 11);
             double locationLon = sqlite3_column_double(statement, 12);
             int accuracy = sqlite3_column_int(statement, 13);
+            BOOL locationLocked = sqlite3_column_int(statement, 15) != 0;
             NSString *comment;
             NSString *organismFamily;
             
@@ -337,6 +341,7 @@
             observation.location = location;
             observation.accuracy = accuracy;
             observation.comment = comment;
+            observation.locationLocked = locationLocked;
             observation.submitToServer = true;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
             
@@ -374,6 +379,7 @@
             double locationLat = sqlite3_column_double(statement, 11);
             double locationLon = sqlite3_column_double(statement, 12);
             int accuracy = sqlite3_column_int(statement, 13);
+            BOOL locationLocked = sqlite3_column_int(statement, 15) != 0;
             NSString *comment;
             NSString *organismFamily;
             
@@ -432,6 +438,7 @@
             observation.location = location;
             observation.accuracy = accuracy;
             observation.comment = comment;
+            observation.locationLocked = locationLocked;
             observation.submitToServer = true;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
             
@@ -448,6 +455,202 @@
         sqlite3_finalize(statement);
     }
     
+    return observations;
+}
+
+- (NSMutableArray *) getAllAreaObservations {
+    // All observations are stored in here
+    NSMutableArray *observations = [[NSMutableArray alloc] init];
+    
+    NSString *query = @"SELECT * FROM observation WHERE INVENTORY_ID > 0 ORDER BY DATE DESC";
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			
+            int observationId = sqlite3_column_int(statement, 0);
+            int guid = sqlite3_column_int(statement, 1);
+            int inventoryId = sqlite3_column_int(statement, 2);
+            int organismId = sqlite3_column_int(statement, 3);
+            int organismGroupId = sqlite3_column_int(statement, 4);
+            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+            int amount = sqlite3_column_int(statement, 10);
+            double locationLat = sqlite3_column_double(statement, 11);
+            double locationLon = sqlite3_column_double(statement, 12);
+            int accuracy = sqlite3_column_int(statement, 13);
+            BOOL locationLocked = sqlite3_column_int(statement, 15) != 0;
+            NSString *comment;
+            NSString *organismFamily;
+            
+            
+            // Check if the comment is null
+            if(sqlite3_column_text(statement, 7) == NULL) {
+                organismFamily = @"";
+            } else {
+                organismFamily = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+            }
+            
+            // Check if the comment is null
+            if(sqlite3_column_text(statement, 14) == NULL) {
+                comment = @"";
+            } else {
+                comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 14)];
+            }
+            
+            // Create organism and set the id
+            Organism *organism = [[Organism alloc] init];
+            organism.organismId = organismId;
+            organism.organismGroupId = organismGroupId;
+            organism.nameDe = organismNameDe;
+            organism.family = organismFamily;
+            
+            // Split the lat name into two pieces
+            NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+            
+            if([latNames count] == 2) {
+                organism.genus = [latNames objectAtIndex:0];
+                organism.species = [latNames objectAtIndex:1];
+            } else {
+                organism.genus = @"";
+                organism.species = @"";
+            }
+            
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            
+            
+            NSString *amountString = [[NSString alloc] initWithFormat:@"%d", amount];
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:locationLat longitude:locationLon];
+            
+            // Create observation
+            Observation *observation = [[Observation alloc] init];
+            observation.guid = guid;
+            //observation.inventory = [self getInventory:inventoryId];
+            observation.observationId = observationId;
+            observation.inventoryId = inventoryId;
+            observation.organism = organism;
+            observation.author = author;
+            observation.date = date;
+            observation.amount = amountString;
+            observation.location = location;
+            observation.accuracy = accuracy;
+            observation.comment = comment;
+            observation.locationLocked = locationLocked;
+            observation.submitToServer = true;
+            observation.pictures = [self getObservationImagesFromObservation:observationId];
+            
+            if (inventoryId != 0) {
+                // observation is member of an inventory
+                observation.inventory = [self getInventory:inventoryId];
+                observation.inventory.area = [self getArea:observation.inventory.areaId];
+                //inventory.area.inventories = [self getInventoriesFromArea:inventory.area];
+            }
+            
+            // Add observation to the observation array
+            [observations addObject:observation];
+		}
+        sqlite3_finalize(statement);
+    }
+    
+    return observations;
+}
+
+- (NSMutableArray *) getAllSingelObservations {
+    // All observations are stored in here
+    NSMutableArray *observations = [[NSMutableArray alloc] init];
+    
+    NSString *query = @"SELECT * FROM observation WHERE INVENTORY_ID = 0 ORDER BY DATE DESC";
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			
+            int observationId = sqlite3_column_int(statement, 0);
+            int guid = sqlite3_column_int(statement, 1);
+            int inventoryId = sqlite3_column_int(statement, 2);
+            int organismId = sqlite3_column_int(statement, 3);
+            int organismGroupId = sqlite3_column_int(statement, 4);
+            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
+            int amount = sqlite3_column_int(statement, 10);
+            double locationLat = sqlite3_column_double(statement, 11);
+            double locationLon = sqlite3_column_double(statement, 12);
+            int accuracy = sqlite3_column_int(statement, 13);
+            BOOL locationLocked = sqlite3_column_int(statement, 15) != 0;
+            NSString *comment;
+            NSString *organismFamily;
+            
+            
+            // Check if the comment is null
+            if(sqlite3_column_text(statement, 7) == NULL) {
+                organismFamily = @"";
+            } else {
+                organismFamily = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+            }
+            
+            // Check if the comment is null
+            if(sqlite3_column_text(statement, 14) == NULL) {
+                comment = @"";
+            } else {
+                comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 14)];
+            }
+            
+            // Create organism and set the id
+            Organism *organism = [[Organism alloc] init];
+            organism.organismId = organismId;
+            organism.organismGroupId = organismGroupId;
+            organism.nameDe = organismNameDe;
+            organism.family = organismFamily;
+            
+            // Split the lat name into two pieces
+            NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+            
+            if([latNames count] == 2) {
+                organism.genus = [latNames objectAtIndex:0];
+                organism.species = [latNames objectAtIndex:1];
+            } else {
+                organism.genus = @"";
+                organism.species = @"";
+            }
+            
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            
+            
+            NSString *amountString = [[NSString alloc] initWithFormat:@"%d", amount];
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:locationLat longitude:locationLon];
+            
+            // Create observation
+            Observation *observation = [[Observation alloc] init];
+            observation.guid = guid;
+            //observation.inventory = [self getInventory:inventoryId];
+            observation.observationId = observationId;
+            observation.inventoryId = inventoryId;
+            observation.organism = organism;
+            observation.author = author;
+            observation.date = date;
+            observation.amount = amountString;
+            observation.location = location;
+            observation.accuracy = accuracy;
+            observation.comment = comment;
+            observation.locationLocked = locationLocked;
+            observation.submitToServer = true;
+            observation.pictures = [self getObservationImagesFromObservation:observationId];
+            
+            // Add observation to the observation array
+            [observations addObject:observation];
+		}
+        sqlite3_finalize(statement);
+    }
     return observations;
 }
 

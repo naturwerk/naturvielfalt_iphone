@@ -12,5 +12,6 @@
 
 - (void) submit:(NSObject *) object withRecursion:(BOOL)recursion;
 - (void) update:(NSObject *) object;
+- (void) cancel;
 
 @end

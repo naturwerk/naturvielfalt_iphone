@@ -7,14 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AUploadHelper.h"
-#import "Observer.h"
 #import "Inventory.h"
+#import "ObservationUploadHelper.h"
+#import "ASIFormDataRequest.h"
 
-@interface InventoryUploadHelper : NSObject <AUploadHelper, Observer> {
+@interface InventoryUploadHelper : NSObject <AUploadHelper, Observer, Listener> {
     Inventory *inventory;
     BOOL withRecursion;
     id<Listener> listener;
+    ASIFormDataRequest *request;
+    AsyncRequestDelegate *asyncRequestDelegate;
+    NSMutableArray *observationUploadHelpers;
+    int observationCounter;
 }
 
 @end

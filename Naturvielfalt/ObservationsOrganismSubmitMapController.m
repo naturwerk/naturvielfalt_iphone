@@ -372,8 +372,6 @@
         self.mapView.region = mapRegion;    
         NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
     }
-    
-    
 }
 
 - (void) viewDidDisappear:(BOOL)animated 

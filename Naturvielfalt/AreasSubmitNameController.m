@@ -61,6 +61,7 @@
 {
     // Save the description
     area.name = textView.text;
+    area.submitted = NO;
     
     /*if (area.areaId) {
         if (!persistenceManager) {

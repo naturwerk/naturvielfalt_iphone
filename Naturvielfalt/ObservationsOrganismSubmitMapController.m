@@ -175,16 +175,22 @@
         }
     }
     
-   // if (!review) {
+    if (!review) {
         CLLocationCoordinate2D theCoordinate;
         
         if (observation.location) {
             theCoordinate.longitude = observation.location.coordinate.longitude;
             theCoordinate.latitude = observation.location.coordinate.latitude;
         } else {
-            mapView.showsUserLocation = YES;
-            theCoordinate.longitude = mapView.userLocation.coordinate.longitude;
-            theCoordinate.latitude = mapView.userLocation.coordinate.latitude;
+            if (observation.inventory) {
+                LocationPoint *areaPoint = [observation.inventory.area.locationPoints objectAtIndex:0];
+                theCoordinate.longitude = areaPoint.longitude;
+                theCoordinate.latitude = areaPoint.latitude;
+            } else {
+                mapView.showsUserLocation = YES;
+                theCoordinate.longitude = mapView.userLocation.coordinate.longitude;
+                theCoordinate.latitude = mapView.userLocation.coordinate.latitude;
+            }
         }
         
         annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
@@ -198,8 +204,8 @@
         pinMoved = false;
         
         [self.mapView addAnnotation:annotation];
-        //review = YES;
-    //}
+        review = YES;
+    }
     
     [self zoomToAnnotation];
     [self loadArea];

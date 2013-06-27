@@ -28,6 +28,7 @@ typedef enum DrawMode{
     BOOL persisted;
     DrawMode typeOfArea;
     int guid;
+    BOOL submitted;
 }
 
 @property (nonatomic, assign) long long int areaId;
@@ -43,6 +44,7 @@ typedef enum DrawMode{
 @property (nonatomic) DrawMode typeOfArea;
 @property (nonatomic) BOOL persisted;
 @property (nonatomic) int guid;
+@property (nonatomic) BOOL submitted;
 
 - (Area *) getArea;
 - (void) setArea:(Area *)a;

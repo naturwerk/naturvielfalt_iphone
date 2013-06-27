@@ -16,6 +16,7 @@
     IBOutlet UILabel *date;
     IBOutlet UILabel *count;
     IBOutlet UIButton *remove;
+    IBOutlet UILabel *submitted;
 }
 
 @property (nonatomic) IBOutlet UIButton *checkbox;
@@ -25,6 +26,7 @@
 @property (nonatomic) IBOutlet UILabel *date;
 @property (nonatomic) IBOutlet UILabel *count;
 @property (nonatomic) IBOutlet UIButton *remove;
+@property (nonatomic) IBOutlet UILabel *submitted;
 
 
 

@@ -9,13 +9,13 @@
 #import "CheckboxAreaCell.h"
 
 @implementation CheckboxAreaCell
-@synthesize checkbox, areaMode, title, subtitle, date, count, image, remove;
+@synthesize checkbox, areaMode, title, subtitle, date, count, image, remove, submitted;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+        submitted.text = NSLocalizedString(@"navSubmitted", nil);
     }
     return self;
 }

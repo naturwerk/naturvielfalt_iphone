@@ -12,6 +12,7 @@
 "navCancel"						= "Abbrechen";
 "navDel"						= "Löschen";
 "navSubmit"						= "Übermitteln";
+"navSubmitted"					= "Übermittelt";
 "navOk"							= "OK";
 "navError"						= "Fehler";
 "navSuccess"					= "Erfolgreich";
@@ -161,7 +162,7 @@
 "settingsPwd"                   = "Passwort";
 "settingsWikiImg"               = "Wikipedia Bilder laden";
 "settingsWikiArt"               = "Wikipedia Artikel prüfen";
-"settingsMap"					= "Map";
+"settingsMap"					= "Karte";
 "settingsMapSatellite"			= "Satellit";
 "settingsMapHybrid"				= "Hybrid";
 "settingsMapStandard"			= "Standard";

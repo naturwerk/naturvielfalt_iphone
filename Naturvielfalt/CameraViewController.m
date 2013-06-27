@@ -195,6 +195,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
                 aImg.areaId = area.areaId;
                 aImg.areaImageId = [persistenceManager saveAreaImage:aImg];
             }
+            area.submitted = NO;
         } else {
             [area setArea:area];
             

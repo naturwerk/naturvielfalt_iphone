@@ -1,15 +1,15 @@
 //
-//  CheckboxInventoryCell.m
+//  CheckboxAreaObsCell.m
 //  Naturvielfalt
 //
-//  Created by Albert von Felten on 01.05.13.
+//  Created by Albert von Felten on 26.06.13.
 //
 //
 
-#import "CheckboxInventoryCell.h"
+#import "CheckboxAreaObsCell.h"
 
-@implementation CheckboxInventoryCell
-@synthesize checkbox, areaMode, title, subtitle, date, count, remove, submitted;
+@implementation CheckboxAreaObsCell
+@synthesize name, date, amount, latName, image, areaImage, submitted, checkbox, remove;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

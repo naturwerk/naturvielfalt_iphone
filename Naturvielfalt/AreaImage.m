@@ -9,7 +9,7 @@
 #import "AreaImage.h"
 
 @implementation AreaImage
-@synthesize areaId, areaImageId, image;
+@synthesize areaId, areaImageId, image, submitted;
 
 static AreaImage *areaImage;
 

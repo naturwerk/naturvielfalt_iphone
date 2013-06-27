@@ -156,7 +156,12 @@
     // check username and password from the UserDefaults
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     
-    if([appSettings objectForKey:@"username"] == nil || [appSettings objectForKey:@"password"] == nil) {
+    NSString *username = [appSettings objectForKey:@"username"];
+    NSString *password = [appSettings objectForKey:@"password"];
+    
+    if((username.length == 0) || (password.length == 0)) {
+        
+        [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorSettings", nil)  delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
         [alert show];
         return;
@@ -362,14 +367,25 @@
         [checkboxAreaCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
         [checkboxAreaCell.remove setTag:area.areaId];
         
+        if (area.submitted) {
+            checkboxAreaCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
+            checkboxAreaCell.submitted.hidden = NO;
+            [checkboxAreaCell.count setAlpha:0.5f];
+            [checkboxAreaCell.date setAlpha:0.5f];
+            [checkboxAreaCell.image setAlpha:0.5f];
+            checkboxAreaCell.checkbox.hidden = YES;
+            area.submitToServer = NO;
+        }
+        
         // Set checkbox icon
         if(area.submitToServer) {
             checkboxAreaCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox_checked.png"];
         } else {
             checkboxAreaCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.gif"];
         }
+        
+
     }
-    
     return checkboxAreaCell;
 }
 

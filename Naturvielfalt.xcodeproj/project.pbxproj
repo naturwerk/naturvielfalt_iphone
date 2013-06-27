@@ -49,7 +49,6 @@
 		27D2B062170F162F00D6815B /* AreasViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B05C170F162F00D6815B /* AreasViewController.xib */; };
 		27D2B065170F165D00D6815B /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B064170F165D00D6815B /* Area.m */; };
 		27D2B068170F17C500D6815B /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D2B067170F17C500D6815B /* CameraViewController.m */; };
-		27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB14322C148616E700BBA78D /* CameraViewController.xib */; };
 		27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06A170F18D000D6815B /* Default-568h@2x.png */; };
 		27E8A1C81732950A00871706 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27E8A1C71732950A00871706 /* hairelinecross.png */; };
 		27E913701744BF70001701D9 /* AFImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E9136F1744BF70001701D9 /* AFImageViewer.m */; };
@@ -103,6 +102,8 @@
 		27FDA9D3176EF95100B8B01A /* ObservationUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D2176EF95100B8B01A /* ObservationUploadHelper.m */; };
 		27FDA9D7176EF97200B8B01A /* InventoryUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D6176EF97200B8B01A /* InventoryUploadHelper.m */; };
 		27FDA9DA176EF98000B8B01A /* AreaUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D9176EF98000B8B01A /* AreaUploadHelper.m */; };
+		27FE06D4177B1F28000D408D /* CheckboxAreaObsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FE06D3177B1F28000D408D /* CheckboxAreaObsCell.m */; };
+		27FE06D6177B1F4A000D408D /* CheckboxAreaObsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FE06D5177B1F49000D408D /* CheckboxAreaObsCell.xib */; };
 		27FED4E81730FC260030886F /* CheckboxInventoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FED4E71730FC260030886F /* CheckboxInventoryCell.m */; };
 		27FED4EA1730FC3F0030886F /* CheckboxInventoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */; };
 		27FED4ED173102E60030886F /* CheckboxAreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FED4EC173102E60030886F /* CheckboxAreaCell.m */; };
@@ -149,7 +150,6 @@
 		CBB7F628142B0409000150AF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB7F627142B0409000150AF /* UIKit.framework */; };
 		CBB7F62A142B0409000150AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB7F629142B0409000150AF /* Foundation.framework */; };
 		CBB7F62C142B0409000150AF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBB7F62B142B0409000150AF /* CoreGraphics.framework */; };
-		CBB7F632142B040A000150AF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F630142B040A000150AF /* InfoPlist.strings */; };
 		CBB7F635142B040A000150AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CBB7F634142B040A000150AF /* main.m */; };
 		CBB7F638142B040A000150AF /* NaturvielfaltAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CBB7F637142B040A000150AF /* NaturvielfaltAppDelegate.m */; };
 		CBD2C2E6146987B9003F1B90 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD2C2E5146987B9003F1B90 /* MBProgressHUD.m */; };
@@ -350,6 +350,9 @@
 		27FDA9D8176EF98000B8B01A /* AreaUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaUploadHelper.h; sourceTree = "<group>"; };
 		27FDA9D9176EF98000B8B01A /* AreaUploadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaUploadHelper.m; sourceTree = "<group>"; };
 		27FDA9DB176EFA2700B8B01A /* AUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUploadHelper.h; sourceTree = "<group>"; };
+		27FE06D2177B1F28000D408D /* CheckboxAreaObsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckboxAreaObsCell.h; sourceTree = "<group>"; };
+		27FE06D3177B1F28000D408D /* CheckboxAreaObsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckboxAreaObsCell.m; sourceTree = "<group>"; };
+		27FE06D5177B1F49000D408D /* CheckboxAreaObsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckboxAreaObsCell.xib; sourceTree = "<group>"; };
 		27FED4E61730FC260030886F /* CheckboxInventoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckboxInventoryCell.h; sourceTree = "<group>"; };
 		27FED4E71730FC260030886F /* CheckboxInventoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckboxInventoryCell.m; sourceTree = "<group>"; };
 		27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckboxInventoryCell.xib; sourceTree = "<group>"; };
@@ -689,6 +692,9 @@
 				CB18F9E0145A966700772E9B /* CheckboxCell.h */,
 				CB18F9E1145A966700772E9B /* CheckboxCell.m */,
 				CB18F9E2145A966700772E9B /* CheckboxCell.xib */,
+				27FE06D2177B1F28000D408D /* CheckboxAreaObsCell.h */,
+				27FE06D3177B1F28000D408D /* CheckboxAreaObsCell.m */,
+				27FE06D5177B1F49000D408D /* CheckboxAreaObsCell.xib */,
 				27FED4E61730FC260030886F /* CheckboxInventoryCell.h */,
 				27FED4E71730FC260030886F /* CheckboxInventoryCell.m */,
 				27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */,
@@ -1151,8 +1157,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27D2B069170F180F00D6815B /* CameraViewController.xib in Resources */,
-				CBB7F632142B040A000150AF /* InfoPlist.strings in Resources */,
 				CBB070C91430542F00D3D0B5 /* 06-magnify.png in Resources */,
 				CBB070CB1430544600D3D0B5 /* 84-lightbulb.png in Resources */,
 				CBDE3DEC1430625400BC1F46 /* ObservationsViewController.xib in Resources */,
@@ -1245,6 +1249,7 @@
 				27E913781744CF9F001701D9 /* 4.jpg in Resources */,
 				27F5FA13174CF6A300575327 /* delete.png in Resources */,
 				2707A9131772F66F002EA87D /* CollectionAreaObservationsController.xib in Resources */,
+				27FE06D6177B1F4A000D408D /* CheckboxAreaObsCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1349,6 +1354,7 @@
 				27FDA9D7176EF97200B8B01A /* InventoryUploadHelper.m in Sources */,
 				27FDA9DA176EF98000B8B01A /* AreaUploadHelper.m in Sources */,
 				2707A9121772F66F002EA87D /* CollectionAreaObservationsController.m in Sources */,
+				27FE06D4177B1F28000D408D /* CheckboxAreaObsCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

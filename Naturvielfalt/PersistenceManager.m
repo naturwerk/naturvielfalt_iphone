@@ -75,6 +75,7 @@
     // Create TABLE AREA
     NSString *createSQLArea = @"CREATE TABLE IF NOT EXISTS area (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
                                                                     GUID INTEGER,                          \
+                                                                    SUBMITTED INTEGER,                     \
                                                                     NAME TEXT,                             \
                                                                     MODE INT,                              \
                                                                     AUTHOR TEXT,                           \
@@ -89,6 +90,7 @@
     // Create TABLE areaImage
     NSString *createSQLAreaImage = @"CREATE TABLE IF NOT EXISTS areaImage (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
                                                                     AREA_ID INTEGER,                             \
+                                                                    SUBMITTED INTEGER,                           \
                                                                     IMAGE BLOB);";
     
     // Create TABLE observationImage
@@ -783,7 +785,7 @@
 // AREAS
 - (long long int) saveArea:(Area *) area {
     
-    char *sql = "INSERT INTO area (GUID, NAME, MODE, AUTHOR, DATE, DESCRIPTION) VALUES (?, ?, ?, ?, ?, ?)";
+    char *sql = "INSERT INTO area (GUID, SUBMITTED, NAME, MODE, AUTHOR, DATE, DESCRIPTION) VALUES (?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt;
     
     // Create date string
@@ -795,11 +797,12 @@
     // Put the data into the insert statement
     if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_int(stmt, 1, area.guid);
-        sqlite3_bind_text(stmt, 2, [[area name] UTF8String], -1, NULL);
-        sqlite3_bind_int(stmt, 3, area.typeOfArea);
-        sqlite3_bind_text(stmt, 4, [area.author UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 5, [formattedDate UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 6, [[area description] UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 2, (area.submitted ? 1:0));
+        sqlite3_bind_text(stmt, 3, [[area name] UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 4, area.typeOfArea);
+        sqlite3_bind_text(stmt, 5, [area.author UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 6, [formattedDate UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 7, [[area description] UTF8String], -1, NULL);
         
 
         // Check if there are any images, if yes then save it. Doesn't work because areaId is missing at this point
@@ -831,7 +834,7 @@
 }
 
 - (void) updateArea:(Area *) area {
-    char *sql = "UPDATE area SET GUID = ?, NAME = ?, MODE = ?, AUTHOR = ?, DATE = ?, DESCRIPTION = ? WHERE ID = ?";
+    char *sql = "UPDATE area SET GUID = ?, SUBMITTED = ?, NAME = ?, MODE = ?, AUTHOR = ?, DATE = ?, DESCRIPTION = ? WHERE ID = ?";
     
     sqlite3_stmt *stmt;
     
@@ -844,12 +847,13 @@
     // Put the data into the insert statement
     if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_int(stmt, 1, area.guid);
-        sqlite3_bind_text(stmt, 2, [[area name] UTF8String], -1, NULL);
-        sqlite3_bind_int(stmt, 3, area.typeOfArea);
-        sqlite3_bind_text(stmt, 4, [[area author] UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 5, [formattedDate UTF8String], -1, NULL);
-        sqlite3_bind_text(stmt, 6, [[area description] UTF8String], -1, NULL);
-        sqlite3_bind_int(stmt, 7, area.areaId);
+        sqlite3_bind_int(stmt, 2, (area.submitted ? 1:0));
+        sqlite3_bind_text(stmt, 3, [[area name] UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 4, area.typeOfArea);
+        sqlite3_bind_text(stmt, 5, [[area author] UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 6, [formattedDate UTF8String], -1, NULL);
+        sqlite3_bind_text(stmt, 7, [[area description] UTF8String], -1, NULL);
+        sqlite3_bind_int(stmt, 8, area.areaId);
 
         // Check if there are any images
         if(area.pictures.count > 0) {
@@ -903,18 +907,19 @@
 			
             int areaId = sqlite3_column_int(statement, 0);
             int guid = sqlite3_column_int(statement, 1);
-            NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 2)];
-            int mode = sqlite3_column_int(statement, 3);
-            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
-            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            BOOL submitted = sqlite3_column_int(statement, 2);
+            NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 3)];
+            int mode = sqlite3_column_int(statement, 4);
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             
             NSString *description;
             
             // Check if description is null
-            if(sqlite3_column_text(statement, 6) == NULL) {
+            if(sqlite3_column_text(statement, 7) == NULL) {
                 description = @"";
             } else {
-                description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
             }
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -932,6 +937,7 @@
             area.submitToServer = true;
             area.pictures = [self getAreaImagesFromArea:areaId];
             area.persisted = YES;
+            area.submitted = submitted;
             
             switch (mode) {
                 case 1: {area.typeOfArea = POINT; break;}
@@ -963,18 +969,19 @@
 		while (sqlite3_step(statement) == SQLITE_ROW) {
             
             int guid = sqlite3_column_int(statement, 1);
-            NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 2)];
-            int mode = sqlite3_column_int(statement, 3);
-            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
-            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            BOOL submitted = sqlite3_column_int(statement, 2);
+            NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 3)];
+            int mode = sqlite3_column_int(statement, 4);
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             
             NSString *description;
             
             // Check if description is null
-            if(sqlite3_column_text(statement, 6) == NULL) {
+            if(sqlite3_column_text(statement, 7) == NULL) {
                 description = @"";
             } else {
-                description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
             }
         
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -992,6 +999,7 @@
             area.description = description;
             area.submitToServer = true;
             area.pictures = [self getAreaImagesFromArea:areaId];
+            area.submitted = submitted;
         
             switch (mode) {
                 case 1: {area.typeOfArea = POINT; break;}
@@ -1010,16 +1018,17 @@
 // AreaImages
 - (long long int) saveAreaImage:(AreaImage *) areaImage {
     
-    char *sql = "INSERT INTO areaImage (AREA_ID, IMAGE) VALUES (?, ?)";
+    char *sql = "INSERT INTO areaImage (AREA_ID, SUBMITTED, IMAGE) VALUES (?, ?, ?)";
     sqlite3_stmt *stmt;
     
     
     // Put the data into the insert statement
     if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_int(stmt, 1, areaImage.areaId);
+        sqlite3_bind_int(stmt, 2, (areaImage.submitted ? 1: 0));
         
         NSData *imageData = UIImagePNGRepresentation(areaImage.image);
-        sqlite3_bind_blob(stmt, 2, [imageData bytes] , [imageData length], NULL);
+        sqlite3_bind_blob(stmt, 3, [imageData bytes] , [imageData length], NULL);
     }
     
     NSLog(@"Insert observationImage in db: %@", areaImage);
@@ -1083,9 +1092,10 @@
 			
             int areaImageId = sqlite3_column_int(statement, 0);
             int areaId = sqlite3_column_int(statement, 1);
+            BOOL submitted = sqlite3_column_int(statement, 2);
             
             // Get the image
-            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 2) length:sqlite3_column_bytes(statement, 2)];
+            NSData *data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 3) length:sqlite3_column_bytes(statement, 3)];
             UIImage *image = [UIImage imageWithData:data];
             
             
@@ -1094,6 +1104,7 @@
             areaImage.areaImageId = areaImageId;
             areaImage.areaId = areaId;
             areaImage.image = image;
+            areaImage.submitted = submitted;
             
             // Add areaImage to the areaImages array
             [areaImages addObject:areaImage];

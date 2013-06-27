@@ -116,6 +116,9 @@
 
 - (void) saveAmount {
     observation.amount = currentAmount;
+    if (observation.inventory) {
+        observation.inventory.area.submitted = NO;
+    }
     [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
     
     // POP

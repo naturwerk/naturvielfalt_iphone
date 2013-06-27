@@ -78,6 +78,7 @@
         
         if (inventory) {
             observation.inventory = inventory;
+            observation.locationLocked = YES;
         } else {
             [inventory setInventory:nil];
             inventory = nil;
@@ -219,6 +220,10 @@
 
 - (void) saveObservation 
 {
+    if (observation.inventory) {
+        observation.inventory.area.submitted = NO;
+    }
+    
     [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
@@ -377,7 +382,7 @@
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     
-    if(!observation.locationLocked && !review) {
+    if(!observation.locationLocked && !review && observation.inventory == nil) {
         if ([newLocation.timestamp timeIntervalSinceDate:oldLocation.timestamp] > 8)
             NSLog(@"LocationManager timeout");
         else if ((newLocation.horizontalAccuracy <= manager.desiredAccuracy) && (newLocation.verticalAccuracy <= manager.desiredAccuracy))

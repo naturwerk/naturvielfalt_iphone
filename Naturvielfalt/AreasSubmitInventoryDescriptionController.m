@@ -57,6 +57,7 @@
 {
     // Save the description
     inventory.description = textView.text;
+    inventory.area.submitted = NO;
     
     /*if (inventory.inventoryId) {
         if (!persistenceManager) {

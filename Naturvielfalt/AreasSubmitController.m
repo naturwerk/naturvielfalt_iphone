@@ -195,6 +195,7 @@
         return;
     }
 
+    area.submitted = NO;
     [AreasSubmitController persistArea:area];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];

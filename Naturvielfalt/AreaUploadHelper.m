@@ -76,11 +76,13 @@
     // Upload image
     if([area.pictures count] > 0) {
         for (AreaImage *areaImg in area.pictures) {
-            // Create PNG image
-            NSData *imageData = UIImagePNGRepresentation(areaImg.image);
-            
-            // And add the png image into the request
-            [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+            if (!areaImg.submitted) {
+                // Create PNG image
+                NSData *imageData = UIImagePNGRepresentation(areaImg.image);
+                
+                // And add the png image into the request
+                [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+            }
         }
     }
     [request setPostValue:guid forKey:@"guid"];
@@ -140,6 +142,11 @@
     if (object.class == [Area class]) {
         if ([successString isEqualToString:@"success=1"]) {
             
+            //Set submitted flag of all area images
+            for (AreaImage *areaImg in area.pictures) {
+                areaImg.submitted = YES;
+            }
+            
             //Save received guid in object, not persisted yet
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"guid=[0-9]*" options:0 error:nil];
             NSArray *matches = [regex matchesInString:response options:0 range:NSMakeRange(0, [response length])];
@@ -165,6 +172,7 @@
                     [inventoryUploadHelper submit:inventory withRecursion:withRecursion];
                 }
             } else {
+                area.submitted = YES;
                 [listener notifyListener:area response:response observer:self];
             }
         }
@@ -173,6 +181,7 @@
 
         // If inventory submit was done, decrement counter
         if(inventoryCounter == 0) {
+            area.submitted = YES;
             [inventoryUploadHelpers removeAllObjects];
             [listener notifyListener:area response:response observer:self];
         }

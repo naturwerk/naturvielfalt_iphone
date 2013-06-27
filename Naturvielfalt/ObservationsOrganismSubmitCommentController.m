@@ -58,6 +58,10 @@
     // Save the comment
     observation.comment = textView.text;
     
+    if (observation.inventory) {
+        observation.inventory.area.submitted = NO;
+    }
+    
     [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
 
     // Change view back to submitController

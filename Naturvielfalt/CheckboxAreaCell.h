@@ -18,6 +18,7 @@
     IBOutlet UILabel *count;
     IBOutlet UIImageView *image;
     IBOutlet UIButton *remove;
+    IBOutlet UILabel *submitted;
 }
 
 @property (nonatomic) IBOutlet UIButton *checkbox;
@@ -28,5 +29,6 @@
 @property (nonatomic) IBOutlet UILabel *count;
 @property (nonatomic) IBOutlet UIImageView *image;
 @property (nonatomic) IBOutlet UIButton *remove;
+@property (nonatomic) IBOutlet UILabel *submitted;
 
 @end

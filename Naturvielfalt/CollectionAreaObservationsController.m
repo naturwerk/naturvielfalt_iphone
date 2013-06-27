@@ -13,6 +13,9 @@
 #import "CustomObservationAnnotation.h"
 #import "CustomObservationAnnotationView.h"
 
+#define pWidth 5
+#define pAlpha 0.1
+
 #define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
 #define ANNOTATION_REGION_PAD_FACTOR 1.15
 #define MAX_DEGREES_ARC 360
@@ -99,6 +102,7 @@
     
     [mapView removeAnnotations:mapView.annotations];
     [mapView addAnnotations:areaObservationAnnotations];
+    [self loadArea];
     [self zoomMapViewToFitAnnotations:YES];
 }
 
@@ -232,6 +236,56 @@
                 table.hidden = YES;
                 mapView.hidden = NO;
             }completion:nil];
+        }
+    }
+}
+
+- (void) loadArea {
+    NSMutableArray *areasToDraw = [[NSMutableArray alloc] init];
+    [mapView removeOverlays:mapView.overlays];
+    for (Observation *obs in observations) {
+        Area *area = obs.inventory.area;
+        if (![areasToDraw containsObject:area]) {
+            [areasToDraw addObject:area];
+            NSMutableArray *locationPoints = [[NSMutableArray alloc] initWithArray:area.locationPoints];
+            
+            MKMapPoint *points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
+            CLLocationCoordinate2D coordinate;
+            
+            for (int index = 0; index < locationPoints.count; index++) {
+                coordinate.latitude = ((LocationPoint*)locationPoints[index]).latitude;
+                coordinate.longitude = ((LocationPoint*)locationPoints[index]).longitude;
+                MKMapPoint newPoint = MKMapPointForCoordinate(coordinate);
+                points[index] = newPoint;
+            }
+            
+            switch (area.typeOfArea) {
+                case POINT:
+                {
+                    //CustomObservationAnnotation *obsAnno = [[CustomObservationAnnotation alloc] initWithWithCoordinate:coordinate type:area.typeOfArea observation:obs];
+                    //MKPointAnnotation *anno = [[MKPointAnnotation alloc] init];
+                    //anno.coordinate = coordinate;
+                    //[mapView addAnnotation:obsAnno];
+                    break;
+                }
+                case LINE:
+                {
+                    MKPolyline *line = [MKPolyline polylineWithPoints:points count:locationPoints.count];
+                    [mapView addOverlay:line];
+                    break;
+                }
+                case POLYGON:
+                {
+                    if (locationPoints.count > 2) {
+                        MKPolygon *polygon = [MKPolygon polygonWithPoints:points count:locationPoints.count];
+                        [mapView addOverlay:polygon];
+                        
+                    } else {
+                        MKPolyline *line = [MKPolyline polylineWithPoints:points count:locationPoints.count];
+                        [mapView addOverlay:line];
+                    }
+                }
+            }
         }
     }
 }
@@ -417,6 +471,30 @@
     [customObservationAnnotationView setEnabled:YES];
     
     return customObservationAnnotationView;
+}
+
+#pragma MKMapViewDelegate methods
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+    MKOverlayView *overlayView;
+    
+    NSLog(@"test %@", [overlay class]);
+    
+    if ([overlay class] == MKPolyline.class) {
+        NSLog(@"overlay LINE");
+        MKPolylineView *lineView = [[MKPolylineView alloc] initWithPolyline:overlay];
+        lineView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:pAlpha];
+        lineView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
+        lineView.lineWidth = pWidth;
+        overlayView = lineView;
+    } else if ([overlay class] == MKPolygon.class) {
+        NSLog(@"overlay POLYGON");
+        MKPolygonView *polyView = [[MKPolygonView alloc] initWithPolygon:overlay];
+        polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:pAlpha];
+        polyView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
+        polyView.lineWidth = pWidth;
+        overlayView = polyView;
+    }
+    return overlayView;
 }
 
 

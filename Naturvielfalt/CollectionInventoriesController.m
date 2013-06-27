@@ -218,8 +218,8 @@
         if (inventory.area.submitted) {
             checkboxInventoryCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxInventoryCell.submitted.hidden = NO;
-            [checkboxInventoryCell.count setAlpha:0.5f];
-            [checkboxInventoryCell.date setAlpha:0.5f];
+            [checkboxInventoryCell.count setAlpha:0.2f];
+            [checkboxInventoryCell.date setAlpha:0.2f];
             //Images are not implemented yet
             //[checkboxInventoryCell.image setAlpha:0.5f];
             checkboxInventoryCell.checkbox.hidden = YES;

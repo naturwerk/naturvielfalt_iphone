@@ -341,9 +341,9 @@
         if (observation.inventory.area.submitted) {
             checkboxAreaObsCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxAreaObsCell.submitted.hidden = NO;
-            [checkboxAreaObsCell.amount setAlpha:0.5f];
-            [checkboxAreaObsCell.date setAlpha:0.5f];
-            [checkboxAreaObsCell.image setAlpha:0.5f];
+            [checkboxAreaObsCell.amount setAlpha:0.2f];
+            [checkboxAreaObsCell.date setAlpha:0.2f];
+            [checkboxAreaObsCell.image setAlpha:0.2f];
             //checkboxAreaObsCell.checkbox.hidden = YES;
             observation.submitToServer = NO;
         }

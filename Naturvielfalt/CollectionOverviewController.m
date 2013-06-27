@@ -55,12 +55,16 @@
 #pragma UITableViewDelegate Methodes
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSLog(@"numberOfSectionsInTableView");
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSLog(@"numberOfRowsInSection");
-    return arrayKeys.count;
+    if (section == 0) {
+        return 1;
+    } else {
+        return arrayKeys.count -1;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -74,8 +78,13 @@
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     }
     
-    // Set up the cell...
-    cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];
+    if (indexPath.section == 0) {
+        // Set up the cell...
+        cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];
+    } else {
+         cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row +1];
+    }
+
 
     return cell;
 }
@@ -96,58 +105,66 @@
     CollectionAreasController *collectionAreasController;
     CollectionAreaObservationsController *collectionAreaObservationsController;
     
-    switch (indexPath.row) {
-        case 0:
-        {
-            // SINGEL OBSERVATIONS 
-            // Create the CollectionObservationsController
-            collectionObservationsController = [[CollectionObservationsController alloc]initWithNibName:@"CollectionObservationsController" bundle:[NSBundle mainBundle]];
-            
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:collectionObservationsController animated:TRUE];
-            collectionObservationsController = nil;
-            
-            break;
+    if (indexPath.section == 0) {
+        switch (indexPath.row) {
+
+                case 0:
+                    {
+                        // SINGEL OBSERVATIONS
+                        // Create the CollectionObservationsController
+                        collectionObservationsController = [[CollectionObservationsController alloc]initWithNibName:@"CollectionObservationsController" bundle:[NSBundle mainBundle]];
+                        
+                        
+                        // Switch the View & Controller
+                        [self.navigationController pushViewController:collectionObservationsController animated:TRUE];
+                        collectionObservationsController = nil;
+                        
+                        break;
+                    }
         }
-        case 1:
-        {
-            // AREA OBSERVATIONS
-            // Create the CollectionAreaObservationsController
-            collectionAreaObservationsController = [[CollectionAreaObservationsController alloc]initWithNibName:@"CollectionAreaObservationsController" bundle:[NSBundle mainBundle]];
-            
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:collectionAreaObservationsController animated:TRUE];
-            collectionAreaObservationsController = nil;
-            
-            break;
-        }
-        case 2:
-        {
-            // INVENTORIES
-            // Create the CollectionInventoriesController
-            collectionInventoriesController = [[CollectionInventoriesController alloc]initWithNibName:@"CollectionInventoriesController" bundle:[NSBundle mainBundle]];
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:collectionInventoriesController animated:TRUE];
-            //collectionInventoriesController = nil;
-            
-            break;
-        }
-        case 3:
-        {
-            // AREAS
-            // Create the CollectionAreasController
-            collectionAreasController = [[CollectionAreasController alloc]
-                                               initWithNibName:@"CollectionAreasController"
-                                               bundle:[NSBundle mainBundle]];
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:collectionAreasController animated:TRUE];
-            collectionAreasController = nil;
-            
-            break;
+    } else {
+        switch (indexPath.row) {
+            case 0:
+            {
+                // AREA OBSERVATIONS
+                // Create the CollectionAreaObservationsController
+                collectionAreaObservationsController = [[CollectionAreaObservationsController alloc]initWithNibName:@"CollectionAreaObservationsController" bundle:[NSBundle mainBundle]];
+                
+                
+                // Switch the View & Controller
+                [self.navigationController pushViewController:collectionAreaObservationsController animated:TRUE];
+                collectionAreaObservationsController = nil;
+                
+                break;
+            }
+
+            case 1:
+                {
+                    // INVENTORIES
+                    // Create the CollectionInventoriesController
+                    collectionInventoriesController = [[CollectionInventoriesController alloc]initWithNibName:@"CollectionInventoriesController" bundle:[NSBundle mainBundle]];
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:collectionInventoriesController animated:TRUE];
+                    //collectionInventoriesController = nil;
+                    
+                    break;
+                }
+                
+            case 2:
+                {
+                    // AREAS
+                    // Create the CollectionAreasController
+                    collectionAreasController = [[CollectionAreasController alloc]
+                                                 initWithNibName:@"CollectionAreasController"
+                                                 bundle:[NSBundle mainBundle]];
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:collectionAreasController animated:TRUE];
+                    collectionAreasController = nil;
+                    
+                    break;
+                }
         }
     }
 }

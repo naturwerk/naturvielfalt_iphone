@@ -181,23 +181,11 @@
         // Get username and password from the UserDefaults
         NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
         
-        NSString *username = @"";
-        NSString *password = @"";
-        BOOL credentialsSetted = true;
+        NSString *username = [appSettings stringForKey:@"username"];
+        NSString *password = [appSettings stringForKey:@"password"];
         
-        if([appSettings objectForKey:@"username"] != nil) {
-            username = [appSettings stringForKey:@"username"];
-        } else {
-            credentialsSetted = false;
-        }
-        
-        if([appSettings objectForKey:@"password"] != nil) {
-            password = [appSettings stringForKey:@"password"];
-        } else {
-            credentialsSetted = false;
-        }
-        
-        if(!credentialsSetted) {
+        if(username.length == 0 || password.length == 0) {
+            [uploadView dismissWithClickedButtonIndex:0 animated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorSettings", nil)  delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
             [alert show];
             

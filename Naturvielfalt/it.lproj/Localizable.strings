@@ -7,166 +7,165 @@
  */
 
 /** Navigation **/
-"navSave"						= "Sichern";
-"navChange"						= "Ändern";
-"navCancel"						= "Abbrechen";
-"navDel"						= "Löschen";
-"navSubmit"						= "Übermitteln";
+"navSave"						= "Save";
+"navChange"						= "Change";
+"navCancel"						= "Cancel";
+"navDel"						= "Delete";
+"navSubmit"						= "Submit";
 "navOk"							= "OK";
-"navError"						= "Fehler";
-"navSuccess"					= "Erfolgreich";
+"navError"						= "Error";
+"navSuccess"					= "Success";
 
 /** Search **/
-"searchBarPlaceholder"			= "Suche";
+"searchBarPlaceholder"			= "Search";
 
 /** Alert **/
-"alertMessageNetwork"			= "Kein Netzwerk vorhanden. Ev. im Flugmodus?";
-"alertMessageGPS"				= "GPS wurde vom Benutzer für diese Applikation deaktiviert.";
-"alertMessageUnknownError"		= "Unbekannter Netzwerk Fehler.";
-"alertMessageAreaNameTitle"		= "Gebietsname erforderlich";
-"alertMessageAreaName"			= "Es wurde kein Gebietsname eingetragen. Bitte geben Sie einen Gebietsnamen ein.";
-"alertMessageInventoryTitle"	= "Inventarname erforderlich";
-"alertMessageInventoryName"		= "Es wurde kein Inventarname eingetragen. Bitte geben Sie einen Inventarnamen ein.";
-"alertMessageMediaTitle"		= "Fehler";
-"alertMessageMedia"				= "Das Gerät unterstützt diesen Medientyp nicht";
-"noLatName"						= "Kein lateinischer Name";
-
+"alertMessageNetwork"			= "No network available, check your settings.";
+"alertMessageGPS"				= "GPS deactivated for this application.";
+"alertMessageUnknownError"		= "Unknown network error.";
+"alertMessageAreaNameTitle"		= "Area name required";
+"alertMessageAreaName"			= "No area name found. Please enter an area name.";
+"alertMessageInventoryTitle"	= "Inventory name required";
+"alertMessageInventoryName"		= "No inventory name found. Please enter an inventory name.";
+"alertMessageMediaTitle"		= "Error accessing media";
+"alertMessageMedia"				= "Your device doesn't support that media type";
 /** Photo helper **/
-"photoNavTitle"					= "Foto";
-"photoNew"						= "Neues Foto";
-"photoExisting"					= "Aus der Bibliothek";
+"photoNavTitle"					= "Photo/Picture";
+"photoNew"						= "Take Photo";
+"photoExisting"					= "Choose Existing";
+"noLatName"						= "No latin name available";
 
 /** TabBar **/
-"observationTabLabel"           = "Beobachtungen";
-"areaTabLabel"                  = "Gebiete";
-"collectionTabLabel"            = "Erfassungen";
-"settingsTabLabel"              = "Einstellungen";
+"observationTabLabel"           = "Observations";
+"areaTabLabel"                  = "Areas";
+"collectionTabLabel"            = "Collection";
+"settingsTabLabel"              = "Settings";
 
 /** Naturvielfalt **/
 "naturNavTitle"                 = "Naturvielfalt";
-"naturSpecies"					= "Arten";
-"naturNotDefinedOrganism"		= "Noch nicht bestimmt";
+"naturSpecies"					= "Species";
+"naturNotDefinedOrganism"		= "Not specified yet";
 
 /** Organism **/
-"organismNotFound"				= "Keine Art gefunden";
-"organismNoTransAvailable"      = "Keine Übersetzung für diese Art vorhanden";
+"organismNotFound"				= "No species found";
+"organismNoTransAvailable"      = "No translation available for this species";
 
 // Organism wiki
-"organismWikiNotFound"			= "Artikel nicht gefunden";
+"organismWikiNotFound"			= "No article found";
 
 /** Wiki **/
 "wikiNavTitle"					= "Wikipedia";
 
 /** Observations **/
-"observationNavTitle"           = "Beobachtung";
-"observationTime"               = "Zeit";
-"observationAuthor"				= "Erfasser";
-"observationCtn"                = "Anzahl";
-"observationDescr"              = "Bemerkung";
-"observationImg"                = "Belegfotos";
-"observationAcc"                = "Genauigkeit";
-"observationLocalization"		= "Lokalisierung";
-"observationRelocate"			= "GPS setzen";
-"observationAdd"				= "Setzen";
+"observationNavTitle"           = "Observations";
+"observationTime"               = "Time";
+"observationAuthor"				= "Observator";
+"observationCtn"                = "Number of Species";
+"observationDescr"              = "Comment";
+"observationImg"                = "Photograph";
+"observationAcc"                = "Accuracy";
+"observationLocalization"		= "Localisation";
+"observationRelocate"			= "relocate GPS";
+"observationAdd"				= "Add";
 
 // Observation HUD
-"observationSuccessMessage"		= "Beobachtung gespeichert";
+"observationSuccessMessage"		= "Observation saved successfully";
 
 // Observation amount
-"amountNavTitle"				= "Anzahl";
+"amountNavTitle"				= "Amount";
 
 /** Area **/
-"areaNavTitle"                  = "Lokalisierung";
-"areaNavSave"                   = "Sichern";
-"areaNavCancel"                 = "Abbrechen";
-"areaNavChange"					= "Ändern";
-"areaUndo"						= "Zurück";
-"areaAdd"						= "Setzen";
-"areaDelete"					= "Gebiet löschen";
-"areaDeleteMessage"				= "Wollen Sie wirklich das Gebiet und die dazugehörigen Inventare löschen?";
-"areaDeletePhoto"				= "Belegfoto löschen";
-"areaDeletePhotoMessage"		= "Belegfoto unwiderruflich löschen?";
+"areaNavTitle"                  = "Localisation";
+"areaUndo"						= "Undo";
+"areaAdd"						= "Add";
+"areaDelete"					= "Delete area";
+"areaDeleteMessage"				= "Are you sure to delete the area with its inventories?";
+"areaDeletePhoto"				= "Delete photo";
+"areaDeletePhotoMessage"		= "Delete the photo irreparable
+?";
 
 // Area actionSheet
-"areaPinMod"                    = "Punkt";
-"areaLineMod"                   = "Linie";
+"areaPinMod"                    = "Pin";
+"areaLineMod"                   = "Line";
 "areaPolygonMod"                = "Polygon";
-"areaCancelMod"                 = "Abbrechen";
+"areaCancelMod"                 = "Cancel";
 
 // Area submit view
-"areaSubmitTitle"				= "Gebiet";
-"areaSubmitTime"				= "Zeit";
-"areaSubmitAuthor"				= "Erfasser";
-"areaSubmitName"				= "Gebietsname";
-"areaSubmitDescr"				= "Beschreibung";
-"areaSubmitImages"				= "Gebietsfotos";
-"areaSubmitInventory"			= "Inventare";
-"areaSubmitInventoryName"		= "Inventarname";
-"areaSubmitObservations"		= "Beobachtungen";
-"areaSubmitNewInventory"		= "Inventar";
-"areaEmptyTitle"				= "Kein Gebietsname";
+"areaSubmitTitle"				= "Area";
+"areaSubmitTime"				= "Time";
+"areaSubmitAuthor"				= "Observator";
+"areaSubmitName"				= "Area name";
+"areaSubmitDescr"				= "Description";
+"areaSubmitImages"				= "Photo of area";
+"areaSubmitInventory"			= "Inventories";
+"areaSubmitInventoryName"		= "Inventory name";
+"areaSubmitObservations"		= "Observations";
+"areaSubmitNewInventory"		= "Inventory";
+"areaEmptyTitle"				= "No name of area";
 
 // Area submit HUD
-"areaSubmitHudSuccess"			= "Gebiet gespeichert";
+"areaSubmitHudSuccess"			= "Area saved";
 
 // Area inventory HUD
-"areaInventoryHudSuccess"		= "Inventar gespeichert";
+"areaInventoryHudSuccess"		= "Inventory saved";
 
 // Area inventory
-"areaInventoryDelete"			= "Inventar löschen";
-"areaInventoryEmptyTitle"		= "Kein Inventarname";
-"areaInventoryDeleteMessage"	= "Wollen Sie wirklich das Inventar und die dazugehörigen Beobachtungen löschen?";
+"areaInventoryDelete"			= "Delete inventory";
+"areaInventoryEmptyTitle"		= "No inventory name";
+"areaInventoryDeleteMessage"	= "Are you sure you to delete the inventory with its observations?";
 
 // Area observation
-"areaObservationDelete"			= "Beobachtung löschen";
-"areaObservationDeleteMessage"			= "Wollen Sie wirklich die Beobachtung löschen?";
+"areaObservationDelete"			= "Delete observation";
+"areaObservationDeleteMessage"	= "Are you sure you to delete the observation?";
 
 /** Collection **/
-"collectionSingelObsTitle"		= "Einzelbeobachtungen";
-"collectionAreaObsTitle"		= "Gebietsbeobachtungen";
-"collectionNavTitle"            = "Erfassungen";
+"collectionSingelObsTitle"		= "Singel Observations";
+"collectionAreaObsTitle"		= "Area Observations";
+"collectionNavTitle"            = "Collection";
 
 // Collection segment control
-"collectionTableControl"		= "Tabelle";
-"collectionMapControl"			= "Karte";
+"collectionTableControl"		= "Table";
+"collectionMapControl"			= "Map";
 
 // Collection alert messages
-"collectionAlertObsTitle"	= "Beobachtungen übermitteln?";
-"collectionAlertInvTitle"		= "Inventare übermitteln?";
-"collectionAlertAreaTitle"		= "Gebiete übermitteln?";
-"collectionAlertObsDetail"		= "Sind Sie sicher, dass Sie Ihre Beobachtungen über das Mobilfunknetz übermitteln wollen? Dies kann lange Zeit und Datenvolumen in Anspruch nehmen.";
-"collectionAlertInvDetail"		= "Sind Sie sicher, dass Sie Ihre Inventare über das Mobilfunknetz übermitteln wollen? Dies kann viel Zeit und Datenvolumen in Anspruch nehmen.";
-"collectionAlertAreaDetail"		= "Sind Sie sicher, dass Sie Ihre Gebiete über das Mobilfunknetz übermitteln wollen? Dies kann viel Zeit und Datenvolumen in Anspruch nehmen.";
-"collectionAlertErrorObs"		= "Es wurden noch keine Beobachtungen gespeichert oder keine wurden ausgewählt";
-"collectionAlertErrorInv"		= "Es wurden noch keine Inventare gespeichert oder keine wurden ausgewählt";
-"collectionAlertErrorAreas"		= "Es wurden noch keine Gebiete gespeichert oder keine wurden ausgewählt";
-"collectionAlertErrorSettings"	= "Benutzername/Passwort wurde noch nicht gesetzt. Dies kann in den Einstellungen gesetzt werden.";
-"collectionAlertErrorObsSubmit"	= "Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
-"collectionAlertErrorInvSubmit"	= "Nicht alle Inventare wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
-"collectionAlertErrorAreSubmit"	= "Nicht alle Gebiete wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
+"collectionAlertObsTitle"		= "Submit observations?";
+"collectionAlertInvTitle"		= "Submit inventories?";
+"collectionAlertAreaTitle"		= "Submit areas?";
+"collectionAlertObsDetail"		= "Are you sure to submit the observations over cellular network? It takes a while and could use a lot of data volume.";
+"collectionAlertInvDetail"		= "Are you sure you to submit inventories over cellular network? It takes a while and could use a lot of data volume.";
+"collectionAlertAreaDetail"	= "Are you sure to submit areas over cellular network? It takes a while and could use a lot of data volume.";
+"collectionAlertErrorObs"		= "There is no observation saved or selected";
+"collectionAlertErrorInv"		= "There is no inventory saved or selected";
+"collectionAlertErrorAreas"		= "There is no area saved or selected";
+"collectionAlertErrorSettings"	= "Username/Password is not submitted. Go to settings and submit username and password.";
+"collectionAlertErrorObsSubmit"	= "Not all observations are submitted successfully. Please check your settings. Eventually you have not an account on our internet portal yet.";
+"collectionAlertErrorInvSubmit"	= "Not all inventories are submitted successfully. Please check the settings. Maybe you don't have a user account on the www.naturvielfalt.ch yet?";
+"collectionAlertErrorAreSubmit"	= "Not all areas are submitted successfully. Please check the settings. Maybe you don't have a user account on the www.naturvielfalt.ch yet?";
 
 // Collection success message
-"collectionSuccessObsDetail"	= "Alle Beobachtungen wurden erfolgreich übertragen.";
-"collectionSuccessInvDetail"	= "Alle Inventare wurden erfolgreich übertragen.";
-"collectionSuccessAreaDetail"	= "Alle Gebiete wurden erfolgreich übertragen.";
+"collectionSuccessObsDetail"	= "All observations are submitted successfully.";
+"collectionSuccessInvDetail"	= "All inventories are submitted successfully.";
+"collectionSuccessAreaDetail"	= "All areas are submitted successfully.";
+
 
 // Collection HUD messages
-"collectionHudWaitMessage"		= "Bitte warten";
-"collectionHudSubmitMessage"	= "Daten werden übermittelt…";
-"collectionHudLoadMessage"		= "Lädt…";
+"collectionHudWaitMessage"		= "Please wait";
+"collectionHudSubmitMessage"	= "Submit data…";
+"collectionHudLoadMessage"		= "Loading…";
+
 
 /** Settings **/
-"settingsNavTitle"              = "Einstellungen";
-"settingsUsername"              = "Benutzername";
-"settingsPwd"                   = "Passwort";
-"settingsWikiImg"               = "Wikipedia Bilder laden";
-"settingsWikiArt"               = "Wikipedia Artikel prüfen";
-"settingsMap"					= "Karte";
-"settingsMapSatellite"			= "Satellit";
+"settingsNavTitle"              = "Settings";
+"settingsUsername"              = "Username";
+"settingsPwd"                   = "Password";
+"settingsWikiImg"               = "Load Wikipedia photo's";
+"settingsWikiArt"               = "Check Wikipedia article";
+"settingsMap"					= "Map";
+"settingsMapSatellite"			= "Satellite";
 "settingsMapHybrid"				= "Hybrid";
-"settingsMapStandard"			= "Standard";
+"settingsMapStandard"			= "Default";
 
 /** Info **/
 "infoNavTitle"                  = "Naturvielfalt";
-"infoTitle"                     = "Über uns";
-"infoText"                      = "Naturvielfalt (www.naturvielfalt.ch) ist ein Erfassungsportal für Flora und Fauna in der Schweiz. Mit einem kostenlosen Benutzerkonto auf www.naturvielfalt.ch können Sie die Naturbeobachtungen erfassen, Bilder, Audio- und Videodateien hochladen und verwalten. Die Applikation ermöglicht Ihnen Feldaufnahmen in wenigen Schritten zu erfassen und auf Ihr Benutzerkonto zu übermitteln.\n\nDieses Applikation wurde vom Verein Naturwerk (www.naturwerk.info) aus Brugg entwickelt.\nDer Verein für Mensch, Natur und Arbeit übernimmt gemeinnützige Aufgaben im Bereich Umwelt-, Natur- und Artenschutz, die von öffentlichem Interesse sind.\n\nDurch die Unterstützung dieser App fördern Sie praktische Artenschutzprojekte sowie die Weiterentwicklung der Applikation.\n\nBei Feedback oder für technischen Support wenden Sie sich bitte an info@naturvielfalt.ch.\n\n© 2012 Naturwerk";
+"infoTitle"                     = "About us";
+"infoText"                      = "Naturvielfalt (www.naturvielfalt.ch) is a collection of observations in flora und fauna in Switzerland. You can capture the observations as you register on our website www.naturvielfalt.ch. The registration is free and you can upload pictures, audios and videos.\n\nThe application was developed by Naturwerk (www.naturwerk.info).\nNaturwerk is an association for human, nature and work and it takes a part in the non-profit business to protect the environment, nature and wildlife.\n\nWith using this App, you support the wildlife conservation program and the further development of this application.\n\nIf you have any feedback or questions, please contact us at info@naturvielfalt.ch.\n\n© 2012 Naturwerk";

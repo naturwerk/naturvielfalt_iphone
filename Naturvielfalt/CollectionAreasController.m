@@ -370,6 +370,7 @@
         if (area.submitted) {
             checkboxAreaCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxAreaCell.submitted.hidden = NO;
+            checkboxAreaCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
             [checkboxAreaCell.count setAlpha:0.2f];
             [checkboxAreaCell.date setAlpha:0.2f];
             [checkboxAreaCell.image setAlpha:0.2f];

@@ -395,6 +395,7 @@
         if (observation.inventory.area.submitted) {
             checkboxAreaObsCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxAreaObsCell.submitted.hidden = NO;
+            checkboxAreaObsCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
             [checkboxAreaObsCell.amount setAlpha:0.2f];
             [checkboxAreaObsCell.date setAlpha:0.2f];
             [checkboxAreaObsCell.image setAlpha:0.2f];

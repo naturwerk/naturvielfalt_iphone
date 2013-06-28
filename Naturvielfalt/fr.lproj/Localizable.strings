@@ -1,0 +1,172 @@
+/*
+ Localizable.strings
+ Naturvielfalt
+ 
+ Created by Albert von Felten on 23.04.13.
+ 
+ */
+
+/** Navigation **/
+"navSave"						= "Enregister";
+"navChange"						= "Modifier";
+"navCancel"						= "Annuler";
+"navDel"						= "Supprimer";
+"navSubmit"						= "transmettre";
+"navOk"							= "OK";
+"navError"						= "Erreur";
+"navSuccess"					= "À succès";
+
+/** Search **/
+"searchBarPlaceholder"			= "Chercher";
+
+/** Alert **/
+"alertMessageNetwork"			= "Pas de réseau disponible. Eventuellement mode avion?";
+"alertMessageGPS"				= "L'utilisateur a inactiver l'GPS pour cette application.";
+"alertMessageUnknownError"		= "Erreur de réseau inconnu.";
+"alertMessageAreaNameTitle"		= "Nom domaine nécessaire
+";
+"alertMessageAreaName"			= "Il y a pas un nom domain. S.v.p taper un nom domain.";
+"alertMessageInventoryTitle"	= "Nom inventaire";
+"alertMessageInventoryName"		= "Il y a pas un nom inventaire. S.v.p taper un nom domaine.";
+"alertMessageMediaTitle"		= "Erreur";
+"alertMessageMedia"				= "Cet appareils ne favorise pas ce";
+/** Photo helper **/
+"photoNavTitle"					= "Photo";
+"photoNew"						= "neuve photo";
+"photoExisting"					= "de la bibliothèque";
+"noLatName"						= "pas de nom latein";
+
+/** TabBar **/
+"observationTabLabel"           = "Observations";
+"areaTabLabel"                  = "Domaines";
+"collectionTabLabel"            = "Enquêtes";
+"settingsTabLabel"              = "Réglages";
+
+/** Naturvielfalt **/
+"naturNavTitle"                 = "Naturvielfalt";
+"naturSpecies"					= "Sorte";
+"naturNotDefinedOrganism"		= "Pas encore definis";
+
+/** Organism **/
+"organismNotFound"				= "Aucune sorte trouver";
+"organismNoTransAvailable"      = "Aucune traduction pour cette sorte disponible";
+
+// Organism wiki
+"organismWikiNotFound"			= "article ne pas trouver";
+
+/** Wiki **/
+"wikiNavTitle"					= "Wikipedia";
+
+/** Observations **/
+"observationNavTitle"           = "Observations";
+"observationTime"               = "Temps";
+"observationAuthor"				= "Observateur";
+"observationCtn"                = "Nombre";
+"observationDescr"              = "Remarque";
+"observationImg"                = "Photo";
+"observationAcc"                = "Précision";
+"observationLocalization"		= "Localisation";
+"observationRelocate"			= "poser le GPS";
+"observationAdd"				= "Poser";
+
+// Observation HUD
+"observationSuccessMessage"		= "Observation enregistrer";
+
+// Observation amount
+"amountNavTitle"				= "Nombre";
+
+/** Area **/
+"areaNavTitle"                  = "Localisation";
+"areaUndo"						= "Retour";
+"areaAdd"						= "Poser";
+"areaDelete"					= "Supprimer le domaine";
+"areaDeleteMessage"				= "Est-ce que vous voulez supprimer le domaine avec tous ces inventaires?";
+"areaDeletePhoto"				= "Supprimer la photo";
+"areaDeletePhotoMessage"		= "Supprimer la photo sans recours
+?";
+
+// Area actionSheet
+"areaPinMod"                    = "Point";
+"areaLineMod"                   = "Ligue";
+"areaPolygonMod"                = "Polygone";
+"areaCancelMod"                 = "Annuler";
+
+// Area submit view
+"areaSubmitTitle"				= "Domaine";
+"areaSubmitTime"				= "Temps";
+"areaSubmitAuthor"				= "Observateur";
+"areaSubmitName"				= "Nom domaine";
+"areaSubmitDescr"				= "Description";
+"areaSubmitImages"				= "Photo domaine";
+"areaSubmitInventory"			= "Inventaires";
+"areaSubmitInventoryName"		= "Nom inentaire";
+"areaSubmitObservations"		= "Observations";
+"areaSubmitNewInventory"		= "Inventaire";
+"areaEmptyTitle"				= "Aucun nom domaine";
+
+// Area submit HUD
+"areaSubmitHudSuccess"			= "Domaine enregistre";
+
+// Area inventory HUD
+"areaInventoryHudSuccess"		= "Inventaire enregistre";
+
+// Area inventory
+"areaInventoryDelete"			= "Supprimer l'inventaire";
+"areaInventoryEmptyTitle"		= "Aucun nom inventaire";
+"areaInventoryDeleteMessage"	= "Est-ce que vous voulez supprimer l'inventaire avec tous ces observations?";
+
+// Area observation
+"areaObservationDelete"			= "Supprimer observation";
+"areaObservationDeleteMessage"	= "Est-ce que vous voulez supprimer l'observation?";
+
+/** Collection **/
+"collectionSingelObsTitle"		= "Observation unique";
+"collectionAreaObsTitle"		= "Observation domaine";
+"collectionNavTitle"            = "Enquête";
+
+// Collection segment control
+"collectionTableControl"		= "Tableau";
+"collectionMapControl"			= "Plan";
+
+// Collection alert messages
+"collectionAlertObsTitle"		= "Transmettre les observations?";
+"collectionAlertInvTitle"		= "Transmettre les inentaires?";
+"collectionAlertAreaTitle"		= "Transmettre les domaines?";
+"collectionAlertObsDetail"		= "Est-ce que vous êtes sure transmettre les observations par le réseau de téléphonée mobile?";
+"collectionAlertInvDetail"		= "Est-ce que vous êtes sure transmettre les inventaires par le réseau de téléphonée mobile?";
+"collectionAlertAreaDetail"	= "Est-ce que vous êtes sure transmettre les domaines par le réseau de téléphonée mobile?";
+"collectionAlertErrorObs"		= "Il y a aucune observation enregistrer ou choisi.";
+"collectionAlertErrorInv"		= "Il y a aucune inventaire enregistrer ou choisi.";
+"collectionAlertErrorAreas"		= "Il y a aucune domaine enregistrer ou choisi.";
+"collectionAlertErrorSettings"	= "Il y a aucune utilisateur/mot de passe. Vous pouvez posez ça dans les réglages s.v.p.";
+"collectionAlertErrorObsSubmit"	= "Pas tous les observations sont transmis avec succès. Contrôlez les réglages s.v.p. Eventuellement vous n'avez pas encore un compte sur notre website www.naturvielfalt.ch.";
+"collectionAlertErrorInvSubmit"	= "Pas tous les inventaires sont transmis avec succès. Contrôlez les réglages s.v.p. Eventuellement vous n'avez pas encore un compte sur notre website www.naturvielfalt.ch.";
+"collectionAlertErrorAreSubmit"	= "Pas tous les domaines sont transmis avec succès. Contrôlez les réglages s.v.p. Eventuellement vous n'avez pas encore un compte sur notre website www.naturvielfalt.ch.";
+
+// Collection success message
+"collectionSuccessObsDetail"	= "Tous les observations sont transmis avec succès.";
+"collectionSuccessInvDetail"	= "Tous les inventaires sont transmis avec succès.";
+"collectionSuccessAreaDetail"	= "Tous les domaines sont transmis avec succès.";
+
+
+// Collection HUD messages
+"collectionHudWaitMessage"		= "Attendez s.v.p";
+"collectionHudSubmitMessage"	= "Les données sont transmettre..";
+"collectionHudLoadMessage"		= "Charger..";
+
+
+/** Settings **/
+"settingsNavTitle"              = "Réglages";
+"settingsUsername"              = "Utiliseur";
+"settingsPwd"                   = "Mot de passe";
+"settingsWikiImg"               = "Charger les photo de Wikipedia";
+"settingsWikiArt"               = "Contrôler les articles de Wikipedia";
+"settingsMap"					= "Plan";
+"settingsMapSatellite"			= "Satellite";
+"settingsMapHybrid"				= "Hybride";
+"settingsMapStandard"			= "standard";
+
+/** Info **/
+"infoNavTitle"                  = "Naturvielfalt";
+"infoTitle"                     = "Sur nous";
+"infoText"                      = "Naturvielfalt (www.naturvielfalt.ch) est un collection des observations en flora et fauna dans la Suisse. Vous puvez enquêter sur les observations par enregistrer sur notre website www.naturvielfalt.ch. L'enregistrement set gratuity et vows pouvez télécharger photos, fichier son et vidéos. L'application est pour travailler dehors sur le champ et vous pouvez télécharger tous les observations dans peu pas.\n\nL'application est développée par  Naturwerk (www.naturwerk.info).\nNaturwerk est un association à but non lucratif. L'association travaille dans l'environnement pour la protection de la nature et la protection des espèces.\n\nAvec utiliser cette application vous aidez protéger la nature et les espèces et le dévelopement  téchnique de cette application.\n\nSi vous avez des question ou des feed-back vous pouvez contacter nous sur info@naturvielfalt.ch.\n\n© 2012 Naturwerk";

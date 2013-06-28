@@ -87,6 +87,9 @@
 		27F114E9171BFDCD0017DAF0 /* CustomAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */; };
 		27F399611716BBF7000433F7 /* Inventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F399601716BBF7000433F7 /* Inventory.m */; };
 		27F3996D1716F5B0000433F7 /* AreasSubmitInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */; };
+		27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F4C143177D7FAA009FFA70 /* CameraViewController.xib */; };
+		27F4C146177D801E009FFA70 /* Naturvielfalt-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */; };
+		27F4C148177D8041009FFA70 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F630142B040A000150AF /* InfoPlist.strings */; };
 		27F5FA13174CF6A300575327 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F5FA12174CF6A300575327 /* delete.png */; };
 		27F6285D1733EF7C0089CC3C /* LocationPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F6285C1733EF7C0089CC3C /* LocationPoint.m */; };
 		27F7842B1715472D00081A1F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784261715472D00081A1F /* 19-gear.png */; };
@@ -328,6 +331,9 @@
 		27F3995F1716BBF7000433F7 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
 		27F399601716BBF7000433F7 /* Inventory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inventory.m; sourceTree = "<group>"; };
 		27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryController.xib; sourceTree = "<group>"; };
+		27F4C143177D7FAA009FFA70 /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
+		27F4C145177D801E009FFA70 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		27F4C147177D8041009FFA70 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		27F5FA12174CF6A300575327 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		27F6285B1733EF7C0089CC3C /* LocationPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationPoint.h; sourceTree = "<group>"; };
 		27F6285C1733EF7C0089CC3C /* LocationPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationPoint.m; sourceTree = "<group>"; };
@@ -426,7 +432,7 @@
 		CBB7F627142B0409000150AF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CBB7F629142B0409000150AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CBB7F62B142B0409000150AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Naturvielfalt-Info.plist"; sourceTree = "<group>"; };
+		CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Naturvielfalt-Info.plist"; sourceTree = "<group>"; };
 		CBB7F633142B040A000150AF /* Naturvielfalt-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Naturvielfalt-Prefix.pch"; sourceTree = "<group>"; };
 		CBB7F634142B040A000150AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CBB7F636142B040A000150AF /* NaturvielfaltAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NaturvielfaltAppDelegate.h; sourceTree = "<group>"; };
@@ -519,7 +525,6 @@
 		CBF9A27D144578F000954A63 /* 12-eye-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12-eye-white.png"; sourceTree = "<group>"; };
 		F619A26115766BDE00F0C842 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
 		F650DF891577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F650DF8B1577759E00C25A9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CameraViewController.xib; sourceTree = "<group>"; };
 		F664006F157CAD770092A9D0 /* CustomOrganismCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomOrganismCell.h; sourceTree = "<group>"; };
 		F6640070157CAD770092A9D0 /* CustomOrganismCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomOrganismCell.m; sourceTree = "<group>"; };
 		F664007A157CB5740092A9D0 /* CustomOrganismCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomOrganismCell.xib; sourceTree = "<group>"; };
@@ -854,7 +859,7 @@
 				CB8095C714431B3B003D3764 /* LocationHelper.m */,
 				CBDDB54C144EABC8007E48AB /* CameraViewController.h */,
 				27D2B067170F17C500D6815B /* CameraViewController.m */,
-				CB14322C148616E700BBA78D /* CameraViewController.xib */,
+				27F4C143177D7FAA009FFA70 /* CameraViewController.xib */,
 				CBDDB55D14555882007E48AB /* NSDictionary-MutableDeepCopy.h */,
 				CBDDB55E14555882007E48AB /* NSDictionary-MutableDeepCopy.m */,
 				CBDDB57714594800007E48AB /* PersistenceManager.h */,
@@ -1141,6 +1146,8 @@
 			knownRegions = (
 				en,
 				de,
+				fr,
+				it,
 			);
 			mainGroup = CBB7F618142B0409000150AF;
 			productRefGroup = CBB7F624142B0409000150AF /* Products */;
@@ -1250,6 +1257,9 @@
 				27F5FA13174CF6A300575327 /* delete.png in Resources */,
 				2707A9131772F66F002EA87D /* CollectionAreaObservationsController.xib in Resources */,
 				27FE06D6177B1F4A000D408D /* CheckboxAreaObsCell.xib in Resources */,
+				27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */,
+				27F4C146177D801E009FFA70 /* Naturvielfalt-Info.plist in Resources */,
+				27F4C148177D8041009FFA70 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1366,16 +1376,10 @@
 			children = (
 				273D519017268B8300377227 /* de */,
 				273D519217268B8F00377227 /* en */,
+				27F4C145177D801E009FFA70 /* fr */,
+				27F4C147177D8041009FFA70 /* it */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		CB14322C148616E700BBA78D /* CameraViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F650DF8B1577759E00C25A9F /* de */,
-			);
-			name = CameraViewController.xib;
 			sourceTree = "<group>";
 		};
 		CBB7F630142B040A000150AF /* InfoPlist.strings */ = {

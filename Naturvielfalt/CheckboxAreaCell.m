@@ -15,7 +15,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        submitted.text = NSLocalizedString(@"navSubmitted", nil);
+        
     }
     return self;
 }

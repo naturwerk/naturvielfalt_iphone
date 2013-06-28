@@ -218,6 +218,7 @@
         if (inventory.area.submitted) {
             checkboxInventoryCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxInventoryCell.submitted.hidden = NO;
+            checkboxInventoryCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
             [checkboxInventoryCell.count setAlpha:0.2f];
             [checkboxInventoryCell.date setAlpha:0.2f];
             //Images are not implemented yet

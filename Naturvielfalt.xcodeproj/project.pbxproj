@@ -35,6 +35,7 @@
 		27746D11159B1F9D00672970 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0F159B1F9D00672970 /* Icon@2x.png */; };
 		27904164172EBA11002D08E3 /* InventoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27904163172EBA11002D08E3 /* InventoryCell.m */; };
 		27904166172EBA38002D08E3 /* InventoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27904165172EBA38002D08E3 /* InventoryCell.xib */; };
+		2798FE341781C804004F198D /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 2798FE331781C804004F198D /* db.sqlite3 */; };
 		27B84514159B223500818BCE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B84513159B223500818BCE /* Default@2x.png */; };
 		27B84516159B230C00818BCE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27B84515159B230C00818BCE /* Entitlements.plist */; };
 		27C5847C15AD7D770085F719 /* 15-warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C5847B15AD7D770085F719 /* 15-warning.png */; };
@@ -95,7 +96,6 @@
 		27F7844117156FD000081A1F /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7844017156FD000081A1F /* 07-map-marker.png */; };
 		27F8C3D51727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */; };
 		27FB850F1720054200A7632D /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FB850E1720054200A7632D /* CustomAnnotation.m */; };
-		27FC05F014A4896800916B08 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FC05EF14A4896800916B08 /* db.sqlite3 */; };
 		27FDA9D3176EF95100B8B01A /* ObservationUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D2176EF95100B8B01A /* ObservationUploadHelper.m */; };
 		27FDA9D7176EF97200B8B01A /* InventoryUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D6176EF97200B8B01A /* InventoryUploadHelper.m */; };
 		27FDA9DA176EF98000B8B01A /* AreaUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D9176EF98000B8B01A /* AreaUploadHelper.m */; };
@@ -252,6 +252,7 @@
 		27904162172EBA11002D08E3 /* InventoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryCell.h; sourceTree = "<group>"; };
 		27904163172EBA11002D08E3 /* InventoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryCell.m; sourceTree = "<group>"; };
 		27904165172EBA38002D08E3 /* InventoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InventoryCell.xib; sourceTree = "<group>"; };
+		2798FE331781C804004F198D /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		27B84513159B223500818BCE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
 		27B84515159B230C00818BCE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		27C5847B15AD7D770085F719 /* 15-warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "15-warning.png"; sourceTree = "<group>"; };
@@ -338,7 +339,6 @@
 		27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+MKPolylineCategory.m"; sourceTree = "<group>"; };
 		27FB850D1720054200A7632D /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
 		27FB850E1720054200A7632D /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
-		27FC05EF14A4896800916B08 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		27FDA9D1176EF95100B8B01A /* ObservationUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationUploadHelper.h; sourceTree = "<group>"; };
 		27FDA9D2176EF95100B8B01A /* ObservationUploadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationUploadHelper.m; sourceTree = "<group>"; };
 		27FDA9D5176EF97200B8B01A /* InventoryUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryUploadHelper.h; sourceTree = "<group>"; };
@@ -783,7 +783,7 @@
 		CB7AC23B149B9105001D315A /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				27FC05EF14A4896800916B08 /* db.sqlite3 */,
+				2798FE331781C804004F198D /* db.sqlite3 */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -1176,7 +1176,6 @@
 				CBEBAA40147FE5A2009AC6C0 /* SettingsPasswordViewController.xib in Resources */,
 				CBEBAA45147FE9F4009AC6C0 /* SettingsViewRootController.xib in Resources */,
 				CB143231148639EC00BBA78D /* bildvorschaudeaktiviert.png in Resources */,
-				27FC05F014A4896800916B08 /* db.sqlite3 in Resources */,
 				F619A26215766BE000F0C842 /* blank.png in Resources */,
 				F664007B157CB5740092A9D0 /* CustomOrganismCell.xib in Resources */,
 				27746D07159B103900672970 /* Icon-72.png in Resources */,
@@ -1232,6 +1231,7 @@
 				2707A9131772F66F002EA87D /* CollectionAreaObservationsController.xib in Resources */,
 				27FE06D6177B1F4A000D408D /* CheckboxAreaObsCell.xib in Resources */,
 				27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */,
+				2798FE341781C804004F198D /* db.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,10 +27,12 @@
     sqlite3 *dbStatic;
     // the db connection for observations. (user data)
     sqlite3 *dbUser;
+    NSString *sLanguage;
 }
 
 @property (nonatomic, assign) sqlite3 *dbStatic;
 @property (nonatomic, assign) sqlite3 *dbUser;
+@property (nonatomic) NSString *sLanguage;
 
 // Connection
 - (void) establishConnection;

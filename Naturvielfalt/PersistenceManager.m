@@ -12,8 +12,7 @@
 #import "sys/xattr.h"
 
 @implementation PersistenceManager
-@synthesize dbStatic;
-@synthesize dbUser;
+@synthesize dbStatic, dbUser, sLanguage;
 
 - (NSString *)userDataFilePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -34,6 +33,14 @@
     if (sqlite3_open([[self userDataFilePath] UTF8String], &dbUser) != SQLITE_OK) {
         sqlite3_close(dbUser);
         NSAssert(0, @"Failed to open user database");
+    }
+    
+    sLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
+    
+    if (![sLanguage isEqualToString:@"en"] && ![sLanguage isEqualToString:@"de"] &&
+        ![sLanguage isEqualToString:@"fr"] && ![sLanguage isEqualToString:@"it"]) {
+        // English if unsupported system language is setted
+        sLanguage = @"en";
     }
     
     // create link to static database
@@ -1500,22 +1507,28 @@
     NSDate *starttime = [NSDate date];
     NSMutableArray *organismGroups = [[NSMutableArray alloc] init];
     
-    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.name_de, COUNT(ct.taxon_id), c.position \
+    NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.name_%@, COUNT(ct.taxon_id), c.position \
                        FROM classification as c \
                        LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
                        WHERE (c.parent = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
-                       GROUP BY c.classification_id, c.name_de ORDER BY c.position", parentId];
+                       GROUP BY c.classification_id, c.name_%@ ORDER BY c.position", sLanguage, parentId, sLanguage];
     
     sqlite3_stmt *statement;
     
     if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
-       
+        
 		while (sqlite3_step(statement) == SQLITE_ROW) {
 			
             int classificationId = sqlite3_column_int(statement, 0);
-            NSString *groupName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+            NSString *groupName;
+            if (!(char *)sqlite3_column_text(statement, 1)) {
+                groupName = NSLocalizedString(@"organismNoTransAvailable", nil);
+            } else {
+                groupName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+            }
+            
             int groupCount = sqlite3_column_int(statement, 2);
-               
+            
             // Create OrganismGroup
             OrganismGroup *organismGroup = [[OrganismGroup alloc] init];
             
@@ -1525,17 +1538,18 @@
             
             [organismGroups addObject:organismGroup];
 		}
-           
+        
         sqlite3_finalize(statement);
     } else {
         
-    }    
+    }
     
     NSDate *endtime = [NSDate date];
     NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
     NSLog(@"PersistenceManager: getAllOrganismGroups(parentId: %i, classlevel: %i) | running time: %fs", parentId, classlevel, executionTime);
     return organismGroups;
 }
+
 
 - (BOOL) organismGroupHasChild:(int) groupId {
     
@@ -1561,14 +1575,19 @@
     
     NSMutableString *query;
     if(groupId == 1){
-        query = [NSMutableString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
-                 FROM organism"];
+        query = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_%@, name_sc \
+                                                         FROM organism", sLanguage]];
+        //query = [NSMutableString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
+        FROM organism"];
         NSLog( @"Get all organism, group id: %i", groupId);
     }
     else {
-        query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
-                 FROM classification_taxon ct\
-                 LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
+        query = [[NSMutableString alloc] initWithString: [NSString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_%@ AS name_%@, o.name_sc \
+                                                          FROM classification_taxon ct\
+                                                          LEFT JOIN organism o ON o.organism_id=ct.taxon_id", sLanguage, sLanguage]];
+        //query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
+        FROM classification_taxon ct\
+        LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
         
         //Append Filter to query
         if([filter length] != 0){
@@ -1576,7 +1595,8 @@
         }
         else {
             [query appendFormat:@" WHERE ct.classification_id = %i", groupId];
-            [query appendFormat:@" ORDER BY name_de "];
+            [query appendString:[NSString stringWithFormat:@" ORDER BY name_%@ ", sLanguage]];
+            //[query appendFormat:@" ORDER BY name_de "];
         }
         
         NSLog( @"Get single group, group id: %i", groupId);
@@ -1622,12 +1642,12 @@
             NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
             if([firstSplit count] >= 2) {
-                NSString *genus = [firstSplit objectAtIndex:0];
-                NSString *species = [firstSplit objectAtIndex:1];
+                NSString *genus = (NSString*)[firstSplit objectAtIndex:0];
+                NSString *species = (NSString*)[firstSplit objectAtIndex:1];
                 
                 organism.genus = genus;
                 organism.species = species;
-            }else {
+            } else {
                 organism.genus = @"";
                 organism.species = @"";
             }
@@ -1651,14 +1671,19 @@
     
     NSMutableString *query;
     if(groupId == 1){
-        query = [NSMutableString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
-                 FROM organism"];
+        query = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_%@, name_sc \
+                                                         FROM organism", sLanguage]];
+        //query = [NSMutableString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
+        FROM organism"];
         NSLog( @"Get all organism, group id: %i", groupId);
     }
     else {
-        query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
-                 FROM classification_taxon ct\
-                 LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
+        query = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_%@ AS name_%@, o.name_sc \
+                                                         FROM classification_taxon ct\
+                                                         LEFT JOIN organism o ON o.organism_id=ct.taxon_id", sLanguage, sLanguage]];
+        //query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
+        FROM classification_taxon ct\
+        LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
         
         //Append Filter to query
         if([filter length] != 0){
@@ -1712,8 +1737,8 @@
             NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
             if([firstSplit count] >= 2) {
-                NSString *genus = [firstSplit objectAtIndex:0];
-                NSString *species = [firstSplit objectAtIndex:1];
+                NSString *genus = (NSString*)[firstSplit objectAtIndex:0];
+                NSString *species = (NSString*)[firstSplit objectAtIndex:1];
                 
                 organism.genus = genus;
                 organism.species = species;
@@ -1735,21 +1760,27 @@
     return organisms;
     
 }
+
 - (NSMutableArray *) getOrganisms:(int) groupId withCustomFilter:(NSString *)filter
 {
-    NSDate *starttime = [NSDate date];  
+    NSDate *starttime = [NSDate date];
     NSMutableArray *organisms = [[NSMutableArray alloc] init];
     
     NSMutableString *query;
     if(groupId == 1){
-        query = [NSMutableString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
-                     FROM organism"];
-        NSLog( @"Get all organism, group id: %i", groupId);        
-    }  
+        query = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_%@, name_sc \
+                                                         FROM organism", sLanguage]];
+        //query = [NSMutableString stringWithFormat:@"SELECT organism_id, inventory_type_id, name_de, name_sc \
+        FROM organism"];
+        NSLog( @"Get all organism, group id: %i", groupId);
+    }
     else {
-        query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
-                       FROM classification_taxon ct\
-                       LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
+        query = [[NSMutableString alloc] initWithString:[NSString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_%@ AS name_%@, o.name_sc \
+                                                         FROM classification_taxon ct\
+                                                         LEFT JOIN organism o ON o.organism_id=ct.taxon_id", sLanguage, sLanguage]];
+        //query = [NSMutableString stringWithFormat:@"SELECT DISTINCT o.organism_id, o.inventory_type_id, o.name_de AS name_de, o.name_sc \
+        FROM classification_taxon ct\
+        LEFT JOIN organism o ON o.organism_id=ct.taxon_id"];
         
         //Append Filter to query
         if([filter length] != 0){
@@ -1758,7 +1789,7 @@
         else {
             [query appendFormat:@" WHERE ct.classification_id = %i", groupId];
         }
-
+        
         NSLog( @"Get single group, group id: %i", groupId);
     }
     
@@ -1767,7 +1798,7 @@
     sqlite3_stmt *statement;
     NSInteger numbersOfOrgansim = 0;
     
-    if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {  
+    if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
 		while (sqlite3_step(statement) == SQLITE_ROW) {
             
             
@@ -1802,8 +1833,8 @@
             NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
             
             if([firstSplit count] >= 2) {
-                NSString *genus = [firstSplit objectAtIndex:0];
-                NSString *species = [firstSplit objectAtIndex:1];
+                NSString *genus = (NSString*)[firstSplit objectAtIndex:0];
+                NSString *species = (NSString*)[firstSplit objectAtIndex:1];
                 
                 organism.genus = genus;
                 organism.species = species;

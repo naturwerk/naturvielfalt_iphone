@@ -395,8 +395,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"cellForRowAtIndexPath");
-    static NSString *cellIdentifier = @"CustomCell";
-    UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
+    //static NSString *cellIdentifier = @"CustomCell";
+    UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:nil];
     CustomCell *customCell;
     DeleteCell *deleteCell;
     CustomAddCell *customAddCell;
@@ -445,7 +445,7 @@
         } else {
             // Use normal cell layout
             if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
             }
             
             // Set up the cell...

@@ -307,8 +307,8 @@
 // MARK: -
 // MARK: TableViewDelegate
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"CustomCell";
-    UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
+    //static NSString *cellIdentifier = @"CustomCell";
+    UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:nil];
     
     if(indexPath.row > 1) {
         // use CustomCell layout 
@@ -377,7 +377,7 @@
     } else {
         // Use normal cell layout
         if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
         }
         
         // Set up the cell...

@@ -484,7 +484,7 @@
     @autoreleasepool {
 	
     // Start executing the requested task
-        [targetForExecution performSelector:methodForExecution withObject:objectForExecution];
+     //   [targetForExecution performSelector:methodForExecution withObject:objectForExecution];
 	
         // Task completed, update view in main thread (note: view operations should
         // be done only in the main thread)
@@ -518,7 +518,7 @@
 - (void)cleanUp {
 	taskInProgress = NO;
 	
-	self.indicator = nil;
+	//self.indicator = nil;
 	
 	
     [self hide:useAnimation];

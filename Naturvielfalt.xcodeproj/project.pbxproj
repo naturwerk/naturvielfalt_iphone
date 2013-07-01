@@ -32,7 +32,6 @@
 		27C3DBF41754ECF5008E1E58 /* 193-locaction-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C3DBF21754ECF5008E1E58 /* 193-locaction-arrow.png */; };
 		27C5847C15AD7D770085F719 /* 15-warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C5847B15AD7D770085F719 /* 15-warning.png */; };
 		27F1A8801761E131004BC208 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F1A87F1761E131004BC208 /* Default-568h@2x.png */; };
-		27F2D4861758D10D002ABD22 /* Naturvielfalt-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */; };
 		27F605D5176AF28400046BD0 /* AsyncRequestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F605D4176AF28400046BD0 /* AsyncRequestDelegate.m */; };
 		27F605DB176B0E5100046BD0 /* AlertUploadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F605DA176B0E5100046BD0 /* AlertUploadView.m */; };
 		27F662A11766F9940080FC4B /* SubmissionCancelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F6629F1766F9940080FC4B /* SubmissionCancelView.m */; };
@@ -880,7 +879,6 @@
 				27C3DBF31754ECF5008E1E58 /* hairelinecross.png in Resources */,
 				27C3DBF41754ECF5008E1E58 /* 193-locaction-arrow.png in Resources */,
 				2700990D1755E9B2000EA542 /* delete.png in Resources */,
-				27F2D4861758D10D002ABD22 /* Naturvielfalt-Info.plist in Resources */,
 				27F1A8801761E131004BC208 /* Default-568h@2x.png in Resources */,
 				27F662A21766F9940080FC4B /* SubmissionCancelView.xib in Resources */,
 				2706A4791779AA4400749920 /* CameraViewController.xib in Resources */,

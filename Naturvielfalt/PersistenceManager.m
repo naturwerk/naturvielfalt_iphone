@@ -1423,6 +1423,7 @@
             double locationLat = sqlite3_column_double(statement, 11);
             double locationLon = sqlite3_column_double(statement, 12);
             int accuracy = sqlite3_column_int(statement, 13);
+            BOOL locationLocked = sqlite3_column_int(statement, 15) != 0;
             NSString *comment;
             NSString *organismFamily;
             
@@ -1480,6 +1481,7 @@
             observation.location = location;
             observation.accuracy = accuracy;
             observation.comment = comment;
+            observation.locationLocked = locationLocked;
             observation.submitToServer = true;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
             

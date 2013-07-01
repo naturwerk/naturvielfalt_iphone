@@ -175,7 +175,7 @@
         }
     }
     
-    if (!review) {
+    if (!review || !observation.locationLocked) {
         CLLocationCoordinate2D theCoordinate;
         
         if (observation.location) {
@@ -205,9 +205,12 @@
         
         [self.mapView addAnnotation:annotation];
         review = YES;
+    } else {
+        shouldAdjustZoom = NO;
+        [self zoomToAnnotation];
     }
     
-    [self zoomToAnnotation];
+
     [self loadArea];
     
     /*if (!observation.locationLocked && !observation.inventory) {
@@ -357,7 +360,7 @@
 
 - (void) returnBack 
 {
-    observation.locationLocked = true;
+    observation.locationLocked = YES;
     observation.accuracy = currentAccuracy;
     observation.location = currentLocation;
     
@@ -384,7 +387,8 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context 
 {    
     NSLog(@"observeValueForKeyPath");
-    if(shouldAdjustZoom) {   
+    if(shouldAdjustZoom) {
+        NSLog(@"zoom to user location");
         MKCoordinateRegion region;
         region.center = self.mapView.userLocation.coordinate;  
         

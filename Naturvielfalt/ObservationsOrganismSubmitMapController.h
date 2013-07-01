@@ -16,9 +16,13 @@
     IBOutlet MKMapView *mapView;
     IBOutlet UIButton *setButton;
     IBOutlet UISearchBar *searchBar;
+    IBOutlet UIImageView *accuracyImageView;
+    IBOutlet UILabel *accuracyLabel;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     NSInteger currentAccuracy;
+    UIImage *accuracyImage;
+    NSString *accuracyText;
     Observation *observation;
     DDAnnotation *annotation;
     
@@ -40,6 +44,10 @@
 @property (nonatomic, assign) BOOL pinMoved;
 @property (nonatomic) IBOutlet UIButton *setButton;
 @property (nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic) UIImage *accuracyImage;
+@property (nonatomic) NSString *accuracyText;
+@property (nonatomic) IBOutlet UILabel *accuracyLabel;
+@property (nonatomic) IBOutlet UIImageView *accuracyImageView;
 
 @property (nonatomic) NSDate *lastPetition;
 

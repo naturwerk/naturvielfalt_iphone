@@ -528,6 +528,7 @@
 		CB8095C514431AFC003D3764 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				27F605D8176AF2E200046BD0 /* Async */,
 				CB8095C614431B3B003D3764 /* LocationHelper.h */,
 				CB8095C714431B3B003D3764 /* LocationHelper.m */,
 				CBDDB54C144EABC8007E48AB /* CameraViewController.h */,
@@ -553,7 +554,6 @@
 				27F6629E1766F9940080FC4B /* SubmissionCancelView.h */,
 				27F6629F1766F9940080FC4B /* SubmissionCancelView.m */,
 				27F662A01766F9940080FC4B /* SubmissionCancelView.xib */,
-				27F605D8176AF2E200046BD0 /* Async */,
 				CBEBAA2B147CDCA5009AC6C0 /* WikipediaHelper.h */,
 				CBEBAA2C147CDCA5009AC6C0 /* WikipediaHelper.m */,
 				CB1432321486642200BBA78D /* SwissCoordinates.h */,

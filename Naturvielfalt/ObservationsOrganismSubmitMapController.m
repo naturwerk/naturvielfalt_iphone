@@ -15,7 +15,7 @@
 #import "SBJson.h"
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, searchBar, lastPetition;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, searchBar, lastPetition, accuracyImage, accuracyText, accuracyImageView, accuracyLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -85,7 +85,7 @@
         if ([CLLocationManager locationServicesEnabled]) {
             locationManager.delegate = self;
             locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-            locationManager.distanceFilter = 1000.0f;
+            locationManager.distanceFilter = 10.0f;
             [locationManager startUpdatingLocation];
         }
         self.mapView.showsUserLocation = YES;        
@@ -140,6 +140,24 @@
         case 2:{mapView.mapType = MKMapTypeHybrid;break;}
         case 3:{mapView.mapType = MKMapTypeStandard;break;}
     }
+    [self updateAccuracyIcon:currentAccuracy];
+}
+
+- (void) updateAccuracyIcon:(int)accuracyValue {
+    UIImage *green = [UIImage imageNamed:@"status-green.png"];
+    UIImage *orange = [UIImage imageNamed:@"status-orange.png"];
+    UIImage *red = [UIImage imageNamed:@"status-red.png"];
+    
+    if(accuracyValue <= 30) {
+        accuracyImage = green;
+    } else if(accuracyValue < 90) {
+        accuracyImage = orange;
+    } else {
+        accuracyImage = red;
+    }
+    accuracyText = [[NSString alloc] initWithFormat:@"%dm", accuracyValue];
+    accuracyLabel.text = accuracyText;
+    accuracyImageView.image = accuracyImage;
 }
 
 - (IBAction)setPin:(id)sender {
@@ -165,6 +183,7 @@
     
     // Calculate swiss coordinates
     annotation = [self adaptPinSubtitle:annotation.coordinate];
+    [self updateAccuracyIcon:currentAccuracy];
 }
 
 - (IBAction)relocate:(id)sender {
@@ -341,6 +360,8 @@
 - (void)viewDidUnload
 {
     [self setSearchBar:nil];
+    [self setAccuracyLabel:nil];
+    [self setAccuracyImageView:nil];
     [super viewDidUnload];
 }
 
@@ -369,7 +390,8 @@
         
         MKCoordinateRegion mapRegion = mapView.region;
         mapRegion.center = newLocation.coordinate;
-        self.mapView.region = mapRegion;    
+        self.mapView.region = mapRegion;
+        [self updateAccuracyIcon: (int)observation.accuracy];
         NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
     }
 }

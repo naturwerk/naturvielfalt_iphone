@@ -52,10 +52,6 @@
 		27D2B06B170F18D100D6815B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D2B06A170F18D000D6815B /* Default-568h@2x.png */; };
 		27E8A1C81732950A00871706 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27E8A1C71732950A00871706 /* hairelinecross.png */; };
 		27E913701744BF70001701D9 /* AFImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E9136F1744BF70001701D9 /* AFImageViewer.m */; };
-		27E913751744CF9F001701D9 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27E913711744CF9F001701D9 /* 1.jpg */; };
-		27E913761744CF9F001701D9 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27E913721744CF9F001701D9 /* 2.jpg */; };
-		27E913771744CF9F001701D9 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27E913731744CF9F001701D9 /* 3.jpg */; };
-		27E913781744CF9F001701D9 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27E913741744CF9F001701D9 /* 4.jpg */; };
 		27E9137C1744F286001701D9 /* ObservationImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E9137B1744F286001701D9 /* ObservationImage.m */; };
 		27E9137F1744F29C001701D9 /* AreaImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E9137E1744F29C001701D9 /* AreaImage.m */; };
 		27ED2B42172174E300A45687 /* CustomAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27ED2B41172174E300A45687 /* CustomAnnotationView.m */; };
@@ -88,8 +84,6 @@
 		27F399611716BBF7000433F7 /* Inventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F399601716BBF7000433F7 /* Inventory.m */; };
 		27F3996D1716F5B0000433F7 /* AreasSubmitInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */; };
 		27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F4C143177D7FAA009FFA70 /* CameraViewController.xib */; };
-		27F4C146177D801E009FFA70 /* Naturvielfalt-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F62F142B040A000150AF /* Naturvielfalt-Info.plist */; };
-		27F4C148177D8041009FFA70 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CBB7F630142B040A000150AF /* InfoPlist.strings */; };
 		27F5FA13174CF6A300575327 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F5FA12174CF6A300575327 /* delete.png */; };
 		27F6285D1733EF7C0089CC3C /* LocationPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F6285C1733EF7C0089CC3C /* LocationPoint.m */; };
 		27F7842B1715472D00081A1F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784261715472D00081A1F /* 19-gear.png */; };
@@ -281,10 +275,6 @@
 		27E8A1C71732950A00871706 /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
 		27E9136E1744BF70001701D9 /* AFImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFImageViewer.h; sourceTree = "<group>"; };
 		27E9136F1744BF70001701D9 /* AFImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFImageViewer.m; sourceTree = "<group>"; };
-		27E913711744CF9F001701D9 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
-		27E913721744CF9F001701D9 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
-		27E913731744CF9F001701D9 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
-		27E913741744CF9F001701D9 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
 		27E9137A1744F286001701D9 /* ObservationImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationImage.h; sourceTree = "<group>"; };
 		27E9137B1744F286001701D9 /* ObservationImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationImage.m; sourceTree = "<group>"; };
 		27E9137D1744F29C001701D9 /* AreaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaImage.h; sourceTree = "<group>"; };
@@ -622,17 +612,6 @@
 			name = AFImageViewer;
 			sourceTree = "<group>";
 		};
-		27E913791744CFA7001701D9 /* testImagesForImageViewer */ = {
-			isa = PBXGroup;
-			children = (
-				27E913711744CF9F001701D9 /* 1.jpg */,
-				27E913721744CF9F001701D9 /* 2.jpg */,
-				27E913731744CF9F001701D9 /* 3.jpg */,
-				27E913741744CF9F001701D9 /* 4.jpg */,
-			);
-			name = testImagesForImageViewer;
-			sourceTree = "<group>";
-		};
 		27F0337817300625009217B7 /* collections */ = {
 			isa = PBXGroup;
 			children = (
@@ -854,6 +833,8 @@
 		CB8095C514431AFC003D3764 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				2711A5301769ED11005A6C32 /* Async */,
+				27FDA9D4176EF95600B8B01A /* UploadHelper */,
 				27FED4E51730F5890030886F /* Cells */,
 				CB8095C614431B3B003D3764 /* LocationHelper.h */,
 				CB8095C714431B3B003D3764 /* LocationHelper.m */,
@@ -882,10 +863,8 @@
 				27EE24A817257C2D00A48689 /* CustomLineView.m */,
 				CBEBAA2B147CDCA5009AC6C0 /* WikipediaHelper.h */,
 				CBEBAA2C147CDCA5009AC6C0 /* WikipediaHelper.m */,
-				27FDA9D4176EF95600B8B01A /* UploadHelper */,
 				CB1432321486642200BBA78D /* SwissCoordinates.h */,
 				CB1432331486642200BBA78D /* SwissCoordinates.m */,
-				2711A5301769ED11005A6C32 /* Async */,
 				CB1EE5D814893F3400FF286F /* Settings.h */,
 				CB1EE5D914893F3400FF286F /* Settings.m */,
 			);
@@ -895,7 +874,6 @@
 		CBB070C2143053D500D3D0B5 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				27E913791744CFA7001701D9 /* testImagesForImageViewer */,
 				27C5847B15AD7D770085F719 /* 15-warning.png */,
 				CB143230148639EC00BBA78D /* bildvorschaudeaktiviert.png */,
 				CBD2C2EB146988B8003F1B90 /* 37x-Checkmark.png */,
@@ -1250,16 +1228,10 @@
 				27FED4EF173102F90030886F /* CheckboxAreaCell.xib in Resources */,
 				27E8A1C81732950A00871706 /* hairelinecross.png in Resources */,
 				27FFD26C1737FBDE00DFD1C4 /* DeleteCell.xib in Resources */,
-				27E913751744CF9F001701D9 /* 1.jpg in Resources */,
-				27E913761744CF9F001701D9 /* 2.jpg in Resources */,
-				27E913771744CF9F001701D9 /* 3.jpg in Resources */,
-				27E913781744CF9F001701D9 /* 4.jpg in Resources */,
 				27F5FA13174CF6A300575327 /* delete.png in Resources */,
 				2707A9131772F66F002EA87D /* CollectionAreaObservationsController.xib in Resources */,
 				27FE06D6177B1F4A000D408D /* CheckboxAreaObsCell.xib in Resources */,
 				27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */,
-				27F4C146177D801E009FFA70 /* Naturvielfalt-Info.plist in Resources */,
-				27F4C148177D8041009FFA70 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

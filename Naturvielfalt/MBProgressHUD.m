@@ -520,8 +520,7 @@
 - (void)cleanUp {
 	taskInProgress = NO;
 	
-	self.indicator = nil;
-	
+	//self.indicator = nil;
 	
     [self hide:useAnimation];
 }

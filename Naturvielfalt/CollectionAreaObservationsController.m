@@ -82,7 +82,8 @@
     loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
     
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [loadingHUD showWhileExecuting:@selector(reloadObservations) onTarget:self withObject:nil animated:YES];
+    [loadingHUD showWhileExecuting:@selector(reloadAreaObservations) onTarget:self withObject:nil animated:YES];
+
     
     // Reload table
     [table reloadData];
@@ -196,7 +197,7 @@
     [self reloadAnnotations];
 }
 
-- (void) reloadObservations
+- (void) reloadAreaObservations
 {
     // Reset observations
     observations = nil;
@@ -206,7 +207,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     table.editing = FALSE;
-    [self reloadObservations];
+    [self reloadAreaObservations];
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     
@@ -315,7 +316,7 @@
         [persistenceManager closeConnection];
         
         // Reload the observations from the database and refresh the TableView
-        [self reloadObservations];
+        [self reloadAreaObservations];
     }
 }
 

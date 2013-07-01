@@ -11,7 +11,6 @@
 		2700990D1755E9B2000EA542 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 2700990C1755E9B2000EA542 /* delete.png */; };
 		270099111755ED49000EA542 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 270099101755ED49000EA542 /* CameraViewController.m */; };
 		270099141755F6F0000EA542 /* ObservationImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 270099131755F6F0000EA542 /* ObservationImage.m */; };
-		2706A4721779A6FB00749920 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 2706A4741779A6FB00749920 /* db.sqlite3 */; };
 		2706A4791779AA4400749920 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2706A4781779AA4400749920 /* CameraViewController.xib */; };
 		2706A47B1779AB5C00749920 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2706A47A1779AB5C00749920 /* MainWindow.xib */; };
 		270C58921757391900CA350F /* CustomObservationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 270C58911757391900CA350F /* CustomObservationAnnotation.m */; };
@@ -26,6 +25,7 @@
 		27746D0B159B103900672970 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 27746D06159B103900672970 /* iTunesArtwork */; };
 		27746D10159B1F9D00672970 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0E159B1F9D00672970 /* Icon-Small@2x.png */; };
 		27746D11159B1F9D00672970 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0F159B1F9D00672970 /* Icon@2x.png */; };
+		2798FE321781C190004F198D /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 2798FE311781C190004F198D /* db.sqlite3 */; };
 		27B84514159B223500818BCE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B84513159B223500818BCE /* Default@2x.png */; };
 		27B84516159B230C00818BCE /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27B84515159B230C00818BCE /* Entitlements.plist */; };
 		27C3DBF31754ECF5008E1E58 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C3DBF11754ECF5008E1E58 /* hairelinecross.png */; };
@@ -150,12 +150,9 @@
 		270099101755ED49000EA542 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		270099121755F6F0000EA542 /* ObservationImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationImage.h; sourceTree = "<group>"; };
 		270099131755F6F0000EA542 /* ObservationImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationImage.m; sourceTree = "<group>"; };
-		2706A4731779A6FB00749920 /* de */ = {isa = PBXFileReference; lastKnownFileType = file; name = de; path = de.lproj/db.sqlite3; sourceTree = "<group>"; };
 		2706A4751779A75900749920 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2706A4781779AA4400749920 /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		2706A47A1779AB5C00749920 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		2706A47C1779AC9C00749920 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/db.sqlite3; sourceTree = "<group>"; };
-		2706A47D1779ACA000749920 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file; name = fr; path = fr.lproj/db.sqlite3; sourceTree = "<group>"; };
 		270C58901757391900CA350F /* CustomObservationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObservationAnnotation.h; sourceTree = "<group>"; };
 		270C58911757391900CA350F /* CustomObservationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObservationAnnotation.m; sourceTree = "<group>"; };
 		270C589317578BC000CA350F /* CustomObservationAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObservationAnnotationView.h; sourceTree = "<group>"; };
@@ -171,7 +168,7 @@
 		27746D0E159B1F9D00672970 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = SOURCE_ROOT; };
 		27746D0F159B1F9D00672970 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = SOURCE_ROOT; };
 		278B8D151779B1BE00D9542A /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
-		278B8D161779B1CD00D9542A /* it */ = {isa = PBXFileReference; lastKnownFileType = file; name = it; path = it.lproj/db.sqlite3; sourceTree = "<group>"; };
+		2798FE311781C190004F198D /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		27B84513159B223500818BCE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
 		27B84515159B230C00818BCE /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		27C3DBEF1754CF49008E1E58 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -478,7 +475,7 @@
 		CB7AC23B149B9105001D315A /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				2706A4741779A6FB00749920 /* db.sqlite3 */,
+				2798FE311781C190004F198D /* db.sqlite3 */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -862,7 +859,6 @@
 				CBEBAA40147FE5A2009AC6C0 /* SettingsPasswordViewController.xib in Resources */,
 				CBEBAA45147FE9F4009AC6C0 /* SettingsViewRootController.xib in Resources */,
 				CB143231148639EC00BBA78D /* bildvorschaudeaktiviert.png in Resources */,
-				2706A4721779A6FB00749920 /* db.sqlite3 in Resources */,
 				F619A26215766BE000F0C842 /* blank.png in Resources */,
 				F664007B157CB5740092A9D0 /* CustomOrganismCell.xib in Resources */,
 				27746D07159B103900672970 /* Icon-72.png in Resources */,
@@ -883,6 +879,7 @@
 				27F662A21766F9940080FC4B /* SubmissionCancelView.xib in Resources */,
 				2706A4791779AA4400749920 /* CameraViewController.xib in Resources */,
 				2706A47B1779AB5C00749920 /* MainWindow.xib in Resources */,
+				2798FE321781C190004F198D /* db.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -960,17 +957,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		2706A4741779A6FB00749920 /* db.sqlite3 */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2706A4731779A6FB00749920 /* de */,
-				2706A47C1779AC9C00749920 /* en */,
-				2706A47D1779ACA000749920 /* fr */,
-				278B8D161779B1CD00D9542A /* it */,
-			);
-			name = db.sqlite3;
-			sourceTree = "<group>";
-		};
 		276C9DF01754CE670035BFA8 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

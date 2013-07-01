@@ -39,6 +39,8 @@
     [appSettings setObject:@"2" forKey:@"mapType"];
     [appSettings synchronize];
     
+    NSLog(@"language is: %@", [[NSLocale preferredLanguages] objectAtIndex:0]);
+    
     return YES;
 }
 

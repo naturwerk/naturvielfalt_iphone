@@ -18,7 +18,7 @@
 #define pAlpha 0.1
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, persistenceManager, searchBar;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, persistenceManager, searchBar, accuracyImage, accuracyText, accuracyImageView, accuracyLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -154,6 +154,8 @@
         case 2:{mapView.mapType = MKMapTypeHybrid;break;}
         case 3:{mapView.mapType = MKMapTypeStandard;break;}
     }
+    
+    [self updateAccuracyIcon:currentAccuracy];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -218,6 +220,23 @@
     }*/
 }
 
+- (void) updateAccuracyIcon:(int)accuracyValue {
+    UIImage *green = [UIImage imageNamed:@"status-green.png"];
+    UIImage *orange = [UIImage imageNamed:@"status-orange.png"];
+    UIImage *red = [UIImage imageNamed:@"status-red.png"];
+    
+    if(accuracyValue <= 30) {
+        accuracyImage = green;
+    } else if(accuracyValue < 90) {
+        accuracyImage = orange;
+    } else {
+        accuracyImage = red;
+    }
+    accuracyText = [[NSString alloc] initWithFormat:@"%dm", accuracyValue];
+    accuracyLabel.text = accuracyText;
+    accuracyImageView.image = accuracyImage;
+}
+
 - (void) loadArea {
     if (observation.inventory) {
         NSMutableArray *locationPoints = [[NSMutableArray alloc] initWithArray:observation.inventory.area.locationPoints];
@@ -262,7 +281,7 @@
     }
 }
 
-- (IBAction)setPin:(id)sender {
+- (IBAction) setPin:(id) sender {
     // Sets the pin in the middle of the hairline cross
     MKCoordinateRegion mapRegion = mapView.region;
     NSLog(@"New coordinates: longitude - %g latitude - %g", mapRegion.center.longitude, mapRegion.center.latitude);
@@ -285,6 +304,8 @@
     
     // Calculate swiss coordinates
     annotation = [self adaptPinSubtitle:annotation.coordinate];
+    
+    [self updateAccuracyIcon:currentAccuracy];
 }
 
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate
@@ -412,6 +433,8 @@
 {
     [self setSetButton:nil];
     [self setSearchBar:nil];
+    accuracyImageView = nil;
+    [self setAccuracyLabel:nil];
     [super viewDidUnload];
 }
 
@@ -441,7 +464,8 @@
         
         MKCoordinateRegion mapRegion = mapView.region;
         mapRegion.center = newLocation.coordinate;
-        self.mapView.region = mapRegion;    
+        self.mapView.region = mapRegion;
+        [self updateAccuracyIcon: (int)observation.accuracy];
         NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
     }
     

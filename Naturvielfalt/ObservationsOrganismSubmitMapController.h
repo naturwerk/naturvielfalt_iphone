@@ -21,9 +21,13 @@
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     NSInteger currentAccuracy;
+    UIImage *accuracyImage;
+    NSString *accuracyText;
     Observation *observation;
     DDAnnotation *annotation;
     PersistenceManager *persistenceManager;
+    IBOutlet UIImageView *accuracyImageView;
+    IBOutlet UILabel *accuracyLabel;
     
     BOOL review;
     BOOL shouldAdjustZoom;
@@ -41,6 +45,10 @@
 @property (nonatomic, assign) BOOL pinMoved;
 @property (nonatomic) IBOutlet UIButton *setButton;
 @property (nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic) UIImage *accuracyImage;
+@property (nonatomic) NSString *accuracyText;
+@property (nonatomic) UIImageView *accuracyImageView;
+@property (nonatomic) IBOutlet UILabel *accuracyLabel;
 
 - (IBAction)setPin:(id)sender;
 

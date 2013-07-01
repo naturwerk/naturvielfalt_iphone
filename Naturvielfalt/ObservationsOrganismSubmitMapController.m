@@ -155,7 +155,7 @@
     } else {
         accuracyImage = red;
     }
-    accuracyText = [[NSString alloc] initWithFormat:@"%dm", accuracyValue];
+    accuracyText = [[NSString alloc] initWithFormat:@"%dm %@", accuracyValue, NSLocalizedString(@"observationAcc", nil)];
     accuracyLabel.text = accuracyText;
     accuracyImageView.image = accuracyImage;
 }

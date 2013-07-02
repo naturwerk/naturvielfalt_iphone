@@ -1525,6 +1525,9 @@
                 groupName = NSLocalizedString(@"organismNoTransAvailable", nil);
             } else {
                 groupName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+                if (groupName.length == 0) {
+                    groupName = NSLocalizedString(@"organismNoTransAvailable", nil);
+                }
             }
             
             int groupCount = sqlite3_column_int(statement, 2);

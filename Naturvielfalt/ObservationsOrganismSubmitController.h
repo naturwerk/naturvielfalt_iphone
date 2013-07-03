@@ -24,6 +24,7 @@
     CLLocationManager *locationManager;
     UIActionSheet *deleteObservationSheet;
     NSIndexPath *currIndexPath;
+    NSDateFormatter *dateFormatter;
     
     
     NSArray *arrayKeys;
@@ -49,6 +50,7 @@
 @property (nonatomic) UIImage *accuracyImage;
 @property (nonatomic) NSString *accuracyText;
 @property (nonatomic) CLLocationManager *locationManager;
+@property (nonatomic) NSDateFormatter *dateFormatter;
 
 @property (nonatomic) Inventory *inventory;
 @property (nonatomic) Observation *persistedObservation;

@@ -33,6 +33,8 @@
 		27746D0B159B103900672970 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 27746D06159B103900672970 /* iTunesArtwork */; };
 		27746D10159B1F9D00672970 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0E159B1F9D00672970 /* Icon-Small@2x.png */; };
 		27746D11159B1F9D00672970 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0F159B1F9D00672970 /* Icon@2x.png */; };
+		278E0354178429A400EE7368 /* CustomDateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 278E0353178429A400EE7368 /* CustomDateCell.m */; };
+		278E035617842B2D00EE7368 /* CustomDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E035517842B2D00EE7368 /* CustomDateCell.xib */; };
 		27904164172EBA11002D08E3 /* InventoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27904163172EBA11002D08E3 /* InventoryCell.m */; };
 		27904166172EBA38002D08E3 /* InventoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27904165172EBA38002D08E3 /* InventoryCell.xib */; };
 		27B84514159B223500818BCE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B84513159B223500818BCE /* Default@2x.png */; };
@@ -86,6 +88,7 @@
 		27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F4C143177D7FAA009FFA70 /* CameraViewController.xib */; };
 		27F5FA13174CF6A300575327 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F5FA12174CF6A300575327 /* delete.png */; };
 		27F6285D1733EF7C0089CC3C /* LocationPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F6285C1733EF7C0089CC3C /* LocationPoint.m */; };
+		27F7001617841DEA0030AA77 /* ObservationsOrganismSubmitDateController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FCAACC1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.xib */; };
 		27F7842B1715472D00081A1F /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784261715472D00081A1F /* 19-gear.png */; };
 		27F7842C1715472D00081A1F /* 12-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784271715472D00081A1F /* 12-eye.png */; };
 		27F7842D1715472D00081A1F /* 151-telescope.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F784281715472D00081A1F /* 151-telescope.png */; };
@@ -96,6 +99,7 @@
 		27F8C3D51727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */; };
 		27FB850F1720054200A7632D /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FB850E1720054200A7632D /* CustomAnnotation.m */; };
 		27FCAAC91782D2C5007D10F1 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FCAAC81782D2C5007D10F1 /* db.sqlite3 */; };
+		27FCAACD1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FCAACB1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m */; };
 		27FDA9D3176EF95100B8B01A /* ObservationUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D2176EF95100B8B01A /* ObservationUploadHelper.m */; };
 		27FDA9D7176EF97200B8B01A /* InventoryUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D6176EF97200B8B01A /* InventoryUploadHelper.m */; };
 		27FDA9DA176EF98000B8B01A /* AreaUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D9176EF98000B8B01A /* AreaUploadHelper.m */; };
@@ -249,6 +253,9 @@
 		27746D06159B103900672970 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = SOURCE_ROOT; };
 		27746D0E159B1F9D00672970 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = SOURCE_ROOT; };
 		27746D0F159B1F9D00672970 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = SOURCE_ROOT; };
+		278E0352178429A300EE7368 /* CustomDateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDateCell.h; sourceTree = "<group>"; };
+		278E0353178429A400EE7368 /* CustomDateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDateCell.m; sourceTree = "<group>"; };
+		278E035517842B2D00EE7368 /* CustomDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomDateCell.xib; sourceTree = "<group>"; };
 		27904162172EBA11002D08E3 /* InventoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryCell.h; sourceTree = "<group>"; };
 		27904163172EBA11002D08E3 /* InventoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryCell.m; sourceTree = "<group>"; };
 		27904165172EBA38002D08E3 /* InventoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InventoryCell.xib; sourceTree = "<group>"; };
@@ -339,6 +346,9 @@
 		27FB850D1720054200A7632D /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
 		27FB850E1720054200A7632D /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
 		27FCAAC81782D2C5007D10F1 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
+		27FCAACA1782F85B007D10F1 /* ObservationsOrganismSubmitDateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationsOrganismSubmitDateController.h; sourceTree = "<group>"; };
+		27FCAACB1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationsOrganismSubmitDateController.m; sourceTree = "<group>"; };
+		27FCAACC1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsOrganismSubmitDateController.xib; sourceTree = "<group>"; };
 		27FDA9D1176EF95100B8B01A /* ObservationUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationUploadHelper.h; sourceTree = "<group>"; };
 		27FDA9D2176EF95100B8B01A /* ObservationUploadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationUploadHelper.m; sourceTree = "<group>"; };
 		27FDA9D5176EF97200B8B01A /* InventoryUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryUploadHelper.h; sourceTree = "<group>"; };
@@ -667,6 +677,9 @@
 				CBE89101144C487300E8B559 /* CustomCell.h */,
 				CBE89102144C487300E8B559 /* CustomCell.m */,
 				CBE89105144C488100E8B559 /* CustomCell.xib */,
+				278E0352178429A300EE7368 /* CustomDateCell.h */,
+				278E0353178429A400EE7368 /* CustomDateCell.m */,
+				278E035517842B2D00EE7368 /* CustomDateCell.xib */,
 				27F114E5171BFDAC0017DAF0 /* CustomAddCell.h */,
 				27F114E6171BFDAC0017DAF0 /* CustomAddCell.m */,
 				27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */,
@@ -992,6 +1005,9 @@
 		CBDDB535144D7586007E48AB /* SubmitHelper */ = {
 			isa = PBXGroup;
 			children = (
+				27FCAACA1782F85B007D10F1 /* ObservationsOrganismSubmitDateController.h */,
+				27FCAACB1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m */,
+				27FCAACC1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.xib */,
 				27D2B051170F13DE00D6815B /* ObservationsOrganismSubmitMapController.h */,
 				27D2B052170F13DE00D6815B /* ObservationsOrganismSubmitMapController.m */,
 				27D2B04C170F12A600D6815B /* ObservationsOrganismSubmitMapController.xib */,
@@ -1142,6 +1158,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27F7001617841DEA0030AA77 /* ObservationsOrganismSubmitDateController.xib in Resources */,
 				CBB070C91430542F00D3D0B5 /* 06-magnify.png in Resources */,
 				CBB070CB1430544600D3D0B5 /* 84-lightbulb.png in Resources */,
 				CBDE3DEC1430625400BC1F46 /* ObservationsViewController.xib in Resources */,
@@ -1232,6 +1249,7 @@
 				27FE06D6177B1F4A000D408D /* CheckboxAreaObsCell.xib in Resources */,
 				27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */,
 				27FCAAC91782D2C5007D10F1 /* db.sqlite3 in Resources */,
+				278E035617842B2D00EE7368 /* CustomDateCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1337,6 +1355,8 @@
 				27FDA9DA176EF98000B8B01A /* AreaUploadHelper.m in Sources */,
 				2707A9121772F66F002EA87D /* CollectionAreaObservationsController.m in Sources */,
 				27FE06D4177B1F28000D408D /* CheckboxAreaObsCell.m in Sources */,
+				27FCAACD1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m in Sources */,
+				278E0354178429A400EE7368 /* CustomDateCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

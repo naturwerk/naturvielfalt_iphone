@@ -9,22 +9,28 @@
 #import "ObservationsOrganismSubmitController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "CustomCell.h"
+#import "CustomDateCell.h"
 #import "DeleteCell.h"
 #import "ObservationsOrganismSubmitMapController.h"
 #import "AreasSubmitNewInventoryController.h"
 #import "CameraViewController.h"
 #import "ObservationsOrganismSubmitAmountController.h"
 #import "ObservationsOrganismSubmitCommentController.h"
+#import "ObservationsOrganismSubmitDateController.h"
 #import "MBProgressHUD.h"
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, persistedObservation, inventory;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, persistedObservation, inventory, dateFormatter;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        // Get formatted date string
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     }
     return self;
 }
@@ -208,9 +214,6 @@
     }
      
     // Get formatted date string
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
-    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     nowString = [dateFormatter stringFromDate:observation.date];
       
     // Initialize keys/valu es
@@ -416,7 +419,7 @@
     DeleteCell *deleteCell;
     
     if (indexPath.section == 0) {
-        if(indexPath.row > 1) {
+        if(indexPath.row != 1) {
             // use CustomCell layout
             CustomCell *customCell;
             
@@ -431,6 +434,21 @@
                 }
                 
                 switch(indexPath.row) {
+                    case 0: {
+                        CustomDateCell *customDateCell;
+                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
+                        
+                        for (id currentObject in topLevelObjects){
+                            if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                                customDateCell =  (CustomDateCell *)currentObject;
+                                break;
+                            }
+                        }
+
+                        customDateCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
+                        customDateCell.value.text = [dateFormatter stringFromDate:observation.date];
+                        return customDateCell;
+                    }
                     case 2:
                     {
                         customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
@@ -523,9 +541,20 @@
     
     if (indexPath.section == 0) {
         // TODO: rewrite to switch case!
-        if (indexPath.row == 2) {
+        if (indexPath.row == 0) {
+            // DATE
+            // Create the ObservationsOrganismSubmitDateController
+            ObservationsOrganismSubmitDateController *organismSubmitDateController = [[ObservationsOrganismSubmitDateController alloc] initWithNibName:@"ObservationsOrganismSubmitDateController" bundle:[NSBundle mainBundle]];
+            
+            organismSubmitDateController.observation = observation;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:organismSubmitDateController animated:TRUE];
+            organismSubmitDateController = nil;
+            
+        }  else if (indexPath.row == 2) {
             // AMOUNT
-            // Create the ObservationsOrganismSubmitCameraController
+            // Create the ObservationsOrganismSubmitAmountController
             ObservationsOrganismSubmitAmountController *organismSubmitAmountController = [[ObservationsOrganismSubmitAmountController alloc]
                                                                                           initWithNibName:@"ObservationsOrganismSubmitAmountController"
                                                                                           bundle:[NSBundle mainBundle]];

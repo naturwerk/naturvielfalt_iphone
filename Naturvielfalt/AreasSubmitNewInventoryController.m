@@ -7,12 +7,14 @@
 //
 
 #import "AreasSubmitNewInventoryController.h"
+#import "AreasSubmitInventoryDateController.h"
 #import "AreasSubmitInventoryNameController.h"
 #import "AreasSubmitInventoryDescriptionController.h"
 #import "AreasSubmitInventoryObservationController.h"
 #import "ObservationsViewController.h"
 #import "AreasSubmitController.h"
 #import "CustomCell.h"
+#import "CustomDateCell.h"
 #import "DeleteCell.h"
 #import "CustomAddCell.h"
 #import "MBProgressHUD.h"
@@ -29,6 +31,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        // Get formatted date string
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     }
     return self;
 }
@@ -190,9 +196,6 @@
     }
     
     // Get formatted date string
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
-    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     NSString *nowString = [dateFormatter stringFromDate:inventory.date];
     
     // Initialize keys/values
@@ -402,7 +405,7 @@
     CustomAddCell *customAddCell;
     
     if (indexPath.section == 0) {
-        if(indexPath.row > 2) {
+        if(indexPath.row > 2 || indexPath.row == 0) {
             // use CustomCell layout
             
             if(cell == nil) {
@@ -416,6 +419,22 @@
                 }
                 
                 switch(indexPath.row) {
+                    case 0: {
+                        CustomDateCell *customDateCell;
+                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
+                        
+                        for (id currentObject in topLevelObjects){
+                            if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                                customDateCell =  (CustomDateCell *)currentObject;
+                                break;
+                            }
+                        }
+                        
+                        customDateCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
+                        customDateCell.value.text = [dateFormatter stringFromDate:inventory.date];
+                        return customDateCell;
+                    }
+
                     case 3:
                     {
                         customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
@@ -500,6 +519,7 @@
 
 - (void) rowClicked:(NSIndexPath *) indexPath {
     NSLog(@"index Path: %@", indexPath);
+    AreasSubmitInventoryDateController *areasSubmitInventoryDateController;
     AreasSubmitInventoryNameController *areasSubmitInventoryNameController;
     AreasSubmitInventoryDescriptionController *areasSubmitInventoryDescriptionController;
     AreasSubmitInventoryObservationController *areasSubmitInventoryObservationController;
@@ -507,6 +527,19 @@
     
     if (indexPath.section == 0) {
         switch (indexPath.row) {
+            case 0:
+            {
+                // DATE
+                // Create the AreasSubmitInventoryDateController
+                areasSubmitInventoryDateController = [[AreasSubmitInventoryDateController alloc] initWithNibName:@"AreasSubmitDateController" bundle:[NSBundle mainBundle]];
+                
+                areasSubmitInventoryDateController.inventory = inventory;
+                
+                // Switch the View & Controller
+                [self.navigationController pushViewController:areasSubmitInventoryDateController animated:TRUE];
+                areasSubmitInventoryDateController = nil;
+                break;
+            }
             case 3:
                 // NAME
                 // Create the ObservationsOrganismSubmitCameraController

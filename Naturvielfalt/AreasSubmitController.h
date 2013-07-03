@@ -22,7 +22,8 @@
     CustomAnnotation *customAnnotation;
     AreasViewController *areasViewController;
     UIActionSheet *deleteAreaSheet;
-    NSIndexPath *currIndexPath;;
+    NSIndexPath *currIndexPath;
+    NSDateFormatter *dateFormatter;
     
     BOOL review;
     IBOutlet UITableView *tableView;

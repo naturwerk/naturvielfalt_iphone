@@ -11,9 +11,11 @@
 #import "AreasSubmitDescriptionController.h"
 #import "AreasSubmitInventoryController.h"
 #import "AreasSubmitNewInventoryController.h"
+#import "AreasSubmitDateController.h"
 #import "AreasViewController.h"
 #import "CameraViewController.h"
 #import "CustomCell.h"
+#import "CustomDateCell.h"
 #import "MBProgressHUD.h"
 #import "CustomAddCell.h"
 #import "CustomAreaCell.h"
@@ -31,6 +33,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     }
     return self;
 }
@@ -101,9 +106,6 @@
     }
     
     // Get formatted date string
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
-    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     nowString = [dateFormatter stringFromDate:area.date];
     
     // Initialize keys/values
@@ -399,7 +401,7 @@
     CustomAreaCell *customAreaCell;
     
     if (indexPath.section == 0) {
-        if(indexPath.row > 1) {
+        if(indexPath.row != 1) {
             // use CustomCell layout
 
             if(cell == nil) {
@@ -413,6 +415,23 @@
                 }
 
                 switch(indexPath.row) {
+                        
+                    case 0: {
+                        CustomDateCell *customDateCell;
+                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
+                        
+                        for (id currentObject in topLevelObjects){
+                            if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                                customDateCell =  (CustomDateCell *)currentObject;
+                                break;
+                            }
+                        }
+                        
+                        customDateCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
+                        customDateCell.value.text = [dateFormatter stringFromDate:area.date];
+                        return customDateCell;
+                    }
+                        
                     case 2:
                     {
                         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAreaCell" owner:self options:nil];
@@ -526,13 +545,28 @@
     AreasSubmitNameController *areasSubmitNameController;
     AreasSubmitDescriptionController *areasSubmitDescriptionController;
     CameraViewController *areaSubmitCameraController;
+    AreasSubmitDateController *areasSubmitDateController;
     AreasSubmitInventoryController *areasSubmitInventoryController;
     currIndexPath = indexPath;
 
     
     if (indexPath.section == 0) {
         switch (indexPath.row) {
+            case 0:
+            {
+            // DATE
+            // Create the ObservationsOrganismSubmitDateController
+            areasSubmitDateController = [[AreasSubmitDateController alloc] initWithNibName:@"AreasSubmitDateController" bundle:[NSBundle mainBundle]];
+            
+            areasSubmitDateController.area = area;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:areasSubmitDateController animated:TRUE];
+            areasSubmitDateController = nil;
+                break;
+            }
             case 2:
+            {
                 // NAME
                 // Create the AreasSubmitNameController
                 areasSubmitNameController = [[AreasSubmitNameController alloc]
@@ -547,7 +581,9 @@
                 areasSubmitNameController = nil;
 
                 break;
+            }
             case 3:
+            {
                 // DESCRIPTION
                 // Create the AreasSubmitDescriptionController
                 areasSubmitDescriptionController = [[AreasSubmitDescriptionController alloc]
@@ -561,7 +597,9 @@
                 areasSubmitDescriptionController = nil;
 
                 break;
+            }
             case 4:
+            {
                 // CAMERA
                 // Create the AreaSubmitCameraController
                 areaSubmitCameraController = [[CameraViewController alloc]
@@ -575,6 +613,7 @@
                 [self.navigationController pushViewController:areaSubmitCameraController animated:TRUE];
                 areaSubmitCameraController = nil;
                 break;
+            }
             default:
                 break;
         }

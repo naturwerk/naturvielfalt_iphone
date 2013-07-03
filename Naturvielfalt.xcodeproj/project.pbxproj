@@ -35,6 +35,10 @@
 		27746D11159B1F9D00672970 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27746D0F159B1F9D00672970 /* Icon@2x.png */; };
 		278E0354178429A400EE7368 /* CustomDateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 278E0353178429A400EE7368 /* CustomDateCell.m */; };
 		278E035617842B2D00EE7368 /* CustomDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E035517842B2D00EE7368 /* CustomDateCell.xib */; };
+		278E03611784494700EE7368 /* AreasSubmitDateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 278E035F1784494600EE7368 /* AreasSubmitDateController.m */; };
+		278E03621784494700EE7368 /* AreasSubmitDateController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E03601784494600EE7368 /* AreasSubmitDateController.xib */; };
+		278E036617845BCB00EE7368 /* AreasSubmitInventoryDateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 278E036417845BCB00EE7368 /* AreasSubmitInventoryDateController.m */; };
+		278E036717845BCB00EE7368 /* AreasSubmitInventoryDateController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E036517845BCB00EE7368 /* AreasSubmitInventoryDateController.xib */; };
 		27904164172EBA11002D08E3 /* InventoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27904163172EBA11002D08E3 /* InventoryCell.m */; };
 		27904166172EBA38002D08E3 /* InventoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27904165172EBA38002D08E3 /* InventoryCell.xib */; };
 		27B84514159B223500818BCE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27B84513159B223500818BCE /* Default@2x.png */; };
@@ -256,6 +260,12 @@
 		278E0352178429A300EE7368 /* CustomDateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDateCell.h; sourceTree = "<group>"; };
 		278E0353178429A400EE7368 /* CustomDateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDateCell.m; sourceTree = "<group>"; };
 		278E035517842B2D00EE7368 /* CustomDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomDateCell.xib; sourceTree = "<group>"; };
+		278E035E1784494600EE7368 /* AreasSubmitDateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitDateController.h; sourceTree = "<group>"; };
+		278E035F1784494600EE7368 /* AreasSubmitDateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitDateController.m; sourceTree = "<group>"; };
+		278E03601784494600EE7368 /* AreasSubmitDateController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitDateController.xib; sourceTree = "<group>"; };
+		278E036317845BCB00EE7368 /* AreasSubmitInventoryDateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitInventoryDateController.h; sourceTree = "<group>"; };
+		278E036417845BCB00EE7368 /* AreasSubmitInventoryDateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitInventoryDateController.m; sourceTree = "<group>"; };
+		278E036517845BCB00EE7368 /* AreasSubmitInventoryDateController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryDateController.xib; sourceTree = "<group>"; };
 		27904162172EBA11002D08E3 /* InventoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryCell.h; sourceTree = "<group>"; };
 		27904163172EBA11002D08E3 /* InventoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryCell.m; sourceTree = "<group>"; };
 		27904165172EBA38002D08E3 /* InventoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InventoryCell.xib; sourceTree = "<group>"; };
@@ -571,6 +581,9 @@
 		272D3A631714168500588328 /* SubmitHelper */ = {
 			isa = PBXGroup;
 			children = (
+				278E035E1784494600EE7368 /* AreasSubmitDateController.h */,
+				278E035F1784494600EE7368 /* AreasSubmitDateController.m */,
+				278E03601784494600EE7368 /* AreasSubmitDateController.xib */,
 				272D3A641714172300588328 /* AreasSubmitNameController.h */,
 				272D3A651714172300588328 /* AreasSubmitNameController.m */,
 				272D3A661714172300588328 /* AreasSubmitNameController.xib */,
@@ -644,6 +657,9 @@
 		27F114D5171BD0140017DAF0 /* submitNewInventoryHelper */ = {
 			isa = PBXGroup;
 			children = (
+				278E036317845BCB00EE7368 /* AreasSubmitInventoryDateController.h */,
+				278E036417845BCB00EE7368 /* AreasSubmitInventoryDateController.m */,
+				278E036517845BCB00EE7368 /* AreasSubmitInventoryDateController.xib */,
 				272D3A751714542400588328 /* AreasSubmitInventoryNameController.h */,
 				272D3A761714542400588328 /* AreasSubmitInventoryNameController.m */,
 				272D3A771714542400588328 /* AreasSubmitInventoryNameController.xib */,
@@ -1250,6 +1266,8 @@
 				27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */,
 				27FCAAC91782D2C5007D10F1 /* db.sqlite3 in Resources */,
 				278E035617842B2D00EE7368 /* CustomDateCell.xib in Resources */,
+				278E03621784494700EE7368 /* AreasSubmitDateController.xib in Resources */,
+				278E036717845BCB00EE7368 /* AreasSubmitInventoryDateController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1357,6 +1375,8 @@
 				27FE06D4177B1F28000D408D /* CheckboxAreaObsCell.m in Sources */,
 				27FCAACD1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m in Sources */,
 				278E0354178429A400EE7368 /* CustomDateCell.m in Sources */,
+				278E03611784494700EE7368 /* AreasSubmitDateController.m in Sources */,
+				278E036617845BCB00EE7368 /* AreasSubmitInventoryDateController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,6 +21,7 @@
     IBOutlet UILabel *inventoryName;
     UIActionSheet *deleteInventorySheet;
     NSIndexPath *currIndexPath;
+    NSDateFormatter *dateFormatter;
     
     BOOL review;
 }

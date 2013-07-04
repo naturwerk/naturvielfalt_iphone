@@ -9,6 +9,8 @@
 #import "ObservationsOrganismSubmitController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "CustomCell.h"
+#import "CustomDateCell.h"
+#import "ObservationsOrganismSubmitDateController.h"
 #import "ObservationsOrganismSubmitMapController.h"
 #import "CameraViewController.h"
 #import "ObservationsOrganismSubmitAmountController.h"
@@ -16,13 +18,16 @@
 #import "MBProgressHUD.h"
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, dateFormatter;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     }
     return self;
 }
@@ -109,8 +114,6 @@
         [tableView reloadData];
     }
     //observationChanged = true;
-
-    
 }
 
 - (void) prepareData 
@@ -140,9 +143,6 @@
     }
      
     // Get formatted date string
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
-    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     nowString = [dateFormatter stringFromDate:observation.date];
       
     // Initialize keys/valu es
@@ -310,7 +310,7 @@
     //static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:nil];
     
-    if(indexPath.row > 1) {
+    if(indexPath.row != 1) {
         // use CustomCell layout 
         CustomCell *customCell;
         
@@ -325,6 +325,21 @@
             }
             
             switch(indexPath.row) {
+                case 0: {
+                    CustomDateCell *customDateCell;
+                    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
+                    
+                    for (id currentObject in topLevelObjects){
+                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                            customDateCell =  (CustomDateCell *)currentObject;
+                            break;
+                        }
+                    }
+                    
+                    customDateCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
+                    customDateCell.value.text = [dateFormatter stringFromDate:observation.date];
+                    return customDateCell;
+                }
                 case 2:
                 {
                     customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
@@ -399,61 +414,88 @@
 
 - (void) rowClicked:(NSIndexPath *) indexPath {
     // TODO: rewrite to switch case!
-    if (indexPath.row == 2) {
-        // AMOUNT
-        // Create the ObservationsOrganismSubmitCameraController
-        ObservationsOrganismSubmitAmountController *organismSubmitAmountController = [[ObservationsOrganismSubmitAmountController alloc] 
-                                                                                      initWithNibName:@"ObservationsOrganismSubmitAmountController" 
-                                                                                      bundle:[NSBundle mainBundle]];
-        
-        
-        organismSubmitAmountController.observation = observation;
-        
-        // Switch the View & Controller
-        [self.navigationController pushViewController:organismSubmitAmountController animated:TRUE];
-        organismSubmitAmountController = nil;
-        
-    }  else if (indexPath.row == 3) {
-        // COMMENT    
-        // Create the ObservationsOrganismSubmitCameraController
-        ObservationsOrganismSubmitCommentController *organismSubmitCommentController = [[ObservationsOrganismSubmitCommentController alloc] 
-                                                                                        initWithNibName:@"ObservationsOrganismSubmitCommentController" 
-                                                                                        bundle:[NSBundle mainBundle]];
-        
-        organismSubmitCommentController.observation = observation;
-        
-        // Switch the View & Controller
-        [self.navigationController pushViewController:organismSubmitCommentController animated:TRUE];
-        organismSubmitCommentController = nil;
-        
-    } else if (indexPath.row == 4) {
-        // CAMERA
-        // Create the ObservationsOrganismSubmitCameraController
-        CameraViewController *organismSubmitCameraController = [[CameraViewController alloc] 
-                                                                initWithNibName:@"CameraViewController" 
-                                                                bundle:[NSBundle mainBundle]];
-        
-        
-        organismSubmitCameraController.observation = observation;
-        
-        // Switch the View & Controller
-        [self.navigationController pushViewController:organismSubmitCameraController animated:TRUE];
-        organismSubmitCameraController = nil;
-        
-    } else if(indexPath.row == 5) {
-        // MAP
-        // Create the ObservationsOrganismSubmitMapController
-        ObservationsOrganismSubmitMapController *organismSubmitMapController = [[ObservationsOrganismSubmitMapController alloc] 
-                                                                                initWithNibName:@"ObservationsOrganismSubmitMapController" 
-                                                                                bundle:[NSBundle mainBundle]];
+    
+    switch (indexPath.row) {
+        case 0:
+        {
+            // DATE
+            // Create the ObservationsOrganismSubmitDateController
+            ObservationsOrganismSubmitDateController *organismSubmitDateController = [[ObservationsOrganismSubmitDateController alloc] initWithNibName:@"ObservationsOrganismSubmitDateController" bundle:[NSBundle mainBundle]];
+            
+            organismSubmitDateController.observation = observation;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:organismSubmitDateController animated:TRUE];
+            organismSubmitDateController = nil;
+            break;
+        }
+        case 2:
+        {
+            // AMOUNT
+            // Create the ObservationsOrganismSubmitCameraController
+            ObservationsOrganismSubmitAmountController *organismSubmitAmountController = [[ObservationsOrganismSubmitAmountController alloc]
+                                                                                          initWithNibName:@"ObservationsOrganismSubmitAmountController"
+                                                                                          bundle:[NSBundle mainBundle]];
+            
+            
+            organismSubmitAmountController.observation = observation;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:organismSubmitAmountController animated:TRUE];
+            organismSubmitAmountController = nil;
+            break;
+        }
+        case 3:
+        {
+            // COMMENT
+            // Create the ObservationsOrganismSubmitCameraController
+            ObservationsOrganismSubmitCommentController *organismSubmitCommentController = [[ObservationsOrganismSubmitCommentController alloc]
+                                                                                            initWithNibName:@"ObservationsOrganismSubmitCommentController"
+                                                                                            bundle:[NSBundle mainBundle]];
+            
+            organismSubmitCommentController.observation = observation;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:organismSubmitCommentController animated:TRUE];
+            organismSubmitCommentController = nil;
 
-        organismSubmitMapController.observation = observation;
-        organismSubmitMapController.review = review;
-        
-        
-        // Switch the View & Controller
-        [self.navigationController pushViewController:organismSubmitMapController animated:TRUE];
-        organismSubmitMapController = nil;
+            break;
+        }
+        case 4:
+        {
+            // CAMERA
+            // Create the ObservationsOrganismSubmitCameraController
+            CameraViewController *organismSubmitCameraController = [[CameraViewController alloc]
+                                                                    initWithNibName:@"CameraViewController"
+                                                                    bundle:[NSBundle mainBundle]];
+            
+            
+            organismSubmitCameraController.observation = observation;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:organismSubmitCameraController animated:TRUE];
+            organismSubmitCameraController = nil;
+            break;
+        }
+        case 5:
+        {
+            // MAP
+            // Create the ObservationsOrganismSubmitMapController
+            ObservationsOrganismSubmitMapController *organismSubmitMapController = [[ObservationsOrganismSubmitMapController alloc]
+                                                                                    initWithNibName:@"ObservationsOrganismSubmitMapController"
+                                                                                    bundle:[NSBundle mainBundle]];
+            
+            organismSubmitMapController.observation = observation;
+            organismSubmitMapController.review = review;
+            
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:organismSubmitMapController animated:TRUE];
+            organismSubmitMapController = nil;
+            break;
+        }
+        default:
+            break;
     }
 }
 

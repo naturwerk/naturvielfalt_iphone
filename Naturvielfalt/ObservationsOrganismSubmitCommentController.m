@@ -43,12 +43,12 @@
     // Make the textfield get focus
     [textView becomeFirstResponder];
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navSave", nil)
-                                                           style:UIBarButtonItemStylePlain 
-                                                           target:self 
-                                                           action:@selector(saveComment)];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navSave", nil)
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(saveComment)];
     
-    self.navigationItem.leftBarButtonItem = backButton;
+    self.navigationItem.rightBarButtonItem = saveButton;
     
     // Load the current observation comment into the textview
     textView.text = observation.comment;

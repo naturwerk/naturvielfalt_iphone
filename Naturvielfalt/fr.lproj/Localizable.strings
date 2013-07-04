@@ -72,6 +72,9 @@
 // Observation HUD
 "observationSuccessMessage"		= "Observation enregistrer";
 
+// Observation date
+"dateNavTitle"					= "Date/Temps";
+
 // Observation amount
 "amountNavTitle"				= "Nombre";
 

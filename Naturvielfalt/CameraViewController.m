@@ -21,6 +21,13 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 @synthesize deletePhotoButton, moviePlayerController, image, movieURL, lastChosenMediaType, observation, takePhotoButton, chooseExistingButton;
 
 - (void)viewDidLoad {
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navSave", nil)
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(persistPhotos)];
+    
+    self.navigationItem.rightBarButtonItem = saveButton;
+    
     if (![UIImagePickerController isSourceTypeAvailable:
           UIImagePickerControllerSourceTypeCamera]) {
         takePhotoButton.hidden = YES;
@@ -51,6 +58,12 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     [self updateDisplay];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if (!tmpImages) {
+        tmpImages = [[NSMutableArray alloc] initWithArray:observation.pictures];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -68,19 +81,23 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     [super viewDidUnload];
 }
 
+- (void) persistPhotos {
+    [observation.pictures removeAllObjects];
+    [observation.pictures addObjectsFromArray:tmpImages];
+    
+    // Switch the View & Controller
+    // POP
+    [self.navigationController popViewControllerAnimated:TRUE];
+}
+
 -(NSArray *) images
 {
     NSMutableArray *images = [[NSMutableArray alloc] init];
     if (observation) {
-        for (ObservationImage *obsImg in observation.pictures) {
+        for (ObservationImage *obsImg in tmpImages) {
             [images addObject:obsImg.image];
         }
     }
-    
-    //Sample data
-    /*NSArray *imageNames = [NSArray arrayWithObjects:@"1.jpg", @"2.jpg", @"3.jpg", @"4.jpg", nil];
-     NSMutableArray *images = [NSMutableArray array];
-     for (NSString *imageName in imageNames) [images addObject:[UIImage imageNamed:imageName]];*/
     
     return images;
 }
@@ -106,9 +123,10 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         //ok pressed
-        if (observation) {
+        /*if (observation) {
             [observation.pictures removeObjectAtIndex:[imageViewer currentPage]];
-        }
+        }*/
+        [tmpImages removeObjectAtIndex:[imageViewer currentPage]];
         [self updateDisplay];
     }
 }
@@ -125,7 +143,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         if (observation) {
             ObservationImage *oImg = [[ObservationImage alloc] getObservationImage];
             oImg.image = shrunkenImage;
-            [observation.pictures addObject:oImg];
+            //[observation.pictures addObject:oImg];
+            [tmpImages addObject:oImg];
             [oImg setObservationImage:nil];
         }
         

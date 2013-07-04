@@ -31,7 +31,7 @@
 - (void) viewDidDisappear:(BOOL)animated
 {
     // If the user has edited the text field use the text field value
-    observation.amount = amount.text;
+    //observation.amount = amount.text;
 }
 
 #pragma mark - View lifecycle
@@ -43,6 +43,13 @@
     // Set navigation bar title    
     NSString *title = NSLocalizedString(@"amountNavTitle", nil);
     self.navigationItem.title = title;
+    
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"navSave", nil)
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(saveAmount)];
+    
+    self.navigationItem.rightBarButtonItem = saveButton;
     
     amountLabel.text = NSLocalizedString(@"amountNavTitle", nil);
     
@@ -91,6 +98,13 @@
     [picker selectRow:selectedRowId inComponent:0 animated:true];
 }
 
+- (void) saveAmount {
+    observation.amount = amount.text;
+    
+    // POP
+    [self.navigationController popViewControllerAnimated:TRUE];
+}
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
     return 1;
 }
@@ -106,7 +120,7 @@
 - (void)pickerView:(UIPickerView *)thePickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     // update value of the amount text field
     amount.text = [arrayValues objectAtIndex:row];
-    observation.amount = [arrayValues objectAtIndex:row];  
+    //observation.amount = [arrayValues objectAtIndex:row];
 }
 
 - (void)viewDidUnload

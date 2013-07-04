@@ -23,6 +23,7 @@
     CGRect imageFrame;
     Observation *observation;
     AFImageViewer *imageViewer;
+    NSMutableArray *tmpImages;
     
     IBOutlet UIButton *takePhotoButton;
     IBOutlet UIButton *chooseExistingButton;

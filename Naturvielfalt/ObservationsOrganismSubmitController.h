@@ -22,6 +22,7 @@
     UIImage *accuracyImage;
     NSString *accuracyText;
     CLLocationManager *locationManager;
+    NSDateFormatter *dateFormatter;
     
     NSArray *arrayKeys;
     NSArray *arrayValues;
@@ -33,7 +34,7 @@
     BOOL observationChanged;
 }
 
-
+@property (nonatomic) NSDateFormatter *dateFormatter;
 @property (nonatomic, assign) BOOL observationChanged;
 @property (nonatomic, weak) Organism *organism;
 @property (nonatomic, weak) Observation *observation;

@@ -14,7 +14,6 @@
 @implementation PersistenceManager
 @synthesize dbStatic, dbUser, sLanguage;
 
-
 - (NSString *)userDataFilePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0] ;
@@ -41,7 +40,12 @@
         ![sLanguage isEqualToString:@"fr"] && ![sLanguage isEqualToString:@"it"]) {
         // English if unsupported system language is setted
         sLanguage = @"en";
-    } 
+    }
+    
+    // Store the language in the appSettings
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    [appSettings setObject:sLanguage forKey:@"language"];
+    [appSettings synchronize];
     
     // create link to static database
     NSString *staticPath = [self staticDataFilePath];

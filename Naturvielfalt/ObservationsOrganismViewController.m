@@ -94,8 +94,12 @@
 
 - (void) changeNameLanguage 
 {
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+
     // Change button label
-    self.navigationItem.rightBarButtonItem.title = (displayGermanNames) ? @"DE" : @"LAT";
+    NSString *shortCutLanguage = [[appSettings stringForKey:@"language"] uppercaseString];
+    
+    self.navigationItem.rightBarButtonItem.title = (displayGermanNames) ? shortCutLanguage : @"LAT";
     displayGermanNames = !displayGermanNames;
     
     [self loadData];
@@ -112,7 +116,6 @@
 
 - (void) loadData 
 {
-    
     // Init all needed dictionaries
     dictOrganismsDE = [[NSMutableDictionary alloc] init];
     dictOrganismsLAT = [[NSMutableDictionary alloc] init];

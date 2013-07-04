@@ -163,7 +163,7 @@
                                                               initWithNibName:@"ObservationsOrganismViewController" 
                                                               bundle:[NSBundle mainBundle]];
     
-    // Create the ObservationsOrganismViewController
+    // Create the ObservationsViewController
     ObservationsViewController *overviewController = [[ObservationsViewController alloc] 
                                                               initWithNibName:@"ObservationsViewController" 
                                                               bundle:[NSBundle mainBundle]];

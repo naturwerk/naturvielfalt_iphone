@@ -19,14 +19,14 @@
     NSMutableArray *inventories;
     NSMutableArray *inventoriesToSubmit;
     int *countInventories;
-    IBOutlet UITableView *tableView;
+    IBOutlet UITableView *table;
     ASINetworkQueue *queue;
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
 }
 
-@property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) IBOutlet UITableView *table;
 @property (nonatomic) NSMutableArray *inventories;
 
 @end

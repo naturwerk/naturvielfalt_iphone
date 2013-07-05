@@ -47,6 +47,21 @@
     NSString *nowString = [dateFormatter stringFromDate:observation.date];
     dateLabel.text = nowString;
     datePicker.date = observation.date;
+    
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    
+    NSString *curLanguage =[appSettings stringForKey:@"language"];
+    if ([curLanguage isEqualToString:@"de"]) {
+        datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"German"];
+    } else if ([curLanguage isEqualToString:@"fr"]) {
+        datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"French"];
+    } else if ([curLanguage isEqualToString:@"en"]) {
+        datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"English"];
+    } else if ([curLanguage isEqualToString:@"it"]) {
+        datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"Italian"];
+    } else {
+        datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"English"];
+    }
 }
 
 - (void)didReceiveMemoryWarning

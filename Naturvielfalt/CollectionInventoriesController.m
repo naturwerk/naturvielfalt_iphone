@@ -18,7 +18,7 @@
 @end
 
 @implementation CollectionInventoriesController
-@synthesize tableView, inventories;
+@synthesize table, inventories;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,7 +39,7 @@
     NSString *title = NSLocalizedString(@"areaSubmitInventory", nil);
     self.navigationItem.title = title;
 
-    tableView.delegate = self;
+    table.delegate = self;
     
     // Reload the inventories
     operationQueue = [[NSOperationQueue alloc] init];
@@ -56,7 +56,7 @@
     [loadingHUD showWhileExecuting:@selector(reloadInventories) onTarget:self withObject:nil animated:YES];
     
     // Reload table
-    [tableView reloadData];
+    [table reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,19 +66,19 @@
 }
 
 - (void)viewDidUnload {
-    [self setTableView:nil];
+    [self setTable:nil];
     [super viewDidUnload];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    tableView.editing = FALSE;
+    table.editing = FALSE;
     [self reloadInventories];
 }
 
 - (void) removeInventories
 {
-    [tableView setEditing:!tableView.editing animated:YES];
+    [table setEditing:!table.editing animated:YES];
 }
 
 - (void) reloadInventories {
@@ -124,15 +124,15 @@
     
     countInventories = (int *)self.inventories.count;
     
-    if(tableView.editing) {
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
+    if(table.editing) {
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
     }
     
-    [tableView reloadData];
+    [table reloadData];
     
     // If there aren't any inventories in the list. Stop the editing mode.
     if([inventories count] < 1) {
-        tableView.editing = FALSE;
+        table.editing = FALSE;
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
@@ -248,7 +248,7 @@
             iv.submitToServer = !iv.submitToServer;
         }
     }
-    [tableView reloadData];
+    [table reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

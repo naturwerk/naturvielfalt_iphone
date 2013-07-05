@@ -132,6 +132,8 @@
 "collectionMapControl"			= "Plan";
 
 // Collection alert messages
+"collectionCheckAll"			= "Tout sélectionner";
+"collectionUncheckAll"			= "Annuler la sélection";
 "collectionAlertObsTitle"		= "Transmettre les observations?";
 "collectionAlertInvTitle"		= "Transmettre les inentaires?";
 "collectionAlertAreaTitle"		= "Transmettre les domaines?";

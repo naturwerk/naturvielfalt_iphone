@@ -33,6 +33,7 @@
     MBProgressHUD *loadingHUD;
     AlertUploadView *uploadView;
     BOOL cancelSubmission;
+    IBOutlet UIButton *checkAllButton;
 }
 
 @property (nonatomic) PersistenceManager *persistenceManager;
@@ -44,8 +45,10 @@
 @property (nonatomic) NSOperationQueue *operationQueue;
 @property (nonatomic) NSIndexPath *curIndex;
 @property (nonatomic) BOOL doSubmit;
+@property (nonatomic) IBOutlet UIButton *checkAllButton;
 
 
+- (IBAction)checkAllObs:(id)sender;
 - (void) sendObservations;
 - (void) sendRequestToServer;
 - (void) reloadObservations;

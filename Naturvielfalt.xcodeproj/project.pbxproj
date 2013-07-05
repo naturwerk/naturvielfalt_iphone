@@ -34,6 +34,7 @@
 		27C3DBF31754ECF5008E1E58 /* hairelinecross.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C3DBF11754ECF5008E1E58 /* hairelinecross.png */; };
 		27C3DBF41754ECF5008E1E58 /* 193-locaction-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C3DBF21754ECF5008E1E58 /* 193-locaction-arrow.png */; };
 		27C5847C15AD7D770085F719 /* 15-warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C5847B15AD7D770085F719 /* 15-warning.png */; };
+		27EF8CB01785C5FC005F7294 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 27EF8CAF1785C5FC005F7294 /* checkbox.png */; };
 		27F1A8801761E131004BC208 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F1A87F1761E131004BC208 /* Default-568h@2x.png */; };
 		27F605D5176AF28400046BD0 /* AsyncRequestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F605D4176AF28400046BD0 /* AsyncRequestDelegate.m */; };
 		27F605DB176B0E5100046BD0 /* AlertUploadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F605DA176B0E5100046BD0 /* AlertUploadView.m */; };
@@ -67,7 +68,6 @@
 		CB1EE5DA14893F3400FF286F /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1EE5D914893F3400FF286F /* Settings.m */; };
 		CB26166314337B2200C30425 /* ObservationsRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB26166114337B2200C30425 /* ObservationsRootController.m */; };
 		CB26166414337B2200C30425 /* ObservationsRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB26166214337B2200C30425 /* ObservationsRootController.xib */; };
-		CB472C38145E7E35003B5676 /* checkbox.gif in Resources */ = {isa = PBXBuildFile; fileRef = CB472C36145E7E35003B5676 /* checkbox.gif */; };
 		CB472C3C145E87A7003B5676 /* papierkorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CB472C3B145E87A7003B5676 /* papierkorb.png */; };
 		CB5D4BD7146D77B00003377A /* checkbox_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5D4BD6146D77B00003377A /* checkbox_checked.png */; };
 		CB7FA21114335033006BD29D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CB7FA21014335033006BD29D /* Default.png */; };
@@ -184,6 +184,7 @@
 		27C3DBF11754ECF5008E1E58 /* hairelinecross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hairelinecross.png; sourceTree = "<group>"; };
 		27C3DBF21754ECF5008E1E58 /* 193-locaction-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "193-locaction-arrow.png"; sourceTree = "<group>"; };
 		27C5847B15AD7D770085F719 /* 15-warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "15-warning.png"; sourceTree = "<group>"; };
+		27EF8CAF1785C5FC005F7294 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		27F1A87F1761E131004BC208 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		27F605D3176AF28400046BD0 /* AsyncRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncRequestDelegate.h; sourceTree = "<group>"; };
 		27F605D4176AF28400046BD0 /* AsyncRequestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncRequestDelegate.m; sourceTree = "<group>"; };
@@ -244,7 +245,6 @@
 		CB26166014337B2200C30425 /* ObservationsRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationsRootController.h; sourceTree = "<group>"; };
 		CB26166114337B2200C30425 /* ObservationsRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationsRootController.m; sourceTree = "<group>"; };
 		CB26166214337B2200C30425 /* ObservationsRootController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsRootController.xib; sourceTree = "<group>"; };
-		CB472C36145E7E35003B5676 /* checkbox.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = checkbox.gif; sourceTree = "<group>"; };
 		CB472C3B145E87A7003B5676 /* papierkorb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = papierkorb.png; sourceTree = "<group>"; };
 		CB5D4BD6146D77B00003377A /* checkbox_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked.png; sourceTree = "<group>"; };
 		CB7FA21014335033006BD29D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
@@ -592,7 +592,7 @@
 				CB7FA21014335033006BD29D /* Default.png */,
 				F619A26115766BDE00F0C842 /* blank.png */,
 				CB5D4BD6146D77B00003377A /* checkbox_checked.png */,
-				CB472C36145E7E35003B5676 /* checkbox.gif */,
+				27EF8CAF1785C5FC005F7294 /* checkbox.png */,
 				CBE340F41462D09300985B12 /* checkmark.png */,
 				CBE340F21461988400985B12 /* check_icon.png */,
 				CBB070CA1430544600D3D0B5 /* 84-lightbulb.png */,
@@ -861,7 +861,6 @@
 				CBDDB569145829EB007E48AB /* CollectionRootController.xib in Resources */,
 				CBDDB56E14582A53007E48AB /* CollectionOverviewController.xib in Resources */,
 				CB18F9E4145A966700772E9B /* CheckboxCell.xib in Resources */,
-				CB472C38145E7E35003B5676 /* checkbox.gif in Resources */,
 				CB472C3C145E87A7003B5676 /* papierkorb.png in Resources */,
 				CBE340F31461988400985B12 /* check_icon.png in Resources */,
 				CBE340F51462D09300985B12 /* checkmark.png in Resources */,
@@ -898,6 +897,7 @@
 				27FCAAC71782C79C007D10F1 /* db.sqlite3 in Resources */,
 				278E036C1784683B00EE7368 /* ObservationsOrganismSubmitDateController.xib in Resources */,
 				278E0371178468DD00EE7368 /* CustomDateCell.xib in Resources */,
+				27EF8CB01785C5FC005F7294 /* checkbox.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,7 +14,7 @@
 #import "AsyncRequestDelegate.h"
 
 @implementation CollectionOverviewController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, checkAllButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,6 +61,8 @@
                                      action: @selector(removeObservations)];
     
     self.navigationItem.leftBarButtonItem = editButton;
+    
+    [checkAllButton setTag:1];
     
     // Reload the observations
     operationQueue = [[NSOperationQueue alloc] init];
@@ -120,6 +122,26 @@
 }
 
 
+- (IBAction)checkAllObs:(id)sender {
+    int currentTag = checkAllButton.tag;
+    
+    if (currentTag == 0) {
+        [checkAllButton setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal];
+        for (Observation *obs in observations) {
+            obs.submitToServer = YES;
+        }
+        checkAllButton.tag = 1;
+    } else {
+             [checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
+        for (Observation *obs in observations) {
+            obs.submitToServer = NO;
+        }
+        checkAllButton.tag = 0;
+    }
+    
+    [table reloadData];
+}
+
 - (void) sendObservations
 {
     uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
@@ -163,7 +185,8 @@
     totalRequests = requestCounter;
     
     if(requestCounter == 0) {
-        [loadingHUD removeFromSuperview];
+        //[loadingHUD removeFromSuperview];
+        [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
         [alert show];
         return;
@@ -442,7 +465,7 @@
         if(observation.submitToServer) {
             checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox_checked.png"];
         } else {
-            checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.gif"];
+            checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.png"];
         }
     }
     
@@ -526,4 +549,8 @@
     }
 }
 
+- (void)viewDidUnload {
+    [self setCheckAllButton:nil];
+    [super viewDidUnload];
+}
 @end

@@ -18,7 +18,7 @@
 @end
 
 @implementation CollectionAreasController
-@synthesize tableView, areas;
+@synthesize table, areas, checkAllButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,7 +48,8 @@
     
     self.navigationItem.rightBarButtonItem = filterButton;
     
-    tableView.delegate = self;
+    table.delegate = self;
+    [checkAllButton setTag:1];
     
     // Reload the areas
     operationQueue = [[NSOperationQueue alloc] init];
@@ -64,7 +65,7 @@
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [loadingHUD showWhileExecuting:@selector(reloadAreas) onTarget:self withObject:nil animated:YES];
     
-    [tableView reloadData];
+    [table reloadData];
 }
 
 
@@ -75,13 +76,14 @@
 }
 
 - (void)viewDidUnload {
-    [self setTableView:nil];
+    [self setTable:nil];
+    [self setCheckAllButton:nil];
     [super viewDidUnload];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    tableView.editing = FALSE;
+    table.editing = FALSE;
     [self reloadAreas];
 }
 
@@ -252,14 +254,14 @@
         areas = arrNewAreas;
     }
     
-    if(tableView.editing)
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
+    if(table.editing)
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
     
-    [tableView reloadData];
+    [table reloadData];
     
     // If there aren't any observations in the list. Stop the editing mode.
     if([areas count] < 1) {
-        tableView.editing = FALSE;
+        table.editing = FALSE;
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
@@ -382,7 +384,7 @@
         if(area.submitToServer) {
             checkboxAreaCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox_checked.png"];
         } else {
-            checkboxAreaCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.gif"];
+            checkboxAreaCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.png"];
         }
         
 
@@ -402,7 +404,7 @@
         }
     }
     
-    [tableView reloadData];
+    [table reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -482,4 +484,23 @@
 }
 
 
+- (IBAction)checkAllAreas:(id)sender {
+    int currentTag = checkAllButton.tag;
+    
+    if (currentTag == 0) {
+        [checkAllButton setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal];
+        for (Area *area in areas) {
+            area.submitToServer = YES;
+        }
+        checkAllButton.tag = 1;
+    } else {
+        [checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
+        for (Area *area in areas) {
+            area.submitToServer = NO;
+        }
+        checkAllButton.tag = 0;
+    }
+    
+    [table reloadData];
+}
 @end

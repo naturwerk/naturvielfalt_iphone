@@ -20,7 +20,7 @@
 #define MAX_DEGREES_ARC 360
 
 @implementation CollectionObservationsController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, segmentControl, mapView, observationsView, obsToSubmit;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, segmentControl, mapView, observationsView, obsToSubmit, checkAllButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,6 +43,7 @@
     [self setSegmentControl:nil];
     [self setMapView:nil];
     [self setObservationsView:nil];
+    [self setCheckAllButton:nil];
     [super viewDidUnload];
 }
 
@@ -78,6 +79,7 @@
     
     mapView.delegate = self;
     
+    [checkAllButton setTag:1];
     
     // Create filter button and add it to the NavigationBar
     /*UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
@@ -204,6 +206,26 @@
     }
 }
 
+
+- (IBAction)checkAllObs:(id)sender {
+    int currentTag = checkAllButton.tag;
+    
+    if (currentTag == 0) {
+        [checkAllButton setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal];
+        for (Observation *obs in observations) {
+            obs.submitToServer = YES;
+        }
+        checkAllButton.tag = 1;
+    } else {
+        [checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
+        for (Observation *obs in observations) {
+            obs.submitToServer = NO;
+        }
+        checkAllButton.tag = 0;
+    }
+    
+    [table reloadData];
+}
 
 - (void) sendObservations
 {
@@ -623,7 +645,7 @@
         if(observation.submitToServer) {
             checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox_checked.png"];
         } else {
-            checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.gif"];
+            checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.png"];
         }
     }
     

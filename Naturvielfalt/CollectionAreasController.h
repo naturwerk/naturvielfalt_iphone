@@ -22,16 +22,20 @@
     int totalRequests;
     int areasCounter;
     int totalObjectsToSubmit;
-    IBOutlet UITableView *tableView;
+    IBOutlet UITableView *table;
     ASINetworkQueue *queue;
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
     AlertUploadView *uploadView;
     MBProgressHUD *loadingHUD;
+    IBOutlet UIButton *checkAllButton;
 }
 
-@property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) IBOutlet UITableView *table;
 @property (nonatomic) NSMutableArray *areas;
+@property (nonatomic) IBOutlet UIButton *checkAllButton;
 
+
+- (IBAction)checkAllAreas:(id)sender;
 @end

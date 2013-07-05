@@ -14,6 +14,7 @@
 		270D390117393DE600D94568 /* CustomObservationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D390017393DE600D94568 /* CustomObservationAnnotation.m */; };
 		270D3904173940C300D94568 /* CustomObservationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D3903173940C200D94568 /* CustomObservationAnnotationView.m */; };
 		2711A52F1769EB19005A6C32 /* AsyncRequestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711A52E1769EB19005A6C32 /* AsyncRequestDelegate.m */; };
+		271394931786A2C900F47DCD /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 271394921786A2C900F47DCD /* checkbox.png */; };
 		272D3A671714172300588328 /* AreasSubmitNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A651714172300588328 /* AreasSubmitNameController.m */; };
 		272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A661714172300588328 /* AreasSubmitNameController.xib */; };
 		272D3A6C1714176D00588328 /* AreasSubmitDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */; };
@@ -141,7 +142,6 @@
 		CB1EE5DA14893F3400FF286F /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1EE5D914893F3400FF286F /* Settings.m */; };
 		CB26166314337B2200C30425 /* ObservationsRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB26166114337B2200C30425 /* ObservationsRootController.m */; };
 		CB26166414337B2200C30425 /* ObservationsRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB26166214337B2200C30425 /* ObservationsRootController.xib */; };
-		CB472C38145E7E35003B5676 /* checkbox.gif in Resources */ = {isa = PBXBuildFile; fileRef = CB472C36145E7E35003B5676 /* checkbox.gif */; };
 		CB472C3C145E87A7003B5676 /* papierkorb.png in Resources */ = {isa = PBXBuildFile; fileRef = CB472C3B145E87A7003B5676 /* papierkorb.png */; };
 		CB5D4BD7146D77B00003377A /* checkbox_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5D4BD6146D77B00003377A /* checkbox_checked.png */; };
 		CB7FA21114335033006BD29D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CB7FA21014335033006BD29D /* Default.png */; };
@@ -232,6 +232,7 @@
 		2711A52E1769EB19005A6C32 /* AsyncRequestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncRequestDelegate.m; sourceTree = "<group>"; };
 		2711A5311769ED2B005A6C32 /* Listener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Listener.h; sourceTree = "<group>"; };
 		2711A5321769F960005A6C32 /* Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Observer.h; sourceTree = "<group>"; };
+		271394921786A2C900F47DCD /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
 		272D3A641714172300588328 /* AreasSubmitNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNameController.h; sourceTree = "<group>"; };
 		272D3A651714172300588328 /* AreasSubmitNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNameController.m; sourceTree = "<group>"; };
 		272D3A661714172300588328 /* AreasSubmitNameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNameController.xib; sourceTree = "<group>"; };
@@ -425,7 +426,6 @@
 		CB26166014337B2200C30425 /* ObservationsRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationsRootController.h; sourceTree = "<group>"; };
 		CB26166114337B2200C30425 /* ObservationsRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationsRootController.m; sourceTree = "<group>"; };
 		CB26166214337B2200C30425 /* ObservationsRootController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsRootController.xib; sourceTree = "<group>"; };
-		CB472C36145E7E35003B5676 /* checkbox.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = checkbox.gif; sourceTree = "<group>"; };
 		CB472C3B145E87A7003B5676 /* papierkorb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = papierkorb.png; sourceTree = "<group>"; };
 		CB5D4BD6146D77B00003377A /* checkbox_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked.png; sourceTree = "<group>"; };
 		CB7FA21014335033006BD29D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
@@ -931,7 +931,7 @@
 				27F784291715472D00081A1F /* 103-map.png */,
 				27F7842A1715472D00081A1F /* 33-cabinet.png */,
 				CB5D4BD6146D77B00003377A /* checkbox_checked.png */,
-				CB472C36145E7E35003B5676 /* checkbox.gif */,
+				271394921786A2C900F47DCD /* checkbox.png */,
 				CBE340F41462D09300985B12 /* checkmark.png */,
 				CBE340F21461988400985B12 /* check_icon.png */,
 				CBB070CA1430544600D3D0B5 /* 84-lightbulb.png */,
@@ -1195,7 +1195,6 @@
 				CBDDB569145829EB007E48AB /* CollectionRootController.xib in Resources */,
 				CBDDB56E14582A53007E48AB /* CollectionOverviewController.xib in Resources */,
 				CB18F9E4145A966700772E9B /* CheckboxCell.xib in Resources */,
-				CB472C38145E7E35003B5676 /* checkbox.gif in Resources */,
 				CB472C3C145E87A7003B5676 /* papierkorb.png in Resources */,
 				CBE340F31461988400985B12 /* check_icon.png in Resources */,
 				CBE340F51462D09300985B12 /* checkmark.png in Resources */,
@@ -1268,6 +1267,7 @@
 				278E035617842B2D00EE7368 /* CustomDateCell.xib in Resources */,
 				278E03621784494700EE7368 /* AreasSubmitDateController.xib in Resources */,
 				278E036717845BCB00EE7368 /* AreasSubmitInventoryDateController.xib in Resources */,
+				271394931786A2C900F47DCD /* checkbox.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

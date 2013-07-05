@@ -36,6 +36,7 @@
     NSMutableArray *observationUploadHelpers;
     MBProgressHUD *loadingHUD;
     AlertUploadView *uploadView;
+    IBOutlet UIButton *checkAllButton;
 }
 
 @property (nonatomic) IBOutlet MKMapView *mapView;
@@ -51,8 +52,10 @@
 @property (nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (nonatomic) IBOutlet UIView *observationsView;
 @property (nonatomic) NSMutableArray *obsToSubmit;
+@property (nonatomic) IBOutlet UIButton *checkAllButton;
 
 
+- (IBAction)checkAllObs:(id)sender;
 - (void) sendObservations;
 - (void) sendRequestToServer;
 - (void) reloadObservations;

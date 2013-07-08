@@ -12,6 +12,7 @@
 #import "CheckboxAreaCell.h"
 #import "Area.h"
 #import "Reachability.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface CollectionAreasController ()
 
@@ -389,6 +390,9 @@
         
 
     }
+    
+    checkboxAreaCell.layer.shouldRasterize = YES;
+    checkboxAreaCell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     return checkboxAreaCell;
 }
 
@@ -500,7 +504,6 @@
         }
         checkAllButton.tag = 0;
     }
-    
     [table reloadData];
 }
 @end

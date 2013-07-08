@@ -111,8 +111,12 @@
 
 - (void) changeNameLanguage 
 {
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    
     // Change button label
-    self.navigationItem.rightBarButtonItem.title = (displayGermanNames) ? @"DE" : @"LAT";
+    NSString *shortCutLanguage = [[appSettings stringForKey:@"language"] uppercaseString];
+    // Change button label
+    self.navigationItem.rightBarButtonItem.title = (displayGermanNames) ? shortCutLanguage : @"LAT";
     displayGermanNames = !displayGermanNames;
     
     [self loadData];

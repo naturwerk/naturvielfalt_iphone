@@ -12,6 +12,7 @@
 #import "ObservationsOrganismSubmitController.h"
 #import "CustomObservationAnnotation.h"
 #import "CustomObservationAnnotationView.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define pWidth 5
 #define pAlpha 0.1
@@ -411,6 +412,9 @@
             checkboxAreaObsCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.gif"];
         }*/
     }
+    
+    checkboxAreaObsCell.layer.shouldRasterize = YES;
+    checkboxAreaObsCell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return checkboxAreaObsCell;
 }

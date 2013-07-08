@@ -14,6 +14,7 @@
 #import "AreasSubmitController.h"
 #import "MBProgressHUD.h"
 #import "ASIFormDataRequest.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define MINIMUM_ZOOM_ARC 0.014 //approximately 1 miles (1 degree of arc ~= 69 miles)
 #define ANNOTATION_REGION_PAD_FACTOR 1.15
@@ -648,6 +649,9 @@
             checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.png"];
         }
     }
+    
+    checkboxCell.layer.shouldRasterize = YES;
+    checkboxCell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return checkboxCell;
 }

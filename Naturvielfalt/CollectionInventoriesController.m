@@ -12,6 +12,7 @@
 #import "Reachability.h"
 #import "AreasSubmitNewInventoryController.h"
 #import "AreasSubmitController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface CollectionInventoriesController ()
 
@@ -234,6 +235,8 @@
             checkboxInventoryCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.gif"];
         }*/
     }
+    checkboxInventoryCell.layer.shouldRasterize = YES;
+    checkboxInventoryCell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return checkboxInventoryCell;
 }

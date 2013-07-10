@@ -230,6 +230,21 @@
 
 - (void) sendObservations
 {
+    
+    // Get username and password from the UserDefaults
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    
+    NSString *username = [appSettings stringForKey:@"username"];
+    NSString *password = [appSettings stringForKey:@"password"];
+    
+    if ([username isEqualToString:@""] || [password isEqualToString:@""]) {
+        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil)
+                                                              message:NSLocalizedString(@"collectionAlertErrorSettings", nil) delegate:self cancelButtonTitle:nil
+                                                    otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+        [submitAlert show];
+        return;
+    }
+    
     uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
     /*UIProgressView *pv = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
      pv.frame = CGRectMake(40, 67, 200, 15);
@@ -450,6 +465,7 @@
             [UIView transitionWithView:observationsView duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                 table.hidden = NO;
                 mapView.hidden = YES;
+                checkAllButton.hidden = NO;
             }completion:nil];
             break;
         }
@@ -459,6 +475,7 @@
             [UIView transitionWithView:observationsView duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                 table.hidden = YES;
                 mapView.hidden = NO;
+                checkAllButton.hidden = YES;
             }completion:nil];
         }
     }

@@ -51,6 +51,9 @@
 - (NSMutableArray *) getAllAreaObservations;
 - (NSMutableArray *) getAllSingelObservations;
 
+// Organismname with right translation
+- (NSString *) getOrganismTranslationName:(int )organismId;
+
 // ObservationImages
 - (long long int) saveObservationImage:(ObservationImage *) observationImage;
 - (void) deleteObservationImage:(long long int) observationImageId;

@@ -137,21 +137,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"cellForRowAtIndexPath inventories");
     
-    static NSString *cellIdentifier = @"InventoryCell";
-    UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
-    InventoryCell *inventoryCell;
+    InventoryCell *cell = [tw dequeueReusableCellWithIdentifier:@"InventoryCell"];
     
     if(cell == nil) {
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"InventoryCell" owner:self options:nil];
         
         for (id currentObject in topLevelObjects){
             if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                inventoryCell =  (InventoryCell *)currentObject;
+                cell =  (InventoryCell *)currentObject;
                 break;
             }
         }
-    } else {
-        inventoryCell = (InventoryCell *)cell;
     }
     
     Inventory *inventory = [area.inventories objectAtIndex:indexPath.row];
@@ -162,16 +158,16 @@
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         NSString *nowString = [dateFormatter stringFromDate:inventory.date];
         
-        inventoryCell.author.text = inventory.author;
-        inventoryCell.name.text = inventory.name;
-        inventoryCell.date.text = nowString;
-        inventoryCell.observationsCount.text = [NSString stringWithFormat:@"%i",inventory.observations.count];
+        cell.author.text = inventory.author;
+        cell.name.text = inventory.name;
+        cell.date.text = nowString;
+        cell.observationsCount.text = [NSString stringWithFormat:@"%i",inventory.observations.count];
         
         // Define the action on the button and the current row index as tag
-        [inventoryCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
-        [inventoryCell.name setTag:inventory.inventoryId];
+        [cell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.name setTag:inventory.inventoryId];
     }
-    return inventoryCell;
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

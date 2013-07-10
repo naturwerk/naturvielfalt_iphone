@@ -289,7 +289,7 @@
             int inventoryId = sqlite3_column_int(statement, 2);
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
-            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
             NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
@@ -320,7 +320,8 @@
             Organism *organism = [[Organism alloc] init];
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
-            organism.nameDe = organismNameDe;
+            //organism.nameDe = organismNameDe;
+            organism.nameDe = [self getOrganismTranslationName:organismId];
             organism.family = organismFamily;
             
             // Split the lat name into two pieces
@@ -385,7 +386,7 @@
             int inventoryId = sqlite3_column_int(statement, 2);
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
-            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
             NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
@@ -416,7 +417,8 @@
             Organism *organism = [[Organism alloc] init];
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
-            organism.nameDe = organismNameDe;
+            //organism.nameDe = organismNameDe;
+            organism.nameDe = [self getOrganismTranslationName:organismId];
             organism.family = organismFamily;
             
             // Split the lat name into two pieces
@@ -487,7 +489,7 @@
             int inventoryId = sqlite3_column_int(statement, 2);
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
-            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
             NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
@@ -518,7 +520,8 @@
             Organism *organism = [[Organism alloc] init];
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
-            organism.nameDe = organismNameDe;
+            //organism.nameDe = organismNameDe;
+            organism.nameDe = [self getOrganismTranslationName:organismId];
             organism.family = organismFamily;
             
             // Split the lat name into two pieces
@@ -589,7 +592,7 @@
             int inventoryId = sqlite3_column_int(statement, 2);
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
-            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
             NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
@@ -620,7 +623,8 @@
             Organism *organism = [[Organism alloc] init];
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
-            organism.nameDe = organismNameDe;
+            //organism.nameDe = organismNameDe;
+            organism.nameDe = [self getOrganismTranslationName:organismId];
             organism.family = organismFamily;
             
             // Split the lat name into two pieces
@@ -694,6 +698,27 @@
     for (Observation *observation in observations) {
         [self deleteObservation:observation.observationId];
     }
+}
+
+// Organismname with right translation
+- (NSString *) getOrganismTranslationName:(int )organismId {
+
+    NSString *result;
+    NSString *query = [NSString stringWithFormat:@"SELECT name_%@ FROM organism WHERE organism_id = '%i'", sLanguage, organismId];
+
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			
+            result = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+            if ([result isEqualToString:@""]) {
+                result = @"-";
+            }
+		}
+        sqlite3_finalize(statement);
+    }
+    return result;
 }
 
 // ObservationImages
@@ -1427,7 +1452,7 @@
             //int inventoryId = sqlite3_column_int(statement, 2);
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
-            NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
             NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
@@ -1458,7 +1483,8 @@
             Organism *organism = [[Organism alloc] init];
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
-            organism.nameDe = organismNameDe;
+            //organism.nameDe = organismNameDe;
+            organism.nameDe = [self getOrganismTranslationName:organismId];
             organism.family = organismFamily;
             
             // Split the lat name into two pieces

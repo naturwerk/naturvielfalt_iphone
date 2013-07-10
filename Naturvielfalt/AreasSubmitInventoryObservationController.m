@@ -161,21 +161,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"cellForRowAtIndexPath observations");
     
-    static NSString *cellIdentifier = @"InventoryCell";
-    UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
-    ObservationCell *observationCell;
+    ObservationCell *cell = [tw dequeueReusableCellWithIdentifier:@"ObservationCell"];
     
     if(cell == nil) {
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ObservationCell" owner:self options:nil];
         
         for (id currentObject in topLevelObjects){
             if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                observationCell =  (ObservationCell *)currentObject;
+                cell =  (ObservationCell *)currentObject;
                 break;
             }
         }
-    } else {
-        observationCell = (ObservationCell *)cell;
     }
     
     Observation *observation = [inventory.observations objectAtIndex:indexPath.row];
@@ -200,22 +196,22 @@
             
             CGContextRelease(context);
             CGImageRelease(shrunken);
-            observationCell.photo.image = final;
+            cell.photo.image = final;
             NSLog(@"Image!: %@", [observation.organism getNameDe]);
         }
         else {
-            observationCell.photo.image = [UIImage imageNamed:@"blank.png"];
+            cell.photo.image = [UIImage imageNamed:@"blank.png"];
         }
         
-        observationCell.name.text = observation.organism.getNameDe;
-        observationCell.latName.text = observation.organism.getLatName;
-        observationCell.date.text = nowString;
-        observationCell.count.text = [NSString stringWithFormat:@"%@",observation.amount];
+        cell.name.text = observation.organism.getNameDe;
+        cell.latName.text = observation.organism.getLatName;
+        cell.date.text = nowString;
+        cell.count.text = [NSString stringWithFormat:@"%@",observation.amount];
         // Define the action on the button and the current row index as tag
-        [observationCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
-        [observationCell.name setTag:observation.observationId];
+        [cell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.name setTag:observation.observationId];
     }
-    return observationCell;
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -365,7 +365,8 @@
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
     
-    CustomOrganismCell *cell;
+    //CustomOrganismCell *cell;
+    CustomOrganismCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomOrganismCell"];
     
     if(cell == nil) {
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomOrganismCell" owner:self options:nil];
@@ -376,8 +377,6 @@
                 break;
             }
         }
-    } else {
-        cell = (CustomOrganismCell *)cell;
     }
     
     //show empty message

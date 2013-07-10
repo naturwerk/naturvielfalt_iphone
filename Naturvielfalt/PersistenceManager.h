@@ -43,6 +43,8 @@
 - (void) deleteObservation:(long long int)observationId;
 - (NSMutableArray *) getObservations;
 
+- (NSString *) getOrganismTranslationName:(int)organismId;
+
 // ObservationImages
 - (long long int) saveObservationImage:(ObservationImage *) observationImage;
 - (void) deleteObservationImage:(long long int) observationImageId;

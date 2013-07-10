@@ -416,7 +416,7 @@
 			
             result = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
             if ([result isEqualToString:@""]) {
-                result = @"-";
+                result = NSLocalizedString(@"organismNoTransAvailable", nil);
             }
 		}
         sqlite3_finalize(statement);

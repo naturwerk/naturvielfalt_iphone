@@ -177,6 +177,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{285, 18}, {27, 25}}</string>
 								<reference key="NSSuperview" ref="774928958"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="240059059"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -263,6 +264,7 @@
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<reference key="IBUIContentView" ref="774928958"/>
+				<string key="IBUIReuseIdentifier">CheckboxAreaCell</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">

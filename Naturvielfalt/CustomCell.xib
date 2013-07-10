@@ -106,6 +106,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{139, 16}, {16, 16}}</string>
 								<reference key="NSSuperview" ref="629512194"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -140,7 +141,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUIAccessoryType">1</int>
 				<reference key="IBUIContentView" ref="629512194"/>
-				<string key="IBUIReuseIdentifier">StateTableCellView</string>
+				<string key="IBUIReuseIdentifier">CustomCell</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">

@@ -13,6 +13,7 @@
 #import "OrganismGroup.h"
 #import "NSDictionary-MutableDeepCopy.h"
 #import "CustomOrganismCell.h"
+#import "WikipediaHelper.h"
 
 @implementation ObservationsOrganismViewController
 @synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, inventory, persistenceManager;
@@ -420,6 +421,7 @@
     
 //    cell.wikiButton.action = @selector(viewArticle:indexPath);
 //    cell.wikiButton.tag = indexPath.row;
+    
     [cell.wikiButton addTarget:self action:@selector(wikipediaLinkClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;

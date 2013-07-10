@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "ASIFormDataRequest.h"
 #import "AsyncRequestDelegate.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation CollectionOverviewController
 @synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, checkAllButton;
@@ -468,6 +469,8 @@
             checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.png"];
         }
     }
+    checkboxCell.layer.shouldRasterize = YES;
+    checkboxCell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return checkboxCell;
 }

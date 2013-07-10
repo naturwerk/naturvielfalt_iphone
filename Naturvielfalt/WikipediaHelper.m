@@ -18,7 +18,10 @@
     // JSON Request url
     NSURLRequest *request;
     
-    NSString *url = [[NSString alloc] initWithFormat:@"http://de.wikipedia.org/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", latName];
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    NSString *language = [appSettings stringForKey:@"language"];
+    
+    NSString *url = [[NSString alloc] initWithFormat:@"http://%@.wikipedia.org/w/api.php?action=query&prop=revisions&titles=%@&rvprop=content&rvparse&format=json&redirects", language,latName];
     
     request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     

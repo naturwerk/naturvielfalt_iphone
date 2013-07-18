@@ -19,6 +19,7 @@
     IBOutlet UITableView  *table;
     IBOutlet UISearchBar *search;
     PersistenceManager *persistenceManager;
+    OrganismGroup *organismGroup;
     
     // FOR SEARCH and INDEXED TABLE
     // Dictionaries
@@ -37,8 +38,10 @@
 	BOOL isSearching;
     
     IBOutlet UIActivityIndicatorView *spinner;
-}
+    IBOutlet UITableView *unknownOrganismTableView;
 
+}
+@property (nonatomic) IBOutlet UITableView *unknownOrganismTableView;
 @property (nonatomic, assign) NSInteger organismGroupId;
 @property (nonatomic, assign) BOOL displayGermanNames;
 @property (nonatomic) NSMutableArray *listData;
@@ -56,6 +59,7 @@
 @property (nonatomic) NSMutableArray *currKeys;
 @property (nonatomic, assign) BOOL isSearching;
 @property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic) OrganismGroup *organismGroup;
 
 
 - (void) appendToDictionary:(Organism *)organism;

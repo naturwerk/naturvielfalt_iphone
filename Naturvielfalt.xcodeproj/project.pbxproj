@@ -11,10 +11,13 @@
 		2700990D1755E9B2000EA542 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 2700990C1755E9B2000EA542 /* delete.png */; };
 		270099111755ED49000EA542 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 270099101755ED49000EA542 /* CameraViewController.m */; };
 		270099141755F6F0000EA542 /* ObservationImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 270099131755F6F0000EA542 /* ObservationImage.m */; };
+		2701C4481794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2701C4461794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.m */; };
+		2701C4491794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2701C4471794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.xib */; };
 		2706A4791779AA4400749920 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2706A4781779AA4400749920 /* CameraViewController.xib */; };
 		2706A47B1779AB5C00749920 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2706A47A1779AB5C00749920 /* MainWindow.xib */; };
 		270C58921757391900CA350F /* CustomObservationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 270C58911757391900CA350F /* CustomObservationAnnotation.m */; };
 		270C589517578BC000CA350F /* CustomObservationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 270C589417578BC000CA350F /* CustomObservationAnnotationView.m */; };
+		2719C9621796D7D9007A5894 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 2719C9611796D7D9007A5894 /* db.sqlite3 */; };
 		2730A12715A31AF400F416D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12615A31AF300F416D9 /* Security.framework */; };
 		2730A12915A31AFC00F416D9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12815A31AFC00F416D9 /* CoreFoundation.framework */; };
 		276C9DF21754CE670035BFA8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 276C9DF01754CE670035BFA8 /* Localizable.strings */; };
@@ -40,7 +43,6 @@
 		27F605DB176B0E5100046BD0 /* AlertUploadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F605DA176B0E5100046BD0 /* AlertUploadView.m */; };
 		27F662A11766F9940080FC4B /* SubmissionCancelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F6629F1766F9940080FC4B /* SubmissionCancelView.m */; };
 		27F662A21766F9940080FC4B /* SubmissionCancelView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F662A01766F9940080FC4B /* SubmissionCancelView.xib */; };
-		27FCAAC71782C79C007D10F1 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FCAAC61782C79C007D10F1 /* db.sqlite3 */; };
 		CB08912B1430B67F00E846A1 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891131430B67F00E846A1 /* NSObject+SBJson.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB08912C1430B67F00E846A1 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891161430B67F00E846A1 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CB08912D1430B67F00E846A1 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0891181430B67F00E846A1 /* SBJsonStreamParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -154,6 +156,9 @@
 		270099101755ED49000EA542 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		270099121755F6F0000EA542 /* ObservationImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationImage.h; sourceTree = "<group>"; };
 		270099131755F6F0000EA542 /* ObservationImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationImage.m; sourceTree = "<group>"; };
+		2701C4451794398500D2D550 /* ObservationOrganismSubmitOrganismGroupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationOrganismSubmitOrganismGroupController.h; sourceTree = "<group>"; };
+		2701C4461794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationOrganismSubmitOrganismGroupController.m; sourceTree = "<group>"; };
+		2701C4471794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationOrganismSubmitOrganismGroupController.xib; sourceTree = "<group>"; };
 		2706A4751779A75900749920 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2706A4781779AA4400749920 /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		2706A47A1779AB5C00749920 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
@@ -161,6 +166,7 @@
 		270C58911757391900CA350F /* CustomObservationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObservationAnnotation.m; sourceTree = "<group>"; };
 		270C589317578BC000CA350F /* CustomObservationAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomObservationAnnotationView.h; sourceTree = "<group>"; };
 		270C589417578BC000CA350F /* CustomObservationAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomObservationAnnotationView.m; sourceTree = "<group>"; };
+		2719C9611796D7D9007A5894 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		2730A12615A31AF300F416D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2730A12815A31AFC00F416D9 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		276C9DF11754CE670035BFA8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -195,7 +201,6 @@
 		27F6629E1766F9940080FC4B /* SubmissionCancelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmissionCancelView.h; sourceTree = "<group>"; };
 		27F6629F1766F9940080FC4B /* SubmissionCancelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmissionCancelView.m; sourceTree = "<group>"; };
 		27F662A01766F9940080FC4B /* SubmissionCancelView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubmissionCancelView.xib; sourceTree = "<group>"; };
-		27FCAAC61782C79C007D10F1 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		CB0891111430B67F00E846A1 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CB0891121430B67F00E846A1 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		CB0891131430B67F00E846A1 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
@@ -485,7 +490,7 @@
 		CB7AC23B149B9105001D315A /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				27FCAAC61782C79C007D10F1 /* db.sqlite3 */,
+				2719C9611796D7D9007A5894 /* db.sqlite3 */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -685,6 +690,9 @@
 		CBDDB535144D7586007E48AB /* SubmitHelper */ = {
 			isa = PBXGroup;
 			children = (
+				2701C4451794398500D2D550 /* ObservationOrganismSubmitOrganismGroupController.h */,
+				2701C4461794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.m */,
+				2701C4471794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.xib */,
 				278E03681784683B00EE7368 /* ObservationsOrganismSubmitDateController.h */,
 				278E03691784683B00EE7368 /* ObservationsOrganismSubmitDateController.m */,
 				278E036A1784683B00EE7368 /* ObservationsOrganismSubmitDateController.xib */,
@@ -894,10 +902,11 @@
 				27F662A21766F9940080FC4B /* SubmissionCancelView.xib in Resources */,
 				2706A4791779AA4400749920 /* CameraViewController.xib in Resources */,
 				2706A47B1779AB5C00749920 /* MainWindow.xib in Resources */,
-				27FCAAC71782C79C007D10F1 /* db.sqlite3 in Resources */,
 				278E036C1784683B00EE7368 /* ObservationsOrganismSubmitDateController.xib in Resources */,
 				278E0371178468DD00EE7368 /* CustomDateCell.xib in Resources */,
 				27EF8CB01785C5FC005F7294 /* checkbox.png in Resources */,
+				2701C4491794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.xib in Resources */,
+				2719C9621796D7D9007A5894 /* db.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -971,6 +980,7 @@
 				27F605DB176B0E5100046BD0 /* AlertUploadView.m in Sources */,
 				278E036B1784683B00EE7368 /* ObservationsOrganismSubmitDateController.m in Sources */,
 				278E0370178468DD00EE7368 /* CustomDateCell.m in Sources */,
+				2701C4481794398600D2D550 /* ObservationOrganismSubmitOrganismGroupController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

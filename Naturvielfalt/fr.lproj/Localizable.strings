@@ -6,6 +6,11 @@
  
  */
 
+/** Unknown art **/
+"unknownArt"					= "Art inconnu";
+"unknownOrganism"				= "Organisme inconnu";
+"toBeDetermined"				= "à déterminer";
+
 /** Navigation **/
 "navSave"						= "Enregister";
 "navChange"						= "Modifier";
@@ -68,6 +73,7 @@
 "observationLocalization"		= "Localisation";
 "observationRelocate"			= "poser le GPS";
 "observationAdd"				= "Poser";
+"observationSpecies"			= "espèce";
 
 // Observation HUD
 "observationSuccessMessage"		= "Observation enregistrer";

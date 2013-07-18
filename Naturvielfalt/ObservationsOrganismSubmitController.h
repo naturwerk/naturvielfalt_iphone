@@ -13,12 +13,15 @@
 #import "PersistenceManager.h"
 
 @interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>  {
-    Organism *__weak organism;
-    Observation *__weak observation;
+    Organism * organism;
+    Observation * observation;
+    OrganismGroup * organismGroup;
     IBOutlet UILabel *nameDe;
     IBOutlet UILabel *nameLat;
     IBOutlet UILabel *family;
     IBOutlet UITableView *tableView;
+    IBOutlet UIButton *organismButton;
+    IBOutlet UIView *organismDataView;
     UIImage *accuracyImage;
     NSString *accuracyText;
     CLLocationManager *locationManager;
@@ -34,10 +37,13 @@
     BOOL observationChanged;
 }
 
+@property (nonatomic) IBOutlet UIView *organismDataView;
+@property (nonatomic) IBOutlet UIButton *organismButton;
 @property (nonatomic) NSDateFormatter *dateFormatter;
 @property (nonatomic, assign) BOOL observationChanged;
-@property (nonatomic, weak) Organism *organism;
-@property (nonatomic, weak) Observation *observation;
+@property (nonatomic) Organism *organism;
+@property (nonatomic) Observation *observation;
+@property (nonatomic) OrganismGroup *organismGroup;
 @property (nonatomic) IBOutlet UILabel *nameDe;
 @property (nonatomic) IBOutlet UILabel *nameLat;
 @property (nonatomic) IBOutlet UILabel *family;
@@ -58,5 +64,6 @@
 - (void) prepareData;
 - (void) rowClicked:(NSIndexPath *)indexPath;
 - (void) saveObservation;
+- (IBAction)chooseOrganism:(id)sender;
 
 @end

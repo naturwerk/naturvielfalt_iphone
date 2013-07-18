@@ -17,7 +17,6 @@
 #define kFilenameUser @"user.sqlite3"
 #define kFilenameStatic @"db.sqlite3"
 
-
 @interface PersistenceManager : NSObject {
     // the db connection for organism and organism groups (static data)
     sqlite3 *dbStatic;
@@ -44,6 +43,7 @@
 - (NSMutableArray *) getObservations;
 
 - (NSString *) getOrganismTranslationName:(int)organismId;
+- (NSString *) getOrganismGroupTranslationName:(int)organismId;
 
 // ObservationImages
 - (long long int) saveObservationImage:(ObservationImage *) observationImage;
@@ -54,13 +54,13 @@
 // Organismgroups;
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel;
 - (BOOL) organismGroupHasChild:(int) groupId;
+- (OrganismGroup *) getOrganismGroup:(int) parentId withClasslevel:(int) classlevel andOrganismGroupId:(int) organismGroupId;
 
 // Organisms
 - (NSMutableArray *) getOrganisms:(int) groupId withCustomFilter:(NSString *)filter;
 - (NSMutableArray *) getOrganismsSortByDE:(int) groupId withCustomFilter:(NSString*) filter;
 - (NSMutableArray *) getOrganismsSortByLAT:(int) groupId withCustomFilter: (NSString*) filter;
 - (NSMutableArray *) getAllOrganisms:(int) groupId sortByDe:(BOOL) sortByDe;
-
 
 
 @end

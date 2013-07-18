@@ -15,10 +15,14 @@
 #import "CameraViewController.h"
 #import "ObservationsOrganismSubmitAmountController.h"
 #import "ObservationsOrganismSubmitCommentController.h"
+#import "ObservationOrganismSubmitOrganismGroupController.h"
 #import "MBProgressHUD.h"
 
+extern int UNKNOWN_ORGANISMGROUPID;
+extern int UNKNOWN_ORGANISMID;
+
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, dateFormatter;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, dateFormatter, organismButton, organismDataView, organismGroup;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,7 +44,25 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void) viewDidAppear:(BOOL)animated 
+- (void) viewWillAppear:(BOOL)animated {
+    if (observation.observationId) {
+        organismDataView.hidden = YES;
+        organismButton.hidden = NO;
+        
+        NSString *toBeDetermined = observation.organism.organismId == UNKNOWN_ORGANISMID ? NSLocalizedString(@"toBeDetermined", nil): @"";
+        NSString *buttonTitle = [NSString stringWithFormat:@"%@\n%@", NSLocalizedString(@"unknownArt", nil), toBeDetermined];
+        
+        [organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
+        [organismButton.titleLabel setTextAlignment:UITextAlignmentCenter];
+        [organismButton setTitle:buttonTitle forState:UIControlStateNormal];
+    }
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [observation setObservation:nil];
+}
+
+- (void) viewDidAppear:(BOOL)animated
 {
     [tableView reloadData];
 }
@@ -69,9 +91,17 @@
     if(!comeFromOrganism) comeFromOrganism = false;
     
     // Do any additional setup after loading the view from its nib.
+    
     nameDe.text = [organism getNameDe];
-    nameLat.text = (organism.organismGroupId == 1000) ? @"" : [organism getLatName];
+    nameLat.text = (organism.organismId == UNKNOWN_ORGANISMID) ? NSLocalizedString(@"toBeDetermined", nil) : [organism getLatName];
     family.text = organism.family;
+    NSString *toBeDetermined = organism.organismId == UNKNOWN_ORGANISMID ? NSLocalizedString(@"toBeDetermined", nil): @"";
+    NSString *buttonTitle = [NSString stringWithFormat:@"%@\n%@", organism.nameDe,toBeDetermined];
+    
+
+    [organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
+    [organismButton.titleLabel setTextAlignment:UITextAlignmentCenter];
+    [organismButton setTitle:buttonTitle forState:UIControlStateNormal];
     
     // Set top navigation bar button  
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] 
@@ -146,8 +176,8 @@
     nowString = [dateFormatter stringFromDate:observation.date];
       
     // Initialize keys/valu es
-    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationTime", nil), NSLocalizedString(@"observationAuthor", nil), NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), nil];
-    arrayValues = [[NSArray alloc] initWithObjects:nowString, observation.author, observation.amount, @">", nil];
+    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationSpecies", nil), NSLocalizedString(@"observationTime", nil), NSLocalizedString(@"observationAuthor", nil), NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), nil];
+    arrayValues = [[NSArray alloc] initWithObjects:organismGroup.name, nowString, observation.author, observation.amount, nil];
 }
 
 - (void) saveObservation 
@@ -171,6 +201,7 @@
     
     // Close connection
     [persistenceManager closeConnection];
+    [observation setObservation:nil];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -208,6 +239,11 @@
     [self.navigationController pushViewController:self.parentViewController animated:TRUE];
 }
 
+- (IBAction)chooseOrganism:(id)sender {
+    NSLog(@"chooseOrganism %@", organismButton.titleLabel.text);
+    
+}
+
 - (void) abortObsersation
 {
     [self.navigationController popViewControllerAnimated:TRUE];
@@ -216,6 +252,8 @@
 
 - (void)viewDidUnload
 {
+    [self setOrganismButton:nil];
+    [self setOrganismDataView:nil];
     [super viewDidUnload];
 
     if(locationManager){
@@ -310,7 +348,7 @@
     //static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:nil];
     
-    if(indexPath.row != 1) {
+    if(indexPath.row != 2) {
         // use CustomCell layout 
         CustomCell *customCell;
         
@@ -326,6 +364,16 @@
             
             switch(indexPath.row) {
                 case 0: {
+                    customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
+                    customCell.value.text = observation.organism.organismGroupName;
+                    customCell.image.image = nil;
+                    if (!observation.observationId) {
+                        customCell.userInteractionEnabled = NO;
+                    }
+                }
+                    break;
+                    
+                case 1: {
                     CustomDateCell *customDateCell;
                     NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
                     
@@ -340,7 +388,7 @@
                     customDateCell.value.text = [dateFormatter stringFromDate:observation.date];
                     return customDateCell;
                 }
-                case 2:
+                case 3:
                 {
                     customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
                     customCell.value.text = observation.amount;    
@@ -348,7 +396,7 @@
                 }
                     break;
                     
-                case 3:
+                case 4:
                 {
                     customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
                     customCell.value.text = (observation.comment.length > 0) ? @"..." : @"";
@@ -356,7 +404,7 @@
                 }   
                     break;
                     
-                case 4:
+                case 5:
                 {
                     customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
                     
@@ -368,7 +416,7 @@
                 }   
                     break;
                     
-                case 5:
+                case 6:
                 {
                     [self updateAccuracyIcon:observation.accuracy];
                     
@@ -396,7 +444,8 @@
         }
         
         // Set up the cell...
-        cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];        
+        cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];
+        NSLog(@"%i", indexPath.row);
         cell.detailTextLabel.text = [arrayValues objectAtIndex:indexPath.row];
     }
     
@@ -413,10 +462,22 @@
 }
 
 - (void) rowClicked:(NSIndexPath *) indexPath {
-    // TODO: rewrite to switch case!
     
     switch (indexPath.row) {
         case 0:
+        {
+            // DATE
+            // Create the ObservationOrganismSubmitOrganismGroupController
+            ObservationOrganismSubmitOrganismGroupController *organismSubmitOrganismGroupController = [[ObservationOrganismSubmitOrganismGroupController alloc] initWithNibName:@"ObservationOrganismSubmitOrganismGroupController" bundle:[NSBundle mainBundle]];
+            
+            organismSubmitOrganismGroupController.observation = observation;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:organismSubmitOrganismGroupController animated:TRUE];
+            organismSubmitOrganismGroupController = nil;
+            break;
+        }
+        case 1:
         {
             // DATE
             // Create the ObservationsOrganismSubmitDateController
@@ -429,7 +490,7 @@
             organismSubmitDateController = nil;
             break;
         }
-        case 2:
+        case 3:
         {
             // AMOUNT
             // Create the ObservationsOrganismSubmitCameraController
@@ -445,7 +506,7 @@
             organismSubmitAmountController = nil;
             break;
         }
-        case 3:
+        case 4:
         {
             // COMMENT
             // Create the ObservationsOrganismSubmitCameraController
@@ -461,7 +522,7 @@
 
             break;
         }
-        case 4:
+        case 5:
         {
             // CAMERA
             // Create the ObservationsOrganismSubmitCameraController
@@ -477,7 +538,7 @@
             organismSubmitCameraController = nil;
             break;
         }
-        case 5:
+        case 6:
         {
             // MAP
             // Create the ObservationsOrganismSubmitMapController

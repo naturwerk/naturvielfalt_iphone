@@ -9,7 +9,7 @@
 #import "Observation.h"
 
 @implementation Observation
-@synthesize observationId, organism, author, amount, comment, date, location, accuracy, pictures, submitToServer, locationLocked, inventoryId;
+@synthesize observationId, organism, author, amount, comment, date, location, accuracy, pictures, submitToServer, locationLocked, inventoryId, organismGroup;
 
 
 static Observation *observation;

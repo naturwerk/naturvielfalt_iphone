@@ -14,6 +14,9 @@
 #import "AsyncRequestDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 
+extern int UNKNOWN_ORGANISMGROUPID;
+extern int UNKNOWN_ORGANISMID;
+
 @implementation CollectionOverviewController
 @synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, checkAllButton;
 
@@ -463,10 +466,17 @@
             checkboxCell.image.image = [UIImage imageNamed:@"blank.png"];
         }
         
-        checkboxCell.name.text = [observation.organism getNameDe];
+        if (observation.organism.organismId == UNKNOWN_ORGANISMID) {
+            checkboxCell.name.text = NSLocalizedString(@"unknownArt", nil);
+            checkboxCell.latName.text = NSLocalizedString(@"toBeDetermined", nil);
+        } else {
+            checkboxCell.name.text = [observation.organism getNameDe];
+            checkboxCell.latName.text = [observation.organism getLatName];
+        }
+        
         checkboxCell.date.text = nowString;
         checkboxCell.amount.text = observation.amount;
-        checkboxCell.latName.text = [observation.organism getLatName];
+        
         
         // Define the action on the button and the current row index as tag
         [checkboxCell.checkbox addTarget:self action:@selector(checkboxEvent:) forControlEvents:UIControlEventTouchUpInside];
@@ -521,6 +531,7 @@
     organismSubmitController.observation = observation;
     organismSubmitController.organism = observation.organism;
     organismSubmitController.review = YES;
+    organismSubmitController.organismGroup = observation.organismGroup;
     
     // Switch the View & Controller
     [self.navigationController pushViewController:organismSubmitController animated:TRUE];

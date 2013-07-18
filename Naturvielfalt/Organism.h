@@ -16,6 +16,7 @@
     NSString *species;
     NSString *family;
     NSString *nameLat;
+    NSString *organismGroupName;
 }
 
 @property (nonatomic, assign) NSInteger organismId;
@@ -25,6 +26,7 @@
 @property (nonatomic) NSString *species;
 @property (nonatomic) NSString *family;
 @property (nonatomic) NSString *nameLat;
+@property (nonatomic) NSString *organismGroupName;
 
 - (NSString *) getLatName;
 - (NSString *) getNameDe;

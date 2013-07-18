@@ -14,6 +14,9 @@
 #import "PersistenceManager.h"
 #import "ObservationsOrganismSubmitController.h"
 
+extern int UNKNOWN_ORGANISMGROUPID;
+extern int UNKNOWN_ORGANISMID;
+
 @implementation ObservationsViewController
 @synthesize listData, table, spinner, groupId, classlevel;
 
@@ -158,6 +161,11 @@
     //Get the selected row
     OrganismGroup *currentSelectedOrganismGroup = [listData objectAtIndex:indexPath.row];
     
+    // Check if unknown art is selected
+    /*if (currentSelectedOrganismGroup.organismGroupId == 0) {
+        ObservationsOrganismSubmitController *submitController = [[ObservationsOrganismSubmitController alloc] initWithNibName:@"ObservationsOrganismSubmitController" bundle:[NSBundle mainBundle]];
+    }*/
+    
     // Create the ObservationsOrganismViewController
     ObservationsOrganismViewController *organismController = [[ObservationsOrganismViewController alloc] 
                                                               initWithNibName:@"ObservationsOrganismViewController" 
@@ -171,6 +179,7 @@
     // set the organismGroupId so it know which inventory is selected
     organismController.organismGroupId = currentSelectedOrganismGroup.organismGroupId;
     organismController.organismGroupName = currentSelectedOrganismGroup.name;
+    organismController.organismGroup = currentSelectedOrganismGroup;
     
     // Find out if this organism group has at least one child
     PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
@@ -189,7 +198,7 @@
         // If the OrganismGroup does not have any subgroups 
         // directly go to the detail page of an organism
         
-        if(currentSelectedOrganismGroup.organismGroupId == 1000) {
+        if(currentSelectedOrganismGroup.organismGroupId == UNKNOWN_ORGANISMGROUPID) {
             // Then its a not yet defined organism
             // Create the ObservationsOrganismViewController
             ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc] 
@@ -197,12 +206,16 @@
                                                                               bundle:[NSBundle mainBundle]];
             
             Organism *notYetDefinedOrganism = [[Organism alloc] init];
-            notYetDefinedOrganism.nameDe = NSLocalizedString(@"naturNotDefinedOrganism", nil);
+            notYetDefinedOrganism.organismId = UNKNOWN_ORGANISMID;
+            notYetDefinedOrganism.nameDe = NSLocalizedString(@"unknownArt", nil);
+            notYetDefinedOrganism.nameLat = NSLocalizedString(@"toBeDetermined", nil);
             notYetDefinedOrganism.organismGroupId = currentSelectedOrganismGroup.organismGroupId;
+            notYetDefinedOrganism.organismGroupName = currentSelectedOrganismGroup.name;
             
             // Set the current displayed organism
             organismSubmitController.organism = notYetDefinedOrganism;
             organismSubmitController.review = false;
+            organismSubmitController.organismGroup = currentSelectedOrganismGroup;
             
             // Switch the View & Controller
             [self.navigationController pushViewController:organismSubmitController animated:TRUE];

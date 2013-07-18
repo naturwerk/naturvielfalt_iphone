@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "Organism.h"
+#import "OrganismGroup.h"
 
 @interface Observation : NSObject {
     long long int observationId;
     long long int inventoryId;
     Organism *organism;
+    OrganismGroup *organismGroup;
     NSString *author;
     NSDate *date;
     NSString *amount;
@@ -37,6 +39,7 @@
 @property (nonatomic) NSString *comment;
 @property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic, assign) BOOL locationLocked;
+@property (nonatomic) OrganismGroup *organismGroup;
 
 - (Observation *) getObservation;
 - (void) setObservation:(Observation *)observation;

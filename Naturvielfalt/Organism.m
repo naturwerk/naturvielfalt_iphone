@@ -9,7 +9,7 @@
 #import "Organism.h"
 
 @implementation Organism
-@synthesize organismId, organismGroupId, nameDe, genus, species, family, nameLat;
+@synthesize organismId, organismGroupId, nameDe, genus, species, family, nameLat, organismGroupName;
 
 -(NSString *)getLatName {
     

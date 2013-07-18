@@ -6,6 +6,11 @@
  
  */
 
+/** Unknown art/organism **/
+"unknownArt"					= "Unbekannte Art";
+"unknownOrganism"				= "Unbekannter Organismus";
+"toBeDetermined"				= "noch zu bestimmen";
+
 /** Navigation **/
 "navSave"						= "Sichern";
 "navChange"						= "Ändern";
@@ -69,6 +74,7 @@
 "observationLocalization"		= "Lokalisierung";
 "observationRelocate"			= "GPS setzen";
 "observationAdd"				= "Setzen";
+"observationSpecies"			= "Artgruppe";
 
 // Observation HUD
 "observationSuccessMessage"		= "Beobachtung gespeichert";

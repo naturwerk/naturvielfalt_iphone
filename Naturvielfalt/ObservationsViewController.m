@@ -18,7 +18,7 @@ extern int UNKNOWN_ORGANISMGROUPID;
 extern int UNKNOWN_ORGANISMID;
 
 @implementation ObservationsViewController
-@synthesize listData, table, spinner, groupId, classlevel;
+@synthesize listData, table, spinner, groupId, classlevel, observation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -170,6 +170,12 @@ extern int UNKNOWN_ORGANISMID;
     ObservationsOrganismViewController *organismController = [[ObservationsOrganismViewController alloc] 
                                                               initWithNibName:@"ObservationsOrganismViewController" 
                                                               bundle:[NSBundle mainBundle]];
+    
+    // Set observation in organism controller if observation isn't nil (is needed if user set organism later)
+    if (observation) {
+        organismController.observation = observation;
+        organismController.comeFromSubmitController = YES;
+    }
     
     // Create the ObservationsViewController
     ObservationsViewController *overviewController = [[ObservationsViewController alloc] 

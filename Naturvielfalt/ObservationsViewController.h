@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Observation.h"
 
 
 @interface ObservationsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
@@ -15,6 +16,7 @@
     IBOutlet UIActivityIndicatorView *spinner;
     int groupId;
     int classlevel;
+    Observation *observation;
 }
 
 @property (nonatomic) NSMutableArray *listData;
@@ -22,5 +24,6 @@
 @property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, assign) int groupId;
 @property (nonatomic, assign) int classlevel;
+@property (nonatomic) Observation *observation;
 
 @end

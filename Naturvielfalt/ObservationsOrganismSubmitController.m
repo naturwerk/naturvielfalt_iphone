@@ -12,10 +12,12 @@
 #import "CustomDateCell.h"
 #import "ObservationsOrganismSubmitDateController.h"
 #import "ObservationsOrganismSubmitMapController.h"
+#import "ObservationsOrganismViewController.h"
 #import "CameraViewController.h"
 #import "ObservationsOrganismSubmitAmountController.h"
 #import "ObservationsOrganismSubmitCommentController.h"
 #import "ObservationOrganismSubmitOrganismGroupController.h"
+#import "ObservationsViewController.h"
 #import "MBProgressHUD.h"
 
 extern int UNKNOWN_ORGANISMGROUPID;
@@ -49,8 +51,18 @@ extern int UNKNOWN_ORGANISMID;
         organismDataView.hidden = YES;
         organismButton.hidden = NO;
         
-        NSString *toBeDetermined = observation.organism.organismId == UNKNOWN_ORGANISMID ? NSLocalizedString(@"toBeDetermined", nil): @"";
-        NSString *buttonTitle = [NSString stringWithFormat:@"%@\n%@", NSLocalizedString(@"unknownArt", nil), toBeDetermined];
+        NSString *organismName;
+        NSString *organismLatName;
+        
+        if (observation.organism.organismId != UNKNOWN_ORGANISMID) {
+            organismName = [observation.organism getNameDe];
+            organismLatName = [observation.organism getLatName];
+        } else {
+            organismName = NSLocalizedString(@"unknownArt", nil);
+            organismLatName = NSLocalizedString(@"toBeDetermined", nil);
+        }
+
+        NSString *buttonTitle = [NSString stringWithFormat:@"%@\n%@",organismName, organismLatName];
         
         [organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
         [organismButton.titleLabel setTextAlignment:UITextAlignmentCenter];
@@ -242,6 +254,28 @@ extern int UNKNOWN_ORGANISMID;
 - (IBAction)chooseOrganism:(id)sender {
     NSLog(@"chooseOrganism %@", organismButton.titleLabel.text);
     
+    if (observation.organismGroup.organismGroupId != UNKNOWN_ORGANISMGROUPID) {
+        // Create the ObservationsOrganismViewController
+        ObservationsOrganismViewController *organismController = [[ObservationsOrganismViewController alloc]
+                                                                  initWithNibName:@"ObservationsOrganismViewController"
+                                                                  bundle:[NSBundle mainBundle]];
+        
+        // set the organismGroupId so it know which inventory is selected
+        organismController.organismGroupId = observation.organismGroup.organismGroupId;
+        organismController.organismGroupName = observation.organismGroup.name;
+        organismController.organismGroup = observation.organismGroup;
+        organismController.observation = observation;
+        
+        // Switch the View & Controller
+        // (Also load all the organism from the organism group in the ViewDidLoad from ObsvervationsOrganismViewController)
+        [self.navigationController pushViewController:organismController animated:TRUE];
+
+        organismController = nil;
+    } else {
+        ObservationsViewController *observationsViewController = [[ObservationsViewController alloc] initWithNibName:@"ObservationsViewController" bundle:[NSBundle mainBundle]];
+        observationsViewController.observation = observation;
+        [self.navigationController pushViewController:observationsViewController animated:YES];
+    }
 }
 
 - (void) abortObsersation

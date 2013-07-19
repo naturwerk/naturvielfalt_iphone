@@ -20,6 +20,8 @@
     IBOutlet UISearchBar *search;
     PersistenceManager *persistenceManager;
     OrganismGroup *organismGroup;
+    Observation *Observation;
+    BOOL comeFromSubmitController;
     
     // FOR SEARCH and INDEXED TABLE
     // Dictionaries
@@ -41,6 +43,9 @@
     IBOutlet UITableView *unknownOrganismTableView;
 
 }
+
+@property (nonatomic) BOOL comeFromSubmitController;
+@property (nonatomic) Observation *observation;
 @property (nonatomic) IBOutlet UITableView *unknownOrganismTableView;
 @property (nonatomic, assign) NSInteger organismGroupId;
 @property (nonatomic, assign) BOOL displayGermanNames;

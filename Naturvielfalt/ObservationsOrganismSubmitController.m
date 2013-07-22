@@ -49,7 +49,7 @@ extern int UNKNOWN_ORGANISMID;
 - (void) viewWillAppear:(BOOL)animated {
     if (observation.observationId) {
         organismDataView.hidden = YES;
-        organismButton.hidden = NO;
+        //organismButton.hidden = NO;
         
         NSString *organismName;
         NSString *organismLatName;
@@ -58,15 +58,34 @@ extern int UNKNOWN_ORGANISMID;
             organismName = [observation.organism getNameDe];
             organismLatName = [observation.organism getLatName];
         } else {
-            organismName = NSLocalizedString(@"unknownArt", nil);
+            organismName = NSLocalizedString(@"unknownOrganism", nil);
             organismLatName = NSLocalizedString(@"toBeDetermined", nil);
         }
-
-        NSString *buttonTitle = [NSString stringWithFormat:@"%@\n%@",organismName, organismLatName];
         
-        [organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
+        organismButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        organismButton.frame = CGRectMake(60, 5, 200, 55);
+        [self.view addSubview:organismButton];
+        
+        UILabel *firstLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 20)];
+        [firstLineOrganismButton setTextAlignment:UITextAlignmentCenter];
+        firstLineOrganismButton.text = organismName;
+        firstLineOrganismButton.backgroundColor = [UIColor clearColor];
+        firstLineOrganismButton.font = [UIFont boldSystemFontOfSize:15];
+        [organismButton addSubview:firstLineOrganismButton];
+        
+        UILabel *secondLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 180, 20)];
+        [secondLineOrganismButton setTextAlignment:UITextAlignmentCenter];
+        secondLineOrganismButton.text = organismLatName;
+        secondLineOrganismButton.backgroundColor = [UIColor clearColor];
+        secondLineOrganismButton.textColor = [UIColor grayColor];
+        secondLineOrganismButton.font = [UIFont italicSystemFontOfSize:13];
+        [organismButton addSubview:secondLineOrganismButton];
+        
+        [organismButton addTarget:self action:@selector(chooseOrganism:) forControlEvents:UIControlEventTouchUpInside];
+        
+        /*[organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
         [organismButton.titleLabel setTextAlignment:UITextAlignmentCenter];
-        [organismButton setTitle:buttonTitle forState:UIControlStateNormal];
+        [organismButton setTitle:buttonTitle forState:UIControlStateNormal];*/
     }
 }
 

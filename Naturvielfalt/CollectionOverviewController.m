@@ -467,7 +467,7 @@ extern int UNKNOWN_ORGANISMID;
         }
         
         if (observation.organism.organismId == UNKNOWN_ORGANISMID) {
-            checkboxCell.name.text = NSLocalizedString(@"unknownArt", nil);
+            checkboxCell.name.text = NSLocalizedString(@"unknownOrganism", nil);
             checkboxCell.latName.text = NSLocalizedString(@"toBeDetermined", nil);
         } else {
             checkboxCell.name.text = [observation.organism getNameDe];

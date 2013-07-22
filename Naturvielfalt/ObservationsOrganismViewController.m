@@ -137,10 +137,19 @@ extern int UNKNOWN_ORGANISMID;
 
     [persistenceManager closeConnection];
     
+    // add unknown organism to the array
+    Organism *unknown = [[Organism alloc] init];
+    unknown.organismId = UNKNOWN_ORGANISMID;
+    unknown.organismGroupId = organismGroupId;
+    unknown.nameDe = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+    unknown.nameLat = NSLocalizedString(@"toBeDetermined", nil);
+    
+    [organisms addObject:unknown];
+    
     for(Organism *organism in organisms) {
-        if (organism.organismId != UNKNOWN_ORGANISMID) {
+        //if (organism.organismId != UNKNOWN_ORGANISMID) {
             [self appendToDictionary:organism];
-        }
+        //}
     }
     
     // copy all values in other dictionary
@@ -325,65 +334,48 @@ extern int UNKNOWN_ORGANISMID;
 //
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView 
 {
-    if (tableView == table) {
-        //if(!isSearching) {
-        NSMutableArray *arrKeys = [[NSMutableArray alloc] init];
-        
-        // Add all keys to the array
-        for(NSString *key in [self getCurrentKey]) {
-            [arrKeys addObject:key];
-        }
-        
-        // Sort array
-        NSArray *sortedArray = [arrKeys sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
-        
-        return sortedArray;
-        /*} else {
-         return nil;
-         }*/
-
-    } else {
-        return nil;
+    //if(!isSearching) {
+    NSMutableArray *arrKeys = [[NSMutableArray alloc] init];
+    
+    // Add all keys to the array
+    for(NSString *key in [self getCurrentKey]) {
+        [arrKeys addObject:key];
     }
+    
+    // Sort array
+    NSArray *sortedArray = [arrKeys sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    
+    return sortedArray;
+    /*} else {
+     return nil;
+     }*/
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (tableView == table) {
-        return ([[self getCurrentKey] count] > 0) ? [[self getCurrentKey] count] : 1;
-    } else {
-        return 1;
-    }
+    return ([[self getCurrentKey] count] > 0) ? [[self getCurrentKey] count] : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    // show emtpy message
+    if ([[self getCurrentKey] count] == 0) return 1;
     
-    if (tableView == table) {
-        // show emtpy message
-        if ([[self getCurrentKey] count] == 0) return 1;
-        
-        NSString *key = [[self getCurrentKey] objectAtIndex:section];
-        NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
-        
-        return [nameSection count];
-    } else {
-        return 1;
-    }
+    NSString *key = [[self getCurrentKey] objectAtIndex:section];
+    NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
+    
+    return [nameSection count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (tableView == table) {
-        if ([[self getCurrentKey] count] == 0)
-            return nil;
-        
-        NSString *key = [[self getCurrentKey] objectAtIndex:section];
-        
-        if (key == UITableViewIndexSearch)
-            return nil;
-        
-        return key;
-    } else {
+    if ([[self getCurrentKey] count] == 0)
         return nil;
-    }
+    
+    NSString *key = [[self getCurrentKey] objectAtIndex:section];
+    
+    if (key == UITableViewIndexSearch)
+        return nil;
+    
+    return key;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -401,155 +393,121 @@ extern int UNKNOWN_ORGANISMID;
     //UITableViewCell *oCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     CustomOrganismCell *cell;
     
-    if (tableView == table) {
         
-        NSUInteger section = [indexPath section];
-        NSUInteger row = [indexPath row];
-        
-
-        
-        if(cell == nil) {
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomOrganismCell" owner:self options:nil];
-            
-            for (id currentObject in topLevelObjects){
-                if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                    cell =  (CustomOrganismCell *)currentObject;
-                    break;
-                }
-            }
-        } else {
-            cell = (CustomOrganismCell *)cell;
-        }
+    NSUInteger section = [indexPath section];
+    NSUInteger row = [indexPath row];
     
-        //show empty message
-        if ([[self getCurrentKey] count] == 0){
-            cell.textLabel.text = nil;
-            cell.detailTextLabel.text = NSLocalizedString(@"organismNotFound", nil);
-            cell.detailTextLabel.textColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7];
-            cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:16];
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.wikiButton.hidden = true;
-            return cell;
+
+    
+    if(cell == nil) {
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomOrganismCell" owner:self options:nil];
+        
+        for (id currentObject in topLevelObjects){
+            if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                cell =  (CustomOrganismCell *)currentObject;
+                break;
+            }
         }
-        
-        NSString *key = [[self getCurrentKey] objectAtIndex:section];
-        NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
-        
-        Organism *organism = [nameSection objectAtIndex:row];
-        
-        if(displayGermanNames) {
-            cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:13];
-            cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:12];
-        } else {
-            cell.textLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:13];
-            cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
-        }
-        
-        // German/Lat names
-        if (displayGermanNames) {
-            cell.textLabel.text = [organism getNameDe];
-            
-            //if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
-            cell.detailTextLabel.text = organism.nameLat;
-            //}
-        } else {
-            cell.textLabel.text = organism.nameLat;
-            
-            //if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
-            cell.detailTextLabel.text = [organism getNameDe];
-            //}
-        }
-        
-        //    cell.wikiButton.action = @selector(viewArticle:indexPath);
-        //    cell.wikiButton.tag = indexPath.row;
-        [cell.wikiButton addTarget:self action:@selector(wikipediaLinkClicked:) forControlEvents:UIControlEventTouchUpInside];
     } else {
-        UITableViewCell *unknownOrganismCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
-        unknownOrganismCell.textLabel.text = NSLocalizedString(@"unknownOrganism", nil);
-        unknownOrganismCell.detailTextLabel.text = NSLocalizedString(@"toBeDetermined", nil);
-        unknownOrganismCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        return unknownOrganismCell;
+        cell = (CustomOrganismCell *)cell;
     }
+
+    //show empty message
+    if ([[self getCurrentKey] count] == 0){
+        cell.textLabel.text = nil;
+        cell.detailTextLabel.text = NSLocalizedString(@"organismNotFound", nil);
+        cell.detailTextLabel.textColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:16];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.wikiButton.hidden = true;
+        return cell;
+    }
+    
+    NSString *key = [[self getCurrentKey] objectAtIndex:section];
+    NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
+    
+    Organism *organism = [nameSection objectAtIndex:row];
+    
+    if (organism.organismId == UNKNOWN_ORGANISMID) {
+        cell.wikiButton.hidden = YES;
+    }
+    
+    if(displayGermanNames) {
+        cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:13];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:12];
+    } else {
+        cell.textLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:13];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
+    }
+    
+    // German/Lat names
+    if (displayGermanNames) {
+        cell.textLabel.text = [organism getNameDe];
+        
+        //if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
+        cell.detailTextLabel.text = organism.nameLat;
+        //}
+    } else {
+        cell.textLabel.text = organism.nameLat;
+        
+        //if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
+        cell.detailTextLabel.text = [organism getNameDe];
+        //}
+    }
+    
+    //    cell.wikiButton.action = @selector(viewArticle:indexPath);
+    //    cell.wikiButton.tag = indexPath.row;
+    [cell.wikiButton addTarget:self action:@selector(wikipediaLinkClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    
-    if (tableView == table) {
-        NSString *key = [[self getCurrentKey] objectAtIndex:index];
-        
-        if (key == UITableViewIndexSearch) {
-            [tableView setContentOffset:CGPointZero animated:NO];
-            return NSNotFound;
-        } else {
-            return index;
-        }
 
+    NSString *key = [[self getCurrentKey] objectAtIndex:index];
+    
+    if (key == UITableViewIndexSearch) {
+        [tableView setContentOffset:CGPointZero animated:NO];
+        return NSNotFound;
     } else {
         return index;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (tableView == table) {
-        // if no data message is displayed do nothing
-        if ([[self getCurrentKey] count] == 0){
-            NSLog(@"click on no data");
-        }else {
-            NSLog(@"click on a organism");
-            NSUInteger section = [indexPath section];
-            NSUInteger row = [indexPath row];
-            
-            NSString *key = [[self getCurrentKey] objectAtIndex:section];
-            NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
-            
-            // Get the selected row
-            Organism *currentSelectedOrganism = [nameSection objectAtIndex:row];
-            currentSelectedOrganism.organismGroupId = organismGroupId;
-            currentSelectedOrganism.organismGroupName = organismGroupName;
-            
-            // If observation isn't nil go back
-            if (observation) {
-                if (!comeFromSubmitController) {
-                    observation.organism = currentSelectedOrganism;
-                    [self.navigationController popViewControllerAnimated:YES];
-                    return;
-                } else {
-                    observation.organism = currentSelectedOrganism;
-                    observation.organismGroup = organismGroup;
-                    NSMutableArray *tmp = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-                    [tmp removeObjectAtIndex:tmp.count - 2];
-                    self.navigationController.viewControllers = tmp;
-                    [self.navigationController popViewControllerAnimated:YES];
-                    return;
-                }
-            }
-            
-            // Create the ObservationsOrganismViewController
-            ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
-                                                                              initWithNibName:@"ObservationsOrganismSubmitController"
-                                                                              bundle:[NSBundle mainBundle]];
-            
-            // Set the current displayed organism
-            organismSubmitController.organism = currentSelectedOrganism;
-            organismSubmitController.review = false;
-            organismSubmitController.comeFromOrganism = true;
-            organismSubmitController.organismGroup = organismGroup;
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-            organismSubmitController = nil;
-        }
 
-    } else {
+    // if no data message is displayed do nothing
+    if ([[self getCurrentKey] count] == 0){
+        NSLog(@"click on no data");
+    }else {
+        NSLog(@"click on a organism");
+        NSUInteger section = [indexPath section];
+        NSUInteger row = [indexPath row];
+        
+        NSString *key = [[self getCurrentKey] objectAtIndex:section];
+        NSArray *nameSection = [[self getCurrentDict] objectForKey:key];
+        
         // Get the selected row
-        Organism *unknownOrganism = [[Organism alloc] init];
-        unknownOrganism.organismId = UNKNOWN_ORGANISMID;
-        unknownOrganism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
-        unknownOrganism.organismGroupId = organismGroupId;
-        unknownOrganism.organismGroupName = organismGroupName;
+        Organism *currentSelectedOrganism = [nameSection objectAtIndex:row];
+        currentSelectedOrganism.organismGroupId = organismGroupId;
+        currentSelectedOrganism.organismGroupName = organismGroupName;
+        
+        // If observation isn't nil go back
+        if (observation) {
+            if (!comeFromSubmitController) {
+                observation.organism = currentSelectedOrganism;
+                [self.navigationController popViewControllerAnimated:YES];
+                return;
+            } else {
+                observation.organism = currentSelectedOrganism;
+                observation.organismGroup = organismGroup;
+                NSMutableArray *tmp = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+                [tmp removeObjectAtIndex:tmp.count - 2];
+                self.navigationController.viewControllers = tmp;
+                [self.navigationController popViewControllerAnimated:YES];
+                return;
+            }
+        }
         
         // Create the ObservationsOrganismViewController
         ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
@@ -557,7 +515,7 @@ extern int UNKNOWN_ORGANISMID;
                                                                           bundle:[NSBundle mainBundle]];
         
         // Set the current displayed organism
-        organismSubmitController.organism = unknownOrganism;
+        organismSubmitController.organism = currentSelectedOrganism;
         organismSubmitController.review = false;
         organismSubmitController.comeFromOrganism = true;
         organismSubmitController.organismGroup = organismGroup;
@@ -566,7 +524,16 @@ extern int UNKNOWN_ORGANISMID;
         [self.navigationController pushViewController:organismSubmitController animated:TRUE];
         organismSubmitController = nil;
     }
+
 }
+
+/*- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    int section = indexPath.section;
+    
+    if (section == 0) {
+        cell.backgroundColor = [[UIColor alloc] initWithRed:0  green:0 blue:1  alpha:0.2];
+    }
+}*/
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

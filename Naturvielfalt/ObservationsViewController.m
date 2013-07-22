@@ -205,29 +205,34 @@ extern int UNKNOWN_ORGANISMID;
         // directly go to the detail page of an organism
         
         if(currentSelectedOrganismGroup.organismGroupId == UNKNOWN_ORGANISMGROUPID) {
-            // Then its a not yet defined organism
-            // Create the ObservationsOrganismViewController
-            ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc] 
-                                                                              initWithNibName:@"ObservationsOrganismSubmitController" 
-                                                                              bundle:[NSBundle mainBundle]];
-            
-            Organism *notYetDefinedOrganism = [[Organism alloc] init];
-            notYetDefinedOrganism.organismId = UNKNOWN_ORGANISMID;
-            notYetDefinedOrganism.nameDe = NSLocalizedString(@"unknownArt", nil);
-            notYetDefinedOrganism.nameLat = NSLocalizedString(@"toBeDetermined", nil);
-            notYetDefinedOrganism.organismGroupId = currentSelectedOrganismGroup.organismGroupId;
-            notYetDefinedOrganism.organismGroupName = currentSelectedOrganismGroup.name;
-            
-            // Set the current displayed organism
-            organismSubmitController.organism = notYetDefinedOrganism;
-            organismSubmitController.review = false;
-            organismSubmitController.organismGroup = currentSelectedOrganismGroup;
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-            organismSubmitController = nil;
-            
-            return;
+            if (!observation.observationId) {
+                // Then its a not yet defined organism
+                // Create the ObservationsOrganismViewController
+                ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
+                                                                                  initWithNibName:@"ObservationsOrganismSubmitController"
+                                                                                  bundle:[NSBundle mainBundle]];
+                
+                Organism *notYetDefinedOrganism = [[Organism alloc] init];
+                notYetDefinedOrganism.organismId = UNKNOWN_ORGANISMID;
+                notYetDefinedOrganism.nameDe = NSLocalizedString(@"unknownArt", nil);
+                notYetDefinedOrganism.nameLat = NSLocalizedString(@"toBeDetermined", nil);
+                notYetDefinedOrganism.organismGroupId = currentSelectedOrganismGroup.organismGroupId;
+                notYetDefinedOrganism.organismGroupName = currentSelectedOrganismGroup.name;
+                
+                // Set the current displayed organism
+                organismSubmitController.organism = notYetDefinedOrganism;
+                organismSubmitController.review = false;
+                organismSubmitController.organismGroup = currentSelectedOrganismGroup;
+                
+                // Switch the View & Controller
+                [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+                organismSubmitController = nil;
+                
+                return;
+            } else {
+                observation.organismGroup = currentSelectedOrganismGroup;
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }
         
         

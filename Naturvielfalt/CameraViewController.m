@@ -8,7 +8,6 @@
 
 #import "CameraViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
-#import "Observation.h"
 #import "ObservationImage.h"
 
 @interface CameraViewController ()
@@ -46,7 +45,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     [super viewDidAppear:animated];
     
     // Get current observation
-    observation = [[Observation alloc] getObservation];
+    //observation = [[Observation alloc] getObservation];
       
     if(observation.pictures.count > 0) {
         //self.image = (UIImage *)[observation.pictures objectAtIndex:0];
@@ -139,6 +138,12 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         UIImage *chosenImage = [info objectForKey:UIImagePickerControllerEditedImage];
         UIImage *shrunkenImage = shrinkImage(chosenImage, imageFrame.size);
         self.image = shrunkenImage;
+        
+        
+        // Save the taken photo to photo library
+        if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+            UIImageWriteToSavedPhotosAlbum(chosenImage, nil, nil, nil);
+        }
         
         if (observation) {
             ObservationImage *oImg = [[ObservationImage alloc] getObservationImage];

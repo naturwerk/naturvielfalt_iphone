@@ -20,7 +20,11 @@
     IBOutlet UILabel *nameLat;
     IBOutlet UILabel *family;
     IBOutlet UITableView *tableView;
+    
     IBOutlet UIButton *organismButton;
+    IBOutlet UILabel *firstLineOrganismButton;
+    IBOutlet UILabel *secondLineOrganismButton;
+    
     IBOutlet UIView *organismDataView;
     UIImage *accuracyImage;
     NSString *accuracyText;
@@ -38,7 +42,10 @@
 }
 
 @property (nonatomic) IBOutlet UIView *organismDataView;
+
 @property (nonatomic) IBOutlet UIButton *organismButton;
+@property (nonatomic) IBOutlet UILabel *firstLineOrganismButton;
+@property (nonatomic) IBOutlet UILabel *secondLineOrganismButton;
 @property (nonatomic) NSDateFormatter *dateFormatter;
 @property (nonatomic, assign) BOOL observationChanged;
 @property (nonatomic) Organism *organism;

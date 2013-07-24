@@ -213,7 +213,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
 
 - (void) checkPhotoDeleteButton {
     if (observation) {
-        if (observation.pictures.count > 0) {
+        if (tmpImages.count > 0) {
             deletePhotoButton.hidden = NO;
         } else {
             deletePhotoButton.hidden = YES;

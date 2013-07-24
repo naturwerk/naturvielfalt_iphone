@@ -7,6 +7,7 @@
 //
 
 #import "ObservationOrganismSubmitOrganismGroupController.h"
+extern int UNKNOWN_ORGANISMID;
 
 @implementation ObservationOrganismSubmitOrganismGroupController
 @synthesize pickerView, organismGroupName, organismGroupTitle, observation, groupId, classlevel, selectedOrganismGroup;
@@ -80,7 +81,7 @@
         Organism *notYetDefined = [[Organism alloc] init];
         notYetDefined.organismGroupName = selectedOrganismGroup.name;
         notYetDefined.organismGroupId = selectedOrganismGroup.organismGroupId;
-        notYetDefined.organismId = -1;
+        notYetDefined.organismId = UNKNOWN_ORGANISMID;
         notYetDefined.nameDe = NSLocalizedString(@"unknownArt", nil);
         
         //observation.organismGroup.name = selectedOrganismGroup.name;

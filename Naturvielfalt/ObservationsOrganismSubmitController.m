@@ -24,7 +24,7 @@ extern int UNKNOWN_ORGANISMGROUPID;
 extern int UNKNOWN_ORGANISMID;
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, dateFormatter, organismButton, organismDataView, organismGroup;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, dateFormatter, organismButton, organismDataView, organismGroup, firstLineOrganismButton, secondLineOrganismButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,7 +49,7 @@ extern int UNKNOWN_ORGANISMID;
 - (void) viewWillAppear:(BOOL)animated {
     if (observation.observationId) {
         organismDataView.hidden = YES;
-        //organismButton.hidden = NO;
+        organismButton.hidden = NO;
         
         NSString *organismName;
         NSString *organismLatName;
@@ -61,27 +61,8 @@ extern int UNKNOWN_ORGANISMID;
             organismName = NSLocalizedString(@"unknownOrganism", nil);
             organismLatName = NSLocalizedString(@"toBeDetermined", nil);
         }
-        
-        organismButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        organismButton.frame = CGRectMake(60, 5, 200, 55);
-        [self.view addSubview:organismButton];
-        
-        UILabel *firstLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 20)];
-        [firstLineOrganismButton setTextAlignment:UITextAlignmentCenter];
         firstLineOrganismButton.text = organismName;
-        firstLineOrganismButton.backgroundColor = [UIColor clearColor];
-        firstLineOrganismButton.font = [UIFont boldSystemFontOfSize:15];
-        [organismButton addSubview:firstLineOrganismButton];
-        
-        UILabel *secondLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 180, 20)];
-        [secondLineOrganismButton setTextAlignment:UITextAlignmentCenter];
         secondLineOrganismButton.text = organismLatName;
-        secondLineOrganismButton.backgroundColor = [UIColor clearColor];
-        secondLineOrganismButton.textColor = [UIColor grayColor];
-        secondLineOrganismButton.font = [UIFont italicSystemFontOfSize:13];
-        [organismButton addSubview:secondLineOrganismButton];
-        
-        [organismButton addTarget:self action:@selector(chooseOrganism:) forControlEvents:UIControlEventTouchUpInside];
         
         /*[organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
         [organismButton.titleLabel setTextAlignment:UITextAlignmentCenter];
@@ -126,16 +107,41 @@ extern int UNKNOWN_ORGANISMID;
     nameDe.text = [organism getNameDe];
     nameLat.text = (organism.organismId == UNKNOWN_ORGANISMID) ? NSLocalizedString(@"toBeDetermined", nil) : [organism getLatName];
     family.text = organism.family;
-    NSString *toBeDetermined = organism.organismId == UNKNOWN_ORGANISMID ? NSLocalizedString(@"toBeDetermined", nil): @"";
-    NSString *buttonTitle = [NSString stringWithFormat:@"%@\n%@", organism.nameDe,toBeDetermined];
     
+    NSString *organismName;
+    NSString *organismLatName;
+    if (observation.organism.organismId != UNKNOWN_ORGANISMID) {
+        organismName = [observation.organism getNameDe];
+        organismLatName = [observation.organism getLatName];
+    } else {
+        organismName = NSLocalizedString(@"unknownOrganism", nil);
+        organismLatName = NSLocalizedString(@"toBeDetermined", nil);
+    }
+    
+    organismButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    organismButton.frame = CGRectMake(60, 5, 200, 55);
+    organismButton.hidden = YES;
+    [self.view addSubview:organismButton];
 
-    [organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
-    [organismButton.titleLabel setTextAlignment:UITextAlignmentCenter];
-    [organismButton setTitle:buttonTitle forState:UIControlStateNormal];
+    firstLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 20)];
+    [firstLineOrganismButton setTextAlignment:UITextAlignmentCenter];
+    firstLineOrganismButton.text = organismName;
+    firstLineOrganismButton.backgroundColor = [UIColor clearColor];
+    firstLineOrganismButton.font = [UIFont boldSystemFontOfSize:15];
+    [organismButton addSubview:firstLineOrganismButton];
     
-    // Set top navigation bar button  
-    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] 
+    secondLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 180, 20)];
+    [secondLineOrganismButton setTextAlignment:UITextAlignmentCenter];
+    secondLineOrganismButton.text = organismLatName;
+    secondLineOrganismButton.backgroundColor = [UIColor clearColor];
+    secondLineOrganismButton.textColor = [UIColor grayColor];
+    secondLineOrganismButton.font = [UIFont italicSystemFontOfSize:13];
+    [organismButton addSubview:secondLineOrganismButton];
+    
+    [organismButton addTarget:self action:@selector(chooseOrganism:) forControlEvents:UIControlEventTouchUpInside];
+    
+    // Set top navigation bar button
+    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
                                      initWithTitle:(!review) ? NSLocalizedString(@"navSave", nil) 
                                                             : NSLocalizedString(@"navChange", nil)
                                      style:UIBarButtonItemStyleBordered
@@ -417,11 +423,24 @@ extern int UNKNOWN_ORGANISMID;
             
             switch(indexPath.row) {
                 case 0: {
-                    customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                    customCell.value.text = observation.organism.organismGroupName;
-                    customCell.image.image = nil;
-                    if (!observation.observationId) {
-                        customCell.userInteractionEnabled = NO;
+                    if (observation.observationId) {
+                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
+                        customCell.value.text = observation.organism.organismGroupName;
+                        customCell.image.image = nil;
+                    } else {
+                        // Use normal cell layout
+                        if (cell == nil) {
+                            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                        }
+                        
+                        // Set up the cell...
+                        cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];
+                        NSLog(@"%i", indexPath.row);
+                        cell.detailTextLabel.text = [arrayValues objectAtIndex:indexPath.row];
+                        cell.editing = NO;
+                        cell.userInteractionEnabled = NO;
+                        
+                        return cell;
                     }
                 }
                     break;
@@ -500,6 +519,8 @@ extern int UNKNOWN_ORGANISMID;
         cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];
         NSLog(@"%i", indexPath.row);
         cell.detailTextLabel.text = [arrayValues objectAtIndex:indexPath.row];
+        cell.editing = NO;
+        cell.userInteractionEnabled = NO;
     }
     
     return cell;
@@ -519,7 +540,7 @@ extern int UNKNOWN_ORGANISMID;
     switch (indexPath.row) {
         case 0:
         {
-            // DATE
+            // ORGANISM
             // Create the ObservationOrganismSubmitOrganismGroupController
             ObservationOrganismSubmitOrganismGroupController *organismSubmitOrganismGroupController = [[ObservationOrganismSubmitOrganismGroupController alloc] initWithNibName:@"ObservationOrganismSubmitOrganismGroupController" bundle:[NSBundle mainBundle]];
             

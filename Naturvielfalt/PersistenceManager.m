@@ -270,7 +270,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
             //organism.nameDe = organismNameDe;
             if (organismGroupId == UNKNOWN_ORGANISMGROUPID) {
-                organism.nameDe = NSLocalizedString(@"unknownArt", nil);
+                organism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
                 organism.nameLat = @"";
                 organism.genus = @"";
                 organism.species = @"";
@@ -386,7 +386,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
             //organism.nameDe = organismNameDe;
             if (organismGroupId == UNKNOWN_ORGANISMGROUPID) {
-                organism.nameDe = NSLocalizedString(@"unknownArt", nil);
+                organism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
                 
                 organism.genus = @"";
                 organism.species = @"";
@@ -457,6 +457,10 @@ int UNKNOWN_ORGANISMID      =   -1;
 
 // Organismname with right translation
 - (NSString *) getOrganismTranslationName:(int)organismId {
+    
+    if (organismId == UNKNOWN_ORGANISMID) {
+        return NSLocalizedString(@"unknownOrganism", nil);
+    }
     
     NSString *result;
     NSString *query = [NSString stringWithFormat:@"SELECT name_%@ FROM organism WHERE organism_id = '%i'", sLanguage, organismId];
@@ -699,6 +703,7 @@ int UNKNOWN_ORGANISMID      =   -1;
     
     return (count > 0);
 }
+
 - (OrganismGroup *) getOrganismGroup:(int)parentId withClasslevel:(int)classlevel andOrganismGroupId:(int)organismGroupId{
     //[self authUser];
     NSDate *starttime = [NSDate date];
@@ -1055,12 +1060,12 @@ int UNKNOWN_ORGANISMID      =   -1;
     //allOrganisms =[self getOrganisms:groupId withCustomFilter:@""];
     
     //add unknown organismus into array
-    Organism *unknownOrganism = [[Organism alloc] init];
+    /*Organism *unknownOrganism = [[Organism alloc] init];
     unknownOrganism.organismId = UNKNOWN_ORGANISMID;
     unknownOrganism.organismGroupId = groupId;
     unknownOrganism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
     
-    [allOrganisms insertObject:unknownOrganism atIndex:0];
+    [allOrganisms insertObject:unknownOrganism atIndex:0];*/
     
     return allOrganisms;
 }

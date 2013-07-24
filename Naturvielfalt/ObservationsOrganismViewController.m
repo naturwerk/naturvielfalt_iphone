@@ -17,7 +17,7 @@
 extern int UNKNOWN_ORGANISMID;
 
 @implementation ObservationsOrganismViewController
-@synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, organismGroup, unknownOrganismTableView, observation, comeFromSubmitController;
+@synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, organismGroup, observation, comeFromSubmitController;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -65,13 +65,11 @@ extern int UNKNOWN_ORGANISMID;
     
     // reload data again
     [table reloadData];
-    [unknownOrganismTableView reloadData];
     
 }
 
 - (void)viewDidUnload
 {
-    [self setUnknownOrganismTableView:nil];
     [super viewDidUnload];
 }
 

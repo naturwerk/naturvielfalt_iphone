@@ -469,9 +469,13 @@ extern int UNKNOWN_ORGANISMID;
         if (observation.organism.organismId == UNKNOWN_ORGANISMID) {
             checkboxCell.name.text = NSLocalizedString(@"unknownOrganism", nil);
             checkboxCell.latName.text = NSLocalizedString(@"toBeDetermined", nil);
+            checkboxCell.name.textColor = [UIColor grayColor];
+            checkboxCell.latName.textColor = [UIColor grayColor];
         } else {
             checkboxCell.name.text = [observation.organism getNameDe];
             checkboxCell.latName.text = [observation.organism getLatName];
+            checkboxCell.name.textColor = [UIColor blackColor];
+            checkboxCell.latName.textColor = [UIColor blackColor];
         }
         
         checkboxCell.date.text = nowString;

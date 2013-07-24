@@ -40,13 +40,11 @@
 	BOOL isSearching;
     
     IBOutlet UIActivityIndicatorView *spinner;
-    IBOutlet UITableView *unknownOrganismTableView;
 
 }
 
 @property (nonatomic) BOOL comeFromSubmitController;
 @property (nonatomic) Observation *observation;
-@property (nonatomic) IBOutlet UITableView *unknownOrganismTableView;
 @property (nonatomic, assign) NSInteger organismGroupId;
 @property (nonatomic, assign) BOOL displayGermanNames;
 @property (nonatomic) NSMutableArray *listData;

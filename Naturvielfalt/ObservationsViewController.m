@@ -14,8 +14,11 @@
 #import "PersistenceManager.h"
 #import "ObservationsOrganismSubmitController.h"
 
+extern int UNKNOWN_ORGANISMID;
+extern int UNKNOWN_ORGANISMGROUPID;
+
 @implementation ObservationsViewController
-@synthesize listData, table, spinner, groupId, classlevel, inventory, persistenceManager;
+@synthesize listData, table, spinner, groupId, classlevel, inventory, persistenceManager, observation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -179,10 +182,17 @@
     //Get the selected row
     OrganismGroup *currentSelectedOrganismGroup = [listData objectAtIndex:indexPath.row];
     
+    
     // Create the ObservationsOrganismViewController
     ObservationsOrganismViewController *organismController = [[ObservationsOrganismViewController alloc] 
                                                               initWithNibName:@"ObservationsOrganismViewController" 
                                                               bundle:[NSBundle mainBundle]];
+    
+    // Set observation in organism controller if observation isn't nil (is needed if user set organism later)
+    if (observation) {
+        organismController.observation = observation;
+        organismController.comeFromSubmitController = YES;
+    }
     
     // Create the ObservationsOrganismViewController
     ObservationsViewController *overviewController = [[ObservationsViewController alloc] 
@@ -213,27 +223,37 @@
         // If the OrganismGroup does not have any subgroups 
         // directly go to the detail page of an organism
         
-        if(currentSelectedOrganismGroup.organismGroupId == 1000) {
-            // Then its a not yet defined organism
-            // Create the ObservationsOrganismViewController
-            ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc] 
-                                                                              initWithNibName:@"ObservationsOrganismSubmitController" 
-                                                                              bundle:[NSBundle mainBundle]];
-            
-            Organism *notYetDefinedOrganism = [[Organism alloc] init];
-            notYetDefinedOrganism.nameDe = NSLocalizedString(@"naturNotDefinedOrganism", nil);
-            notYetDefinedOrganism.organismGroupId = currentSelectedOrganismGroup.organismGroupId;
-            
-            // Set the current displayed organism
-            organismSubmitController.organism = notYetDefinedOrganism;
-            organismSubmitController.review = false;
-            organismSubmitController.inventory = inventory;
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:organismSubmitController animated:TRUE];
-            organismSubmitController = nil;
-            
-            return;
+        if(currentSelectedOrganismGroup.organismGroupId == UNKNOWN_ORGANISMGROUPID) {
+            if (!observation.observationId) {
+                // Then its a not yet defined organism
+                // Create the ObservationsOrganismViewController
+                ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
+                                                                                  initWithNibName:@"ObservationsOrganismSubmitController"
+                                                                                  bundle:[NSBundle mainBundle]];
+                
+                Organism *notYetDefinedOrganism = [[Organism alloc] init];
+                notYetDefinedOrganism.organismId = UNKNOWN_ORGANISMID;
+                notYetDefinedOrganism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
+                notYetDefinedOrganism.nameLat = NSLocalizedString(@"toBeDetermined", nil);
+                notYetDefinedOrganism.organismGroupId = currentSelectedOrganismGroup.organismGroupId;
+                notYetDefinedOrganism.organismGroupName = currentSelectedOrganismGroup.name;
+                
+                // Set the current displayed organism
+                organismSubmitController.organism = notYetDefinedOrganism;
+                organismSubmitController.review = false;
+                organismSubmitController.organismGroup = currentSelectedOrganismGroup;
+                
+                organismSubmitController.inventory = inventory;
+                
+                // Switch the View & Controller
+                [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+                organismSubmitController = nil;
+                
+                return;
+            } else {
+                observation.organismGroup = currentSelectedOrganismGroup;
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }
         
         
@@ -241,6 +261,7 @@
         [NSThread detachNewThreadSelector:@selector(threadStartAnimating:) toTarget:self withObject:nil];
         
         organismController.inventory = inventory;
+        organismController.organismGroup = currentSelectedOrganismGroup;
         
         // Switch the View & Controller 
         // (Also load all the organism from the organism group in the ViewDidLoad from ObsvervationsOrganismViewController)
@@ -250,7 +271,6 @@
         [spinner stopAnimating];
         
         organismController = nil;
-        
     }
 }
 

@@ -21,6 +21,7 @@
     // It's needed for navigation with area feature
     Inventory *inventory;
     PersistenceManager *persistenceManager;
+    Observation *observation;
 }
 
 @property (nonatomic) NSMutableArray *listData;
@@ -30,5 +31,6 @@
 @property (nonatomic, assign) int classlevel;
 @property (nonatomic) Inventory *inventory;
 @property (nonatomic) PersistenceManager *persistenceManager;
+@property (nonatomic) Observation *observation;
 
 @end

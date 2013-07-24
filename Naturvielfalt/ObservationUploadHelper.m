@@ -69,7 +69,7 @@
         }
     }
     [request setPostValue:guid forKey:@"guid"];
-    [request setPostValue:inventoryGuid forKey:@"inventoryguid"];
+    [request setPostValue:inventoryGuid forKey:@"inventory_guid"];
     [request setPostValue:organism forKey:@"organism_id"];
     [request setPostValue:organismGroupId forKey:@"organism_artgroup_id"];
     [request setPostValue:count forKey:@"count"];

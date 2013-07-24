@@ -6,6 +6,11 @@
  
  */
 
+/** Unknown art **/
+"unknownArt"					= "Unknown art";
+"unknownOrganism"				= "Unknown organism";
+"toBeDetermined"				= "to be determined";
+
 /** Navigation **/
 "navSave"						= "Save";
 "navChange"						= "Change";
@@ -68,6 +73,7 @@
 "observationLocalization"		= "Localisation";
 "observationRelocate"			= "relocate GPS";
 "observationAdd"				= "Add";
+"observationSpecies"			= "Species";
 
 // Observation HUD
 "observationSuccessMessage"		= "Observation saved successfully";
@@ -132,6 +138,8 @@
 "collectionMapControl"			= "Map";
 
 // Collection alert messages
+"collectionCheckAll"			= "Select all";
+"collectionUncheckAll"			= "Remove selections";
 "collectionAlertObsTitle"		= "Submit observations?";
 "collectionAlertInvTitle"		= "Submit inventories?";
 "collectionAlertAreaTitle"		= "Submit areas?";

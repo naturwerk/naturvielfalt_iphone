@@ -40,9 +40,16 @@
     NSMutableArray *currKeys;
 	BOOL isSearching;
     
+    Observation *observation;
+    OrganismGroup *organismGroup;
+    BOOL comeFromSubmitController;
+    
     IBOutlet UIActivityIndicatorView *spinner;
 }
 
+@property (nonatomic) Observation *observation;
+@property (nonatomic) OrganismGroup *organismGroup;
+@property (nonatomic) BOOL comeFromSubmitController;
 @property (nonatomic, assign) NSInteger organismGroupId;
 @property (nonatomic, assign) BOOL displayGermanNames;
 @property (nonatomic) NSMutableArray *listData;

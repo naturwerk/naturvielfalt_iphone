@@ -67,7 +67,7 @@
     }*/
     
     [request setPostValue:guid forKey:@"guid"];
-    [request setPostValue:areaGuid forKey:@"areaguid"];
+    [request setPostValue:areaGuid forKey:@"area_id"];
     [request setPostValue:name forKey:@"name"];
     [request setPostValue:date forKey:@"date"];
     [request setPostValue:time forKey:@"time"];

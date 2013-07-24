@@ -88,6 +88,8 @@
 		27F114DA171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114D8171BD0D10017DAF0 /* AreasSubmitInventoryObservationController.xib */; };
 		27F114E7171BFDAC0017DAF0 /* CustomAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F114E6171BFDAC0017DAF0 /* CustomAddCell.m */; };
 		27F114E9171BFDCD0017DAF0 /* CustomAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */; };
+		27F287F9179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F287F7179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.m */; };
+		27F287FA179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F287F8179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.xib */; };
 		27F399611716BBF7000433F7 /* Inventory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F399601716BBF7000433F7 /* Inventory.m */; };
 		27F3996D1716F5B0000433F7 /* AreasSubmitInventoryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */; };
 		27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27F4C143177D7FAA009FFA70 /* CameraViewController.xib */; };
@@ -103,13 +105,13 @@
 		27F7844117156FD000081A1F /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7844017156FD000081A1F /* 07-map-marker.png */; };
 		27F8C3D51727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */; };
 		27FB850F1720054200A7632D /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FB850E1720054200A7632D /* CustomAnnotation.m */; };
-		27FCAAC91782D2C5007D10F1 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FCAAC81782D2C5007D10F1 /* db.sqlite3 */; };
 		27FCAACD1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FCAACB1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m */; };
 		27FDA9D3176EF95100B8B01A /* ObservationUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D2176EF95100B8B01A /* ObservationUploadHelper.m */; };
 		27FDA9D7176EF97200B8B01A /* InventoryUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D6176EF97200B8B01A /* InventoryUploadHelper.m */; };
 		27FDA9DA176EF98000B8B01A /* AreaUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FDA9D9176EF98000B8B01A /* AreaUploadHelper.m */; };
 		27FE06D4177B1F28000D408D /* CheckboxAreaObsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FE06D3177B1F28000D408D /* CheckboxAreaObsCell.m */; };
 		27FE06D6177B1F4A000D408D /* CheckboxAreaObsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FE06D5177B1F49000D408D /* CheckboxAreaObsCell.xib */; };
+		27FE238F179D557400476650 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 27FE238E179D557400476650 /* db.sqlite3 */; };
 		27FED4E81730FC260030886F /* CheckboxInventoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FED4E71730FC260030886F /* CheckboxInventoryCell.m */; };
 		27FED4EA1730FC3F0030886F /* CheckboxInventoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */; };
 		27FED4ED173102E60030886F /* CheckboxAreaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27FED4EC173102E60030886F /* CheckboxAreaCell.m */; };
@@ -336,6 +338,9 @@
 		27F114E5171BFDAC0017DAF0 /* CustomAddCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAddCell.h; sourceTree = "<group>"; };
 		27F114E6171BFDAC0017DAF0 /* CustomAddCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAddCell.m; sourceTree = "<group>"; };
 		27F114E8171BFDCD0017DAF0 /* CustomAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAddCell.xib; sourceTree = "<group>"; };
+		27F287F6179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationOrganismSubmitOrganismGroupController.h; sourceTree = "<group>"; };
+		27F287F7179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationOrganismSubmitOrganismGroupController.m; sourceTree = "<group>"; };
+		27F287F8179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationOrganismSubmitOrganismGroupController.xib; sourceTree = "<group>"; };
 		27F3995F1716BBF7000433F7 /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
 		27F399601716BBF7000433F7 /* Inventory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Inventory.m; sourceTree = "<group>"; };
 		27F3996C1716F5AF000433F7 /* AreasSubmitInventoryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitInventoryController.xib; sourceTree = "<group>"; };
@@ -356,7 +361,6 @@
 		27F8C3D41727C4D700480EF8 /* MKPolyline+MKPolylineCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+MKPolylineCategory.m"; sourceTree = "<group>"; };
 		27FB850D1720054200A7632D /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
 		27FB850E1720054200A7632D /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
-		27FCAAC81782D2C5007D10F1 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		27FCAACA1782F85B007D10F1 /* ObservationsOrganismSubmitDateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservationsOrganismSubmitDateController.h; sourceTree = "<group>"; };
 		27FCAACB1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObservationsOrganismSubmitDateController.m; sourceTree = "<group>"; };
 		27FCAACC1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsOrganismSubmitDateController.xib; sourceTree = "<group>"; };
@@ -370,6 +374,7 @@
 		27FE06D2177B1F28000D408D /* CheckboxAreaObsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckboxAreaObsCell.h; sourceTree = "<group>"; };
 		27FE06D3177B1F28000D408D /* CheckboxAreaObsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckboxAreaObsCell.m; sourceTree = "<group>"; };
 		27FE06D5177B1F49000D408D /* CheckboxAreaObsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckboxAreaObsCell.xib; sourceTree = "<group>"; };
+		27FE238E179D557400476650 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
 		27FED4E61730FC260030886F /* CheckboxInventoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckboxInventoryCell.h; sourceTree = "<group>"; };
 		27FED4E71730FC260030886F /* CheckboxInventoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckboxInventoryCell.m; sourceTree = "<group>"; };
 		27FED4E91730FC3F0030886F /* CheckboxInventoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckboxInventoryCell.xib; sourceTree = "<group>"; };
@@ -812,7 +817,7 @@
 		CB7AC23B149B9105001D315A /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				27FCAAC81782D2C5007D10F1 /* db.sqlite3 */,
+				27FE238E179D557400476650 /* db.sqlite3 */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -1021,6 +1026,9 @@
 		CBDDB535144D7586007E48AB /* SubmitHelper */ = {
 			isa = PBXGroup;
 			children = (
+				27F287F6179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.h */,
+				27F287F7179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.m */,
+				27F287F8179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.xib */,
 				27FCAACA1782F85B007D10F1 /* ObservationsOrganismSubmitDateController.h */,
 				27FCAACB1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m */,
 				27FCAACC1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.xib */,
@@ -1263,11 +1271,12 @@
 				2707A9131772F66F002EA87D /* CollectionAreaObservationsController.xib in Resources */,
 				27FE06D6177B1F4A000D408D /* CheckboxAreaObsCell.xib in Resources */,
 				27F4C144177D7FAA009FFA70 /* CameraViewController.xib in Resources */,
-				27FCAAC91782D2C5007D10F1 /* db.sqlite3 in Resources */,
 				278E035617842B2D00EE7368 /* CustomDateCell.xib in Resources */,
 				278E03621784494700EE7368 /* AreasSubmitDateController.xib in Resources */,
 				278E036717845BCB00EE7368 /* AreasSubmitInventoryDateController.xib in Resources */,
 				271394931786A2C900F47DCD /* checkbox.png in Resources */,
+				27FE238F179D557400476650 /* db.sqlite3 in Resources */,
+				27F287FA179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1377,6 +1386,7 @@
 				278E0354178429A400EE7368 /* CustomDateCell.m in Sources */,
 				278E03611784494700EE7368 /* AreasSubmitDateController.m in Sources */,
 				278E036617845BCB00EE7368 /* AreasSubmitInventoryDateController.m in Sources */,
+				27F287F9179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

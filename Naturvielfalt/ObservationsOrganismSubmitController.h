@@ -14,17 +14,21 @@
 
 @interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>  {
     Organism *organism;
+    OrganismGroup *organismGroup;
     Observation *observation;
     IBOutlet UILabel *nameDe;
     IBOutlet UILabel *nameLat;
     IBOutlet UILabel *family;
+    IBOutlet UIButton *organismButton;
     IBOutlet UITableView *tableView;
+    IBOutlet UIView *organismDataView;
     UIImage *accuracyImage;
     NSString *accuracyText;
     CLLocationManager *locationManager;
     UIActionSheet *deleteObservationSheet;
     NSIndexPath *currIndexPath;
     NSDateFormatter *dateFormatter;
+    
     
     
     NSArray *arrayKeys;
@@ -39,9 +43,11 @@
     BOOL observationChanged;
 }
 
-
+@property (nonatomic) IBOutlet UIButton *organismButton;
+@property (nonatomic) IBOutlet UIView *organismDataView;
 @property (nonatomic, assign) BOOL observationChanged;
 @property (nonatomic) Organism *organism;
+@property (nonatomic) OrganismGroup *organismGroup;
 @property (nonatomic) Observation *observation;
 @property (nonatomic) IBOutlet UILabel *nameDe;
 @property (nonatomic) IBOutlet UILabel *nameLat;
@@ -67,6 +73,7 @@
 - (void) prepareData;
 - (void) rowClicked:(NSIndexPath *)indexPath;
 - (void) saveObservation;
+- (IBAction)chooseOrganism:(id)sender;
 
 + (void) persistObservation:(Observation *)obsToSave inventory:(Inventory*)ivToSave;
 

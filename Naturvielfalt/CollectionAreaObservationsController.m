@@ -21,6 +21,8 @@
 #define ANNOTATION_REGION_PAD_FACTOR 1.15
 #define MAX_DEGREES_ARC 360
 
+extern int UNKNOWN_ORGANISMID;
+
 @implementation CollectionAreaObservationsController
 @synthesize table, persistenceManager, observations, operationQueue, countObservations, curIndex, areaObservationsView, mapView, segmentControl;
 
@@ -380,10 +382,21 @@
             checkboxAreaObsCell.image.image = [UIImage imageNamed:@"blank.png"];
         }
         
-        checkboxAreaObsCell.name.text = [observation.organism getNameDe];
+        if (observation.organism.organismId == UNKNOWN_ORGANISMID) {
+            checkboxAreaObsCell.name.text = NSLocalizedString(@"unknownOrganism", nil);
+            checkboxAreaObsCell.latName.text = NSLocalizedString(@"toBeDetermined", nil);
+            checkboxAreaObsCell.name.textColor = [UIColor grayColor];
+            checkboxAreaObsCell.latName.textColor = [UIColor grayColor];
+        } else {
+            checkboxAreaObsCell.name.text = [observation.organism getNameDe];
+            checkboxAreaObsCell.latName.text = [observation.organism getLatName];
+            checkboxAreaObsCell.name.textColor = [UIColor blackColor];
+            checkboxAreaObsCell.latName.textColor = [UIColor blackColor];
+        }
+
+        
         checkboxAreaObsCell.date.text = nowString;
         checkboxAreaObsCell.amount.text = observation.amount;
-        checkboxAreaObsCell.latName.text = [observation.organism getLatName];
         checkboxAreaObsCell.areaImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:observation.inventory.area]]];
         
         // Define the action on the button and the current row index as tag
@@ -451,6 +464,7 @@
     organismSubmitController.observation = observation;
     organismSubmitController.organism = observation.organism;
     organismSubmitController.review = YES;
+    organismSubmitController.organismGroup = observation.organismGroup;
     
     // Switch the View & Controller
     [self.navigationController pushViewController:organismSubmitController animated:TRUE];

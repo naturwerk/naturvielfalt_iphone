@@ -20,6 +20,8 @@
 #define ANNOTATION_REGION_PAD_FACTOR 1.15
 #define MAX_DEGREES_ARC 360
 
+extern int UNKNOWN_ORGANISMID;
+
 @implementation CollectionObservationsController
 @synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, segmentControl, mapView, observationsView, obsToSubmit, checkAllButton;
 
@@ -645,10 +647,20 @@
             checkboxCell.image.image = [UIImage imageNamed:@"blank.png"];
         }
         
-        checkboxCell.name.text = [observation.organism getNameDe];
+        if (observation.organism.organismId == UNKNOWN_ORGANISMID) {
+            checkboxCell.name.text = NSLocalizedString(@"unknownOrganism", nil);
+            checkboxCell.latName.text = NSLocalizedString(@"toBeDetermined", nil);
+            checkboxCell.name.textColor = [UIColor grayColor];
+            checkboxCell.latName.textColor = [UIColor grayColor];
+        } else {
+            checkboxCell.name.text = [observation.organism getNameDe];
+            checkboxCell.latName.text = [observation.organism getLatName];
+            checkboxCell.name.textColor = [UIColor blackColor];
+            checkboxCell.latName.textColor = [UIColor blackColor];
+        }
+
         checkboxCell.date.text = nowString;
         checkboxCell.amount.text = observation.amount;
-        checkboxCell.latName.text = [observation.organism getLatName];
         checkboxCell.areaImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:observation.inventory.area]]];
         
         // Define the action on the button and the current row index as tag
@@ -705,6 +717,7 @@
     organismSubmitController.observation = observation;
     organismSubmitController.organism = observation.organism;
     organismSubmitController.review = YES;
+    organismSubmitController.organismGroup = observation.organismGroup;
     
     // Switch the View & Controller
     [self.navigationController pushViewController:organismSubmitController animated:TRUE];

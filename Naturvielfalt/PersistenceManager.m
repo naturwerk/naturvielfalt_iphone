@@ -13,6 +13,8 @@
 
 @implementation PersistenceManager
 @synthesize dbStatic, dbUser, sLanguage;
+int UNKNOWN_ORGANISMGROUPID = 1000;
+int UNKNOWN_ORGANISMID      =   -1;
 
 - (NSString *)userDataFilePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -56,7 +58,7 @@
         sqlite3_close(dbStatic);
         NSAssert(0, @"Failed to open static database");
     }
-	
+    
     // Create TABLE OBSERVATION
     NSString *createSQLObservation = @"CREATE TABLE IF NOT EXISTS observation (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
                                                                      GUID INTEGER,                         \
@@ -290,7 +292,7 @@
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
             //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
-            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+            //NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
             int amount = sqlite3_column_int(statement, 10);
@@ -321,11 +323,33 @@
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
             //organism.nameDe = organismNameDe;
-            organism.nameDe = [self getOrganismTranslationName:organismId];
+            organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
+            
+            if (organismGroupId == UNKNOWN_ORGANISMGROUPID) {
+                organism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
+                organism.nameLat = @"";
+                organism.genus = @"";
+                organism.species = @"";
+            } else {
+                NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                organism.nameDe = [self getOrganismTranslationName:organismId];
+                
+                // Split the lat name into two pieces
+                NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+                
+                if([latNames count] == 2) {
+                    organism.genus = [latNames objectAtIndex:0];
+                    organism.species = [latNames objectAtIndex:1];
+                } else {
+                    organism.genus = @"";
+                    organism.species = @"";
+                }
+            }
+
             organism.family = organismFamily;
             
             // Split the lat name into two pieces
-            NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+            /*NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
             
             if([latNames count] == 2) {
                 organism.genus = [latNames objectAtIndex:0];
@@ -333,7 +357,7 @@
             } else {
                 organism.genus = @"";
                 organism.species = @"";
-            }
+            }*/
             
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -364,6 +388,11 @@
                 // observation is member of an inventory
                 observation.inventory = [self getInventory:inventoryId];
             }
+            
+            // Create organismGroup
+            int classlevel = 1;
+            int parentId = 1;
+            observation.organismGroup = [self getOrganismGroup:parentId withClasslevel:classlevel andOrganismGroupId:organismGroupId];
 		}
         sqlite3_finalize(statement);
     }
@@ -387,7 +416,6 @@
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
             //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
-            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
             int amount = sqlite3_column_int(statement, 10);
@@ -418,11 +446,33 @@
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
             //organism.nameDe = organismNameDe;
-            organism.nameDe = [self getOrganismTranslationName:organismId];
+            organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
+            if (organismGroupId == UNKNOWN_ORGANISMGROUPID) {
+                organism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
+                
+                organism.genus = @"";
+                organism.species = @"";
+            } else {
+                
+                NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                organism.nameDe = [self getOrganismTranslationName:organismId];
+                
+                // Split the lat name into two pieces
+                NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+                
+                if([latNames count] == 2) {
+                    organism.genus = [latNames objectAtIndex:0];
+                    organism.species = [latNames objectAtIndex:1];
+                } else {
+                    organism.genus = @"";
+                    organism.species = @"";
+                }
+            }
+
             organism.family = organismFamily;
             
             // Split the lat name into two pieces
-            NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+            /*NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
             
             if([latNames count] == 2) {
                 organism.genus = [latNames objectAtIndex:0];
@@ -430,7 +480,7 @@
             } else {
                 organism.genus = @"";
                 organism.species = @"";
-            }
+            }*/
             
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -464,6 +514,11 @@
                 observation.inventory.area = [self getArea:observation.inventory.areaId];
                 //inventory.area.inventories = [self getInventoriesFromArea:inventory.area];
             }
+            
+            // Get OrganismGroup
+            int classlevel = 1;
+            int parentId = 1;
+            observation.organismGroup = [self getOrganismGroup:parentId withClasslevel:classlevel andOrganismGroupId:organismGroupId];
             
             // Add observation to the observation array
             [observations addObject:observation];
@@ -490,7 +545,6 @@
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
             //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
-            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
             int amount = sqlite3_column_int(statement, 10);
@@ -521,11 +575,31 @@
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
             //organism.nameDe = organismNameDe;
-            organism.nameDe = [self getOrganismTranslationName:organismId];
+            organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
+            if (organismGroupId == UNKNOWN_ORGANISMGROUPID) {
+                organism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
+                
+                organism.genus = @"";
+                organism.species = @"";
+            } else {
+                NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                organism.nameDe = [self getOrganismTranslationName:organismId];
+                
+                // Split the lat name into two pieces
+                NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+                
+                if([latNames count] == 2) {
+                    organism.genus = [latNames objectAtIndex:0];
+                    organism.species = [latNames objectAtIndex:1];
+                } else {
+                    organism.genus = @"";
+                    organism.species = @"";
+                }
+            }
             organism.family = organismFamily;
             
             // Split the lat name into two pieces
-            NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+            /*NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
             
             if([latNames count] == 2) {
                 organism.genus = [latNames objectAtIndex:0];
@@ -533,7 +607,7 @@
             } else {
                 organism.genus = @"";
                 organism.species = @"";
-            }
+            }*/
             
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -568,6 +642,11 @@
                 //inventory.area.inventories = [self getInventoriesFromArea:inventory.area];
             }
             
+            // Get OrganismGroup
+            int classlevel = 1;
+            int parentId = 1;
+            observation.organismGroup = [self getOrganismGroup:parentId withClasslevel:classlevel andOrganismGroupId:organismGroupId];
+            
             // Add observation to the observation array
             [observations addObject:observation];
 		}
@@ -593,7 +672,7 @@
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
             //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
-            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+            //NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
             int amount = sqlite3_column_int(statement, 10);
@@ -624,11 +703,33 @@
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
             //organism.nameDe = organismNameDe;
-            organism.nameDe = [self getOrganismTranslationName:organismId];
+            organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
+            
+            if (organismGroupId == UNKNOWN_ORGANISMGROUPID) {
+                organism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
+                
+                organism.genus = @"";
+                organism.species = @"";
+            } else {
+                
+                NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                organism.nameDe = [self getOrganismTranslationName:organismId];
+                
+                // Split the lat name into two pieces
+                NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+                
+                if([latNames count] == 2) {
+                    organism.genus = [latNames objectAtIndex:0];
+                    organism.species = [latNames objectAtIndex:1];
+                } else {
+                    organism.genus = @"";
+                    organism.species = @"";
+                }
+            }
             organism.family = organismFamily;
             
             // Split the lat name into two pieces
-            NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+            /*NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
             
             if([latNames count] == 2) {
                 organism.genus = [latNames objectAtIndex:0];
@@ -636,7 +737,7 @@
             } else {
                 organism.genus = @"";
                 organism.species = @"";
-            }
+            }*/
             
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -663,6 +764,11 @@
             observation.locationLocked = locationLocked;
             observation.submitToServer = true;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
+            
+            // Get OrganismGroup
+            int classlevel = 1;
+            int parentId = 1;
+            observation.organismGroup = [self getOrganismGroup:parentId withClasslevel:classlevel andOrganismGroupId:organismGroupId];
             
             // Add observation to the observation array
             [observations addObject:observation];
@@ -702,10 +808,34 @@
 
 // Organismname with right translation
 - (NSString *) getOrganismTranslationName:(int )organismId {
+    if (organismId == UNKNOWN_ORGANISMID) {
+        return NSLocalizedString(@"unknownOrganism", nil);
+    }
 
     NSString *result;
     NSString *query = [NSString stringWithFormat:@"SELECT name_%@ FROM organism WHERE organism_id = '%i'", sLanguage, organismId];
 
+    sqlite3_stmt *statement;
+    if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+			
+            result = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+            if ([result isEqualToString:@""]) {
+                result = NSLocalizedString(@"organismNoTransAvailable", nil);
+            }
+		}
+        sqlite3_finalize(statement);
+    }
+    return result;
+}
+
+// Organismname with right translation
+- (NSString *) getOrganismGroupTranslationName:(int)organismGroupId {
+    
+    NSString *result;
+    NSString *query = [NSString stringWithFormat:@"SELECT name_%@ FROM classification WHERE classification_id = '%i'", sLanguage, organismGroupId];
+    
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
         
@@ -1453,7 +1583,6 @@
             int organismId = sqlite3_column_int(statement, 3);
             int organismGroupId = sqlite3_column_int(statement, 4);
             //NSString *organismNameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
-            NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
             NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 8)];
             NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 9)];
             int amount = sqlite3_column_int(statement, 10);
@@ -1484,11 +1613,31 @@
             organism.organismId = organismId;
             organism.organismGroupId = organismGroupId;
             //organism.nameDe = organismNameDe;
-            organism.nameDe = [self getOrganismTranslationName:organismId];
+            if (organismGroupId == UNKNOWN_ORGANISMGROUPID) {
+                organism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
+                
+                organism.genus = @"";
+                organism.species = @"";
+            } else {
+                
+                NSString *organismNameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+                organism.nameDe = [self getOrganismTranslationName:organismId];
+                
+                // Split the lat name into two pieces
+                NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+                
+                if([latNames count] == 2) {
+                    organism.genus = [latNames objectAtIndex:0];
+                    organism.species = [latNames objectAtIndex:1];
+                } else {
+                    organism.genus = @"";
+                    organism.species = @"";
+                }
+            }
             organism.family = organismFamily;
             
             // Split the lat name into two pieces
-            NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
+            /*NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
             
             if([latNames count] == 2) {
                 organism.genus = [latNames objectAtIndex:0];
@@ -1496,7 +1645,7 @@
             } else {
                 organism.genus = @"";
                 organism.species = @"";
-            }
+            }*/
             
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -1522,6 +1671,11 @@
             observation.locationLocked = locationLocked;
             observation.submitToServer = true;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
+            
+            // Create organismGroup
+            int classlevel = 1;
+            int parentId = 1;
+            observation.organismGroup = [self getOrganismGroup:parentId withClasslevel:classlevel andOrganismGroupId:organismGroupId];
             
             // Add area to the areas array
             [observations addObject:observation];
@@ -1574,9 +1728,14 @@
 		}
         
         sqlite3_finalize(statement);
-    } else {
-        
     }
+    
+    //Add unknown art to the list
+    /*OrganismGroup *unknownGroup = [[OrganismGroup alloc] init];
+     unknownGroup.organismGroupId = 1000;
+     unknownGroup.name = NSLocalizedString(@"unknownArt", nil);
+     unknownGroup.count = 0;
+     [organismGroups insertObject:unknownGroup atIndex:0];*/
     
     NSDate *endtime = [NSDate date];
     NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
@@ -1600,6 +1759,63 @@
     }
     
     return (count > 0);
+}
+
+- (OrganismGroup *) getOrganismGroup:(int)parentId withClasslevel:(int)classlevel andOrganismGroupId:(int)organismGroupId{
+    //[self authUser];
+    NSDate *starttime = [NSDate date];
+    OrganismGroup *organismGroup;
+    
+    if (organismGroupId != UNKNOWN_ORGANISMGROUPID) {
+        NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.name_%@, COUNT(ct.taxon_id), c.position \
+                           FROM classification as c \
+                           LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
+                           WHERE (c.parent = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
+                           AND c.classification_id = %d\
+                           GROUP BY c.classification_id, c.name_%@ ORDER BY c.position", sLanguage, parentId, organismGroupId, sLanguage];
+        
+        sqlite3_stmt *statement;
+        
+        if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+            
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                
+                int classificationId = sqlite3_column_int(statement, 0);
+                NSString *groupName;
+                if (!(char *)sqlite3_column_text(statement, 1)) {
+                    groupName = NSLocalizedString(@"organismNoTransAvailable", nil);
+                } else {
+                    groupName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+                    if (groupName.length == 0) {
+                        groupName = NSLocalizedString(@"organismNoTransAvailable", nil);
+                    }
+                }
+                
+                int groupCount = sqlite3_column_int(statement, 2);
+                
+                // Create OrganismGroup
+                organismGroup = [[OrganismGroup alloc] init];
+                
+                organismGroup.organismGroupId = classificationId;
+                organismGroup.name = groupName;
+                organismGroup.count = groupCount;
+            }
+            
+            sqlite3_finalize(statement);
+        }
+    } else {
+        //Add unknown art to the list
+        OrganismGroup *unknownGroup = [[OrganismGroup alloc] init];
+        unknownGroup.organismGroupId = UNKNOWN_ORGANISMGROUPID;
+        unknownGroup.name = NSLocalizedString(@"unknownArt", nil);
+        unknownGroup.count = 0;
+        organismGroup = unknownGroup;
+    }
+    
+    NSDate *endtime = [NSDate date];
+    NSTimeInterval executionTime = [endtime timeIntervalSinceDate:starttime];
+    NSLog(@"PersistenceManager: getAllOrganismGroups(parentId: %i, classlevel: %i) | running time: %fs", parentId, classlevel, executionTime);
+    return organismGroup;
 }
 
 // ORGANISMS

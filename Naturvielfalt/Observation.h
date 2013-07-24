@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Organism.h"
 #import "Inventory.h"
+#import "OrganismGroup.h"
 
 @interface Observation : NSObject {
     long long int observationId;
@@ -26,11 +27,13 @@
     BOOL submitToServer;
     BOOL locationLocked;
     int guid;
+    OrganismGroup *organismGroup;
 }
 
 @property (nonatomic, assign) long long int observationId;
 @property (nonatomic, assign) long long int inventoryId;
 @property (nonatomic) Organism *organism;
+@property (nonatomic) OrganismGroup *organismGroup;
 @property (nonatomic) NSString *author;
 @property (nonatomic) NSDate *date;
 @property (nonatomic) NSString *amount;

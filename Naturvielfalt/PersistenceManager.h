@@ -16,6 +16,7 @@
 #import "LocationPoint.h"
 #import "Inventory.h"
 #import <sqlite3.h>
+#import "OrganismGroup.h"
 
 
 #define kFilenameUser @"user.sqlite3"
@@ -53,6 +54,7 @@
 
 // Organismname with right translation
 - (NSString *) getOrganismTranslationName:(int )organismId;
+- (NSString *) getOrganismGroupTranslationName:(int)organismId;
 
 // ObservationImages
 - (long long int) saveObservationImage:(ObservationImage *) observationImage;
@@ -91,13 +93,12 @@
 // Organismgroups;
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel;
 - (BOOL) organismGroupHasChild:(int) groupId;
+- (OrganismGroup *) getOrganismGroup:(int) parentId withClasslevel:(int) classlevel andOrganismGroupId:(int) organismGroupId;
 
 // Organisms
 - (NSMutableArray *) getOrganisms:(int) groupId withCustomFilter:(NSString *)filter;
 - (NSMutableArray *) getOrganismsSortByDE:(int) groupId withCustomFilter:(NSString*) filter;
 - (NSMutableArray *) getOrganismsSortByLAT:(int) groupId withCustomFilter: (NSString*) filter;
 - (NSMutableArray *) getAllOrganisms:(int) groupId sortByDe:(BOOL) sortByDe;
-
-
 
 @end

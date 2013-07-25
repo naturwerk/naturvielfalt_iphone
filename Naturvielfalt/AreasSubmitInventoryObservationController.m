@@ -12,9 +12,7 @@
 #import "ObservationCell.h"
 #import "Observation.h"
 
-@interface AreasSubmitInventoryObservationController ()
-
-@end
+extern int UNKNOWN_ORGANISMID;
 
 @implementation AreasSubmitInventoryObservationController
 @synthesize dateLabel, inventoryLabel, areaLabel, area, inventory, observationLabel,observationsTableView;
@@ -23,7 +21,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -49,13 +47,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     if (inventory.inventoryId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
-        
         [persistenceManager establishConnection];
         inventory = [persistenceManager getInventory:inventory.inventoryId];
-
         [persistenceManager closeConnection];
         
         if (!inventory) {
@@ -68,10 +61,6 @@
     }
     
     if (area.areaId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
-        
         [persistenceManager establishConnection];
         Area *tmpArea = [persistenceManager getArea:area.areaId];
         [persistenceManager closeConnection];
@@ -203,6 +192,16 @@
             cell.photo.image = [UIImage imageNamed:@"blank.png"];
         }
         
+        if (observation.organism.organismId == UNKNOWN_ORGANISMID) {
+            //checkboxCell.name.text = NSLocalizedString(@"unknownOrganism", nil);
+            //checkboxCell.latName.text = NSLocalizedString(@"toBeDetermined", nil);
+            cell.name.textColor = [UIColor grayColor];
+            cell.latName.textColor = [UIColor grayColor];
+        } else {
+            cell.name.textColor = [UIColor blackColor];
+            cell.latName.textColor = [UIColor blackColor];
+        }
+
         cell.name.text = observation.organism.getNameDe;
         cell.latName.text = observation.organism.getLatName;
         cell.date.text = nowString;
@@ -220,9 +219,6 @@
         ObservationCell *cell = (ObservationCell *)[tableView cellForRowAtIndexPath:indexPath];
         UILabel *label = cell.name;
         
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         // Also delete it from the Database
         // Establish a connection
         [persistenceManager establishConnection];
@@ -242,7 +238,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Create the ObservationsOrganismViewController
-    ObservationsOrganismSubmitController *observationsOrganismSubmitController = [[ObservationsOrganismSubmitController alloc]
+    ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
                                                                             initWithNibName:@"ObservationsOrganismSubmitController"
                                                                             bundle:[NSBundle mainBundle]];
     
@@ -250,14 +246,15 @@
     //[observation setObservation:observation];
     
     // Set the current displayed organism
-    observationsOrganismSubmitController.observation = observation;
-    observationsOrganismSubmitController.inventory = inventory;
-    observationsOrganismSubmitController.organism = observation.organism;
-    observationsOrganismSubmitController.review = YES;
+    organismSubmitController.observation = observation;
+    organismSubmitController.inventory = inventory;
+    organismSubmitController.organism = observation.organism;
+    organismSubmitController.review = YES;
+    organismSubmitController.organismGroup = observation.organismGroup;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:observationsOrganismSubmitController animated:TRUE];
-    observationsOrganismSubmitController = nil;
+    [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+    organismSubmitController = nil;
 }
 
 @end

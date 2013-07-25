@@ -45,7 +45,10 @@
 								<string key="NSFrame">{{10, 11}, {132, 21}}</string>
 								<reference key="NSSuperview" ref="1056383689"/>
 								<reference key="NSNextKeyView" ref="123809674"/>
-								<bool key="IBUIOpaque">NO</bool>
+								<object class="NSColor" key="IBUIBackgroundColor" id="309263653">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MCAwAA</bytes>
+								</object>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<object class="IBUIAccessibilityConfiguration" key="IBUIAccessibilityConfiguration">
@@ -53,7 +56,7 @@
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">Key</string>
-								<object class="NSColor" key="IBUITextColor" id="31517819">
+								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
 									<string key="IBUIColorCocoaTouchKeyPath">darkTextColor</string>
@@ -76,8 +79,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{77, 11}, {183, 21}}</string>
 								<reference key="NSSuperview" ref="1056383689"/>
-								<reference key="NSNextKeyView"/>
-								<bool key="IBUIOpaque">NO</bool>
+								<reference key="IBUIBackgroundColor" ref="309263653"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<object class="IBUIAccessibilityConfiguration" key="IBUIAccessibilityConfiguration">
@@ -85,7 +87,10 @@
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">unbekannt</string>
-								<reference key="IBUITextColor" ref="31517819"/>
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4yMTk2MDc4NDMxIDAuMzI5NDExNzY0NyAwLjUyOTQxMTc2NDcAA</bytes>
+								</object>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
@@ -105,10 +110,7 @@
 						<reference key="NSSuperview" ref="680767028"/>
 						<reference key="NSNextKeyView" ref="220290982"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MCAwAA</bytes>
-						</object>
+						<reference key="IBUIBackgroundColor" ref="309263653"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>

@@ -27,8 +27,8 @@
     if (self) {
         // Custom initialization
         doSubmit = FALSE;
+        persistenceManager = [[PersistenceManager alloc] init];
     }
-    persistenceManager = [[PersistenceManager alloc] init];
     return self;
 }
 
@@ -213,7 +213,7 @@
             AreaUploadHelper *areaUploadHelper = [[AreaUploadHelper alloc] init];
             [areaUploadHelper registerListener:self];
             [areaUploadHelpers addObject:areaUploadHelper];
-            [areaUploadHelper submit:area withRecursion:NO];
+            [areaUploadHelper submit:area withRecursion:YES];
     }
 }
 
@@ -489,10 +489,10 @@
         [areaUploadHelpers removeAllObjects];
         
         if (areasToSubmit.count == 0) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessAreaDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
             [alert show];
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObsSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorAreSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
             [alert show];
         }
         //[loadingHUD removeFromSuperview];

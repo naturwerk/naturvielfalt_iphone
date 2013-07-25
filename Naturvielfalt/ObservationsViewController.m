@@ -27,6 +27,7 @@ extern int UNKNOWN_ORGANISMGROUPID;
         // Root element has the id 1
         groupId = 1;
         classlevel = 1;
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     
     return self;
@@ -94,9 +95,6 @@ extern int UNKNOWN_ORGANISMGROUPID;
 
 -(void) viewDidAppear:(BOOL)animated {
     if (inventory.inventoryId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         [persistenceManager establishConnection];
         Area *tmpArea = [persistenceManager getArea:inventory.areaId];
         inventory = [persistenceManager getInventory:inventory.inventoryId];
@@ -204,9 +202,6 @@ extern int UNKNOWN_ORGANISMGROUPID;
     organismController.organismGroupName = currentSelectedOrganismGroup.name;
     
     // Find out if this organism group has at least one child
-    if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
     [persistenceManager establishConnection];
     BOOL hasChild = [persistenceManager organismGroupHasChild:currentSelectedOrganismGroup.organismGroupId];
     [persistenceManager closeConnection];
@@ -277,9 +272,6 @@ extern int UNKNOWN_ORGANISMGROUPID;
 
 -(void) loadOrganismusGroups 
 {
-    if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
     // Get all oranismGroups
     [persistenceManager establishConnection];
     

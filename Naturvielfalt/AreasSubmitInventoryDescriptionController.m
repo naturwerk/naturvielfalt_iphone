@@ -59,14 +59,6 @@
     inventory.description = textView.text;
     inventory.area.submitted = NO;
     
-    /*if (inventory.inventoryId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
-        [persistenceManager establishConnection];
-        [persistenceManager updateInventory:inventory];
-        [persistenceManager closeConnection];
-    }*/
     [AreasSubmitNewInventoryController persistInventory:inventory area:inventory.area];
     
     // Switch the View & Controller

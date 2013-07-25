@@ -36,6 +36,7 @@
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -116,10 +117,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     if (area.areaId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
-        
         [persistenceManager establishConnection];
         persistedArea = [persistenceManager getArea:area.areaId];
         [persistenceManager closeConnection];
@@ -658,9 +655,6 @@
     if (buttonIndex == 1) {
         //ok pressed
         NSLog(@"delete Area");
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         [persistenceManager establishConnection];
         [persistenceManager deleteArea:area.areaId];
         [persistenceManager closeConnection];

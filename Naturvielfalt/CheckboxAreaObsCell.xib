@@ -89,7 +89,7 @@
 								<string key="IBUIText">28.11.2011</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MCAwIDEAA</bytes>
+									<bytes key="NSRGB">MC4yMTk2MDc4NDMxIDAuMzI5NDExNzY0NyAwLjUyOTQxMTc2NDcAA</bytes>
 								</object>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
@@ -111,7 +111,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{285, 18}, {27, 25}}</string>
 								<reference key="NSSuperview" ref="684520492"/>
-								<reference key="NSNextKeyView"/>
 								<reference key="IBUIBackgroundColor" ref="307415573"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -120,7 +119,7 @@
 								<string key="IBUIText">#</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">2</int>
-									<bytes key="NSRGB">MC4wMTE3NjQ3MDcwNCAwLjAwMzkyMTU2ODg1OSAwAA</bytes>
+									<bytes key="NSRGB">MC4yMTk2MDc4NDMxIDAuMzI5NDExNzY0NyAwLjUyOTQxMTc2NDcAA</bytes>
 								</object>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>

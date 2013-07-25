@@ -8,18 +8,23 @@
 
 #import "Organism.h"
 
+extern int UNKNOWN_ORGANISMID;
+
 @implementation Organism
 @synthesize organismId, organismGroupId, nameDe, genus, species, family, nameLat, organismGroupName;
 
 -(NSString *)getLatName {
-    
-    if([genus isEqual: @""]){
-        if([nameLat isEqual: @""]){
-            return NSLocalizedString(@"noLatName", nil);
+    if (organismId != UNKNOWN_ORGANISMID) {
+        if([genus isEqual: @""]){
+            if([nameLat isEqual: @""]){
+                return NSLocalizedString(@"noLatName", nil);
+            }
+            return nameLat;
         }
-        return nameLat;
+        return [NSString stringWithFormat:@"%@ %@", genus, species];
+    } else {
+        return NSLocalizedString(@"toBeDetermined", nil);
     }
-    return [NSString stringWithFormat:@"%@ %@", genus, species];
 }
 
 - (NSString *)getNameDe {

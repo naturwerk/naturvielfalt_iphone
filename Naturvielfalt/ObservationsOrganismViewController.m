@@ -26,7 +26,7 @@ extern int UNKNOWN_ORGANISMID;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization        
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -83,9 +83,6 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void) viewDidAppear:(BOOL)animated {
     if (inventory.inventoryId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         [persistenceManager establishConnection];
         Area *tmpArea = [persistenceManager getArea:inventory.areaId];
         inventory = [persistenceManager getInventory:inventory.inventoryId];
@@ -143,9 +140,6 @@ extern int UNKNOWN_ORGANISMID;
     keysDE = [[NSMutableArray alloc] init];
     keysLAT = [[NSMutableArray alloc] init];
     
-    if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
     // Get all oranismGroups
     [persistenceManager establishConnection];
     

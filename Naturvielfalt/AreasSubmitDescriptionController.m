@@ -59,14 +59,6 @@
     area.description = textView.text;
     area.submitted = NO;
     
-    /*if (area.areaId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
-        [persistenceManager establishConnection];
-        [persistenceManager updateArea:area];
-        [persistenceManager closeConnection];
-    }*/
     [AreasSubmitController persistArea:area];
     
     // POP

@@ -10,13 +10,12 @@
 #import "ObservationsOrganismSubmitController.h"
 
 @implementation ObservationsOrganismSubmitCommentController
-@synthesize textView, observation, persistenceManager;
+@synthesize textView, observation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -64,22 +63,10 @@
     
     [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
 
-    // Change view back to submitController
-    /*ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
-                                                                      initWithNibName:@"ObservationsOrganismSubmitController" 
-                                                                      bundle:[NSBundle mainBundle]];
-    
-    // Set the current displayed organism
-    organismSubmitController.organism = observation.organism;*/
-    
-    // Switch the View & Controller
     
     // POP
     [self.navigationController popViewControllerAnimated:TRUE];
-    
-    // PUSH
-    //[self.navigationController pushViewController:organismSubmitController animated:TRUE];
-    //organismSubmitController = nil;
+
 }
 
 - (void)viewDidUnload

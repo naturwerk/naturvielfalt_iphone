@@ -37,6 +37,7 @@ extern int UNKNOWN_ORGANISMID;
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -59,10 +60,6 @@ extern int UNKNOWN_ORGANISMID;
     NSLog(@"didAppear");
     
     if (observation.observationId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
-        
         [persistenceManager establishConnection];
         persistedObservation = [persistenceManager getObservation:observation.observationId];
         Area *currentArea = [persistenceManager getArea:persistedObservation.inventory.areaId];
@@ -78,10 +75,6 @@ extern int UNKNOWN_ORGANISMID;
             return;
         }
     } else if (inventory){
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
-        
         [persistenceManager establishConnection];
         Area *tmpArea = [persistenceManager getArea:inventory.areaId];
         inventory = [persistenceManager getInventory:inventory.inventoryId];
@@ -667,7 +660,7 @@ extern int UNKNOWN_ORGANISMID;
                 break;
             }
                 
-            case 2:
+            case 3:
             {
                 // AMOUNT
                 // Create the ObservationsOrganismSubmitAmountController
@@ -683,7 +676,7 @@ extern int UNKNOWN_ORGANISMID;
                 organismSubmitAmountController = nil;
                 break;
             }
-            case 3:
+            case 4:
             {
                 // COMMENT
                 // Create the ObservationsOrganismSubmitCommentController
@@ -698,7 +691,7 @@ extern int UNKNOWN_ORGANISMID;
                 organismSubmitCommentController = nil;
                 break;
             }
-            case 4:
+            case 5:
             {
                 // CAMERA
                 // Create the ObservationsOrganismSubmitCameraController
@@ -714,7 +707,7 @@ extern int UNKNOWN_ORGANISMID;
                 organismSubmitCameraController = nil;
                 break;
             }
-            case 5:
+            case 6:
             {
                 // MAP
                 // Create the ObservationsOrganismSubmitMapController
@@ -751,9 +744,6 @@ extern int UNKNOWN_ORGANISMID;
     if (buttonIndex == 1) {
         //ok pressed
         NSLog(@"delete Observation");
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         [persistenceManager establishConnection];
         [persistenceManager deleteObservation:observation.observationId];
         [persistenceManager closeConnection];

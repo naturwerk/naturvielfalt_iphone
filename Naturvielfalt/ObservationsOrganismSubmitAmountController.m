@@ -16,7 +16,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        persistenceManager= [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -97,12 +97,10 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     if (observation.observationId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         [persistenceManager establishConnection];
         observation = [persistenceManager getObservation:observation.observationId];
         Area *tmpArea = [persistenceManager getArea:observation.inventory.areaId];
+        [persistenceManager closeConnection];
         observation.inventory.area = tmpArea;
         
         if (!observation) {

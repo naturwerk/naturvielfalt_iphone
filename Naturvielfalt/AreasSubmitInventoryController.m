@@ -23,7 +23,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -56,10 +56,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     if (area.areaId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
-        
         [persistenceManager establishConnection];
         Area *tmpArea = [persistenceManager getArea:area.areaId];
         [persistenceManager closeConnection];
@@ -175,10 +171,6 @@
         
         InventoryCell *cell = (InventoryCell *)[tableView cellForRowAtIndexPath:indexPath];
         UILabel *label = cell.name;
-        
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         
         // Also delete it from the Database
         // Establish a connection

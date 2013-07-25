@@ -31,8 +31,8 @@ extern int UNKNOWN_ORGANISMID;
     if (self) {
         // Custom initialization
         doSubmit = FALSE;
+        persistenceManager = [[PersistenceManager alloc] init];
     }
-    persistenceManager = [[PersistenceManager alloc] init];
     return self;
 }
 
@@ -648,20 +648,19 @@ extern int UNKNOWN_ORGANISMID;
         }
         
         if (observation.organism.organismId == UNKNOWN_ORGANISMID) {
-            checkboxCell.name.text = NSLocalizedString(@"unknownOrganism", nil);
-            checkboxCell.latName.text = NSLocalizedString(@"toBeDetermined", nil);
+            //checkboxCell.name.text = NSLocalizedString(@"unknownOrganism", nil);
+            //checkboxCell.latName.text = NSLocalizedString(@"toBeDetermined", nil);
             checkboxCell.name.textColor = [UIColor grayColor];
             checkboxCell.latName.textColor = [UIColor grayColor];
         } else {
-            checkboxCell.name.text = [observation.organism getNameDe];
-            checkboxCell.latName.text = [observation.organism getLatName];
             checkboxCell.name.textColor = [UIColor blackColor];
             checkboxCell.latName.textColor = [UIColor blackColor];
         }
 
+        checkboxCell.name.text = [observation.organism getNameDe];
+        checkboxCell.latName.text = [observation.organism getLatName];
         checkboxCell.date.text = nowString;
         checkboxCell.amount.text = observation.amount;
-        checkboxCell.areaImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:observation.inventory.area]]];
         
         // Define the action on the button and the current row index as tag
         [checkboxCell.checkbox addTarget:self action:@selector(checkboxEvent:) forControlEvents:UIControlEventTouchUpInside];

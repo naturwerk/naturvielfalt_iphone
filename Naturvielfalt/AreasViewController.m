@@ -83,6 +83,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         area = a;
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -199,9 +200,6 @@
 {
     [self deleteAllAreasOnMap];
     
-    if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
     [persistenceManager establishConnection];
     
     NSMutableArray *areas = [persistenceManager getAreas];

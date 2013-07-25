@@ -63,15 +63,6 @@
     area.name = textView.text;
     area.submitted = NO;
     
-    /*if (area.areaId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
-        [persistenceManager establishConnection];
-        [persistenceManager updateArea:area];
-        [persistenceManager closeConnection];
-    }*/
-    
     if ([area.name compare:@""] == 0) {
         UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
                                                             message:NSLocalizedString(@"alertMessageAreaName", nil) delegate:self cancelButtonTitle:nil

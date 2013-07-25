@@ -119,7 +119,7 @@
 								<string key="IBUIText">28.01.1988</string>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MCAwIDEAA</bytes>
+									<bytes key="NSRGB">MC4yMTk2MDc4NDMxIDAuMzI5NDExNzY0NyAwLjUyOTQxMTc2NDcAA</bytes>
 								</object>
 								<reference key="IBUIHighlightedColor" ref="25342533"/>
 								<int key="IBUIBaselineAdjustment">0</int>
@@ -133,7 +133,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{285, 18}, {27, 25}}</string>
 								<reference key="NSSuperview" ref="682600566"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="968222035"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -141,7 +140,10 @@
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">#</string>
-								<reference key="IBUITextColor" ref="434677735"/>
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4yMTk2MDc4NDMxIDAuMzI5NDExNzY0NyAwLjUyOTQxMTc2NDcAA</bytes>
+								</object>
 								<reference key="IBUIHighlightedColor" ref="25342533"/>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<int key="IBUITextAlignment">2</int>

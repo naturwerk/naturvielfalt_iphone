@@ -27,8 +27,8 @@
     if (self) {
         // Custom initialization
         doSubmit = FALSE;
+        persistenceManager = [[PersistenceManager alloc] init];
     }
-    persistenceManager = [[PersistenceManager alloc] init];
     return self;
 }
 

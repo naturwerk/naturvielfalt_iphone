@@ -35,6 +35,7 @@
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -51,9 +52,6 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     if (inventory.inventoryId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         
         [persistenceManager establishConnection];
         inventory = [persistenceManager getInventory:inventory.inventoryId];
@@ -69,9 +67,6 @@
     }
     
     if (area.areaId) {
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         
         [persistenceManager establishConnection];
         Area *tmpArea = [persistenceManager getArea:area.areaId];
@@ -609,9 +604,6 @@
     if (buttonIndex == 1) {
         //ok pressed
         NSLog(@"delete Inventory");
-        if (!persistenceManager) {
-            persistenceManager = [[PersistenceManager alloc] init];
-        }
         [persistenceManager establishConnection];
         [persistenceManager deleteObservations:inventory.observations];
         [persistenceManager deleteInventory:inventory.inventoryId];

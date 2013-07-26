@@ -10,6 +10,7 @@
 #import "Inventory.h"
 #import "ObservationUploadHelper.h"
 #import "ASIFormDataRequest.h"
+#import "PersistenceManager.h"
 
 @interface InventoryUploadHelper : NSObject <AUploadHelper, Observer, Listener> {
     Inventory *inventory;
@@ -19,6 +20,7 @@
     AsyncRequestDelegate *asyncRequestDelegate;
     NSMutableArray *observationUploadHelpers;
     int observationCounter;
+    PersistenceManager *persistenceManager;
 }
 
 @end

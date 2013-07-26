@@ -11,6 +11,7 @@
 #import "AsyncRequestDelegate.h"
 #import "Observation.h"
 #import "ASIFormDataRequest.h"
+#import "PersistenceManager.h"
 
 @interface ObservationUploadHelper : NSObject <AUploadHelper, Observer, Listener> {
     
@@ -18,6 +19,7 @@
     id<Listener> listener;
     AsyncRequestDelegate *asyncRequestDelegate;
     ASIFormDataRequest *request;
+    PersistenceManager *persistenceManager;
 }
 
 @end

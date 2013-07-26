@@ -766,7 +766,7 @@ extern int UNKNOWN_ORGANISMID;
     if ([matches count] > 0) {
         successString = [response substringWithRange:[[matches objectAtIndex:0] range]];
     } else {
-        NSLog(@"ERROR: NO GUID received!!");
+        NSLog(@"ERROR: NO GUID received!! response: %@", response);
     }
     
     if ([successString isEqualToString:@"success=1"]) {

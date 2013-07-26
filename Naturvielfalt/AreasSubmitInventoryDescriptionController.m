@@ -57,7 +57,7 @@
 {
     // Save the description
     inventory.description = textView.text;
-    inventory.area.submitted = NO;
+    inventory.submitted = NO;
     
     [AreasSubmitNewInventoryController persistInventory:inventory area:inventory.area];
     

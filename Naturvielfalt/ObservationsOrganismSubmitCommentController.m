@@ -58,7 +58,7 @@
     observation.comment = textView.text;
     
     if (observation.inventory) {
-        observation.inventory.area.submitted = NO;
+        observation.submitted = NO;
     }
     
     [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];

@@ -72,6 +72,7 @@
 
 // AreaImages
 - (long long int) saveAreaImage:(AreaImage *) areaImage;
+- (void) updateAreaImage:(AreaImage *) areaImage;
 - (void) deleteAreaImage:(long long int) areaImageId;
 - (void) deleteAreaImagesFromArea:(long long int) areaId;
 - (NSMutableArray *) getAreaImagesFromArea: (long long int) areaId;

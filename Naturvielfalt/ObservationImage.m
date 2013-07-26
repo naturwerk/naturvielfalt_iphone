@@ -9,7 +9,7 @@
 #import "ObservationImage.h"
 
 @implementation ObservationImage
-@synthesize observationId, observationImageId, image;
+@synthesize observationId, observationImageId, image, submitted;
 
 static ObservationImage *observationImage;
 

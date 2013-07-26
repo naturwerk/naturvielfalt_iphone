@@ -407,7 +407,7 @@ extern int UNKNOWN_ORGANISMID;
         [checkboxAreaObsCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
         [checkboxAreaObsCell.remove setTag:observation.observationId];
         
-        if (observation.inventory.area.submitted) {
+        if (observation.submitted) {
             checkboxAreaObsCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxAreaObsCell.submitted.hidden = NO;
             checkboxAreaObsCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
@@ -416,6 +416,13 @@ extern int UNKNOWN_ORGANISMID;
             [checkboxAreaObsCell.image setAlpha:0.2f];
             //checkboxAreaObsCell.checkbox.hidden = YES;
             observation.submitToServer = NO;
+        } else {
+            checkboxAreaObsCell.contentView.backgroundColor = [UIColor clearColor];
+            checkboxAreaObsCell.submitted.hidden = YES;
+            [checkboxAreaObsCell.amount setAlpha:1];
+            [checkboxAreaObsCell.date setAlpha:1];
+            [checkboxAreaObsCell.image setAlpha:1];
+            observation.submitToServer = YES;
         }
         
         // Set checkbox icon

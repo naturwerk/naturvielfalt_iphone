@@ -384,6 +384,10 @@
     observation.accuracy = currentAccuracy;
     observation.location = currentLocation;
     
+    if (observation.inventory) {
+        observation.submitted = NO;
+    }
+    
     [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
     
     // Change view back to submitController

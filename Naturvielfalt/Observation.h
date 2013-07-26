@@ -28,9 +28,11 @@
     BOOL locationLocked;
     int guid;
     OrganismGroup *organismGroup;
+    BOOL submitted;
 }
 
 @property (nonatomic, assign) long long int observationId;
+@property (nonatomic) BOOL submitted;
 @property (nonatomic, assign) long long int inventoryId;
 @property (nonatomic) Organism *organism;
 @property (nonatomic) OrganismGroup *organismGroup;

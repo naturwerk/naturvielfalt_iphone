@@ -94,7 +94,7 @@ extern int UNKNOWN_ORGANISMID;
         observation.organismGroup = selectedOrganismGroup;
         
         if (observation.inventory) {
-            observation.inventory.area.submitted = NO;
+            observation.submitted = NO;
         }
         [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
 

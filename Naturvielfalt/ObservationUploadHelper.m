@@ -11,6 +11,12 @@
 
 @implementation ObservationUploadHelper
 
+- (id) init {
+    if (self = [super init]) {
+        persistenceManager = [[PersistenceManager alloc] init];
+    }
+    return self;
+}
 
 - (void)submit:(NSObject *)object withRecursion:(BOOL)recursion {
     if (object.class != [Observation class]) {
@@ -18,73 +24,77 @@
     }
     observation = (Observation *) object;
     
-    //new portal
-    NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api/observation"];
-    
-    // Get username and password from the UserDefaults
-    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
-    
-    NSString *username = @"";
-    NSString *password = @"";
-    
-    username = [appSettings stringForKey:@"username"];
-    password = [appSettings stringForKey:@"password"];
-    
-    request = [ASIFormDataRequest requestWithURL:url];
-    [request setUsername:username];
-    [request setPassword:password];
-    [request setValidatesSecureCertificate: YES];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"dd.MM.yyyy";
-    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-    NSString *dateString = [dateFormatter stringFromDate:observation.date];
-    
-    dateFormatter.dateFormat = @"HH:mm";
-    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-    NSString *timeString = [dateFormatter stringFromDate:observation.date];
-    
-    // Prepare data
-    NSString *guid = [NSString stringWithFormat:@"%d", observation.guid];
-    NSString *inventoryGuid = [NSString stringWithFormat:@"%d", observation.inventory.guid];
-    NSString *organism = [NSString stringWithFormat:@"%d", observation.organism.organismId];
-    NSString *organismGroupId = [NSString stringWithFormat:@"%d", observation.organism.organismGroupId];
-    NSString *count = [NSString stringWithFormat:@"%@", observation.amount];
-    NSString *date = [NSString stringWithFormat:@"%@", dateString];
-    NSString *time = [NSString stringWithFormat:@"%@", timeString];
-    NSString *accuracy = [NSString stringWithFormat:@"%d", observation.accuracy];
-    NSString *author = [NSString stringWithString:observation.author];
-    NSString *longitude = [NSString stringWithFormat:@"%f", observation.location.coordinate.longitude];
-    NSString *latitude = [NSString stringWithFormat:@"%f", observation.location.coordinate.latitude];
-    NSString *comment = [NSString stringWithFormat:@"%@", observation.comment];
-    
-    // Upload image
-    if([observation.pictures count] > 0) {
-        for (ObservationImage *obsImg in observation.pictures) {
-            // Create PNG image
-            NSData *imageData = UIImagePNGRepresentation(obsImg.image);
-            
-            // And add the png image into the request
-            [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+    if (!observation.submitted) {
+        //new portal
+        NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api/observation"];
+        
+        // Get username and password from the UserDefaults
+        NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+        
+        NSString *username = @"";
+        NSString *password = @"";
+        
+        username = [appSettings stringForKey:@"username"];
+        password = [appSettings stringForKey:@"password"];
+        
+        request = [ASIFormDataRequest requestWithURL:url];
+        [request setUsername:username];
+        [request setPassword:password];
+        [request setValidatesSecureCertificate: YES];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd.MM.yyyy";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        NSString *dateString = [dateFormatter stringFromDate:observation.date];
+        
+        dateFormatter.dateFormat = @"HH:mm";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        NSString *timeString = [dateFormatter stringFromDate:observation.date];
+        
+        // Prepare data
+        NSString *guid = [NSString stringWithFormat:@"%d", observation.guid];
+        NSString *inventoryGuid = [NSString stringWithFormat:@"%d", observation.inventory.guid];
+        NSString *organism = [NSString stringWithFormat:@"%d", observation.organism.organismId];
+        NSString *organismGroupId = [NSString stringWithFormat:@"%d", observation.organism.organismGroupId];
+        NSString *count = [NSString stringWithFormat:@"%@", observation.amount];
+        NSString *date = [NSString stringWithFormat:@"%@", dateString];
+        NSString *time = [NSString stringWithFormat:@"%@", timeString];
+        NSString *accuracy = [NSString stringWithFormat:@"%d", observation.accuracy];
+        NSString *author = [NSString stringWithString:observation.author];
+        NSString *longitude = [NSString stringWithFormat:@"%f", observation.location.coordinate.longitude];
+        NSString *latitude = [NSString stringWithFormat:@"%f", observation.location.coordinate.latitude];
+        NSString *comment = [NSString stringWithFormat:@"%@", observation.comment];
+        
+        // Upload image
+        if([observation.pictures count] > 0) {
+            for (ObservationImage *obsImg in observation.pictures) {
+                // Create PNG image
+                NSData *imageData = UIImagePNGRepresentation(obsImg.image);
+                
+                // And add the png image into the request
+                [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+            }
         }
+        [request setPostValue:guid forKey:@"guid"];
+        [request setPostValue:inventoryGuid forKey:@"inventory_id"];
+        [request setPostValue:organism forKey:@"organism_id"];
+        [request setPostValue:organismGroupId forKey:@"organism_artgroup_id"];
+        [request setPostValue:count forKey:@"count"];
+        [request setPostValue:date forKey:@"date"];
+        [request setPostValue:time forKey:@"time"];
+        [request setPostValue:accuracy forKey:@"accuracy"];
+        [request setPostValue:author forKey:@"observer"];
+        [request setPostValue:longitude forKey:@"longitude"];
+        [request setPostValue:latitude forKey:@"latitude"];
+        [request setPostValue:comment forKey:@"comment"];
+        
+        asyncRequestDelegate = [[AsyncRequestDelegate alloc] initWithObject:observation];
+        [asyncRequestDelegate registerListener:self];
+        request.delegate = asyncRequestDelegate;
+        [request startAsynchronous];
+    } else {
+        [listener notifyListener:observation response:@"success=1" observer:self];
     }
-    [request setPostValue:guid forKey:@"guid"];
-    [request setPostValue:inventoryGuid forKey:@"inventory_guid"];
-    [request setPostValue:organism forKey:@"organism_id"];
-    [request setPostValue:organismGroupId forKey:@"organism_artgroup_id"];
-    [request setPostValue:count forKey:@"count"];
-    [request setPostValue:date forKey:@"date"];
-    [request setPostValue:time forKey:@"time"];
-    [request setPostValue:accuracy forKey:@"accuracy"];
-    [request setPostValue:author forKey:@"observer"];
-    [request setPostValue:longitude forKey:@"longitude"];
-    [request setPostValue:latitude forKey:@"latitude"];
-    [request setPostValue:comment forKey:@"comment"];
-    
-    asyncRequestDelegate = [[AsyncRequestDelegate alloc] initWithObject:observation];
-    [asyncRequestDelegate registerListener:self];
-    request.delegate = asyncRequestDelegate;
-    [request startAsynchronous];
 }
 
 - (void)update:(NSObject *)object {
@@ -120,7 +130,7 @@
     if ([matches count] > 0) {
         successString = [response substringWithRange:[[matches objectAtIndex:0] range]];
     } else {
-        NSLog(@"ERROR: NO GUID received!!");
+        NSLog(@"ERROR: NO GUID received!! response: %@", response);
     }
 
     if ([successString isEqualToString:@"success=1"]) {
@@ -133,12 +143,19 @@
             NSArray *guidSplitted = [guidString componentsSeparatedByString:@"="];
             NSString *guid = [guidSplitted objectAtIndex:1];
             observation.guid = [guid intValue];
-            NSLog(@"received area guid: %@", guidString);
+            observation.submitted = YES;
+            NSLog(@"received observation guid: %@", guidString);
+            
+            // update observation (guid)
+            @synchronized (self) {
+                [persistenceManager establishConnection];
+                [persistenceManager updateObservation:observation];
+                [persistenceManager closeConnection];
+            }
         } else {
-            NSLog(@"ERROR: NO GUID received!!");
+            NSLog(@"ERROR: NO GUID received!! response: %@", response);
         }
     }
-    
     [listener notifyListener:observation response:response observer:self];
 }
 

@@ -216,7 +216,7 @@
         [checkboxInventoryCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
         [checkboxInventoryCell.remove setTag:inventory.inventoryId];
         
-        if (inventory.area.submitted) {
+        if (inventory.submitted && [self checkAllObservationsFromInventorySubmitted:inventory]) {
             checkboxInventoryCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxInventoryCell.submitted.hidden = NO;
             checkboxInventoryCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
@@ -226,6 +226,13 @@
             //[checkboxInventoryCell.image setAlpha:0.5f];
             checkboxInventoryCell.checkbox.hidden = YES;
             inventory.submitToServer = NO;
+        } else {
+            checkboxInventoryCell.contentView.backgroundColor = [UIColor clearColor];
+            checkboxInventoryCell.submitted.hidden = YES;
+            [checkboxInventoryCell.count setAlpha:1];
+            [checkboxInventoryCell.date setAlpha:1];
+            checkboxInventoryCell.checkbox.hidden = NO;
+            inventory.submitToServer = YES;
         }
         
         // Set checkbox icon
@@ -239,6 +246,15 @@
     checkboxInventoryCell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return checkboxInventoryCell;
+}
+
+- (BOOL) checkAllObservationsFromInventorySubmitted: (Inventory *)inventory {
+    BOOL result = YES;
+    for (Observation *obs in inventory.observations) {
+        result = obs.submitted;
+        if (!result) return result;
+    }
+    return result;
 }
 
 - (void) checkboxEvent:(UIButton *)sender {

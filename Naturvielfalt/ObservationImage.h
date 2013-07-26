@@ -13,11 +13,13 @@
     long long int observationImageId;
     long long int observationId;
     UIImage *image;
+    BOOL submitted;
 }
 
 @property (nonatomic) long long int observationImageId;
 @property (nonatomic) long long int observationId;
 @property (nonatomic) UIImage *image;
+@property (nonatomic) BOOL submitted;
 
 - (ObservationImage *) getObservationImage;
 - (void) setObservationImage:(ObservationImage *)obsImg;

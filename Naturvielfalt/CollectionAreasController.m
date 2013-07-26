@@ -200,6 +200,7 @@
     
     if(areasCounter == 0) {
         [loadingHUD removeFromSuperview];
+        [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
         [alert show];
         return;
@@ -384,7 +385,7 @@
         [checkboxAreaCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
         [checkboxAreaCell.remove setTag:area.areaId];
         
-        if (area.submitted) {
+        if (area.submitted && [self checkAllInventoriesFromAreaSubmitted:area]) {
             checkboxAreaCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxAreaCell.submitted.hidden = NO;
             checkboxAreaCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
@@ -393,6 +394,14 @@
             [checkboxAreaCell.image setAlpha:0.2f];
             checkboxAreaCell.checkbox.hidden = YES;
             area.submitToServer = NO;
+        } else {
+            checkboxAreaCell.contentView.backgroundColor = [UIColor clearColor];
+            checkboxAreaCell.submitted.hidden = YES;
+            [checkboxAreaCell.count setAlpha:1];
+            [checkboxAreaCell.date setAlpha:1];
+            [checkboxAreaCell.image setAlpha:1];
+            checkboxAreaCell.checkbox.hidden = NO;
+            area.submitToServer = YES;
         }
         
         // Set checkbox icon
@@ -408,6 +417,15 @@
     checkboxAreaCell.layer.shouldRasterize = YES;
     checkboxAreaCell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     return checkboxAreaCell;
+}
+
+- (BOOL) checkAllInventoriesFromAreaSubmitted: (Area *)area {
+    BOOL result = YES;
+    for (Inventory *iv in area.inventories) {
+        result = iv.submitted;
+        if (!result) return result;
+    }
+    return result;
 }
 
 - (void) checkboxEvent:(UIButton *)sender
@@ -468,17 +486,10 @@
     if ([matches count] > 0) {
         successString = [response substringWithRange:[[matches objectAtIndex:0] range]];
     } else {
-        NSLog(@"ERROR: NO GUID received!!");
+        NSLog(@"ERROR: NO GUID received!! response: %@", response);
     }
     
     if ([successString isEqualToString:@"success=1"]) {
-        
-         // update area (guid)
-         @synchronized (self) {
-         [persistenceManager establishConnection];
-         [persistenceManager updateArea:area];
-         [persistenceManager closeConnection];
-         }
         
         // Reload observations
         [self reloadAreas];
@@ -492,9 +503,11 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessAreaDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
             [alert show];
         } else {
+            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorAreSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
             [alert show];
         }
+        [areasToSubmit removeAllObjects];
         //[loadingHUD removeFromSuperview];
         [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];

@@ -83,7 +83,7 @@
 
 - (void) saveInventoryDate {
     inventory.date = datePicker.date;
-    inventory.area.submitted = NO;
+    inventory.submitted = NO;
     [AreasSubmitNewInventoryController persistInventory:inventory area:inventory.area];
     
     // POP

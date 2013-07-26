@@ -22,9 +22,11 @@
     BOOL submitToServer;
     Area *area;
     int guid;
+    BOOL submitted;
 }
 
 @property (nonatomic, assign) long long int inventoryId;
+@property (nonatomic) BOOL submitted;
 @property (nonatomic, assign) long long int areaId;
 @property (nonatomic) NSString *author;
 @property (nonatomic) NSString *name;

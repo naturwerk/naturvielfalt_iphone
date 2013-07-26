@@ -62,7 +62,7 @@
 {
     // Save the description
     inventory.name = textView.text;
-    inventory.area.submitted = NO;
+    inventory.submitted = NO;
     
     if ([inventory.name compare:@""] == 0) {
         UIAlertView *inventoryAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageInventoryTitle", nil)

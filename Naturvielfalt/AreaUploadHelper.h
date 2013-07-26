@@ -20,6 +20,7 @@
     AsyncRequestDelegate *asyncRequestDelegate;
     NSMutableArray *inventoryUploadHelpers;
     int inventoryCounter;
+    PersistenceManager *persistenceManager;
 }
 
 

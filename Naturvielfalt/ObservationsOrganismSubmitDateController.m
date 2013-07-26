@@ -79,7 +79,7 @@
 - (void) saveDate {
     observation.date = datePicker.date;
     if (observation.inventory) {
-        observation.inventory.area.submitted = NO;
+        observation.submitted = NO;
     }
     [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
     

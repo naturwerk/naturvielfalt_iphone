@@ -18,7 +18,7 @@
 #define pAlpha 0.1
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, persistenceManager, searchBar, accuracyImage, accuracyText, accuracyImageView, accuracyLabel;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, persistenceManager, searchBar, accuracyImage, accuracyText, accuracyImageView, accuracyLabel, mapSegmentControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -94,6 +94,10 @@
         self.mapView.showsUserLocation = YES;        
     }
     
+    [mapSegmentControl setTitle:NSLocalizedString(@"settingsMapSatellite", nil) forSegmentAtIndex:0];
+    [mapSegmentControl setTitle:NSLocalizedString(@"settingsMapHybrid", nil) forSegmentAtIndex:1];
+    [mapSegmentControl setTitle:NSLocalizedString(@"settingsMapStandard", nil) forSegmentAtIndex:2];
+    [mapSegmentControl setSelectedSegmentIndex:1];
     
     // Set delegation and show users current position
     mapView.delegate = self;
@@ -150,9 +154,9 @@
     int mapType = [[appSettings stringForKey:@"mapType"] integerValue];
     
     switch (mapType) {
-        case 1:{mapView.mapType = MKMapTypeSatellite;break;}
-        case 2:{mapView.mapType = MKMapTypeHybrid;break;}
-        case 3:{mapView.mapType = MKMapTypeStandard;break;}
+        case 1:{mapView.mapType = MKMapTypeSatellite; [mapSegmentControl setSelectedSegmentIndex:0]; break;}
+        case 2:{mapView.mapType = MKMapTypeHybrid; [mapSegmentControl setSelectedSegmentIndex:1]; break;}
+        case 3:{mapView.mapType = MKMapTypeStandard; [mapSegmentControl setSelectedSegmentIndex:2]; break;}
     }
     
     [self updateAccuracyIcon:currentAccuracy];
@@ -307,6 +311,33 @@
     [self updateAccuracyIcon:currentAccuracy];
 }
 
+- (IBAction)mapSegmentChanged:(id)sender {
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    switch (mapSegmentControl.selectedSegmentIndex) {
+        case 0:
+        {
+            NSLog(@"satelite");
+            mapView.mapType = MKMapTypeSatellite;
+            [appSettings setObject:@"1" forKey:@"mapType"];
+            break;
+        }
+        case 1:
+        {
+            NSLog(@"hybride");
+            mapView.mapType = MKMapTypeHybrid;
+            [appSettings setObject:@"2" forKey:@"mapType"];
+            break;
+        }
+        case 2:
+        {
+            NSLog(@"map");
+            mapView.mapType = MKMapTypeStandard;
+            [appSettings setObject:@"3" forKey:@"mapType"];
+            break;
+        }
+    }
+}
+
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate
 {
     NSLog(@"adaptPinSubtitle");
@@ -438,6 +469,7 @@
     [self setSearchBar:nil];
     accuracyImageView = nil;
     [self setAccuracyLabel:nil];
+    [self setMapSegmentControl:nil];
     [super viewDidUnload];
 }
 

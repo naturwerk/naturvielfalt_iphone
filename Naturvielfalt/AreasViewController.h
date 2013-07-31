@@ -55,8 +55,9 @@
     //Custom Annotations and Shapes (Line, Polygon)
     NSMutableArray *annotationsArray;
     NSMutableArray *overlaysArray;
+    IBOutlet UISegmentedControl *segmentedControl;
 }
-
+@property (nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic) IBOutlet UIBarButtonItem * cancelButton;
 @property (nonatomic) IBOutlet UIBarButtonItem * saveButton;
 @property (nonatomic) IBOutlet UIButton *undoButton;
@@ -76,6 +77,7 @@
 - (void) showPersistedAppearance;
 
 - (void) setAnnotationInEditMode:(CustomAnnotation*)annotation;
+- (IBAction)segmentChanged:(id)sender;
 
 
 @end

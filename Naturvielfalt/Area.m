@@ -54,6 +54,13 @@ static Area *area;
     area = a;
 }
 
-
+- (BOOL) checkAllInventoriesFromAreaSubmitted {
+    for (Inventory *iv in inventories) {
+        BOOL resultOne = iv.submitted;
+        BOOL resultTwo = [iv checkAllObservationsFromInventorySubmitted];
+        if (!resultOne || !resultTwo) return NO;
+    }
+    return YES;
+}
 
 @end

@@ -25,6 +25,7 @@
     
     NSOperationQueue *operationQueue;
     MBProgressHUD *loadingHUD;
+    IBOutlet UISegmentedControl *mapSegmentControl;
 }
 
 @property (nonatomic) IBOutlet UITableView *table;
@@ -36,5 +37,8 @@
 @property (nonatomic) IBOutlet UIView *areaObservationsView;
 @property (nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) IBOutlet UISegmentedControl *segmentControl;
+@property (nonatomic) IBOutlet UISegmentedControl *mapSegmentControl;
 
+- (IBAction)segmentChanged:(id)sender;
+- (IBAction)mapSegmentChanged:(id)sender;
 @end

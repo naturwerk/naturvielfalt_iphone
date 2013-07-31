@@ -25,7 +25,7 @@
 #define MAX_DEGREES_ARC 360
 
 @implementation AreasViewController
-@synthesize area, cancelButton, saveButton, undoButton, setButton, gpsButton, modeButton, hairlinecross, searchBar;
+@synthesize area, cancelButton, saveButton, undoButton, setButton, gpsButton, modeButton, hairlinecross, searchBar, segmentedControl;
 
 //This method will called from annotations view,
 //if the user clicks on the edit button of a given annotation.
@@ -78,6 +78,33 @@
     [self checkForSaving];
 }
 
+- (IBAction)segmentChanged:(id)sender {
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    switch (segmentedControl.selectedSegmentIndex) {
+        case 0:
+        {
+            NSLog(@"satelite");
+            mapView.mapType = MKMapTypeSatellite;
+            [appSettings setObject:@"1" forKey:@"mapType"];
+            break;
+        }
+        case 1:
+        {
+            NSLog(@"hybride");
+            mapView.mapType = MKMapTypeHybrid;
+            [appSettings setObject:@"2" forKey:@"mapType"];
+            break;
+        }
+        case 2:
+        {
+            NSLog(@"map");
+            mapView.mapType = MKMapTypeStandard;
+            [appSettings setObject:@"3" forKey:@"mapType"];
+            break;
+        }
+    }
+}
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil area:(Area *)a
 {
@@ -113,6 +140,11 @@
     cancelButton.enabled = NO;
     
     self.navigationItem.leftBarButtonItem = cancelButton;
+    
+    [segmentedControl setTitle:NSLocalizedString(@"settingsMapSatellite", nil) forSegmentAtIndex:0];
+    [segmentedControl setTitle:NSLocalizedString(@"settingsMapHybrid", nil) forSegmentAtIndex:1];
+    [segmentedControl setTitle:NSLocalizedString(@"settingsMapStandard", nil) forSegmentAtIndex:2];
+    [segmentedControl setSelectedSegmentIndex:1];
 
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager.delegate = self;
@@ -165,9 +197,9 @@
     int mapType = [[appSettings stringForKey:@"mapType"] integerValue];
     
     switch (mapType) {
-        case 1:{mapView.mapType = MKMapTypeSatellite;break;}
-        case 2:{mapView.mapType = MKMapTypeHybrid;break;}
-        case 3:{mapView.mapType = MKMapTypeStandard;break;}
+        case 1:{mapView.mapType = MKMapTypeSatellite; [segmentedControl setSelectedSegmentIndex:0]; break;}
+        case 2:{mapView.mapType = MKMapTypeHybrid; [segmentedControl setSelectedSegmentIndex:1]; break;}
+        case 3:{mapView.mapType = MKMapTypeStandard; [segmentedControl setSelectedSegmentIndex:2]; break;}
     }
     
     [self zoomMapViewToFitAnnotations:YES];
@@ -183,6 +215,7 @@
     [self setHairlinecross:nil];
     locationManager = nil;
     [self setSearchBar:nil];
+    segmentedControl = nil;
     [super viewDidUnload];
 }
 
@@ -266,6 +299,8 @@
         [self showPersistedAppearance];
     }
 }
+
+
 
 - (void)zoomMapViewToFitAnnotations:(BOOL)animated
 {

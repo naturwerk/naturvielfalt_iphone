@@ -40,6 +40,7 @@
 
 - (Inventory *) getInventory;
 - (void) setInventory:(Inventory *)iv;
+- (BOOL) checkAllObservationsFromInventorySubmitted;
 
 @end
 

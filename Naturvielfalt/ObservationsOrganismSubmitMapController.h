@@ -28,6 +28,7 @@
     PersistenceManager *persistenceManager;
     IBOutlet UIImageView *accuracyImageView;
     IBOutlet UILabel *accuracyLabel;
+    IBOutlet UISegmentedControl *mapSegmentControl;
     
     BOOL review;
     BOOL shouldAdjustZoom;
@@ -49,9 +50,10 @@
 @property (nonatomic) NSString *accuracyText;
 @property (nonatomic) UIImageView *accuracyImageView;
 @property (nonatomic) IBOutlet UILabel *accuracyLabel;
+@property (nonatomic) IBOutlet UISegmentedControl *mapSegmentControl;
 
 - (IBAction)setPin:(id)sender;
-
+- (IBAction)mapSegmentChanged:(id)sender;
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate;
 - (void) returnBack;
 //- (void) relocate;

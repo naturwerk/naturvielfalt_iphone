@@ -23,7 +23,7 @@
 extern int UNKNOWN_ORGANISMID;
 
 @implementation CollectionObservationsController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, segmentControl, mapView, observationsView, obsToSubmit, checkAllButton;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, segmentControl, mapView, observationsView, obsToSubmit, checkAllButton, mapSegmentControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,6 +47,7 @@ extern int UNKNOWN_ORGANISMID;
     [self setMapView:nil];
     [self setObservationsView:nil];
     [self setCheckAllButton:nil];
+    mapSegmentControl = nil;
     [super viewDidUnload];
 }
 
@@ -61,15 +62,14 @@ extern int UNKNOWN_ORGANISMID;
     self.navigationItem.title = title;
     
     // Set keys of segment control
-    NSArray *keys = [NSArray arrayWithObjects:NSLocalizedString(@"collectionTableControl", nil), NSLocalizedString(@"collectionMapControl", nil), nil];
-    segmentControl = [[UISegmentedControl alloc] initWithItems:keys];
-    segmentControl.frame = CGRectMake(83, 3, 155, 44);
-    segmentControl.selectedSegmentIndex = 0;
-    segmentControl.transform = CGAffineTransformMakeScale(.7f, .7f);
+    [segmentControl setTitle:NSLocalizedString(@"collectionTableControl", nil) forSegmentAtIndex:0];
+    [segmentControl setTitle:NSLocalizedString(@"collectionMapControl", nil) forSegmentAtIndex:1];
+    [segmentControl setSelectedSegmentIndex:0];
     
-    [segmentControl addTarget:self action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
-    
-    [self.view addSubview:segmentControl];
+    [mapSegmentControl setTitle:NSLocalizedString(@"settingsMapSatellite", nil) forSegmentAtIndex:0];
+    [mapSegmentControl setTitle:NSLocalizedString(@"settingsMapHybrid", nil) forSegmentAtIndex:1];
+    [mapSegmentControl setTitle:NSLocalizedString(@"settingsMapStandard", nil) forSegmentAtIndex:2];
+    [mapSegmentControl setSelectedSegmentIndex:1];
     
     // Create filter button and add it to the NavigationBar
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]
@@ -209,6 +209,33 @@ extern int UNKNOWN_ORGANISMID;
     }
 }
 
+
+- (IBAction)mapSegmentChanged:(id)sender {
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    switch (mapSegmentControl.selectedSegmentIndex) {
+        case 0:
+        {
+            NSLog(@"satelite");
+            mapView.mapType = MKMapTypeSatellite;
+            [appSettings setObject:@"1" forKey:@"mapType"];
+            break;
+        }
+        case 1:
+        {
+            NSLog(@"hybride");
+            mapView.mapType = MKMapTypeHybrid;
+            [appSettings setObject:@"2" forKey:@"mapType"];
+            break;
+        }
+        case 2:
+        {
+            NSLog(@"map");
+            mapView.mapType = MKMapTypeStandard;
+            [appSettings setObject:@"3" forKey:@"mapType"];
+            break;
+        }
+    }
+}
 
 - (IBAction)checkAllObs:(id)sender {
     int currentTag = checkAllButton.tag;
@@ -467,6 +494,7 @@ extern int UNKNOWN_ORGANISMID;
             [UIView transitionWithView:observationsView duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                 table.hidden = NO;
                 mapView.hidden = YES;
+                mapSegmentControl.hidden = YES;
                 checkAllButton.hidden = NO;
             }completion:nil];
             break;
@@ -477,6 +505,7 @@ extern int UNKNOWN_ORGANISMID;
             [UIView transitionWithView:observationsView duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                 table.hidden = YES;
                 mapView.hidden = NO;
+                mapSegmentControl.hidden = NO;
                 checkAllButton.hidden = YES;
             }completion:nil];
         }
@@ -552,9 +581,9 @@ extern int UNKNOWN_ORGANISMID;
     int mapType = [[appSettings stringForKey:@"mapType"] integerValue];
     
     switch (mapType) {
-        case 1:{mapView.mapType = MKMapTypeSatellite;break;}
-        case 2:{mapView.mapType = MKMapTypeHybrid;break;}
-        case 3:{mapView.mapType = MKMapTypeStandard;break;}
+        case 1:{mapView.mapType = MKMapTypeSatellite; [mapSegmentControl setSelectedSegmentIndex:0]; break;}
+        case 2:{mapView.mapType = MKMapTypeHybrid; [mapSegmentControl setSelectedSegmentIndex:1]; break;}
+        case 3:{mapView.mapType = MKMapTypeStandard; [mapSegmentControl setSelectedSegmentIndex:2]; break;}
     }
 }
 

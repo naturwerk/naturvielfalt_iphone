@@ -385,8 +385,8 @@
         [checkboxAreaCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
         [checkboxAreaCell.remove setTag:area.areaId];
         
-        if (area.submitted && [self checkAllInventoriesFromAreaSubmitted:area]) {
-            checkboxAreaCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
+        if (area.submitted && [area checkAllInventoriesFromAreaSubmitted]) {
+            checkboxAreaCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.6f];
             checkboxAreaCell.submitted.hidden = NO;
             checkboxAreaCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
             [checkboxAreaCell.count setAlpha:0.2f];
@@ -410,22 +410,11 @@
         } else {
             checkboxAreaCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.png"];
         }
-        
-
     }
     
     checkboxAreaCell.layer.shouldRasterize = YES;
     checkboxAreaCell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     return checkboxAreaCell;
-}
-
-- (BOOL) checkAllInventoriesFromAreaSubmitted: (Area *)area {
-    BOOL result = YES;
-    for (Inventory *iv in area.inventories) {
-        result = iv.submitted;
-        if (!result) return result;
-    }
-    return result;
 }
 
 - (void) checkboxEvent:(UIButton *)sender

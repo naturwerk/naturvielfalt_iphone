@@ -48,5 +48,5 @@ typedef enum DrawMode{
 
 - (Area *) getArea;
 - (void) setArea:(Area *)a;
-
+- (BOOL) checkAllInventoriesFromAreaSubmitted;
 @end

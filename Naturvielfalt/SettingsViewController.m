@@ -44,8 +44,8 @@
     [titlesSectionOne addObject:NSLocalizedString(@"settingsWikiImg", nil)];
     [titlesSectionOne addObject:NSLocalizedString(@"settingsWikiArt", nil)];
     
-    titlesSectionTwo = [[NSMutableArray alloc] init];
-    [titlesSectionTwo addObject:NSLocalizedString(@"settingsMap", nil)];
+    /*titlesSectionTwo = [[NSMutableArray alloc] init];
+    [titlesSectionTwo addObject:NSLocalizedString(@"settingsMap", nil)];*/
     
     [super viewDidLoad];
     
@@ -171,8 +171,9 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
         
-        NSArray *keys = [NSArray arrayWithObjects:NSLocalizedString(@"settingsMapSatellite", nil), NSLocalizedString(@"settingsMapHybrid", nil), NSLocalizedString(@"settingsMapStandard", nil), nil];
+        /*NSArray *keys = [NSArray arrayWithObjects:NSLocalizedString(@"settingsMapSatellite", nil), NSLocalizedString(@"settingsMapHybrid", nil), NSLocalizedString(@"settingsMapStandard", nil), nil];
         segmentControl = [[UISegmentedControl alloc] initWithItems:keys];
+        [segmentControl setSegmentedControlStyle:UISegmentedControlStyleBar];
         segmentControl.frame = CGRectMake(10, 0, segmentControl.frame.size.width, segmentControl.frame.size.height);
         
         [segmentControl addTarget:self action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
@@ -200,12 +201,12 @@
         
         //[cell setBackgroundColor: [UIColor colorWithWhite:1.0f alpha:0.0f]];
         cell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-        [cell addSubview:segmentControl];
+        [cell addSubview:segmentControl];*/
     }
     return cell;
 }
 
-- (IBAction)segmentChanged:(id)sender {
+/*- (IBAction)segmentChanged:(id)sender {
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     switch (segmentControl.selectedSegmentIndex) {
         case 0:
@@ -227,7 +228,7 @@
         }
     }
     [appSettings synchronize];
-}
+}*/
 
 - (void) mySelector:(id)sender {
     // Cast the sender as a UISwitch
@@ -255,21 +256,21 @@
 }
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
+    //if (section == 0) {
         return [titlesSectionOne count];
-    } else {
+    /*} else {
         return [titlesSectionTwo count];
-    }
+    }*/
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 1) {
+    /*if (section == 1) {
         return NSLocalizedString(@"settingsMap", nil);
-    }
+    }*/
     return nil;
 }
 

@@ -55,4 +55,13 @@ static Inventory *inventory;
     inventory = iv;
 }
 
+- (BOOL) checkAllObservationsFromInventorySubmitted {
+    BOOL result = YES;
+    for (Observation *obs in observations) {
+        result = obs.submitted;
+        if (!result) return result;
+    }
+    return result;
+}
+
 @end

@@ -37,8 +37,10 @@
     MBProgressHUD *loadingHUD;
     AlertUploadView *uploadView;
     IBOutlet UIButton *checkAllButton;
+    IBOutlet UISegmentedControl *mapSegmentControl;
 }
 
+@property (nonatomic) IBOutlet UISegmentedControl *mapSegmentControl;
 @property (nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) PersistenceManager *persistenceManager;
 @property (nonatomic) NSMutableArray *observations;
@@ -54,7 +56,7 @@
 @property (nonatomic) NSMutableArray *obsToSubmit;
 @property (nonatomic) IBOutlet UIButton *checkAllButton;
 
-
+- (IBAction)mapSegmentChanged:(id)sender;
 - (IBAction)checkAllObs:(id)sender;
 - (void) sendObservations;
 - (void) sendRequestToServer;
@@ -63,7 +65,7 @@
 - (BOOL) connectedToWiFi;
 - (void) checkboxEvent:(UIButton *)sender;
 - (void) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request;
-
+- (IBAction)segmentChanged:(id)sender;
 
 
 @end

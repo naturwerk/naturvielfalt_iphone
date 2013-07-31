@@ -15,7 +15,7 @@
 #import "SBJson.h"
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, searchBar, lastPetition, accuracyImage, accuracyText, accuracyImageView, accuracyLabel;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, searchBar, lastPetition, accuracyImage, accuracyText, accuracyImageView, accuracyLabel, mapSegmentControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,11 +48,15 @@
     
     self.navigationItem.rightBarButtonItem = backButton;
     
-    observation = [[[Observation alloc] init] getObservation];
+    //observation = [[[Observation alloc] init] getObservation];
     
     // Start locationManager
     locationManager = [[CLLocationManager alloc] init];
     
+    [mapSegmentControl setTitle:NSLocalizedString(@"settingsMapSatellite", nil) forSegmentAtIndex:0];
+    [mapSegmentControl setTitle:NSLocalizedString(@"settingsMapHybrid", nil) forSegmentAtIndex:1];
+    [mapSegmentControl setTitle:NSLocalizedString(@"settingsMapStandard", nil) forSegmentAtIndex:2];
+    [mapSegmentControl setSelectedSegmentIndex:1];
     
     // RELOCATE button
     /*UIBarButtonItem *relocate = [[UIBarButtonItem alloc] initWithTitle:@"GPS"
@@ -136,10 +140,11 @@
     int mapType = [[appSettings stringForKey:@"mapType"] integerValue];
     
     switch (mapType) {
-        case 1:{mapView.mapType = MKMapTypeSatellite;break;}
-        case 2:{mapView.mapType = MKMapTypeHybrid;break;}
-        case 3:{mapView.mapType = MKMapTypeStandard;break;}
+        case 1:{mapView.mapType = MKMapTypeSatellite; [mapSegmentControl setSelectedSegmentIndex:0]; break;}
+        case 2:{mapView.mapType = MKMapTypeHybrid; [mapSegmentControl setSelectedSegmentIndex:1]; break;}
+        case 3:{mapView.mapType = MKMapTypeStandard; [mapSegmentControl setSelectedSegmentIndex:2]; break;}
     }
+    
     [self updateAccuracyIcon:currentAccuracy];
 }
 
@@ -210,6 +215,33 @@
     }
     
     self.mapView.showsUserLocation = YES;
+}
+
+- (IBAction)mapSegmentChanged:(id)sender {
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    switch (mapSegmentControl.selectedSegmentIndex) {
+        case 0:
+        {
+            NSLog(@"satelite");
+            mapView.mapType = MKMapTypeSatellite;
+            [appSettings setObject:@"1" forKey:@"mapType"];
+            break;
+        }
+        case 1:
+        {
+            NSLog(@"hybride");
+            mapView.mapType = MKMapTypeHybrid;
+            [appSettings setObject:@"2" forKey:@"mapType"];
+            break;
+        }
+        case 2:
+        {
+            NSLog(@"map");
+            mapView.mapType = MKMapTypeStandard;
+            [appSettings setObject:@"3" forKey:@"mapType"];
+            break;
+        }
+    }
 }
 
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate
@@ -362,6 +394,7 @@
     [self setSearchBar:nil];
     [self setAccuracyLabel:nil];
     [self setAccuracyImageView:nil];
+    [self setMapSegmentControl:nil];
     [super viewDidUnload];
 }
 

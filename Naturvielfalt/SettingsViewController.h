@@ -13,7 +13,7 @@
     IBOutlet UITableView *tableView;
     NSMutableArray *titlesSectionOne;
     NSMutableArray *titlesSectionTwo;
-    UISegmentedControl *segmentControl;
+    //UISegmentedControl *segmentControl;
 }
 
 @property (nonatomic) IBOutlet UITableView *tableView;

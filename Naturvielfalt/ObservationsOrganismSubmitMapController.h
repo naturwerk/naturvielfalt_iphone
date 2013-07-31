@@ -18,6 +18,7 @@
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIImageView *accuracyImageView;
     IBOutlet UILabel *accuracyLabel;
+    IBOutlet UISegmentedControl *mapSegmentControl;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     NSInteger currentAccuracy;
@@ -50,10 +51,12 @@
 @property (nonatomic) IBOutlet UIImageView *accuracyImageView;
 
 @property (nonatomic) NSDate *lastPetition;
+@property (nonatomic) IBOutlet UISegmentedControl *mapSegmentControl;
 
 
 - (IBAction)setPin:(id)sender;
 - (IBAction)relocate:(id)sender;
+- (IBAction)mapSegmentChanged:(id)sender;
 
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate;
 - (void) returnBack;

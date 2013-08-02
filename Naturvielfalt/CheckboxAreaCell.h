@@ -19,6 +19,7 @@
     IBOutlet UIImageView *image;
     IBOutlet UIButton *remove;
     IBOutlet UILabel *submitted;
+    IBOutlet UIImageView *checkboxView;
 }
 
 @property (nonatomic) IBOutlet UIButton *checkbox;
@@ -30,5 +31,6 @@
 @property (nonatomic) IBOutlet UIImageView *image;
 @property (nonatomic) IBOutlet UIButton *remove;
 @property (nonatomic) IBOutlet UILabel *submitted;
+@property (nonatomic) IBOutlet UIImageView *checkboxView;
 
 @end

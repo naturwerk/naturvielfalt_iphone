@@ -9,7 +9,7 @@
 #import "CheckboxAreaCell.h"
 
 @implementation CheckboxAreaCell
-@synthesize checkbox, areaMode, title, subtitle, date, count, image, remove, submitted;
+@synthesize checkbox, areaMode, title, subtitle, date, count, image, remove, submitted, checkboxView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

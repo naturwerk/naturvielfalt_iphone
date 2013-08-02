@@ -93,7 +93,7 @@
     if (!review) {
         // NAME
         // Create the AreasSubmitNameController
-        AreasSubmitInventoryNameController *areasSubmitInventoryNameController = [[AreasSubmitInventoryNameController alloc]
+        /*AreasSubmitInventoryNameController *areasSubmitInventoryNameController = [[AreasSubmitInventoryNameController alloc]
                                                                 initWithNibName:@"AreasSubmitInventoryNameController"
                                                                 bundle:[NSBundle mainBundle]];
         
@@ -102,7 +102,7 @@
         
         // Switch the View & Controller
         [self.navigationController pushViewController:areasSubmitInventoryNameController animated:TRUE];
-        areasSubmitInventoryNameController = nil;
+        areasSubmitInventoryNameController = nil;*/
         
         review = YES;
     }
@@ -161,9 +161,9 @@
 - (void) prepareData {
     
     // create new inventory if no inventory is choosen
-    if (!inventory) {
+    /*if (!inventory) {
         inventory = [[Inventory alloc] getInventory];
-    }
+    }*/
     
     if (!review) {
         
@@ -180,8 +180,6 @@
         
         // Update date in inventory data object
         inventory.date = now;
-        
-        inventory.author = area.author;
     }
     
     if ([inventory.name compare:@""] == 0) {

@@ -12,6 +12,7 @@
 #import "AreasSubmitInventoryController.h"
 #import "AreasSubmitNewInventoryController.h"
 #import "AreasSubmitDateController.h"
+#import "AreasSubmitInventoryNameController.h"
 #import "AreasViewController.h"
 #import "CameraViewController.h"
 #import "CustomCell.h"
@@ -121,6 +122,11 @@
         persistedArea = [persistenceManager getArea:area.areaId];
         [persistenceManager closeConnection];
     }
+    if ([area.name compare:@""] == 0) {
+        areaName.text = NSLocalizedString(@"areaEmptyTitle", nil);
+    } else {
+        areaName.text = area.name;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -152,18 +158,12 @@
                                          action: @selector(saveArea)];
         self.navigationItem.rightBarButtonItem = submitButton;
     }
-    
-    if ([area.name compare:@""] == 0) {
-        areaName.text = NSLocalizedString(@"areaEmptyTitle", nil);
-    } else {
-        areaName.text = area.name;
-    }
 
     
     if (!review) {
         // NAME
         // Create the AreasSubmitNameController
-        AreasSubmitNameController *areasSubmitNameController = [[AreasSubmitNameController alloc]
+        /*AreasSubmitNameController *areasSubmitNameController = [[AreasSubmitNameController alloc]
                                                                 initWithNibName:@"AreasSubmitNameController"
                                                                 bundle:[NSBundle mainBundle]];
         
@@ -172,7 +172,7 @@
         
         // Switch the View & Controller
         [self.navigationController pushViewController:areasSubmitNameController animated:TRUE];
-        areasSubmitNameController = nil;
+        areasSubmitNameController = nil;*/
         
         review = YES;
     }
@@ -346,15 +346,38 @@
     
     [AreasSubmitController persistArea:area];
     
+    // create new inventory if no inventory is choosen
+    Inventory *inventory = [[Inventory alloc] getInventory];
+    inventory.area = area;
+    
     // new INVENTORY
     AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
                                       initWithNibName:@"AreasSubmitNewInventoryController"
                                       bundle:[NSBundle mainBundle]];
     
     areasSubmitNewInventoryController.area = area;
+    areasSubmitNewInventoryController.inventory = inventory;
+    
+    NSMutableArray *tmp = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    [tmp addObject:areasSubmitNewInventoryController];
+    self.navigationController.viewControllers = tmp;
+    
+    // NAME
+    // Create the AreasSubmitNameController
+    AreasSubmitInventoryNameController *areasSubmitInventoryNameController = [[AreasSubmitInventoryNameController alloc]
+                                                                              initWithNibName:@"AreasSubmitInventoryNameController"
+                                                                              bundle:[NSBundle mainBundle]];
+
+    
+    areasSubmitInventoryNameController.inventory = inventory;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    [self.navigationController pushViewController:areasSubmitInventoryNameController animated:TRUE];
+    areasSubmitInventoryNameController = nil;
+
+    
+    // Switch the View & Controller
+    //[self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
     areasSubmitNewInventoryController = nil;
 }
 

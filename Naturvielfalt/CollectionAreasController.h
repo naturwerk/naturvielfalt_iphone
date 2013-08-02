@@ -30,11 +30,13 @@
     AlertUploadView *uploadView;
     MBProgressHUD *loadingHUD;
     IBOutlet UIButton *checkAllButton;
+    IBOutlet UIImageView *checkAllView;
 }
 
 @property (nonatomic) IBOutlet UITableView *table;
 @property (nonatomic) NSMutableArray *areas;
 @property (nonatomic) IBOutlet UIButton *checkAllButton;
+@property (nonatomic) IBOutlet UIImageView *checkAllView;
 
 
 - (IBAction)checkAllAreas:(id)sender;

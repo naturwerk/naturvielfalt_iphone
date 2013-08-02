@@ -8,6 +8,7 @@
 
 #import "AreasSubmitInventoryController.h"
 #import "AreasSubmitNewInventoryController.h"
+#import "AreasSubmitInventoryNameController.h"
 #import "AreasSubmitController.h"
 #import "InventoryCell.h"
 
@@ -113,12 +114,41 @@
                                                                             initWithNibName:@"AreasSubmitNewInventoryController"
                                                                             bundle:[NSBundle mainBundle]];
     
+    // create new inventory if no inventory is choosen
+    Inventory *inventory = [[Inventory alloc] getInventory];
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    NSString *username = @"";
+    
+    if([appSettings objectForKey:@"username"] != nil) {
+        username = [appSettings stringForKey:@"username"];
+    }
+    inventory.author = username;
+    inventory.area = area;
+    
     areasSubmitNewInventoryController.area = area;
+    areasSubmitNewInventoryController.inventory = inventory;
+    
+    NSMutableArray *tmp = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    [tmp addObject:areasSubmitNewInventoryController];
+    self.navigationController.viewControllers = tmp;
+    
+    // NAME
+    // Create the AreasSubmitNameController
+    AreasSubmitInventoryNameController *areasSubmitInventoryNameController = [[AreasSubmitInventoryNameController alloc]
+                                                                              initWithNibName:@"AreasSubmitInventoryNameController"
+                                                                              bundle:[NSBundle mainBundle]];
+    
+    
+    areasSubmitInventoryNameController.inventory = inventory;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
-    areasSubmitNewInventoryController = nil;
-}
+    [self.navigationController pushViewController:areasSubmitInventoryNameController animated:TRUE];
+    areasSubmitInventoryNameController = nil;
+    
+    
+    // Switch the View & Controller
+    //[self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    areasSubmitNewInventoryController = nil;}
 
 #pragma mark
 #pragma UITableViewDelegate Methodes

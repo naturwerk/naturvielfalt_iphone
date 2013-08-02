@@ -8,6 +8,7 @@
 
 #import "AreasViewController.h"
 #import "AreasSubmitController.h"
+#import "AreasSubmitNameController.h"
 #import "MKPolyline+MKPolylineCategory.h"
 #import "MKPolygon+MKPolygonCategory.h"
 #import "LocationPoint.h"
@@ -393,6 +394,14 @@
     if (!area) {
         area = [[Area alloc] getArea];
     }
+    
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    NSString *username = @"";
+    
+    if([appSettings objectForKey:@"username"] != nil) {
+        username = [appSettings stringForKey:@"username"];
+    }
+    area.author = username;
 
     area.typeOfArea = currentDrawMode;
     area.locationPoints = [[NSMutableArray alloc] initWithArray:locationPoints];
@@ -430,8 +439,22 @@
         areasSubmitController.review = YES;
     }
     
+    NSMutableArray *tmp = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    [tmp addObject:areasSubmitController];
+    self.navigationController.viewControllers = tmp;
+    
+    // NAME
+    // Create the AreasSubmitNameController
+    AreasSubmitNameController *areasSubmitNameController = [[AreasSubmitNameController alloc]
+                                                            initWithNibName:@"AreasSubmitNameController"
+                                                            bundle:[NSBundle mainBundle]];
+    
+    
+    areasSubmitNameController.area = area;
+    
+    
     // PUSH
-    [self.navigationController pushViewController:areasSubmitController animated:TRUE];
+    [self.navigationController pushViewController:areasSubmitNameController animated:TRUE];
 }
 
 - (void) cancelPressed {

@@ -38,8 +38,10 @@
     AlertUploadView *uploadView;
     IBOutlet UIButton *checkAllButton;
     IBOutlet UISegmentedControl *mapSegmentControl;
+    IBOutlet UIImageView *checkAllView;
 }
 
+@property (nonatomic) IBOutlet UIImageView *checkAllView;
 @property (nonatomic) IBOutlet UISegmentedControl *mapSegmentControl;
 @property (nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) PersistenceManager *persistenceManager;

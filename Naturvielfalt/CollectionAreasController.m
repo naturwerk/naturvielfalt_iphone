@@ -19,7 +19,7 @@
 @end
 
 @implementation CollectionAreasController
-@synthesize table, areas, checkAllButton;
+@synthesize table, areas, checkAllButton, checkAllView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -79,6 +79,7 @@
 - (void)viewDidUnload {
     [self setTable:nil];
     [self setCheckAllButton:nil];
+    [self setCheckAllView:nil];
     [super viewDidUnload];
 }
 
@@ -385,6 +386,7 @@
         [checkboxAreaCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
         [checkboxAreaCell.remove setTag:area.areaId];
         
+        
         if (area.submitted && [area checkAllInventoriesFromAreaSubmitted]) {
             checkboxAreaCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.6f];
             checkboxAreaCell.submitted.hidden = NO;
@@ -393,6 +395,7 @@
             [checkboxAreaCell.date setAlpha:0.2f];
             [checkboxAreaCell.image setAlpha:0.2f];
             checkboxAreaCell.checkbox.hidden = YES;
+            checkboxAreaCell.checkboxView.hidden = YES;
             area.submitToServer = NO;
         } else {
             checkboxAreaCell.contentView.backgroundColor = [UIColor clearColor];
@@ -401,17 +404,20 @@
             [checkboxAreaCell.date setAlpha:1];
             [checkboxAreaCell.image setAlpha:1];
             checkboxAreaCell.checkbox.hidden = NO;
-            area.submitToServer = YES;
-        }
-        
-        // Set checkbox icon
-        if(area.submitToServer) {
-            checkboxAreaCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox_checked.png"];
-        } else {
-            checkboxAreaCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.png"];
+            checkboxAreaCell.checkboxView.hidden = NO;
+            //area.submitToServer = YES;
         }
     }
     
+    // Set checkbox icon
+    if(area.submitToServer) {
+        //[checkboxAreaCell.checkbox setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal] ;
+        [checkboxAreaCell.checkboxView setImage:[UIImage imageNamed:@"checkbox_checked.png"]];
+    } else {
+        //[checkboxAreaCell.checkbox setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal] ;
+        [checkboxAreaCell.checkboxView setImage:[UIImage imageNamed:@"checkbox.png"]];
+    }
+
     checkboxAreaCell.layer.shouldRasterize = YES;
     checkboxAreaCell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     return checkboxAreaCell;
@@ -419,7 +425,6 @@
 
 - (void) checkboxEvent:(UIButton *)sender
 {
-    NSLog(@"checkboxEvent");
     UIButton *button = (UIButton *)sender;
     NSNumber *number = [NSNumber numberWithInt:button.tag];
     
@@ -508,13 +513,16 @@
     int currentTag = checkAllButton.tag;
     
     if (currentTag == 0) {
-        [checkAllButton setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal];
+        //[checkAllButton setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal];
+        [checkAllView setImage:[UIImage imageNamed:@"checkbox_checked.png"]];
+
         for (Area *area in areas) {
             area.submitToServer = YES;
         }
         checkAllButton.tag = 1;
     } else {
-        [checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
+        //[checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
+        [checkAllView setImage:[UIImage imageNamed:@"checkbox.png"]];
         for (Area *area in areas) {
             area.submitToServer = NO;
         }

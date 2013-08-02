@@ -23,7 +23,7 @@
 extern int UNKNOWN_ORGANISMID;
 
 @implementation CollectionObservationsController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, segmentControl, mapView, observationsView, obsToSubmit, checkAllButton, mapSegmentControl;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, segmentControl, mapView, observationsView, obsToSubmit, checkAllButton, mapSegmentControl, checkAllView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,6 +48,7 @@ extern int UNKNOWN_ORGANISMID;
     [self setObservationsView:nil];
     [self setCheckAllButton:nil];
     mapSegmentControl = nil;
+    [self setCheckAllView:nil];
     [super viewDidUnload];
 }
 
@@ -241,19 +242,20 @@ extern int UNKNOWN_ORGANISMID;
     int currentTag = checkAllButton.tag;
     
     if (currentTag == 0) {
-        [checkAllButton setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal];
+        //[checkAllButton setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal];
+        [checkAllView setImage:[UIImage imageNamed:@"checkbox_checked.png"]];
         for (Observation *obs in observations) {
             obs.submitToServer = YES;
         }
         checkAllButton.tag = 1;
     } else {
-        [checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
+        //[checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
+        [checkAllView setImage:[UIImage imageNamed:@"checkbox.png"]];
         for (Observation *obs in observations) {
             obs.submitToServer = NO;
         }
         checkAllButton.tag = 0;
     }
-    
     [table reloadData];
 }
 
@@ -701,9 +703,11 @@ extern int UNKNOWN_ORGANISMID;
         
         // Set checkbox icon
         if(observation.submitToServer) {
-            checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox_checked.png"];
+            //checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox_checked.png"];
+            [checkboxCell.checkboxView setImage:[UIImage imageNamed:@"checkbox_checked.png"]];
         } else {
-            checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.png"];
+            //checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox.png"];
+            [checkboxCell.checkboxView setImage:[UIImage imageNamed:@"checkbox.png"]];
         }
     }
     
@@ -723,7 +727,6 @@ extern int UNKNOWN_ORGANISMID;
             ob.submitToServer = !ob.submitToServer;
         }
     }
-    
     [table reloadData];
 }
 

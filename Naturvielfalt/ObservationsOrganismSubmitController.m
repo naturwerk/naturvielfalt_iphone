@@ -530,7 +530,6 @@ extern int UNKNOWN_ORGANISMID;
     [self rowClicked:indexPath];    
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self rowClicked:indexPath];
 }

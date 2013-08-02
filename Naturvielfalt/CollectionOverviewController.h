@@ -34,6 +34,7 @@
     AlertUploadView *uploadView;
     BOOL cancelSubmission;
     IBOutlet UIButton *checkAllButton;
+    IBOutlet UIImageView *checkAllView;
 }
 
 @property (nonatomic) PersistenceManager *persistenceManager;
@@ -46,6 +47,7 @@
 @property (nonatomic) NSIndexPath *curIndex;
 @property (nonatomic) BOOL doSubmit;
 @property (nonatomic) IBOutlet UIButton *checkAllButton;
+@property (nonatomic) IBOutlet UIImageView *checkAllView;
 
 
 - (IBAction)checkAllObs:(id)sender;

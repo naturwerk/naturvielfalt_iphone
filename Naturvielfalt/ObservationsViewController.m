@@ -80,22 +80,6 @@ extern int UNKNOWN_ORGANISMGROUPID;
     [super viewDidLoad];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    if (observation.observationId) {
-        [persistenceManager establishConnection];
-        Observation *persistedObs = [persistenceManager getObservation:observation.observationId];
-        [persistenceManager closeConnection];
-        
-        if (!persistedObs) {
-            observation = nil;
-            [observation setObservation:nil];
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            observation = persistedObs;
-        }
-    }
-}
-
 - (void) infoPage
 {
     // Create the ObservationsOrganismViewController
@@ -124,6 +108,20 @@ extern int UNKNOWN_ORGANISMGROUPID;
             return;
         }
     }
+    
+    if (observation.observationId) {
+        [persistenceManager establishConnection];
+        Observation *tmpObs = [persistenceManager getObservation:observation.observationId];
+        [persistenceManager closeConnection];
+        
+        if (!tmpObs) {
+            observation = nil;
+            [observation setObservation:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
+    }
+    
     [table reloadData];
 }
 

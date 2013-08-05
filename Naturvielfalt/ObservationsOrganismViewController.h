@@ -68,7 +68,6 @@
 @property (nonatomic, assign) BOOL isSearching;
 @property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic) Inventory *inventory;
-@property (nonatomic) PersistenceManager *persistenceManager;
 
 - (void) appendToDictionary:(Organism *)organism;
 - (void) resetSearch;

@@ -10,8 +10,9 @@
 #import "Area.h"
 #import "Inventory.h"
 #import "PersistenceManager.h"
+#import "MBProgressHUD.h"
 
-@interface AreasSubmitNewInventoryController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate> {
+@interface AreasSubmitNewInventoryController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MBProgressHUDDelegate> {
     Area *area;
     Inventory *inventory;
     NSArray *arrayKeys;
@@ -22,6 +23,7 @@
     UIActionSheet *deleteInventorySheet;
     NSIndexPath *currIndexPath;
     NSDateFormatter *dateFormatter;
+    MBProgressHUD *loadingHUD;
     
     BOOL review;
 }
@@ -33,5 +35,5 @@
 @property (nonatomic) IBOutlet UILabel *inventoryName;
 
 
-+ (void) persistInventory:(Inventory*)ivToSave area:(Area*)areaToSave;
+//+ (void) persistInventory:(Inventory*)ivToSave area:(Area*)areaToSave;
 @end

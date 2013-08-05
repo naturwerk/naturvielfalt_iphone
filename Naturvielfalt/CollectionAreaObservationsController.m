@@ -79,7 +79,7 @@ extern int UNKNOWN_ORGANISMID;
     operationQueue = [[NSOperationQueue alloc] init];
     [operationQueue setMaxConcurrentOperationCount:1];
     
-    loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    /*loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     [self.navigationController.view addSubview:loadingHUD];
     
     loadingHUD.delegate = self;
@@ -87,7 +87,7 @@ extern int UNKNOWN_ORGANISMID;
     loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
     
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [loadingHUD showWhileExecuting:@selector(reloadAreaObservations) onTarget:self withObject:nil animated:YES];
+    [loadingHUD showWhileExecuting:@selector(reloadAreaObservations) onTarget:self withObject:nil animated:YES];*/
 
     
     // Reload table
@@ -200,6 +200,8 @@ extern int UNKNOWN_ORGANISMID;
         table.editing = NO;
     }
     [self reloadAnnotations];
+    
+    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
 }
 
 - (void) reloadAreaObservations
@@ -212,6 +214,9 @@ extern int UNKNOWN_ORGANISMID;
 - (void) viewWillAppear:(BOOL)animated
 {
     table.editing = NO;
+    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    loadingHUD.mode = MBProgressHUDModeCustomView;
     [self reloadAreaObservations];
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
@@ -311,7 +316,7 @@ extern int UNKNOWN_ORGANISMID;
         
         CheckboxAreaObsCell *cell = (CheckboxAreaObsCell *)[tableView cellForRowAtIndexPath:indexPath];
         UIButton *button = cell.checkbox;
-        self.curIndex = indexPath;
+        curIndex = indexPath;
         
         // Also delete it from the Database
         // Establish a connection
@@ -324,8 +329,7 @@ extern int UNKNOWN_ORGANISMID;
         [persistenceManager closeConnection];
         
         [observations removeObjectAtIndex:indexPath.row];
-        NSArray *array = [[NSArray alloc] initWithObjects:indexPath, nil];
-        [table deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:UITableViewRowAnimationFade];
         
         // Reload the observations from the database and refresh the TableView
         //[self reloadAreaObservations];

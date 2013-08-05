@@ -40,7 +40,6 @@
 @property (nonatomic) CLLocation *currentLocation;
 @property (nonatomic) Observation *observation;
 @property (nonatomic) DDAnnotation *annotation;
-@property (nonatomic) PersistenceManager *persistenceManager;
 @property (nonatomic, assign) BOOL review;
 @property (nonatomic, assign) BOOL shouldAdjustZoom;
 @property (nonatomic, assign) BOOL pinMoved;

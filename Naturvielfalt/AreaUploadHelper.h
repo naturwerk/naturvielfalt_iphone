@@ -11,6 +11,7 @@
 #import "InventoryUploadHelper.h"
 #import "PersistenceManager.h"
 #import "ASIFormDataRequest.h"
+#import "MBProgressHUD.h"
 
 @interface AreaUploadHelper : NSObject <AUploadHelper, Observer, Listener> {
     Area *area;

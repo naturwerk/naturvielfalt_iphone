@@ -155,6 +155,15 @@
     }
     mapView.showsUserLocation = YES;        
 
+    /*loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    [self.navigationController.view addSubview:loadingHUD];
+    
+    loadingHUD.delegate = self;
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    
+    [loadingHUD showWhileExecuting:@selector(loadAreas) onTarget:self withObject:nil animated:YES];*/
+
     
     // Set delegation and show users current position
     mapView.delegate = self;
@@ -232,6 +241,7 @@
 
 - (void) loadAreas
 {
+    
     [self deleteAllAreasOnMap];
     
     if (!persistenceManager) {
@@ -382,6 +392,7 @@
     overlayView = nil;
     [area setArea:nil];
     area = nil;
+    
 }
 
 - (void) saveArea {

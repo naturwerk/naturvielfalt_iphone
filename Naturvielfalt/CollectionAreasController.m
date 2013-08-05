@@ -56,7 +56,7 @@
     operationQueue = [[NSOperationQueue alloc] init];
     [operationQueue setMaxConcurrentOperationCount:1];
     
-    loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    /*loadingHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //[self.navigationController.view addSubview:loadingHUD];
     
     loadingHUD.delegate = self;
@@ -64,7 +64,7 @@
     loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
     
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [loadingHUD showWhileExecuting:@selector(reloadAreas) onTarget:self withObject:nil animated:YES];
+    [loadingHUD showWhileExecuting:@selector(reloadAreas) onTarget:self withObject:nil animated:YES];*/
     
     [table reloadData];
 }
@@ -86,6 +86,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     table.editing = NO;
+
+    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    loadingHUD.mode = MBProgressHUDModeCustomView;
     [self reloadAreas];
 }
 
@@ -233,7 +237,8 @@
 
 - (void) reloadAreas
 {
-    // Reset observations
+
+    // Reset areas
     areas = nil;
     
     [self beginLoadingAreas];
@@ -278,7 +283,8 @@
     if([areas count] < 1) {
         table.editing = NO;
     }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
 }
 
 - (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -307,8 +313,7 @@
         
         // Reload the areas from the database and refresh the TableView
         [areas removeObjectAtIndex:indexPath.row];
-        NSArray *array = [[NSArray alloc] initWithObjects:indexPath, nil];
-        [table deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:UITableViewRowAnimationFade];
         //[self reloadAreas];
     }
 }

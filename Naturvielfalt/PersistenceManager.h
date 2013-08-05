@@ -42,6 +42,11 @@
 // helper for the connection method
 - (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL;
 
+// persistence Methodes for all entities
+- (void) persistArea:(Area *)areaToSave;
+- (void) persistInventory:(Inventory *) ivToSave;
+- (void) persistObservation:(Observation *)obsToSave;
+
 // Observations
 - (long long int) saveObservation:(Observation *) observation;
 - (void) updateObservation:(Observation *) observation;

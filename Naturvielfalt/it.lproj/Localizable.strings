@@ -164,6 +164,7 @@
 "collectionHudWaitMessage"		= "Please wait";
 "collectionHudSubmitMessage"	= "Submit data…";
 "collectionHudLoadMessage"		= "Loading…";
+"collectionHudSaveMessage"		= "Saving…";
 
 
 /** Settings **/

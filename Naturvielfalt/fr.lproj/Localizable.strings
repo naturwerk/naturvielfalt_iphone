@@ -165,6 +165,7 @@
 "collectionHudWaitMessage"		= "Attendez s.v.p";
 "collectionHudSubmitMessage"	= "Les données sont transmettre..";
 "collectionHudLoadMessage"		= "Charger..";
+"collectionHudSaveMessage"		= "Enregistrer…";
 
 
 /** Settings **/

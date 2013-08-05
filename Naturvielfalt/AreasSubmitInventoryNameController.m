@@ -21,6 +21,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -71,10 +72,14 @@
         [inventoryAlert show];
         return;
     } else {
-        [AreasSubmitNewInventoryController persistInventory: inventory area:inventory.area];
+        [persistenceManager establishConnection];
+        [persistenceManager persistInventory:inventory];
+        [persistenceManager closeConnection];
     }
 
-    [AreasSubmitNewInventoryController persistInventory:inventory area:inventory.area];
+    [persistenceManager establishConnection];
+    [persistenceManager persistInventory:inventory];
+    [persistenceManager closeConnection];
     
     // Switch the View & Controller
     // POP

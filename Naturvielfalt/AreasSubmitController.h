@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "PersistenceManager.h"
 #import "CustomAnnotation.h"
+#import "MBProgressHUD.h"
 
 @class AreasViewController;
-@interface AreasSubmitController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
+@interface AreasSubmitController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, MBProgressHUDDelegate> {
     
     Area *area;
     Area *persistedArea;
@@ -24,6 +25,7 @@
     UIActionSheet *deleteAreaSheet;
     NSIndexPath *currIndexPath;
     NSDateFormatter *dateFormatter;
+    MBProgressHUD *loadingHUD;
     
     BOOL review;
     IBOutlet UITableView *tableView;
@@ -44,6 +46,6 @@
 - (void) saveArea;
 
 + (NSString *) getStringOfDrawMode:(Area*)area;
-+ (void) persistArea:(Area*)areaToSave;
+//+ (void) persistArea:(Area*)areaToSave;
 
 @end

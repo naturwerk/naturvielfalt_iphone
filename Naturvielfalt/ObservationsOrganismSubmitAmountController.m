@@ -117,7 +117,9 @@
     if (observation.inventory) {
         observation.submitted = NO;
     }
-    [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+    [persistenceManager establishConnection];
+    [persistenceManager persistObservation:observation];
+    [persistenceManager closeConnection];
     
     // POP
     [self.navigationController popViewControllerAnimated:YES];

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Inventory.h"
+#import "PersistenceManager.h"
 
 @interface AreasSubmitInventoryDateController : UIViewController {
     
@@ -15,6 +16,7 @@
     IBOutlet UILabel *dateLabel;
     IBOutlet UIDatePicker *datePicker;
     NSDateFormatter *dateFormatter;
+    PersistenceManager *persistenceManager;
 }
 
 @property (nonatomic) Inventory *inventory;

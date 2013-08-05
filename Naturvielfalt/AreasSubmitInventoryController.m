@@ -216,8 +216,7 @@
         [persistenceManager closeConnection];
         
         [area.inventories removeObjectAtIndex:indexPath.row];
-        NSArray *array = [[NSArray alloc] initWithObjects:indexPath, nil];
-        [tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         // refresh the TableView
         //[tableView reloadData];

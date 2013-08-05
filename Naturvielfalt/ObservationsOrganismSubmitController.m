@@ -26,7 +26,7 @@ extern int UNKNOWN_ORGANISMGROUPID;
 extern int UNKNOWN_ORGANISMID;
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, persistedObservation, inventory, dateFormatter, organismDataView, organismButton, organismGroup;
+@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, review, observationChanged, comeFromOrganism, persistedObservation, inventory, dateFormatter, organismDataView, organismButton, organismGroup;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -255,7 +255,9 @@ extern int UNKNOWN_ORGANISMID;
             
             // Save the new location for de map controller if observation has an idea
             if (observation.observationId) {
-                [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+                [persistenceManager establishConnection];
+                [persistenceManager persistObservation:observation];
+                [persistenceManager closeConnection];
             }
         }
         //review = true;
@@ -275,7 +277,9 @@ extern int UNKNOWN_ORGANISMID;
         observation.inventory.area.submitted = NO;
     }
     
-    [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+    [persistenceManager establishConnection];
+    [persistenceManager persistObservation:observation];
+    [persistenceManager closeConnection];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -336,34 +340,11 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 
-+ (void) persistObservation:(Observation *)obsToSave inventory:(Inventory *) ivToSave {
+/*+ (void) persistObservation:(Observation *)obsToSave inventory:(Inventory *) ivToSave {
     
     PersistenceManager *pm = [[PersistenceManager alloc] init];
     [pm establishConnection];
     
-    // Area feature if inventory object is set
-    /*if (ivToSave) {
-        //Do not persist, if inventory is cancelled later.
-        //Observation Object will be persisted together with the inventory object.
-        obsToSave.inventory = ivToSave;
-        // No duplicates, so remove if contains
-        [ivToSave.observations removeObject:obsToSave];
-        [ivToSave.observations addObject:obsToSave];
-        
-        [AreasSubmitNewInventoryController persistInventory:ivToSave area:ivToSave.area];
-        
-        if (ivToSave.inventoryId) {
-            if (obsToSave.observationId) {
-                [pm updateObservation:obsToSave];
-            } else {
-                obsToSave.observationId = [pm saveObservation:obsToSave];
-                for (ObservationImage *oImg in obsToSave.pictures) {
-                    oImg.observationId = obsToSave.observationId;
-                    oImg.observationImageId = [pm saveObservationImage:oImg];
-                }
-            }
-        }
-    } else {*/
         // Save and persist observation
         if(obsToSave.observationId) {
             [pm deleteObservationImagesFromObservation:obsToSave.observationId];
@@ -379,7 +360,7 @@ extern int UNKNOWN_ORGANISMID;
     
     // Close connection
     [pm closeConnection];
-}
+}*/
 
 - (void) abortObservation
 {

@@ -21,6 +21,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -71,7 +72,9 @@
         return;
     }
 
-    [AreasSubmitController persistArea:area];
+    [persistenceManager establishConnection];
+    [persistenceManager persistArea:area];
+    [persistenceManager closeConnection];
     
     // Switch the View & Controller
     // POP

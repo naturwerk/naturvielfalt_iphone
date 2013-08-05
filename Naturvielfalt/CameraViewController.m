@@ -211,7 +211,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
         } else {
             [observation setObservation:observation];
         }*/
-        [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+        [persistenceManager persistObservation:observation];
     }
     [persistenceManager closeConnection];
     

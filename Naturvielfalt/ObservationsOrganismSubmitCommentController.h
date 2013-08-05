@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "Observation.h"
+#import "PersistenceManager.h"
 
 #define kOFFSET_FOR_KEYBOARD 20.0
 
 @interface ObservationsOrganismSubmitCommentController : UIViewController {
     IBOutlet UITextView *textView;
     Observation *observation;
+    PersistenceManager *persistenceManager;
 }
 
 @property (nonatomic) UITextView *textView;

@@ -17,7 +17,6 @@
 #import "CameraViewController.h"
 #import "CustomCell.h"
 #import "CustomDateCell.h"
-#import "MBProgressHUD.h"
 #import "CustomAddCell.h"
 #import "CustomAreaCell.h"
 #import "DeleteCell.h"
@@ -68,6 +67,13 @@
     // Set navigation bar title    
     NSString *title = NSLocalizedString(@"areaSubmitTitle", nil);
     self.navigationItem.title = title;
+    
+    /*loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudSaveMessage", nil);
+    
+    [loadingHUD showWhileExecuting:@selector(persistArea:) onTarget:self withObject:nil animated:YES];*/
+
     
     // Table init
     tableView.delegate = self;
@@ -195,7 +201,9 @@
     }
 
     area.submitted = NO;
-    [AreasSubmitController persistArea:area];
+    [persistenceManager establishConnection];
+    [persistenceManager persistArea:area];
+    [persistenceManager closeConnection];
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];
@@ -237,7 +245,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-+ (void) persistArea:(Area *)areaToSave {
+/*+ (void) persistArea:(Area *)areaToSave {
     
     PersistenceManager *pm = [[PersistenceManager alloc] init];
     
@@ -245,7 +253,7 @@
     areaToSave.persisted = YES;
     
     // Save area, inventories and observations
-    /*if(review) {*/
+    //if(review) {
         if (areaToSave.areaId) {
             [pm updateArea:areaToSave];
             for (Inventory *inventory in areaToSave.inventories) {
@@ -284,49 +292,10 @@
                 }
             }
         }
-    /*} else {
-        if (areaToSave.areaId) {
-            [pm updateArea:areaToSave];
-            for (Inventory *inventory in areaToSave.inventories) {
-                if (inventory.inventoryId) {
-                    [pm updateInventory:inventory];
-                    for (Observation *observation in inventory.observations) {
-                        if (observation.observationId) {
-                            [pm updateObservation:observation];
-                        } else {
-                            observation.inventory = inventory;
-                            observation.observationId = [pm saveObservation:observation];
-                        }
-                    }
-                } else {
-                    inventory.area = areaToSave;
-                    inventory.inventoryId = [pm saveInventory:inventory];
-                    for (Observation *observation in inventory.observations) {
-                        observation.inventory = inventory;
-                        observation.observationId = [pm saveObservation:observation];
-                    }
-                }
-            }
-        } else {
-            areaToSave.areaId = [pm saveArea:areaToSave];
-            [pm saveLocationPoints:areaToSave.locationPoints areaId:areaToSave.areaId];
-            for (AreaImage *aImg in areaToSave.pictures) {
-                aImg.areaId = areaToSave.areaId;
-                aImg.areaImageId = [pm saveAreaImage:aImg];
-            }
-            for (Inventory *inventory in areaToSave.inventories) {
-                inventory.area = areaToSave;
-                inventory.inventoryId = [pm saveInventory:inventory];
-                for (Observation *observation in inventory.observations) {
-                    observation.inventory = inventory;
-                    observation.observationId = [pm saveObservation:observation];
-                }
-            }
-        }
-    }*/
+
     // Close connection
     [pm closeConnection];
-}
+}*/
 
 - (void) abortArea
 {
@@ -344,7 +313,9 @@
         return;
     }
     
-    [AreasSubmitController persistArea:area];
+    [persistenceManager establishConnection];
+    [persistenceManager persistArea:area];
+    [persistenceManager closeConnection];
     
     // create new inventory if no inventory is choosen
     Inventory *inventory = [[Inventory alloc] getInventory];
@@ -654,7 +625,9 @@
             [areaAlert show];
             return;
         } else {
-            [AreasSubmitController persistArea:area];
+            [persistenceManager establishConnection];
+            [persistenceManager persistArea:area];
+            [persistenceManager closeConnection];
         }
 
 

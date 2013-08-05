@@ -19,7 +19,7 @@
 extern int UNKNOWN_ORGANISMID;
 
 @implementation ObservationsOrganismViewController
-@synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, inventory, persistenceManager, organismGroup, observation, comeFromSubmitController;
+@synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, inventory, organismGroup, observation, comeFromSubmitController;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -485,13 +485,17 @@ extern int UNKNOWN_ORGANISMID;
         if (observation) {
             if (!comeFromSubmitController) {
                 observation.organism = currentSelectedOrganism;
-                [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+                [persistenceManager establishConnection];
+                [persistenceManager persistObservation:observation];
+                [persistenceManager closeConnection];
                 [self.navigationController popViewControllerAnimated:YES];
                 return;
             } else {
                 observation.organism = currentSelectedOrganism;
                 observation.organismGroup = organismGroup;
-                [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+                [persistenceManager establishConnection];
+                [persistenceManager persistObservation:observation];
+                [persistenceManager closeConnection];
                 NSMutableArray *tmp = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
                 [tmp removeObjectAtIndex:tmp.count - 2];
                 self.navigationController.viewControllers = tmp;

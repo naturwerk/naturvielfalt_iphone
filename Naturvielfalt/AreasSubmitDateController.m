@@ -11,7 +11,7 @@
 
 
 @implementation AreasSubmitDateController
-@synthesize area, dateLabel, datePicker, dateFormatter;
+@synthesize area, dateLabel, datePicker, dateFormatter, persistenceManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -21,6 +21,7 @@
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        
     }
     return self;
 }
@@ -84,7 +85,9 @@
 - (void) saveAreaDate {
     area.date = datePicker.date;
     area.submitted = NO;
-    [AreasSubmitController persistArea:area];
+    [persistenceManager establishConnection];
+    [persistenceManager persistArea:area];
+    [persistenceManager closeConnection];
     
     // POP
     [self.navigationController popViewControllerAnimated:YES];

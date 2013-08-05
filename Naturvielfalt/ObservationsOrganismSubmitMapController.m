@@ -18,7 +18,7 @@
 #define pAlpha 0.1
 
 @implementation ObservationsOrganismSubmitMapController
-@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, persistenceManager, searchBar, accuracyImage, accuracyText, accuracyImageView, accuracyLabel, mapSegmentControl;
+@synthesize mapView, currentLocation, observation, annotation, review, shouldAdjustZoom, pinMoved, locationManager, setButton, searchBar, accuracyImage, accuracyText, accuracyImageView, accuracyLabel, mapSegmentControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -419,7 +419,9 @@
         observation.submitted = NO;
     }
     
-    [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+    [persistenceManager establishConnection];
+    [persistenceManager persistObservation:observation];
+    [persistenceManager closeConnection];
     
     // Change view back to submitController
     /*ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]

@@ -14,8 +14,8 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -61,7 +61,9 @@
         observation.submitted = NO;
     }
     
-    [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
+    [persistenceManager establishConnection];
+    [persistenceManager persistObservation:observation];
+    [persistenceManager closeConnection];
 
     
     // POP

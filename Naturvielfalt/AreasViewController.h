@@ -14,9 +14,10 @@
 #import "CustomLineView.h"
 #import "CustomPolygonView.h"
 #import "PersistenceManager.h"
+#import "MBProgressHUD.h"
 
 @class CustomAnnotationView;
-@interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate, UISearchBarDelegate> {
+@interface AreasViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, UIActionSheetDelegate, UISearchBarDelegate, MBProgressHUDDelegate> {
     PersistenceManager *persistenceManager;
 
     MKOverlayView *overlayView;
@@ -37,6 +38,7 @@
     NSMutableArray *locationPoints;
     DrawMode currentDrawMode;
     UIActionSheet *modeOptions;
+    MBProgressHUD *loadingHUD;
     Area *area;
     BOOL review;
     BOOL undo;

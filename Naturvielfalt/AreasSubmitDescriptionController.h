@@ -18,5 +18,6 @@
 }
 
 @property (nonatomic) Area *area;
+@property (nonatomic) PersistenceManager *persistenceManager;
 
 @end

@@ -186,6 +186,74 @@ int UNKNOWN_ORGANISMID      =   -1;
     sqlite3_close(dbStatic);
 }
 
+// PERSISTENCE METHODES
+- (void) persistArea:(Area *)areaToSave {
+    areaToSave.persisted = YES;
+    
+    // Save area, inventories and observations
+    /*if(review) {*/
+    if (areaToSave.areaId) {
+        [self updateArea:areaToSave];
+        for (Inventory *inventory in areaToSave.inventories) {
+            if (inventory.inventoryId) {
+                [self updateInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    if (observation.observationId) {
+                        [self updateObservation:observation];
+                    } else {
+                        observation.inventory = inventory;
+                        observation.observationId = [self saveObservation:observation];
+                    }
+                }
+            } else {
+                inventory.area = areaToSave;
+                inventory.inventoryId = [self saveInventory:inventory];
+                for (Observation *observation in inventory.observations) {
+                    observation.inventory = inventory;
+                    observation.observationId = [self saveObservation:observation];
+                }
+            }
+        }
+    } else {
+        areaToSave.areaId = [self saveArea:areaToSave];
+        [self saveLocationPoints:areaToSave.locationPoints areaId:areaToSave.areaId];
+        for (AreaImage *aImg in areaToSave.pictures) {
+            aImg.areaId = areaToSave.areaId;
+            aImg.areaImageId = [self saveAreaImage:aImg];
+        }
+        for (Inventory *inventory in areaToSave.inventories) {
+            inventory.area = areaToSave;
+            inventory.inventoryId = [self saveInventory:inventory];
+            for (Observation *observation in inventory.observations) {
+                observation.inventory = inventory;
+                observation.observationId = [self saveObservation:observation];
+            }
+        }
+    }
+}
+
+- (void) persistInventory:(Inventory *)ivToSave {
+    // No duplicates, so remove if contains
+    [ivToSave.area.inventories removeObject:ivToSave];
+    [ivToSave.area.inventories addObject:ivToSave];
+    
+    [self persistArea:ivToSave.area];    
+}
+
+- (void) persistObservation:(Observation *)obsToSave {
+    
+    if(obsToSave.observationId) {
+        [self deleteObservationImagesFromObservation:obsToSave.observationId];
+        [self updateObservation:obsToSave];
+    } else {
+        obsToSave.observationId = [self saveObservation:obsToSave];
+        for (ObservationImage *oImg in obsToSave.pictures) {
+            oImg.observationId = obsToSave.observationId;
+            oImg.observationImageId = [self saveObservationImage:oImg];
+        }
+    }
+}
+
 // OBSERVATIONS
 - (long long int) saveObservation:(Observation *) observation
 {
@@ -197,7 +265,7 @@ int UNKNOWN_ORGANISMID      =   -1;
     dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     NSString *formattedDate = [dateFormatter stringFromDate:observation.date];
-        
+    
     // Put the data into the insert statement
     if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_int(stmt, 1, observation.guid);

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Observation.h"
+#import "PersistenceManager.h"
 
 @interface ObservationsOrganismSubmitDateController : UIViewController <UIPickerViewDelegate>{
     
@@ -15,6 +16,7 @@
     IBOutlet UIDatePicker *datePicker;
     IBOutlet UILabel *dateLabel;
     NSDateFormatter *dateFormatter;
+    PersistenceManager *persistenceManager;
 }
 
 @property (nonatomic) Observation *observation;

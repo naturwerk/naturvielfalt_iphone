@@ -21,6 +21,7 @@
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -84,7 +85,10 @@
 - (void) saveInventoryDate {
     inventory.date = datePicker.date;
     inventory.submitted = NO;
-    [AreasSubmitNewInventoryController persistInventory:inventory area:inventory.area];
+    
+    [persistenceManager establishConnection];
+    [persistenceManager persistInventory:inventory];
+    [persistenceManager closeConnection];
     
     // POP
     [self.navigationController popViewControllerAnimated:YES];

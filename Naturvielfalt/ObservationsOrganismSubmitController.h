@@ -64,8 +64,6 @@
 @property (nonatomic) NSArray *arrayKeys;
 @property (nonatomic) NSArray *arrayValues;
 
-@property (nonatomic) PersistenceManager *persistenceManager;
-
 @property (nonatomic, assign) BOOL review;
 @property (nonatomic, assign) BOOL comeFromOrganism;
 
@@ -75,6 +73,6 @@
 - (void) saveObservation;
 - (IBAction)chooseOrganism:(id)sender;
 
-+ (void) persistObservation:(Observation *)obsToSave inventory:(Inventory*)ivToSave;
+//+ (void) persistObservation:(Observation *)obsToSave inventory:(Inventory*)ivToSave;
 
 @end

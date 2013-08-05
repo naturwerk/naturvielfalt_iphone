@@ -167,6 +167,7 @@
 "collectionHudWaitMessage"		= "Bitte warten";
 "collectionHudSubmitMessage"	= "Daten werden übermittelt…";
 "collectionHudLoadMessage"		= "Lädt…";
+"collectionHudSaveMessage"		= "Speichert…";
 
 /** Settings **/
 "settingsNavTitle"              = "Einstellungen";

@@ -14,13 +14,14 @@
 @end
 
 @implementation AreasSubmitDescriptionController
-@synthesize area;
+@synthesize area, persistenceManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -59,7 +60,9 @@
     area.description = textView.text;
     area.submitted = NO;
     
-    [AreasSubmitController persistArea:area];
+    [persistenceManager establishConnection];
+    [persistenceManager persistArea:area];
+    [persistenceManager closeConnection];
     
     // POP
     [self.navigationController popViewControllerAnimated:YES];

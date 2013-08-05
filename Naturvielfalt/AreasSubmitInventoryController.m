@@ -65,7 +65,7 @@
             NSLog(@"area was deleted, go back");
             [area setArea:nil];
             area = nil;
-            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController popViewControllerAnimated:YES];
         } else {
             // copy locationpoints from old area object
             NSMutableArray *lps = [[NSMutableArray alloc] initWithArray:area.locationPoints];
@@ -142,12 +142,12 @@
     areasSubmitInventoryNameController.inventory = inventory;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:areasSubmitInventoryNameController animated:TRUE];
+    [self.navigationController pushViewController:areasSubmitInventoryNameController animated:YES];
     areasSubmitInventoryNameController = nil;
     
     
     // Switch the View & Controller
-    //[self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    //[self.navigationController pushViewController:areasSubmitNewInventoryController animated:YES];
     areasSubmitNewInventoryController = nil;}
 
 #pragma mark
@@ -236,7 +236,7 @@
     areasSubmitNewInventoryController.review = YES;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:YES];
     areasSubmitNewInventoryController = nil;
 }
 

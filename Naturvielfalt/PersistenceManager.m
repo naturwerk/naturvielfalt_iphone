@@ -388,7 +388,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             observation.accuracy = accuracy;
             observation.comment = comment;
             observation.locationLocked = locationLocked;
-            observation.submitToServer = true;
+            observation.submitToServer = YES;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
             
             if (inventoryId != 0) {
@@ -514,7 +514,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             observation.accuracy = accuracy;
             observation.comment = comment;
             observation.locationLocked = locationLocked;
-            observation.submitToServer = true;
+            observation.submitToServer = YES;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
             
             if (inventoryId != 0) {
@@ -643,7 +643,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             observation.accuracy = accuracy;
             observation.comment = comment;
             observation.locationLocked = locationLocked;
-            observation.submitToServer = true;
+            observation.submitToServer = YES;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
             
             if (inventoryId != 0) {
@@ -775,7 +775,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             observation.accuracy = accuracy;
             observation.comment = comment;
             observation.locationLocked = locationLocked;
-            observation.submitToServer = true;
+            observation.submitToServer = YES;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
             
             // Get OrganismGroup
@@ -1119,7 +1119,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             area.author = author;
             area.date = date;
             area.description = description;
-            area.submitToServer = true;
+            area.submitToServer = YES;
             area.pictures = [self getAreaImagesFromArea:areaId];
             area.persisted = YES;
             area.submitted = submitted;
@@ -1182,7 +1182,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             area.author = author;
             area.date = date;
             area.description = description;
-            area.submitToServer = true;
+            area.submitToServer = YES;
             area.pictures = [self getAreaImagesFromArea:areaId];
             area.submitted = submitted;
         
@@ -1440,7 +1440,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             inventory.author = author;
             inventory.date = date;
             inventory.description = description;
-            inventory.submitToServer = true;
+            inventory.submitToServer = YES;
             inventory.observations = [self getObservationsFromInventory:inventory];
             
             // Add area to the areas array
@@ -1607,7 +1607,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             inventory.author = author;
             inventory.date = date;
             inventory.description = description;
-            inventory.submitToServer = true;
+            inventory.submitToServer = YES;
             inventory.observations = [self getObservationsFromInventory:inventory];
             
         }
@@ -1720,7 +1720,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             observation.accuracy = accuracy;
             observation.comment = comment;
             observation.locationLocked = locationLocked;
-            observation.submitToServer = true;
+            observation.submitToServer = YES;
             observation.pictures = [self getObservationImagesFromObservation:observationId];
             
             // Create organismGroup

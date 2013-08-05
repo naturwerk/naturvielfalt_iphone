@@ -136,7 +136,7 @@
     // Calculate swiss coordinates
     annotation = [self adaptPinSubtitle: theCoordinate];
     
-    pinMoved = false;
+    pinMoved = NO;
     [setButton setTitle:NSLocalizedString(@"observationAdd", nil) forState:UIControlStateNormal];
     
 	//[self.mapView addAnnotation:annotation];
@@ -206,7 +206,7 @@
         // Calculate swiss coordinates
         annotation = [self adaptPinSubtitle: theCoordinate];
         
-        pinMoved = false;
+        pinMoved = NO;
         
         [self.mapView addAnnotation:annotation];
         review = YES;
@@ -303,7 +303,7 @@
     observation.locationLocked = YES;
     currentAccuracy = 0;
 
-    pinMoved = true;
+    pinMoved = YES;
     
     // Calculate swiss coordinates
     annotation = [self adaptPinSubtitle:annotation.coordinate];
@@ -431,10 +431,10 @@
     
     // Switch the View & Controller
     // POP
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
     
     // PUSH
-    //[self.navigationController pushViewController:organismSubmitController animated:TRUE];
+    //[self.navigationController pushViewController:organismSubmitController animated:YES];
 }
 
 
@@ -454,7 +454,7 @@
         
         [self.mapView setRegion:region animated:YES];
         
-        shouldAdjustZoom = false;
+        shouldAdjustZoom = NO;
     }
 
     /*if(!observation.locationLocked){
@@ -570,7 +570,7 @@
     observation.accuracy = 0;
     
     NSLog( @"set new location from annotation; accuracy: %d", observation.accuracy);
-    pinMoved = true;
+    pinMoved = YES;
     
     
     if (oldState == MKAnnotationViewDragStateDragging) {

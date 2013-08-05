@@ -96,7 +96,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
         [persistenceManager closeConnection];
         
         if (!tmpArea) {
-            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController popViewControllerAnimated:YES];
         } else {
             /*for (AreaImage *aImg in area.pictures) {
                 if (!aImg.areaImageId) {
@@ -116,7 +116,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
         [persistenceManager closeConnection];
         
         if (!tmpObservation) {
-            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController popViewControllerAnimated:YES];
         } else {
             for (ObservationImage *oImg in observation.pictures) {
                 if (!oImg.observationImageId) {
@@ -217,7 +217,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     
     // Switch the View & Controller
     // POP
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark UIImagePickerController delegate methods

@@ -80,7 +80,7 @@
                                                                                       bundle:[NSBundle mainBundle]];
         
         // Switch the View & Controller
-        [self.navigationController pushViewController:settingsUsernameController animated:TRUE];
+        [self.navigationController pushViewController:settingsUsernameController animated:YES];
         settingsUsernameController = nil;
     } else if(indexPath.row == 1) {
         // Password
@@ -90,7 +90,7 @@
                                                                       bundle:[NSBundle mainBundle]];
         
         // Switch the View & Controller
-        [self.navigationController pushViewController:settingsPasswordController animated:TRUE];
+        [self.navigationController pushViewController:settingsPasswordController animated:YES];
         settingsPasswordController = nil;
     }
 }

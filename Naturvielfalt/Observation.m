@@ -21,7 +21,7 @@ static Observation *observation;
         if (!observation) {
             pictures = [[NSMutableArray alloc] init];
             observation = [[Observation alloc] init];
-            observation.locationLocked = false;
+            observation.locationLocked = NO;
             observation.amount = @"1";
             observation.accuracy = 0;
             observation.comment = @"";

@@ -3229,7 +3229,7 @@ static NSOperationQueue *sharedQueue = nil;
 		[self performSelectorOnMainThread:@selector(requestWillRedirectToURL:) withObject:newURL waitUntilDone:[NSThread isMainThread]];
 		return true;
 	}
-	return false;
+	return NO;
 }
 
 - (void)handleBytesAvailable

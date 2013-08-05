@@ -55,7 +55,7 @@ extern int UNKNOWN_ORGANISMID;
             NSLog(@"inventory was deleted, go back");
             [inventory setInventory:nil];
             inventory = nil;
-            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController popViewControllerAnimated:YES];
             return;
         }
     }
@@ -71,7 +71,7 @@ extern int UNKNOWN_ORGANISMID;
             inventory = nil;
             [area setArea:nil];
             area = nil;
-            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController popViewControllerAnimated:YES];
             return;
         } else {
             // copy locationpoints from old area object
@@ -133,7 +133,7 @@ extern int UNKNOWN_ORGANISMID;
     observationsViewController.inventory = inventory;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:observationsViewController animated:TRUE];
+    [self.navigationController pushViewController:observationsViewController animated:YES];
     observationsViewController = nil;
 }
 
@@ -253,7 +253,7 @@ extern int UNKNOWN_ORGANISMID;
     organismSubmitController.organismGroup = observation.organismGroup;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+    [self.navigationController pushViewController:organismSubmitController animated:YES];
     organismSubmitController = nil;
 }
 

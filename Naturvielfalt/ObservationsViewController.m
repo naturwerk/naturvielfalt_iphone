@@ -80,6 +80,22 @@ extern int UNKNOWN_ORGANISMGROUPID;
     [super viewDidLoad];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    if (observation.observationId) {
+        [persistenceManager establishConnection];
+        Observation *persistedObs = [persistenceManager getObservation:observation.observationId];
+        [persistenceManager closeConnection];
+        
+        if (!persistedObs) {
+            observation = nil;
+            [observation setObservation:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            observation = persistedObs;
+        }
+    }
+}
+
 - (void) infoPage
 {
     // Create the ObservationsOrganismViewController
@@ -87,7 +103,7 @@ extern int UNKNOWN_ORGANISMGROUPID;
                                                               initWithNibName:@"InfoController" 
                                                               bundle:[NSBundle mainBundle]];
 
-    [self.navigationController pushViewController:infoController animated:TRUE];
+    [self.navigationController pushViewController:infoController animated:YES];
     
     infoController = nil;
 
@@ -211,7 +227,7 @@ extern int UNKNOWN_ORGANISMGROUPID;
         overviewController.groupId = currentSelectedOrganismGroup.organismGroupId;
         overviewController.classlevel = classlevel + 1;
         overviewController.inventory = inventory;
-        [self.navigationController pushViewController:overviewController animated:TRUE];
+        [self.navigationController pushViewController:overviewController animated:YES];
         overviewController = nil;
         
     } else {
@@ -235,13 +251,13 @@ extern int UNKNOWN_ORGANISMGROUPID;
                 
                 // Set the current displayed organism
                 organismSubmitController.organism = notYetDefinedOrganism;
-                organismSubmitController.review = false;
+                organismSubmitController.review = NO;
                 organismSubmitController.organismGroup = currentSelectedOrganismGroup;
                 
                 organismSubmitController.inventory = inventory;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+                [self.navigationController pushViewController:organismSubmitController animated:YES];
                 organismSubmitController = nil;
                 
                 return;
@@ -260,7 +276,7 @@ extern int UNKNOWN_ORGANISMGROUPID;
         
         // Switch the View & Controller 
         // (Also load all the organism from the organism group in the ViewDidLoad from ObsvervationsOrganismViewController)
-        [self.navigationController pushViewController:organismController animated:TRUE];
+        [self.navigationController pushViewController:organismController animated:YES];
         
         // Stop the spinner
         [spinner stopAnimating];

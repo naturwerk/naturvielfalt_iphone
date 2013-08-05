@@ -84,7 +84,7 @@
     [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
     
     // POP
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)dateChanged:(id)sender {

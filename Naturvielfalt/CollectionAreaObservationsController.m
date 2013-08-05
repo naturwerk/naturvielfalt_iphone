@@ -197,7 +197,7 @@ extern int UNKNOWN_ORGANISMID;
     
     // If there aren't any observations in the list. Stop the editing mode.
     if([observations count] < 1) {
-        table.editing = FALSE;
+        table.editing = NO;
     }
     [self reloadAnnotations];
 }
@@ -211,7 +211,7 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    table.editing = FALSE;
+    table.editing = NO;
     [self reloadAreaObservations];
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
@@ -479,7 +479,7 @@ extern int UNKNOWN_ORGANISMID;
     organismSubmitController.organismGroup = observation.organismGroup;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+    [self.navigationController pushViewController:organismSubmitController animated:YES];
     organismSubmitController = nil;
 }
 

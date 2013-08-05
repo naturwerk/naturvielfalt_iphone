@@ -159,7 +159,7 @@ extern int UNKNOWN_ORGANISMID;
         }
     }
     
-    if(!comeFromOrganism) comeFromOrganism = false;
+    if(!comeFromOrganism) comeFromOrganism = NO;
     
     // Do any additional setup after loading the view from its nib.
     
@@ -210,7 +210,7 @@ extern int UNKNOWN_ORGANISMID;
         //observation.accuracy = 0;
         observation.comment = @"";
         observation.pictures = pictures;
-        observation.locationLocked = false;
+        observation.locationLocked = NO;
     } else {
         [self updateAccuracyIcon: (int)observation.accuracy];
         [tableView reloadData];
@@ -293,7 +293,7 @@ extern int UNKNOWN_ORGANISMID;
     [hud hide:YES afterDelay:1];
     
     // Set review flag
-    review = true;
+    review = YES;
     
     // Set top navigation bar button  
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc] 
@@ -305,7 +305,7 @@ extern int UNKNOWN_ORGANISMID;
     self.navigationItem.rightBarButtonItem = submitButton;
     [tableView reloadData];
     
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)chooseOrganism:(id)sender {
@@ -325,7 +325,7 @@ extern int UNKNOWN_ORGANISMID;
         
         // Switch the View & Controller
         // (Also load all the organism from the organism group in the ViewDidLoad from ObsvervationsOrganismViewController)
-        [self.navigationController pushViewController:organismController animated:TRUE];
+        [self.navigationController pushViewController:organismController animated:YES];
         
         organismController = nil;
     } else {
@@ -383,7 +383,7 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void) abortObservation
 {
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidUnload
@@ -642,7 +642,7 @@ extern int UNKNOWN_ORGANISMID;
                 organismSubmitOrganismGroupController.observation = observation;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:organismSubmitOrganismGroupController animated:TRUE];
+                [self.navigationController pushViewController:organismSubmitOrganismGroupController animated:YES];
                 organismSubmitOrganismGroupController = nil;
                 break;
             }
@@ -655,7 +655,7 @@ extern int UNKNOWN_ORGANISMID;
                 organismSubmitDateController.observation = observation;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:organismSubmitDateController animated:TRUE];
+                [self.navigationController pushViewController:organismSubmitDateController animated:YES];
                 organismSubmitDateController = nil;
                 break;
             }
@@ -672,7 +672,7 @@ extern int UNKNOWN_ORGANISMID;
                 organismSubmitAmountController.observation = observation;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:organismSubmitAmountController animated:TRUE];
+                [self.navigationController pushViewController:organismSubmitAmountController animated:YES];
                 organismSubmitAmountController = nil;
                 break;
             }
@@ -687,7 +687,7 @@ extern int UNKNOWN_ORGANISMID;
                 organismSubmitCommentController.observation = observation;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:organismSubmitCommentController animated:TRUE];
+                [self.navigationController pushViewController:organismSubmitCommentController animated:YES];
                 organismSubmitCommentController = nil;
                 break;
             }
@@ -703,7 +703,7 @@ extern int UNKNOWN_ORGANISMID;
                 organismSubmitCameraController.observation = observation;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:organismSubmitCameraController animated:TRUE];
+                [self.navigationController pushViewController:organismSubmitCameraController animated:YES];
                 organismSubmitCameraController = nil;
                 break;
             }
@@ -721,7 +721,7 @@ extern int UNKNOWN_ORGANISMID;
                 
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:organismSubmitMapController animated:TRUE];
+                [self.navigationController pushViewController:organismSubmitMapController animated:YES];
                 organismSubmitMapController = nil;
                 break;
             }
@@ -752,7 +752,7 @@ extern int UNKNOWN_ORGANISMID;
         
         [observation setObservation:nil];
         
-        [self.navigationController popViewControllerAnimated:TRUE];
+        [self.navigationController popViewControllerAnimated:YES];
     } else {
         [tableView deselectRowAtIndexPath:currIndexPath animated:YES];
     }

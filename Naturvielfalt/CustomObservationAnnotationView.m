@@ -124,7 +124,7 @@
         organismSubmitController.review = YES;
         
         // Switch the View & Controller
-        [navigationController pushViewController:organismSubmitController animated:TRUE];
+        [navigationController pushViewController:organismSubmitController animated:YES];
         organismSubmitController = nil;
     }
 }

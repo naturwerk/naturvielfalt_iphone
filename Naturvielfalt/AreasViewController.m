@@ -433,7 +433,7 @@
     }
     // Switch the View & Controller
     // POP
-    //[self.navigationController popViewControllerAnimated:TRUE];
+    //[self.navigationController popViewControllerAnimated:YES];
     
     if (area.areaId) {
         areasSubmitController.review = YES;
@@ -454,7 +454,7 @@
     
     
     // PUSH
-    [self.navigationController pushViewController:areasSubmitNameController animated:TRUE];
+    [self.navigationController pushViewController:areasSubmitNameController animated:YES];
 }
 
 - (void) cancelPressed {
@@ -927,7 +927,7 @@
         
         [mapView setRegion:region animated:YES];
         mapView.showsUserLocation = YES;
-        shouldAdjustZoom = false;
+        shouldAdjustZoom = NO;
     }
 }
 

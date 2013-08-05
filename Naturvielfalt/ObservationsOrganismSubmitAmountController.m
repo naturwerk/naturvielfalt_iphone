@@ -92,7 +92,7 @@
     currentAmount = observation.amount;
     
     // set the picker value to the current stored amount value
-    [picker selectRow:selectedRowId inComponent:0 animated:true];
+    [picker selectRow:selectedRowId inComponent:0 animated:YES];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -120,7 +120,7 @@
     [ObservationsOrganismSubmitController persistObservation:observation inventory:observation.inventory];
     
     // POP
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {

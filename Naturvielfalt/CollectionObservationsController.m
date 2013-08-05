@@ -30,7 +30,7 @@ extern int UNKNOWN_ORGANISMID;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        doSubmit = FALSE;
+        doSubmit = NO;
         persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
@@ -173,11 +173,11 @@ extern int UNKNOWN_ORGANISMID;
 	
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	
-	bool result = false;
+	bool result = NO;
 	
 	if (internetStatus == ReachableViaWiFi)
 	{
-	    result = true;
+	    result = YES;
 	}
 	
 	return result;
@@ -185,7 +185,7 @@ extern int UNKNOWN_ORGANISMID;
 
 //fires an alert if not connected to WiFi
 - (void) alertOnSendObservationsDialog{
-    doSubmit = TRUE;
+    doSubmit = YES;
     if([self connectedToWiFi]){
         [self sendObservations];
     }
@@ -206,7 +206,7 @@ extern int UNKNOWN_ORGANISMID;
                 [ouh cancel];
             }
         }
-        doSubmit = FALSE;
+        doSubmit = NO;
     }
 }
 
@@ -561,7 +561,7 @@ extern int UNKNOWN_ORGANISMID;
     
     // If there aren't any observations in the list. Stop the editing mode.
     if([observations count] < 1) {
-        table.editing = FALSE;
+        table.editing = NO;
     }
     [self reloadAnnotations];
 }
@@ -575,7 +575,7 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    table.editing = FALSE;
+    table.editing = NO;
     [self reloadObservations];
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
@@ -751,7 +751,7 @@ extern int UNKNOWN_ORGANISMID;
     organismSubmitController.organismGroup = observation.organismGroup;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+    [self.navigationController pushViewController:organismSubmitController animated:YES];
     organismSubmitController = nil;
 }
 

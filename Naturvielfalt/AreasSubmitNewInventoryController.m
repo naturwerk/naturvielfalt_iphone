@@ -61,7 +61,7 @@
             NSLog(@"inventory was deleted, go back");
             [inventory setInventory:nil];
             inventory = nil;
-            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController popViewControllerAnimated:YES];
             return;
         }
     }
@@ -78,7 +78,7 @@
             inventory = nil;
             [area setArea:nil];
             area = nil;
-            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController popViewControllerAnimated:YES];
             return;
         } else {
             // copy locationpoints from old area object
@@ -101,7 +101,7 @@
         areasSubmitInventoryNameController.inventory = inventory;
         
         // Switch the View & Controller
-        [self.navigationController pushViewController:areasSubmitInventoryNameController animated:TRUE];
+        [self.navigationController pushViewController:areasSubmitInventoryNameController animated:YES];
         areasSubmitInventoryNameController = nil;*/
         
         review = YES;
@@ -227,7 +227,7 @@
     [hud hide:YES afterDelay:1];
     
     // Set review flag
-    review = true;
+    review = YES;
     
     [inventory setInventory:nil];
     
@@ -241,7 +241,7 @@
     self.navigationItem.rightBarButtonItem = submitButton;
     [tableView reloadData];
 
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 + (void) persistInventory:(Inventory *)ivToSave area:(Area*)areaToSave {
@@ -343,7 +343,7 @@
 
 - (void) abortInventory {
     NSLog(@"Abort Inventory pressed");
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) newObservation {
@@ -367,7 +367,7 @@
     observationsViewController.inventory = inventory;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:observationsViewController animated:TRUE];
+    [self.navigationController pushViewController:observationsViewController animated:YES];
     observationsViewController = nil;
 }
 
@@ -529,7 +529,7 @@
                 areasSubmitInventoryDateController.inventory = inventory;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitInventoryDateController animated:TRUE];
+                [self.navigationController pushViewController:areasSubmitInventoryDateController animated:YES];
                 areasSubmitInventoryDateController = nil;
                 break;
             }
@@ -544,7 +544,7 @@
                 areasSubmitInventoryNameController.inventory = inventory;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitInventoryNameController animated:TRUE];
+                [self.navigationController pushViewController:areasSubmitInventoryNameController animated:YES];
                 areasSubmitInventoryNameController = nil;
                 
                 break;
@@ -558,7 +558,7 @@
                 areasSubmitInventoryDescriptionController.inventory = inventory;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitInventoryDescriptionController animated:TRUE];
+                [self.navigationController pushViewController:areasSubmitInventoryDescriptionController animated:YES];
                 areasSubmitInventoryDescriptionController = nil;
                 
                 break;
@@ -584,7 +584,7 @@
 
         
         // Switch the View & Controller
-        [self.navigationController pushViewController:areasSubmitInventoryObservationController animated:TRUE];
+        [self.navigationController pushViewController:areasSubmitInventoryObservationController animated:YES];
         areasSubmitInventoryObservationController = nil;
     } else {
         if (!deleteInventorySheet) {
@@ -611,7 +611,7 @@
         
         [inventory setInventory:nil];
         
-        [self.navigationController popViewControllerAnimated:TRUE];
+        [self.navigationController popViewControllerAnimated:YES];
     } else {
         [tableView deselectRowAtIndexPath:currIndexPath animated:YES];
     }

@@ -26,7 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        doSubmit = FALSE;
+        doSubmit = NO;
         persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
@@ -73,7 +73,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    table.editing = FALSE;
+    table.editing = NO;
     [self reloadInventories];
 }
 
@@ -133,7 +133,7 @@
     
     // If there aren't any inventories in the list. Stop the editing mode.
     if([inventories count] < 1) {
-        table.editing = FALSE;
+        table.editing = NO;
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
@@ -283,7 +283,7 @@
     areasSubmitNewInventoryController.review = YES;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    [self.navigationController pushViewController:areasSubmitNewInventoryController animated:YES];
     areasSubmitNewInventoryController = nil;
 }
 @end

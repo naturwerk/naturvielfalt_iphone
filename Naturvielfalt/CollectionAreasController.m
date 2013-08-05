@@ -26,7 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        doSubmit = FALSE;
+        doSubmit = NO;
         persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
@@ -85,7 +85,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    table.editing = FALSE;
+    table.editing = NO;
     [self reloadAreas];
 }
 
@@ -95,11 +95,11 @@
 	
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	
-	bool result = false;
+	bool result = NO;
 	
 	if (internetStatus == ReachableViaWiFi)
 	{
-	    result = true;
+	    result = YES;
 	}
 	
 	return result;
@@ -107,7 +107,7 @@
 
 //fires an alert if not connected to WiFi
 - (void) alertOnSendAreasDialog{
-    doSubmit = TRUE;
+    doSubmit = YES;
     if([self connectedToWiFi]){
         [self sendAreas];
     }
@@ -124,7 +124,7 @@
         if (buttonIndex == 1){
             [self sendAreas];
         }
-        doSubmit = FALSE;
+        doSubmit = NO;
     }
 }
 
@@ -278,7 +278,7 @@
     
     // If there aren't any observations in the list. Stop the editing mode.
     if([areas count] < 1) {
-        table.editing = FALSE;
+        table.editing = NO;
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
@@ -456,7 +456,7 @@
     areasSubmitController.review = YES;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:areasSubmitController animated:TRUE];
+    [self.navigationController pushViewController:areasSubmitController animated:YES];
     areasSubmitController = nil;
 }
 

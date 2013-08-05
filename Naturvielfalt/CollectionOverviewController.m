@@ -116,7 +116,7 @@
                         
                         
                         // Switch the View & Controller
-                        [self.navigationController pushViewController:collectionObservationsController animated:TRUE];
+                        [self.navigationController pushViewController:collectionObservationsController animated:YES];
                         collectionObservationsController = nil;
                         
                         break;
@@ -132,7 +132,7 @@
                 
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:collectionAreaObservationsController animated:TRUE];
+                [self.navigationController pushViewController:collectionAreaObservationsController animated:YES];
                 collectionAreaObservationsController = nil;
                 
                 break;
@@ -145,7 +145,7 @@
                     collectionInventoriesController = [[CollectionInventoriesController alloc]initWithNibName:@"CollectionInventoriesController" bundle:[NSBundle mainBundle]];
                     
                     // Switch the View & Controller
-                    [self.navigationController pushViewController:collectionInventoriesController animated:TRUE];
+                    [self.navigationController pushViewController:collectionInventoriesController animated:YES];
                     //collectionInventoriesController = nil;
                     
                     break;
@@ -160,7 +160,7 @@
                                                  bundle:[NSBundle mainBundle]];
                     
                     // Switch the View & Controller
-                    [self.navigationController pushViewController:collectionAreasController animated:TRUE];
+                    [self.navigationController pushViewController:collectionAreasController animated:YES];
                     collectionAreasController = nil;
                     
                     break;

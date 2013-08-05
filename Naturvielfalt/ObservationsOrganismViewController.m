@@ -44,7 +44,7 @@ extern int UNKNOWN_ORGANISMID;
 - (void)viewDidLoad
 {
     // Display names in german
-    displayGermanNames = true;
+    displayGermanNames = YES;
     
     [self loadData];
     
@@ -95,6 +95,20 @@ extern int UNKNOWN_ORGANISMID;
             inventory = nil;
             [self.navigationController popViewControllerAnimated:YES];
             return;
+        }
+    }
+    
+    if (observation.observationId) {
+        [persistenceManager establishConnection];
+        Observation *persistedObs = [persistenceManager getObservation:observation.observationId];
+        [persistenceManager closeConnection];
+        
+        if (!persistedObs) {
+            observation = nil;
+            [observation setObservation:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            observation = persistedObs;
         }
     }
 }
@@ -298,7 +312,7 @@ extern int UNKNOWN_ORGANISMID;
     organismWikipediaController.organism = organism;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:organismWikipediaController animated:TRUE];
+    [self.navigationController pushViewController:organismWikipediaController animated:YES];
     [spinner stopAnimating];
     organismWikipediaController = nil;
 }
@@ -393,7 +407,7 @@ extern int UNKNOWN_ORGANISMID;
         cell.detailTextLabel.textColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.7];
         cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:16];
         cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.wikiButton.hidden = true;
+        cell.wikiButton.hidden = YES;
         return cell;
     }
     
@@ -494,13 +508,13 @@ extern int UNKNOWN_ORGANISMID;
         
         // Set the current displayed organism
         organismSubmitController.organism = currentSelectedOrganism;
-        organismSubmitController.review = false;
-        organismSubmitController.comeFromOrganism = true;
+        organismSubmitController.review = NO;
+        organismSubmitController.comeFromOrganism = YES;
         organismSubmitController.organismGroup = organismGroup;
         organismSubmitController.inventory = inventory;
         
         // Switch the View & Controller
-        [self.navigationController pushViewController:organismSubmitController animated:TRUE];
+        [self.navigationController pushViewController:organismSubmitController animated:YES];
         organismSubmitController = nil;
     }
 }

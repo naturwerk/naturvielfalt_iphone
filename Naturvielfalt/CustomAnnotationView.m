@@ -140,10 +140,10 @@
         areasSubmitController.review = YES;
         // Switch the View & Controller
         // POP
-        [navigationController popViewControllerAnimated:TRUE];
+        [navigationController popViewControllerAnimated:YES];
         
         // PUSH
-        [navigationController pushViewController:areasSubmitController animated:TRUE];
+        [navigationController pushViewController:areasSubmitController animated:YES];
     }
 }
 

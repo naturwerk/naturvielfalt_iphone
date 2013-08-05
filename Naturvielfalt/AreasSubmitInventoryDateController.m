@@ -87,6 +87,6 @@
     [AreasSubmitNewInventoryController persistInventory:inventory area:inventory.area];
     
     // POP
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

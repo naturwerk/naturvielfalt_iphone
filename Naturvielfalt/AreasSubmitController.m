@@ -136,7 +136,7 @@
             NSLog(@"area was deleted, go back to map");
             [area setArea:nil];
             area = nil;
-            [self.navigationController popViewControllerAnimated:TRUE];
+            [self.navigationController popViewControllerAnimated:YES];
             return;
         } else {
             // copy locationpoints from old area object
@@ -171,7 +171,7 @@
         areasSubmitNameController.area = area;
         
         // Switch the View & Controller
-        [self.navigationController pushViewController:areasSubmitNameController animated:TRUE];
+        [self.navigationController pushViewController:areasSubmitNameController animated:YES];
         areasSubmitNameController = nil;*/
         
         review = YES;
@@ -213,7 +213,7 @@
     [hud hide:YES afterDelay:1];
     
     // Set review flag
-    review = true;
+    review = YES;
     
     // Set top navigation bar button
     UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]
@@ -234,7 +234,7 @@
         areasViewController.area = area;
     }
 
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 + (void) persistArea:(Area *)areaToSave {
@@ -331,7 +331,7 @@
 - (void) abortArea
 {
     NSLog(@"abortArea");
-    [self.navigationController popViewControllerAnimated:TRUE];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) newInventory {
@@ -379,12 +379,12 @@
     areasSubmitInventoryNameController.inventory = inventory;
     
     // Switch the View & Controller
-    [self.navigationController pushViewController:areasSubmitInventoryNameController animated:TRUE];
+    [self.navigationController pushViewController:areasSubmitInventoryNameController animated:YES];
     areasSubmitInventoryNameController = nil;
 
     
     // Switch the View & Controller
-    //[self.navigationController pushViewController:areasSubmitNewInventoryController animated:TRUE];
+    //[self.navigationController pushViewController:areasSubmitNewInventoryController animated:YES];
     areasSubmitNewInventoryController = nil;
 }
 
@@ -588,7 +588,7 @@
             areasSubmitDateController.area = area;
             
             // Switch the View & Controller
-            [self.navigationController pushViewController:areasSubmitDateController animated:TRUE];
+            [self.navigationController pushViewController:areasSubmitDateController animated:YES];
             areasSubmitDateController = nil;
                 break;
             }
@@ -604,7 +604,7 @@
                 areasSubmitNameController.area = area;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitNameController animated:TRUE];
+                [self.navigationController pushViewController:areasSubmitNameController animated:YES];
                 areasSubmitNameController = nil;
 
                 break;
@@ -620,7 +620,7 @@
                 areasSubmitDescriptionController.area = area;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitDescriptionController animated:TRUE];
+                [self.navigationController pushViewController:areasSubmitDescriptionController animated:YES];
                 areasSubmitDescriptionController = nil;
 
                 break;
@@ -637,7 +637,7 @@
                 areaSubmitCameraController.area = area;
                 
                 // Switch the View & Controller
-                [self.navigationController pushViewController:areaSubmitCameraController animated:TRUE];
+                [self.navigationController pushViewController:areaSubmitCameraController animated:YES];
                 areaSubmitCameraController = nil;
                 break;
             }
@@ -667,7 +667,7 @@
         areasSubmitInventoryController.area = area;
         
         // Switch the View & Controller
-        [self.navigationController pushViewController:areasSubmitInventoryController animated:TRUE];
+        [self.navigationController pushViewController:areasSubmitInventoryController animated:YES];
         areasSubmitInventoryController = nil;
     } else {
         if (!deleteAreaSheet) {
@@ -697,7 +697,7 @@
                                    bundle:[NSBundle mainBundle] area:area];
         }*/
         
-        [self.navigationController popViewControllerAnimated:TRUE];
+        [self.navigationController popViewControllerAnimated:YES];
     } else {
         [tableView deselectRowAtIndexPath:currIndexPath animated:YES];
     }

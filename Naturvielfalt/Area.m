@@ -24,7 +24,7 @@ static Area *area;
             pictures = [[NSMutableArray alloc] init];
             inventories = [[NSMutableArray alloc] init];
             area = [[Area alloc] init];
-            area.locationLocked = false;
+            area.locationLocked = NO;
             area.author = @"";
             area.date = [NSDate date];
             area.name = @"";

@@ -64,7 +64,8 @@
 "wikiNavTitle"					= "Wikipedia";
 
 /** Observations **/
-"observationNavTitle"           = "Beobachtung";
+"observationNavTitle"           = "Beobachtungen";
+"observationTitle"				= "Beobachtung";
 "observationTime"               = "Zeit";
 "observationAuthor"				= "Erfasser";
 "observationCtn"                = "Anzahl";

@@ -194,7 +194,7 @@ extern int UNKNOWN_ORGANISMID;
     self.navigationItem.leftBarButtonItem = chancelButton;
     
     // Set navigation bar title    
-    NSString *title = NSLocalizedString(@"observationNavTitle", nil);
+    NSString *title = NSLocalizedString(@"observationTitle", nil);
     self.navigationItem.title = title;
         
     // Table init

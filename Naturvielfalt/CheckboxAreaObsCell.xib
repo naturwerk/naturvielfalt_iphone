@@ -441,7 +441,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="blank.png">{26, 26}</string>
-			<string key="checkbox_checked.png">{13, 13}</string>
+			<string key="checkbox_checked.png">{31, 31}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

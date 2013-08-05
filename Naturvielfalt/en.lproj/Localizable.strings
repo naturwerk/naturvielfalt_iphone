@@ -64,6 +64,7 @@
 
 /** Observations **/
 "observationNavTitle"           = "Observations";
+"observationTitle"				= "Observation";
 "observationTime"               = "Time";
 "observationAuthor"				= "Observator";
 "observationCtn"                = "Number of Species";
@@ -155,7 +156,8 @@
 "collectionAlertErrorAreSubmit"	= "Not all areas are submitted successfully. Please check the settings. Maybe you don't have a user account on the www.naturvielfalt.ch yet?";
 
 // Collection success message
-"collectionSuccessObsDetail"	= "All observations are submitted successfully.";
+"collectionSuccessObsDetail"	= "All observations are submitted
+successfully.";
 "collectionSuccessInvDetail"	= "All inventories are submitted successfully.";
 "collectionSuccessAreaDetail"	= "All areas are submitted successfully.";
 

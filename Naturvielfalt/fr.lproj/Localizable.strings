@@ -64,6 +64,7 @@
 
 /** Observations **/
 "observationNavTitle"           = "Observations";
+"observationTitle"				= "Observation";
 "observationTime"               = "Temps";
 "observationAuthor"				= "Observateur";
 "observationCtn"                = "Nombre";

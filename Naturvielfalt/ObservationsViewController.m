@@ -50,7 +50,7 @@ extern int UNKNOWN_ORGANISMGROUPID;
     [self loadOrganismusGroups];
     
     
-    if(!inventory) {
+    if(!inventory && !observation) {
         NSLog(@"show info button");
         // Check if its the root element. Otherwise don't display the INFO Page
         // Because we need the back button to get back to the overview page

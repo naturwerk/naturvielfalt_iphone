@@ -167,8 +167,12 @@
         // Close connection to the database
         [persistenceManager closeConnection];
         
+        [inventories removeObjectAtIndex:indexPath.row];
+        NSArray *array = [[NSArray alloc] initWithObjects:indexPath, nil];
+        [table deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+        
         // Reload the observations from the database and refresh the TableView
-        [self reloadInventories];
+        //[self reloadInventories];
     }
 }
 

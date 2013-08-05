@@ -63,6 +63,7 @@
 
 /** Observations **/
 "observationNavTitle"           = "Observations";
+"observationTitle"				= "Observation";
 "observationTime"               = "Time";
 "observationAuthor"				= "Observator";
 "observationCtn"                = "Number of Species";

@@ -236,8 +236,6 @@
     // Reset observations
     areas = nil;
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
     [self beginLoadingAreas];
 }
 
@@ -308,7 +306,10 @@
         [persistenceManager closeConnection];
         
         // Reload the areas from the database and refresh the TableView
-        [self reloadAreas];
+        [areas removeObjectAtIndex:indexPath.row];
+        NSArray *array = [[NSArray alloc] initWithObjects:indexPath, nil];
+        [table deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+        //[self reloadAreas];
     }
 }
 

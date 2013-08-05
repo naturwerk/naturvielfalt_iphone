@@ -230,9 +230,11 @@ extern int UNKNOWN_ORGANISMID;
         [persistenceManager closeConnection];
         
         [inventory.observations removeObjectAtIndex:indexPath.row];
+        NSArray *array = [[NSArray alloc] initWithObjects:indexPath, nil];
+        [tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
         
         // refresh the TableView
-        [tableView reloadData];
+        //[tableView reloadData];
     }
 }
 

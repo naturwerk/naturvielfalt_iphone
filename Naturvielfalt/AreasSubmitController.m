@@ -349,6 +349,13 @@
     // create new inventory if no inventory is choosen
     Inventory *inventory = [[Inventory alloc] getInventory];
     inventory.area = area;
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    NSString *username = @"";
+    
+    if([appSettings objectForKey:@"username"] != nil) {
+        username = [appSettings stringForKey:@"username"];
+    }
+    inventory.author = username;
     
     // new INVENTORY
     AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]

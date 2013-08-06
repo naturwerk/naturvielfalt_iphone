@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Inventory.h"
 #import "PersistenceManager.h"
+#import "MBProgressHUD.h"
 
 
 @interface ObservationsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
@@ -22,6 +23,7 @@
     Inventory *inventory;
     PersistenceManager *persistenceManager;
     Observation *observation;
+    MBProgressHUD *loadingHUD;
 }
 
 @property (nonatomic) NSMutableArray *listData;

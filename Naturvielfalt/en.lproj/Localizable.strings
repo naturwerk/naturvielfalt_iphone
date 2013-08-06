@@ -77,7 +77,7 @@
 "observationSpecies"			= "Species";
 
 // Observation HUD
-"observationSuccessMessage"		= "Observation saved successfully";
+"observationSuccessMessage"		= "Observation saved";
 
 // Observation date
 "dateNavTitle"					= "Date/Time";

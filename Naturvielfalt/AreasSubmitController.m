@@ -199,11 +199,15 @@
         [areaAlert show];
         return;
     }
+    
+    
 
     area.submitted = NO;
+    
     [persistenceManager establishConnection];
     [persistenceManager persistArea:area];
     [persistenceManager closeConnection];
+    
     
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
     [self.navigationController.parentViewController.view addSubview:hud];

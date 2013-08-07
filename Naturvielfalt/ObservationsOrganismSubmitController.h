@@ -22,6 +22,7 @@
     IBOutlet UIButton *organismButton;
     IBOutlet UITableView *tableView;
     IBOutlet UIView *organismDataView;
+    IBOutlet UIView *organismView;
     UIImage *accuracyImage;
     NSString *accuracyText;
     CLLocationManager *locationManager;
@@ -43,6 +44,7 @@
     BOOL observationChanged;
 }
 
+@property (nonatomic) IBOutlet UIView *organismView;
 @property (nonatomic) IBOutlet UIButton *organismButton;
 @property (nonatomic) IBOutlet UIView *organismDataView;
 @property (nonatomic, assign) BOOL observationChanged;

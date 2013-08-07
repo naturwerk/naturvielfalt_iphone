@@ -15,6 +15,8 @@
 @interface AreasSubmitNewInventoryController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MBProgressHUDDelegate> {
     Area *area;
     Inventory *inventory;
+    NSArray *arrayKeysSectionNull;
+    NSArray *arrayKeysSectionOne;
     NSArray *arrayKeys;
     NSArray *arrayValues;
     PersistenceManager *persistenceManager;

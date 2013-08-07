@@ -33,7 +33,7 @@ extern int UNKNOWN_ORGANISMID;
 #define numOfSections             4
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, accuracyImage, locationManager, accuracyText, family, review, observationChanged, comeFromOrganism, persistedObservation, inventory, dateFormatter, organismDataView, organismButton, organismGroup;
+@synthesize nameDe, nameLat, organism, observation, tableView, accuracyImage, locationManager, accuracyText, family, review, observationChanged, comeFromOrganism, persistedObservation, inventory, dateFormatter, organismDataView, organismButton, organismGroup, organismView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -129,7 +129,7 @@ extern int UNKNOWN_ORGANISMID;
         organismButton.tintColor = [UIColor redColor];
         [organismButton.layer setBorderColor:[[UIColor lightGrayColor]CGColor]];*/
         //[organismButton setBackgroundColor:[UIColor colorWithRed:209/255.0 green:237/255.0 blue:255/255.0 alpha:1]];
-        [self.view addSubview:organismButton];
+        [organismView addSubview:organismButton];
         
         /*gradientLayerUnselected = [CAGradientLayer layer];
         gradientLayerUnselected.cornerRadius = 8;
@@ -402,6 +402,7 @@ extern int UNKNOWN_ORGANISMID;
 - (void)viewDidUnload
 {
     [self setOrganismDataView:nil];
+    [self setOrganismView:nil];
     [super viewDidUnload];
 
     if(locationManager){
@@ -573,7 +574,7 @@ extern int UNKNOWN_ORGANISMID;
                     // Set up the cell...
                     cell.textLabel.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
                     //cell.detailTextLabel.text = [arrayValuesSectionOne objectAtIndex:indexPath.row];
-                    cell.detailTextLabel.text = observation.author;
+                    cell.detailTextLabel.text = (observation.author.length > 0) ? observation.author : @"-";
                     return cell;
                     break;
             }
@@ -601,7 +602,7 @@ extern int UNKNOWN_ORGANISMID;
                 case 1: // COMMENT
                 {
                     customCell.key.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
-                    customCell.value.text = (observation.comment.length > 0) ? @"..." : @"";
+                    customCell.value.text = (observation.comment.length > 0) ? @"..." : @"-";
                     customCell.image.image = nil;
                 }
                     break;

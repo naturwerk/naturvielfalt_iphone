@@ -18,6 +18,13 @@
 #import "DeleteCell.h"
 #import "CustomAddCell.h"
 
+#define numOfRowInSectionNull     2
+#define numOfRowInSectionOne      3
+#define numOfRowInSectionTwo      1
+#define numOfRowInSectionThree    1
+
+#define numOfSections             4
+
 @implementation AreasSubmitNewInventoryController
 @synthesize area, inventory, tableView, review, inventoryName;
 
@@ -194,11 +201,15 @@
     }
     
     // Get formatted date string
-    NSString *nowString = [dateFormatter stringFromDate:inventory.date];
+    //NSString *nowString = [dateFormatter stringFromDate:inventory.date];
     
     // Initialize keys/values
-    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitInventoryName", nil), NSLocalizedString(@"areaSubmitDescr", nil), nil];
-    arrayValues = [[NSArray alloc] initWithObjects:nowString, inventory.author, area.name, inventory.name, inventory.description, nil];
+    arrayKeysSectionNull = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), nil];
+    
+    arrayKeysSectionOne = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitInventoryName", nil), NSLocalizedString(@"areaSubmitDescr", nil),  nil];
+    
+    /*arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitInventoryName", nil), NSLocalizedString(@"areaSubmitDescr", nil), nil];
+    arrayValues = [[NSArray alloc] initWithObjects:nowString, inventory.author, area.name, inventory.name, inventory.description, nil];*/
 }
 
 - (void) saveInventory {
@@ -299,15 +310,18 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSLog(@"numberOfSectionsInTableView");
     if (inventory.inventoryId) {
-        return 3;
+        return numOfSections;
     }
-    return 2;
+    return numOfSections - 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSLog(@"numberOfRowsInSection");
-    if (section == 0) {
-        return [arrayKeys count];
+    switch (section) {
+        case 0: return numOfRowInSectionNull; break;
+        case 1: return numOfRowInSectionOne; break;
+        case 2: return numOfRowInSectionTwo; break;
+        case 3: return numOfRowInSectionThree; break;
     }
     return 1;
 }
@@ -319,80 +333,103 @@
     CustomCell *customCell;
     DeleteCell *deleteCell;
     CustomAddCell *customAddCell;
+    CustomDateCell *customDateCell;
+    NSArray *topLevelObjects;
+    NSLog(@"section: %i row: %i", indexPath.section, indexPath.row);
     
-    if (indexPath.section == 0) {
-        if(indexPath.row > 2 || indexPath.row == 0) {
-            // use CustomCell layout
-            
-            if(cell == nil) {
-                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
-                
-                for (id currentObject in topLevelObjects){
-                    if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                        customCell =  (CustomCell *)currentObject;
-                        break;
-                    }
-                }
-                
-                switch(indexPath.row) {
-                    case 0: {
-                        CustomDateCell *customDateCell;
-                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
-                        
-                        for (id currentObject in topLevelObjects){
-                            if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                                customDateCell =  (CustomDateCell *)currentObject;
-                                break;
-                            }
+    switch (indexPath.section) {
+        case 0:
+            switch (indexPath.row) {
+                case 0: { // Date
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
+                    
+                    for (id currentObject in topLevelObjects){
+                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                            customDateCell =  (CustomDateCell *)currentObject;
+                            break;
                         }
-                        
-                        customDateCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customDateCell.value.text = [dateFormatter stringFromDate:inventory.date];
-                        return customDateCell;
+                    }
+                    
+                    customDateCell.key.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
+                    customDateCell.value.text = [dateFormatter stringFromDate:inventory.date];
+                    return customDateCell;
+                }
+                    break;
+                    
+                case 1: { // Observator
+                    // Use normal cell layout
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    }
+                    
+                    // Set up the cell...
+                    cell.textLabel.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
+                    cell.detailTextLabel.text = (inventory.author.length > 0) ? inventory.author : @"-";
+                    cell.userInteractionEnabled = NO;
+                    
+                    return cell;
+                }
+                    break;
+            }
+            break;
+            
+        case 1:
+            switch (indexPath.row) {
+                case 0: { // Area name
+                    // Use normal cell layout
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    }
+                    
+                    // Set up the cell...
+                    cell.textLabel.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
+                    cell.detailTextLabel.text = inventory.area.name;
+                    cell.userInteractionEnabled = NO;
+                    
+                    return cell;
+                }
+                    break;
+                    
+                case 1: { // Inventory name
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
+                    
+                    for (id currentObject in topLevelObjects){
+                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                            customCell =  (CustomCell *)currentObject;
+                            break;
+                        }
                     }
 
-                    case 3:
-                    {
-                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = (inventory.name.length > 10) ? @"..." : inventory.name;
-                        customCell.image.image = nil;
-                    }
-                        break;
-                        
-                    case 4:
-                    {
-                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = (inventory.description.length > 0) ? @"..." : @"";
-                        customCell.image.image = nil;
-                    }
-                        break;
-                        
-                    default:
-                    {
-                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = @"";
-                        customCell.image.image = nil;
-                    }
-                        break;
+                    customCell.key.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
+                    customCell.value.text = (inventory.name.length > 10) ? @"..." : inventory.name;
+                    customCell.image.image = nil;
+                    
+                    return customCell;
                 }
-                return customCell;
+                    break;
+                
+                case 2: { // Description
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
+                    
+                    for (id currentObject in topLevelObjects){
+                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                            customCell =  (CustomCell *)currentObject;
+                            break;
+                        }
+                    }
+
+                    customCell.key.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
+                    customCell.value.text = (inventory.description.length > 0) ? @"..." : @"-";
+                    customCell.image.image = nil;
+                    
+                    return customCell;
+                }
+                    break;
             }
-        } else {
-            // Use normal cell layout
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-            }
+            break;
             
-            // Set up the cell...
-            cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];
-            cell.detailTextLabel.text = [arrayValues objectAtIndex:indexPath.row];
-            
-            return cell;
-        }
-    } else if (indexPath.section == 1) {
-        
-        if(cell == nil) {
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAddCell" owner:self options:nil];
+        case 2: { // Observations
+            topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAddCell" owner:self options:nil];
             
             for (id currentObject in topLevelObjects){
                 if ([currentObject isKindOfClass:[UITableViewCell class]]){
@@ -408,9 +445,10 @@
             
             return customAddCell;
         }
-    } else {
-        if(cell == nil) {
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DeleteCell" owner:self options:nil];
+            break;
+            
+        case 3: {// Delete
+            topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DeleteCell" owner:self options:nil];
             
             for (id currentObject in topLevelObjects){
                 if ([currentObject isKindOfClass:[UITableViewCell class]]){
@@ -421,6 +459,7 @@
             deleteCell.deleteLabel.text = NSLocalizedString(@"areaInventoryDelete", nil);
             return deleteCell;
         }
+            break;
     }
     return cell;
 }
@@ -441,81 +480,90 @@
     AreasSubmitInventoryObservationController *areasSubmitInventoryObservationController;
     currIndexPath = indexPath;
     
-    if (indexPath.section == 0) {
-        switch (indexPath.row) {
-            case 0:
-            {
-                // DATE
-                // Create the AreasSubmitInventoryDateController
-                areasSubmitInventoryDateController = [[AreasSubmitInventoryDateController alloc] initWithNibName:@"AreasSubmitDateController" bundle:[NSBundle mainBundle]];
-                
-                areasSubmitInventoryDateController.inventory = inventory;
-                
-                // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitInventoryDateController animated:YES];
-                areasSubmitInventoryDateController = nil;
-                break;
-            }
-            case 3:
-                // NAME
-                // Create the ObservationsOrganismSubmitCameraController
-                areasSubmitInventoryNameController = [[AreasSubmitInventoryNameController alloc]
-                                             initWithNibName:@"AreasSubmitInventoryNameController"
-                                             bundle:[NSBundle mainBundle]];
-                
-                
-                areasSubmitInventoryNameController.inventory = inventory;
-                
-                // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitInventoryNameController animated:YES];
-                areasSubmitInventoryNameController = nil;
-                
-                break;
-            case 4:
-                // DESCRIPTION
-                // Create the ObservationsOrganismSubmitCameraController
-                areasSubmitInventoryDescriptionController = [[AreasSubmitInventoryDescriptionController alloc]
-                                                    initWithNibName:@"AreasSubmitInventoryDescriptionController"
-                                                    bundle:[NSBundle mainBundle]];
-                
-                areasSubmitInventoryDescriptionController.inventory = inventory;
-                
-                // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitInventoryDescriptionController animated:YES];
-                areasSubmitInventoryDescriptionController = nil;
-                
-                break;
-        }
-    } else if (indexPath.section == 1) {
-        
-        if ([inventory.name compare:@""] == 0) {
-            UIAlertView *inventoryAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageInventoryTitle", nil)
-                                                                     message:NSLocalizedString(@"alertMessageInventoryName", nil) delegate:self cancelButtonTitle:nil
-                                                           otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
-            [inventoryAlert show];
-            return;
-        }
-        
-        // OBSERVATION
-        // Create the ObservationsOrganismSubmitMapController
-        areasSubmitInventoryObservationController = [[AreasSubmitInventoryObservationController alloc]
-                                          initWithNibName:@"AreasSubmitInventoryObservationController"
-                                          bundle:[NSBundle mainBundle]];
-        
-        areasSubmitInventoryObservationController.inventory = inventory;
-        areasSubmitInventoryObservationController.area = area;
-
-        
-        // Switch the View & Controller
-        [self.navigationController pushViewController:areasSubmitInventoryObservationController animated:YES];
-        areasSubmitInventoryObservationController = nil;
-    } else {
-        if (!deleteInventorySheet) {
-            deleteInventorySheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil) destructiveButtonTitle:NSLocalizedString(@"areaInventoryDelete", nil) otherButtonTitles: nil];
+    switch (indexPath.section) {
+        case 0:
+            // DATE
+            // Create the AreasSubmitInventoryDateController
+            areasSubmitInventoryDateController = [[AreasSubmitInventoryDateController alloc] initWithNibName:@"AreasSubmitDateController" bundle:[NSBundle mainBundle]];
             
-            deleteInventorySheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+            areasSubmitInventoryDateController.inventory = inventory;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:areasSubmitInventoryDateController animated:YES];
+            areasSubmitInventoryDateController = nil;
+            break;
+
+            break;
+            
+        case 1:
+            switch (indexPath.row) {
+                case 1: { // Inventory name
+                    // NAME
+                    // Create the ObservationsOrganismSubmitCameraController
+                    areasSubmitInventoryNameController = [[AreasSubmitInventoryNameController alloc]
+                                                          initWithNibName:@"AreasSubmitInventoryNameController"
+                                                          bundle:[NSBundle mainBundle]];
+                    
+                    
+                    areasSubmitInventoryNameController.inventory = inventory;
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:areasSubmitInventoryNameController animated:YES];
+                    areasSubmitInventoryNameController = nil;
+                }
+                    break;
+                    
+                case 2: { // Description
+                    // DESCRIPTION
+                    // Create the ObservationsOrganismSubmitCameraController
+                    areasSubmitInventoryDescriptionController = [[AreasSubmitInventoryDescriptionController alloc]
+                                                                 initWithNibName:@"AreasSubmitInventoryDescriptionController"
+                                                                 bundle:[NSBundle mainBundle]];
+                    
+                    areasSubmitInventoryDescriptionController.inventory = inventory;
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:areasSubmitInventoryDescriptionController animated:YES];
+                    areasSubmitInventoryDescriptionController = nil;
+                }
+                    break;
+            }
+            break;
+            
+        case 2: { // Observations
+            if ([inventory.name compare:@""] == 0) {
+                UIAlertView *inventoryAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageInventoryTitle", nil)
+                                                                         message:NSLocalizedString(@"alertMessageInventoryName", nil) delegate:self cancelButtonTitle:nil
+                                                               otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+                [inventoryAlert show];
+                return;
+            }
+            
+            // OBSERVATION
+            // Create the ObservationsOrganismSubmitMapController
+            areasSubmitInventoryObservationController = [[AreasSubmitInventoryObservationController alloc]
+                                                         initWithNibName:@"AreasSubmitInventoryObservationController"
+                                                         bundle:[NSBundle mainBundle]];
+            
+            areasSubmitInventoryObservationController.inventory = inventory;
+            areasSubmitInventoryObservationController.area = area;
+            
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:areasSubmitInventoryObservationController animated:YES];
+            areasSubmitInventoryObservationController = nil;
         }
-        [deleteInventorySheet showFromTabBar:self.tabBarController.tabBar];
+            break;
+            
+        case 3: { // Delete
+            if (!deleteInventorySheet) {
+                deleteInventorySheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil) destructiveButtonTitle:NSLocalizedString(@"areaInventoryDelete", nil) otherButtonTitles: nil];
+                
+                deleteInventorySheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+            }
+            [deleteInventorySheet showFromTabBar:self.tabBarController.tabBar];
+        }
+            break;
     }
 }
 

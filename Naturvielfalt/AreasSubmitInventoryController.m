@@ -184,7 +184,7 @@
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         NSString *nowString = [dateFormatter stringFromDate:inventory.date];
         
-        cell.author.text = inventory.author;
+        cell.author.text = (inventory.author.length > 0) ? inventory.author : @"-";
         cell.name.text = inventory.name;
         cell.date.text = nowString;
         cell.observationsCount.text = [NSString stringWithFormat:@"%i",inventory.observations.count];

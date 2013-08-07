@@ -575,6 +575,7 @@ extern int UNKNOWN_ORGANISMID;
                     cell.textLabel.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
                     //cell.detailTextLabel.text = [arrayValuesSectionOne objectAtIndex:indexPath.row];
                     cell.detailTextLabel.text = (observation.author.length > 0) ? observation.author : @"-";
+                    cell.userInteractionEnabled = NO;
                     return cell;
                     break;
             }

@@ -64,6 +64,7 @@
 
 /** Observations **/
 "observationNavTitle"           = "Observations";
+"observationTitle"				= "Observation";
 "observationTime"               = "Time";
 "observationAuthor"				= "Observator";
 "observationCtn"                = "Number of Species";
@@ -76,7 +77,7 @@
 "observationSpecies"			= "Species";
 
 // Observation HUD
-"observationSuccessMessage"		= "Observation saved successfully";
+"observationSuccessMessage"		= "Observation saved";
 
 // Observation date
 "dateNavTitle"					= "Date/Time";
@@ -155,7 +156,8 @@
 "collectionAlertErrorAreSubmit"	= "Not all areas are submitted successfully. Please check the settings. Maybe you don't have a user account on the www.naturvielfalt.ch yet?";
 
 // Collection success message
-"collectionSuccessObsDetail"	= "All observations are submitted successfully.";
+"collectionSuccessObsDetail"	= "All observations are submitted
+successfully.";
 "collectionSuccessInvDetail"	= "All inventories are submitted successfully.";
 "collectionSuccessAreaDetail"	= "All areas are submitted successfully.";
 
@@ -164,6 +166,7 @@
 "collectionHudWaitMessage"		= "Please wait";
 "collectionHudSubmitMessage"	= "Submit data…";
 "collectionHudLoadMessage"		= "Loading…";
+"collectionHudSaveMessage"		= "Saving…";
 
 
 /** Settings **/
@@ -176,6 +179,7 @@
 "settingsMapSatellite"			= "Satellite";
 "settingsMapHybrid"				= "Hybrid";
 "settingsMapStandard"			= "Default";
+"settingsAccountInfo"			= "Damit Sie diese App vollständig verwenden können, benötigen Sie ein Benutzerkonto auf der Webplattform naturvielfalt.ch. Die Logindaten können Sie hier eintragen.";
 
 /** Info **/
 "infoNavTitle"                  = "Naturvielfalt";

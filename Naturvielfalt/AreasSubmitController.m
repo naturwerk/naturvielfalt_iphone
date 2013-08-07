@@ -21,9 +21,12 @@
 #import "CustomAreaCell.h"
 #import "DeleteCell.h"
 
-@interface AreasSubmitController ()
+#define numOfRowInSectionNull     2
+#define numOfRowInSectionOne      3
+#define numOfRowInSectionTwo      1
+#define numOfRowInSectionThree    1
 
-@end
+#define numOfSections             4
 
 @implementation AreasSubmitController
 @synthesize areaChanged, area, tableView, drawMode, customAnnotation, review, areaName;
@@ -117,8 +120,12 @@
     nowString = [dateFormatter stringFromDate:area.date];
     
     // Initialize keys/values
-    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitDescr", nil),  NSLocalizedString(@"areaSubmitImages", nil), nil];
-    arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.name, area.description, @">", nil];
+    arrayKeysSectionNull = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), nil];
+    
+    arrayKeysSectionOne = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitDescr", nil), NSLocalizedString(@"areaSubmitImages", nil), nil];
+    
+    //arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitDescr", nil),  NSLocalizedString(@"areaSubmitImages", nil), nil];
+    //arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.name, area.description, @">", nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -249,58 +256,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-/*+ (void) persistArea:(Area *)areaToSave {
-    
-    PersistenceManager *pm = [[PersistenceManager alloc] init];
-    
-    [pm establishConnection];
-    areaToSave.persisted = YES;
-    
-    // Save area, inventories and observations
-    //if(review) {
-        if (areaToSave.areaId) {
-            [pm updateArea:areaToSave];
-            for (Inventory *inventory in areaToSave.inventories) {
-                if (inventory.inventoryId) {
-                    [pm updateInventory:inventory];
-                    for (Observation *observation in inventory.observations) {
-                        if (observation.observationId) {
-                            [pm updateObservation:observation];
-                        } else {
-                            observation.inventory = inventory;
-                            observation.observationId = [pm saveObservation:observation];
-                        }
-                    }
-                } else {
-                    inventory.area = areaToSave;
-                    inventory.inventoryId = [pm saveInventory:inventory];
-                    for (Observation *observation in inventory.observations) {
-                        observation.inventory = inventory;
-                        observation.observationId = [pm saveObservation:observation];
-                    }
-                }
-            }
-        } else {
-            areaToSave.areaId = [pm saveArea:areaToSave];
-            [pm saveLocationPoints:areaToSave.locationPoints areaId:areaToSave.areaId];
-            for (AreaImage *aImg in areaToSave.pictures) {
-                aImg.areaId = areaToSave.areaId;
-                aImg.areaImageId = [pm saveAreaImage:aImg];
-            }
-            for (Inventory *inventory in areaToSave.inventories) {
-                inventory.area = areaToSave;
-                inventory.inventoryId = [pm saveInventory:inventory];
-                for (Observation *observation in inventory.observations) {
-                    observation.inventory = inventory;
-                    observation.observationId = [pm saveObservation:observation];
-                }
-            }
-        }
-
-    // Close connection
-    [pm closeConnection];
-}*/
-
 - (void) abortArea
 {
     NSLog(@"abortArea");
@@ -365,12 +320,9 @@
 
 + (NSString *) getStringOfDrawMode:(Area*)area {
     switch (area.typeOfArea) {
-        case POINT: return @"pin";
-        case LINE:
-            return @"line";
-            break;
-        case POLYGON:
-            return @"polygon";
+        case POINT: return @"pin"; break;
+        case LINE: return @"line"; break;
+        case POLYGON: return @"polygon"; break;
     }
     return nil;
 }
@@ -378,127 +330,128 @@
 #pragma mark
 #pragma UITableViewDelegate Methodes
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSLog(@"numberOfSectionsInTableView");
     if (area.areaId) {
-        return 3;
+        return numOfSections;
     }
-    return 2;
+    return numOfSections - 1;
 }
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"numberOfRowsInSection");
-    if (section == 0) {
-        return [arrayKeys count];
+    switch (section) {
+        case 0: return numOfRowInSectionNull; break;
+        case 1: return numOfRowInSectionOne; break;
+        case 2: return numOfRowInSectionTwo; break;
+        case 3: return numOfRowInSectionThree; break;
     }
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"cellForRowAtIndexPath");
-    //static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:nil];
     CustomCell *customCell;
     DeleteCell *deleteCell;
     CustomAddCell *customAddCell;
     CustomAreaCell *customAreaCell;
+    CustomDateCell *customDateCell;
     
-    if (indexPath.section == 0) {
-        if(indexPath.row != 1) {
-            // use CustomCell layout
-
-            if(cell == nil) {
-                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
-                
-                for (id currentObject in topLevelObjects){
-                    if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                        customCell =  (CustomCell *)currentObject;
-                        break;
-                    }
-                }
-
-                switch(indexPath.row) {
-                        
-                    case 0: {
-                        CustomDateCell *customDateCell;
-                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
-                        
-                        for (id currentObject in topLevelObjects){
-                            if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                                customDateCell =  (CustomDateCell *)currentObject;
-                                break;
-                            }
+    NSArray *topLevelObjects;
+    
+    switch (indexPath.section) {
+        case 0:
+            switch (indexPath.row) {
+                case 0: { // Date
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
+                    
+                    for (id currentObject in topLevelObjects){
+                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                            customDateCell =  (CustomDateCell *)currentObject;
+                            break;
                         }
-                        
-                        customDateCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customDateCell.value.text = [dateFormatter stringFromDate:area.date];
-                        return customDateCell;
                     }
-                        
-                    case 2:
-                    {
-                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAreaCell" owner:self options:nil];
-                        
-                        for (id currentObject in topLevelObjects){
-                            if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                                customAreaCell =  (CustomAreaCell *)currentObject;
-                                break;
-                            }
-                        }
-                        customAreaCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customAreaCell.value.text = (area.name.length > 10) ? @"..." : area.name;
-                        
-                        customAreaCell.image.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:area]]];
-                        return customAreaCell;
-                    }
-                        break;
-                        
-                    case 3:
-                    {
-                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = (area.description.length > 0) ? @"..." : @"";
-                        customCell.image.image = nil;
-                    }
-                        break;
-                        
-                    case 4:
-                    {
-                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        
-                        NSString *picCount = [[NSString alloc] initWithFormat:@"%d", area.pictures.count];
-                        
-                        customCell.value.text = picCount;
-                        customCell.image.image = nil;
-                        
-                    }
-                        break;
-                        
-                    default:
-                    {
-                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = @"";
-                        customCell.image.image = nil;
-                    }
-                        break;
+                    
+                    customDateCell.key.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
+                    customDateCell.value.text = [dateFormatter stringFromDate:area.date];
+                    return customDateCell;
                 }
-                return customCell;
+                    break;
+                    
+                case 1: { // Observator
+                    // Use normal cell layout
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    }
+                    
+                    // Set up the cell...
+                    cell.textLabel.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
+                    cell.detailTextLabel.text = (area.author.length > 0) ? area.author : @"-";
+                    cell.userInteractionEnabled = NO;
+                    
+                    return cell;
+                }
+                    break;
             }
-        } else {
-            // Use normal cell layout
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+            break;
+            
+        case 1:
+            switch (indexPath.row) {
+                case 0: { // Area name
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAreaCell" owner:self options:nil];
+                    
+                    for (id currentObject in topLevelObjects){
+                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                            customAreaCell =  (CustomAreaCell *)currentObject;
+                            break;
+                        }
+                    }
+                    customAreaCell.key.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
+                    customAreaCell.value.text = (area.name.length > 10) ? @"..." : area.name;
+                    
+                    customAreaCell.image.image = [UIImage imageNamed:[NSString stringWithFormat:@"symbol-%@.png", [AreasSubmitController getStringOfDrawMode:area]]];
+                    return customAreaCell;
+                }
+                    break;
+                    
+                case 1: { // Description
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
+                    
+                    for (id currentObject in topLevelObjects){
+                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                            customCell =  (CustomCell *)currentObject;
+                            break;
+                        }
+                    }
+                    
+                    customCell.key.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
+                    customCell.value.text = (area.description.length > 0) ? @"..." : @"-";
+                    customCell.image.image = nil;
+                    
+                    return customCell;
+                }
+                    break;
+                    
+                case 2: { // Photo of Area
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
+                    
+                    for (id currentObject in topLevelObjects){
+                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                            customCell =  (CustomCell *)currentObject;
+                            break;
+                        }
+                    }
+                    
+                    customCell.key.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
+                    NSString *picCount = [[NSString alloc] initWithFormat:@"%d", area.pictures.count];
+                    customCell.value.text = picCount;
+                    customCell.image.image = nil;
+                    
+                    return customCell;
+                }
+                    break;
             }
+            break;
             
-            // Set up the cell...
-            cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];
-            cell.detailTextLabel.text = [arrayValues objectAtIndex:indexPath.row];
-            
-            return cell;
-        }
-    } else if (indexPath.section == 1)
-    {
-        
-        if(cell == nil) {
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAddCell" owner:self options:nil];
+        case 2: { // Inventories
+            topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomAddCell" owner:self options:nil];
             
             for (id currentObject in topLevelObjects){
                 if ([currentObject isKindOfClass:[UITableViewCell class]]){
@@ -506,16 +459,17 @@
                     break;
                 }
             }
-
+            
             customAddCell.key.text = NSLocalizedString(@"areaSubmitInventory", nil);
             customAddCell.value.text = [NSString stringWithFormat:@"%i", area.inventories.count];
             [customAddCell.addButton addTarget:self action:@selector(newInventory) forControlEvents:UIControlEventTouchUpInside];
-
+            
             //[NSString stringWithFormat:@"%i", area.inventories.count];
             return customAddCell;
         }
-    } else {
-        if(cell == nil) {
+            break;
+        
+        case 3: { // Delete
             NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DeleteCell" owner:self options:nil];
             
             for (id currentObject in topLevelObjects){
@@ -529,6 +483,7 @@
             
             return deleteCell;
         }
+            break;
     }
     return cell;
 }
@@ -551,8 +506,108 @@
     AreasSubmitInventoryController *areasSubmitInventoryController;
     currIndexPath = indexPath;
 
+    switch (indexPath.section) {
+        case 0: {
+            // DATE
+            // Create the ObservationsOrganismSubmitDateController
+            areasSubmitDateController = [[AreasSubmitDateController alloc] initWithNibName:@"AreasSubmitDateController" bundle:[NSBundle mainBundle]];
+            
+            areasSubmitDateController.area = area;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:areasSubmitDateController animated:YES];
+            areasSubmitDateController = nil;
+        }
+            break;
+            
+        case 1: {
+            switch (indexPath.row) {
+                case 0: { // Area name
+                    // NAME
+                    // Create the AreasSubmitNameController
+                    areasSubmitNameController = [[AreasSubmitNameController alloc]
+                                                 initWithNibName:@"AreasSubmitNameController"
+                                                 bundle:[NSBundle mainBundle]];
+                    
+                    
+                    areasSubmitNameController.area = area;
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:areasSubmitNameController animated:YES];
+                    areasSubmitNameController = nil;
+                }
+                    break;
+                    
+                case 1: { // Description
+                    // DESCRIPTION
+                    // Create the AreasSubmitDescriptionController
+                    areasSubmitDescriptionController = [[AreasSubmitDescriptionController alloc]
+                                                        initWithNibName:@"AreasSubmitDescriptionController"
+                                                        bundle:[NSBundle mainBundle]];
+                    
+                    areasSubmitDescriptionController.area = area;
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:areasSubmitDescriptionController animated:YES];
+                    areasSubmitDescriptionController = nil;
+                }
+                    break;
+                    
+                case 2: { // Photo of area
+                    // CAMERA
+                    // Create the AreaSubmitCameraController
+                    areaSubmitCameraController = [[CameraViewController alloc]
+                                                  initWithNibName:@"CameraViewController"
+                                                  bundle:[NSBundle mainBundle]];
+                    
+                    
+                    areaSubmitCameraController.area = area;
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:areaSubmitCameraController animated:YES];
+                    areaSubmitCameraController = nil;
+                }
+                    break;
+            }
+        }
+            break;
+            
+        case 2: {
+            // INVENTORY
+            if ([area.name compare:@""] == 0) {
+                UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
+                                                                    message:NSLocalizedString(@"alertMessageAreaName", nil) delegate:self cancelButtonTitle:nil
+                                                          otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+                [areaAlert show];
+                return;
+            }
+            
+            // Create the AreasSubmitInventoryController
+            areasSubmitInventoryController = [[AreasSubmitInventoryController alloc]
+                                              initWithNibName:@"AreasSubmitInventoryController"
+                                              bundle:[NSBundle mainBundle]];
+            
+            areasSubmitInventoryController.area = area;
+            
+            // Switch the View & Controller
+            [self.navigationController pushViewController:areasSubmitInventoryController animated:YES];
+            areasSubmitInventoryController = nil;
+        }
+            break;
+            
+        case 3: {
+            if (!deleteAreaSheet) {
+                deleteAreaSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil) destructiveButtonTitle:NSLocalizedString(@"areaDelete", nil) otherButtonTitles: nil];
+                
+                deleteAreaSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+            }
+            [deleteAreaSheet showFromTabBar:self.tabBarController.tabBar];
+        }
+            break;
+    }
     
-    if (indexPath.section == 0) {
+    
+    /*if (indexPath.section == 0) {
         switch (indexPath.row) {
             case 0:
             {
@@ -628,10 +683,6 @@
                                                       otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
             [areaAlert show];
             return;
-        } else {
-            [persistenceManager establishConnection];
-            [persistenceManager persistArea:area];
-            [persistenceManager closeConnection];
         }
 
 
@@ -653,7 +704,7 @@
             deleteAreaSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
         }
         [deleteAreaSheet showFromTabBar:self.tabBarController.tabBar];
-    }
+    }*/
 }
 
 #pragma mark

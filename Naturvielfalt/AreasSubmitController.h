@@ -17,6 +17,8 @@
     Area *area;
     Area *persistedArea;
     PersistenceManager *persistenceManager;
+    NSArray *arrayKeysSectionNull;
+    NSArray *arrayKeysSectionOne;
     NSArray *arrayKeys;
     NSArray *arrayValues;
     DrawMode drawMode;

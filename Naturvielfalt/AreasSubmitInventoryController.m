@@ -161,8 +161,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"cellForRowAtIndexPath inventories");
-    
     InventoryCell *cell = [tw dequeueReusableCellWithIdentifier:@"InventoryCell"];
     
     if(cell == nil) {

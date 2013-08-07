@@ -148,8 +148,6 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"cellForRowAtIndexPath observations");
-    
     ObservationCell *cell = [tw dequeueReusableCellWithIdentifier:@"ObservationCell"];
     
     if(cell == nil) {

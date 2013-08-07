@@ -68,7 +68,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"cellForRowAtIndexPath");
     static NSString *cellIdentifier = @"standardCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:cellIdentifier];
     

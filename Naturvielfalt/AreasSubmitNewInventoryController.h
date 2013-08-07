@@ -17,8 +17,6 @@
     Inventory *inventory;
     NSArray *arrayKeysSectionNull;
     NSArray *arrayKeysSectionOne;
-    NSArray *arrayKeys;
-    NSArray *arrayValues;
     PersistenceManager *persistenceManager;
     IBOutlet UITableView *tableView;
     IBOutlet UILabel *inventoryName;

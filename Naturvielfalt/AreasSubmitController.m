@@ -123,9 +123,6 @@
     arrayKeysSectionNull = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), nil];
     
     arrayKeysSectionOne = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitDescr", nil), NSLocalizedString(@"areaSubmitImages", nil), nil];
-    
-    //arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"areaSubmitTime", nil), NSLocalizedString(@"areaSubmitAuthor", nil), NSLocalizedString(@"areaSubmitName", nil), NSLocalizedString(@"areaSubmitDescr", nil),  NSLocalizedString(@"areaSubmitImages", nil), nil];
-    //arrayValues = [[NSArray alloc] initWithObjects:nowString, area.author, area.name, area.description, @">", nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

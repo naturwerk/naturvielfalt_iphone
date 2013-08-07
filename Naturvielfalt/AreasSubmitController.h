@@ -19,8 +19,6 @@
     PersistenceManager *persistenceManager;
     NSArray *arrayKeysSectionNull;
     NSArray *arrayKeysSectionOne;
-    NSArray *arrayKeys;
-    NSArray *arrayValues;
     DrawMode drawMode;
     CustomAnnotation *customAnnotation;
     AreasViewController *areasViewController;

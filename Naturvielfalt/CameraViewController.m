@@ -228,6 +228,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         UIImage *chosenImage = [info objectForKey:UIImagePickerControllerEditedImage];
         UIImage *shrunkenImage = shrinkImage(chosenImage, imageFrame.size);
         
+        // Save the taken photo to photo library
+        if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+            UIImageWriteToSavedPhotosAlbum(chosenImage, nil, nil, nil);
+        }
+        
         if (area) {
             AreaImage *aImg = [[AreaImage alloc] getAreaImage];
             aImg.image = shrunkenImage;

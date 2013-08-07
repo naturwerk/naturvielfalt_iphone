@@ -30,9 +30,9 @@
     NSDateFormatter *dateFormatter;
     
     
-    
-    NSArray *arrayKeys;
-    NSArray *arrayValues;
+    NSArray *arrayKeysSectionNull;
+    NSArray *arrayKeysSectionOne;
+    NSArray *arrayKeysSectionTwo;
     
     PersistenceManager *persistenceManager;
     Observation *persistedObservation;
@@ -61,8 +61,6 @@
 @property (nonatomic) Inventory *inventory;
 @property (nonatomic) Observation *persistedObservation;
 
-@property (nonatomic) NSArray *arrayKeys;
-@property (nonatomic) NSArray *arrayValues;
 
 @property (nonatomic, assign) BOOL review;
 @property (nonatomic, assign) BOOL comeFromOrganism;

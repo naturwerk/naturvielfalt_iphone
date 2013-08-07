@@ -81,7 +81,7 @@
 							<object class="IBUISegmentedControl" id="1054815697">
 								<reference key="NSNextResponder" ref="515544337"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{59, 10}, {203, 30}}</string>
+								<string key="NSFrame">{{59, 5}, {203, 30}}</string>
 								<reference key="NSSuperview" ref="515544337"/>
 								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>

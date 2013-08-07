@@ -79,9 +79,10 @@
 							<object class="IBUISegmentedControl" id="536636038">
 								<reference key="NSNextResponder" ref="1003505906"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{59, 10}, {203, 30}}</string>
+								<string key="NSFrame">{{59, 5}, {203, 30}}</string>
 								<reference key="NSSuperview" ref="1003505906"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="44806061">
 									<int key="NSColorSpace">3</int>

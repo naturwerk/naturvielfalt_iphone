@@ -35,10 +35,7 @@
 
 #pragma mark - View lifecycle
 - (void)viewDidLoad
-{
-    
-    titlesSectionOne = [[NSMutableArray alloc] init];
-    
+{    
     [titlesSectionOne addObject:NSLocalizedString(@"settingsUsername", nil)];
     [titlesSectionOne addObject:NSLocalizedString(@"settingsPwd", nil)];
     [titlesSectionOne addObject:NSLocalizedString(@"settingsAccountInfo", nil)];

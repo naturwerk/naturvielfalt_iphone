@@ -208,19 +208,14 @@
         
         pinMoved = NO;
         
+        [mapView removeAnnotations:mapView.annotations];
         [self.mapView addAnnotation:annotation];
         review = YES;
     } else {
         shouldAdjustZoom = NO;
         [self zoomToAnnotation];
     }
-    
-
     [self loadArea];
-    
-    /*if (!observation.locationLocked && !observation.inventory) {
-        [self relocate:nil];
-    }*/
 }
 
 - (void) updateAccuracyIcon:(int)accuracyValue {
@@ -583,7 +578,7 @@
 	}
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annot {
+- (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annot {
 	NSLog(@"viewForAnnotation");
     
     if ([annot isKindOfClass:[MKUserLocation class]]) {
@@ -592,10 +587,16 @@
 	
     if ([annot class] != MKPointAnnotation.class) {
         static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
-        MKPinAnnotationView *draggablePinView = [[MKPinAnnotationView alloc] initWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier];
-        draggablePinView.animatesDrop = YES;
-        draggablePinView.pinColor = MKPinAnnotationColorRed;
-        draggablePinView.draggable = YES;
+        //MKPinAnnotationView *draggablePinView = [[MKPinAnnotationView alloc] initWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier];
+        MKAnnotationView *draggablePinView = [mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
+        if (draggablePinView) {
+            draggablePinView.annotation = annot;
+        } else {
+            draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier mapView:mapView];
+        }
+        //draggablePinView.animatesDrop = YES;
+        //draggablePinView.pinColor = MKPinAnnotationColorRed;
+        //draggablePinView.draggable = YES;
         /*MKAnnotationView *draggablePinView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];*/
         
         /*if (draggablePinView) {

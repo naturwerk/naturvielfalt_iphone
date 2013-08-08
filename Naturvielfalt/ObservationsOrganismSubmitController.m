@@ -21,13 +21,14 @@
 #import "ObservationsOrganismSubmitCommentController.h"
 #import "ObservationsOrganismSubmitDateController.h"
 #import "MBProgressHUD.h"
+#import "SwissCoordinates.h"
 
 extern int UNKNOWN_ORGANISMGROUPID;
 extern int UNKNOWN_ORGANISMID;
 
 #define numOfRowInSectionNull     1
 #define numOfRowInSectionOne      2
-#define numOfRowInSectionTwo      4
+#define numOfRowInSectionTwo      5
 #define numOfRowInSectionThree    1
 
 #define numOfSections             4
@@ -294,7 +295,7 @@ extern int UNKNOWN_ORGANISMID;
     
     arrayKeysSectionOne = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationTime", nil), NSLocalizedString(@"observationAuthor", nil), nil];
                            
-    arrayKeysSectionTwo = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), nil];
+    arrayKeysSectionTwo = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), NSLocalizedString(@"observationCoordinates", nil), nil];
 }
 
 - (void) saveObservation 
@@ -367,28 +368,16 @@ extern int UNKNOWN_ORGANISMID;
     }
 }
 
-
-/*+ (void) persistObservation:(Observation *)obsToSave inventory:(Inventory *) ivToSave {
+- (NSString *) getSwissCoordinates:(CLLocationCoordinate2D)theCoordinate
+{
+    // Calculate swiss coordinates
+    SwissCoordinates *swissCoordinates = [[SwissCoordinates alloc] init];
+    NSMutableArray *arrayCoordinates = [swissCoordinates calculate:theCoordinate.longitude latitude:theCoordinate.latitude];
     
-    PersistenceManager *pm = [[PersistenceManager alloc] init];
-    [pm establishConnection];
+    NSString *resString = [NSString	stringWithFormat:@"CH03 %.0f / %.0f", [[arrayCoordinates objectAtIndex:0] doubleValue], [[arrayCoordinates objectAtIndex:1] doubleValue]];
     
-        // Save and persist observation
-        if(obsToSave.observationId) {
-            [pm deleteObservationImagesFromObservation:obsToSave.observationId];
-            [pm updateObservation:obsToSave];
-        } else {
-            obsToSave.observationId = [pm saveObservation:obsToSave];
-            for (ObservationImage *oImg in obsToSave.pictures) {
-                oImg.observationId = obsToSave.observationId;
-                oImg.observationImageId = [pm saveObservationImage:oImg];
-            }
-        }
-    //}
-    
-    // Close connection
-    [pm closeConnection];
-}*/
+    return resString;
+}
 
 - (void) abortObservation
 {
@@ -576,7 +565,7 @@ extern int UNKNOWN_ORGANISMID;
                     break;
             }
             break;
-        // Amount, Comment, Photograph and Accuracy
+        // Amount, Comment, Photograph and Accuracy, Swiss coordinates
         case 2:
             topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
             
@@ -625,6 +614,25 @@ extern int UNKNOWN_ORGANISMID;
                     customCell.value.text = accuracyText;
                 }
                     break;
+                    
+                case 4: // Swiss Coordinates
+                {
+                    // Use normal cell layout
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    }
+                    
+                    // Set up the cell...
+                    cell.textLabel.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
+                    [cell.detailTextLabel setFont:[UIFont fontWithName:@"Helvetica" size:14]];
+                    //cell.detailTextLabel.text = [arrayValuesSectionOne objectAtIndex:indexPath.row];
+                    NSString *swissCoordinates = [self getSwissCoordinates:observation.location.coordinate];
+                    cell.detailTextLabel.text = swissCoordinates.length > 0 ? swissCoordinates : @"-";
+                    cell.userInteractionEnabled = NO;
+                    return cell;
+                }
+                    break;
+                    
             }
             return customCell;
             break;
@@ -646,7 +654,6 @@ extern int UNKNOWN_ORGANISMID;
             break;
     }
     return cell;
-
 }
 
 - (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {

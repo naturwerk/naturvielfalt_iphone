@@ -71,6 +71,7 @@
 "observationDescr"              = "Remarque";
 "observationImg"                = "Photo";
 "observationAcc"                = "Précision";
+"observationCoordinates"		= "Coordonnées";
 "observationLocalization"		= "Localisation";
 "observationRelocate"			= "poser le GPS";
 "observationAdd"				= "Poser";

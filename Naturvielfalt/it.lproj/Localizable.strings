@@ -70,6 +70,7 @@
 "observationDescr"              = "Comment";
 "observationImg"                = "Photograph";
 "observationAcc"                = "Accuracy";
+"observationCoordinates"		= "Coordinate";
 "observationLocalization"		= "Localisation";
 "observationRelocate"			= "relocate GPS";
 "observationAdd"				= "Add";

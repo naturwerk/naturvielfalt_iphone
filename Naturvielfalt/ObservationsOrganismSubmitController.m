@@ -20,13 +20,14 @@
 #import "ObservationOrganismSubmitOrganismGroupController.h"
 #import "ObservationsViewController.h"
 #import "MBProgressHUD.h"
+#import "SwissCoordinates.h"
 
 extern int UNKNOWN_ORGANISMGROUPID;
 extern int UNKNOWN_ORGANISMID;
 
 #define numOfRowInSectionNull     1
 #define numOfRowInSectionOne      2
-#define numOfRowInSectionTwo      4
+#define numOfRowInSectionTwo      5
 #define numOfRowInSectionThree    1
 
 #define numOfSections             4
@@ -221,13 +222,13 @@ extern int UNKNOWN_ORGANISMID;
      
     // Get formatted date string
     nowString = [dateFormatter stringFromDate:observation.date];
-      
+    
     // Initialize keys/valu es
     arrayKeysSectionNull = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationSpecies", nil), nil];
     
     arrayKeysSectionOne = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationTime", nil), NSLocalizedString(@"observationAuthor", nil), nil];
     
-    arrayKeysSectionTwo = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), nil];
+    arrayKeysSectionTwo = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), NSLocalizedString(@"observationCoordinates", nil), nil];
 }
 
 - (void) saveObservation
@@ -374,6 +375,17 @@ extern int UNKNOWN_ORGANISMID;
         accuracyImage = red;
     }
     accuracyText = [[NSString alloc] initWithFormat:@"%dm", accuracyValue];
+}
+
+- (NSString *) getSwissCoordinates:(CLLocationCoordinate2D)theCoordinate
+{
+    // Calculate swiss coordinates
+    SwissCoordinates *swissCoordinates = [[SwissCoordinates alloc] init];
+    NSMutableArray *arrayCoordinates = [swissCoordinates calculate:theCoordinate.longitude latitude:theCoordinate.latitude];
+    
+    NSString *resString = [NSString	stringWithFormat:@"CH03 %.0f / %.0f", [[arrayCoordinates objectAtIndex:0] doubleValue], [[arrayCoordinates objectAtIndex:1] doubleValue]];
+    
+    return resString;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -554,6 +566,23 @@ extern int UNKNOWN_ORGANISMID;
                     customCell.value.text = accuracyText;
                 }
                     break;
+                    
+                case 4: // Swiss Coordinates
+                {
+                    // Use normal cell layout
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    }
+                    
+                    // Set up the cell...
+                    cell.textLabel.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
+                    [cell.detailTextLabel setFont:[UIFont fontWithName:@"Helvetica" size:14]];
+                    NSString *swissCoordinates = [self getSwissCoordinates:observation.location.coordinate];
+                    cell.detailTextLabel.text = swissCoordinates.length > 0 ? swissCoordinates : @"-";
+                    cell.userInteractionEnabled = NO;
+                    return cell;
+                }
+                    break;
             }
             return customCell;
             break;
@@ -583,13 +612,13 @@ extern int UNKNOWN_ORGANISMID;
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 3) {
         CAGradientLayer *gradientLayerUnselected;
-        UIColor *lighterColorUnselected = [UIColor colorWithRed:126/255.0 green:172/255.0 blue:255/255.0 alpha:1];
-        UIColor *darkerColorUnselected = [UIColor colorWithRed:0 green:0 blue:255/255.0 alpha:1];
+        UIColor *lighterColorUnselected = [UIColor colorWithRed:225/255.0 green:132/255.0 blue:133/255.0 alpha:1];
+        UIColor *darkerColorUnselected = [UIColor colorWithRed:175/255.0 green:10/255.0 blue:12/255.0 alpha:1];
         
         gradientLayerUnselected = [CAGradientLayer layer];
         gradientLayerUnselected.cornerRadius = 8;
-        gradientLayerUnselected.frame = CGRectMake(10, 0, 300, 44);        gradientLayerUnselected.colors = [NSArray arrayWithObjects:(id)[lighterColorUnselected CGColor], (id)[darkerColorUnselected CGColor], nil];
-        //[deleteCell setBackgroundColor:gradientLayerUnselected];
+        gradientLayerUnselected.frame = CGRectMake(10, 0, 300, 44);
+        gradientLayerUnselected.colors = [NSArray arrayWithObjects:(id)[lighterColorUnselected CGColor], (id)[darkerColorUnselected CGColor], nil];
         [cell.layer insertSublayer:gradientLayerUnselected atIndex:0];
 
     }

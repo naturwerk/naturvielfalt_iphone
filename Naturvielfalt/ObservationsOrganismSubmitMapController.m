@@ -268,59 +268,14 @@
     [mapView setRegion:region animated:YES];
 }
 
-/*- (void) relocate
-{
-    self.navigationItem.leftBarButtonItem.action = @selector(GPSrelocate);
-    self.navigationItem.leftBarButtonItem.title = @"GPS setzen";
-    
-    
-    if ([CLLocationManager locationServicesEnabled]) {
-        NSLog( @"start relocate");
-        locationManager.delegate = self;
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        locationManager.distanceFilter = 1000.0f;
-        
-        [locationManager startUpdatingLocation];
-    }
-    
-    self.mapView.showsUserLocation = YES;
-    
-}*/
- 
-/*- (void) GPSrelocate{
-    
-    [locationManager stopUpdatingLocation];
-    
-    review = false;
-    observation.locationLocked = false;
-    
-    if ([CLLocationManager locationServicesEnabled]) {
-        NSLog( @"start relocate");
-        locationManager.delegate = self;
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        locationManager.distanceFilter = 1000.0f;
-        
-        [locationManager startUpdatingLocation];
-    }
-    
-    self.mapView.showsUserLocation = YES;
-    
-}*/
+
 
 - (void) returnBack 
 {
     observation.locationLocked = true;
     observation.accuracy = currentAccuracy;
     observation.location = currentLocation;
-    
-    // Change view back to submitController
-    /*ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
-                                                                      initWithNibName:@"ObservationsOrganismSubmitController" 
-                                                                      bundle:[NSBundle mainBundle]];
-    
-    // Set the current displayed organism
-    organismSubmitController.organism = observation.organism;*/
-    
+    review = YES;
     
     // Switch the View & Controller
     // POP
@@ -360,10 +315,6 @@
     //}
     
     [self zoomToAnnotation];
-    
-  /*  if (!observation.locationLocked) {
-        [self relocate:nil];
-    }*/
 }
 
 // Listen to change in the userLocation
@@ -486,7 +437,7 @@
                                                             timestamp:[NSDate date]];
     
     observation.location = newLocation;
-    observation.locationLocked = true;
+    observation.locationLocked = YES;
     
     observation.accuracy = 0;
     

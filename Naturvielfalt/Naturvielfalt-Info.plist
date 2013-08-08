@@ -12,8 +12,8 @@
 	<string>Icon.png</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>Icon.png</string>
-		<string>Icon@2x.png</string>
+		<string>logo_LITE_57x57.png</string>
+		<string>logo_LITE_114x114.png</string>
 		<string>Icon-Small.png</string>
 		<string>Icon-Small@2x.png</string>
 		<string>Icon-72.png</string>
@@ -26,8 +26,8 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>Icon.png</string>
-				<string>Icon@2x.png</string>
+				<string>logo_LITE_57x57.png</string>
+				<string>logo_LITE_114x114.png</string>
 				<string>Icon-Small.png</string>
 				<string>Icon-Small@2x.png</string>
 				<string>Icon-72.png</string>

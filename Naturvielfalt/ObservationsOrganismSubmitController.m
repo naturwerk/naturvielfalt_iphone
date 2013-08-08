@@ -9,6 +9,7 @@
 #import "ObservationsOrganismSubmitController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "CustomCell.h"
+#import "DeleteCell.h"
 #import "CustomDateCell.h"
 #import "ObservationsOrganismSubmitDateController.h"
 #import "ObservationsOrganismSubmitMapController.h"
@@ -23,8 +24,15 @@
 extern int UNKNOWN_ORGANISMGROUPID;
 extern int UNKNOWN_ORGANISMID;
 
+#define numOfRowInSectionNull     1
+#define numOfRowInSectionOne      2
+#define numOfRowInSectionTwo      4
+#define numOfRowInSectionThree    1
+
+#define numOfSections             4
+
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, arrayKeys, arrayValues, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, dateFormatter, organismButton, organismDataView, organismGroup, firstLineOrganismButton, secondLineOrganismButton;
+@synthesize nameDe, nameLat, organism, observation, tableView, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, dateFormatter, organismButton, organismDataView, organismGroup, firstLineOrganismButton, secondLineOrganismButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -213,11 +221,14 @@ extern int UNKNOWN_ORGANISMID;
     nowString = [dateFormatter stringFromDate:observation.date];
       
     // Initialize keys/valu es
-    arrayKeys = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationSpecies", nil), NSLocalizedString(@"observationTime", nil), NSLocalizedString(@"observationAuthor", nil), NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), nil];
-    arrayValues = [[NSArray alloc] initWithObjects:organismGroup.name, nowString, observation.author, observation.amount, nil];
+    arrayKeysSectionNull = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationSpecies", nil), nil];
+    
+    arrayKeysSectionOne = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationTime", nil), NSLocalizedString(@"observationAuthor", nil), nil];
+    
+    arrayKeysSectionTwo = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), nil];
 }
 
-- (void) saveObservation 
+- (void) saveObservation
 {
     if (!persistenceManager) {
         persistenceManager = [[PersistenceManager alloc] init];
@@ -364,11 +375,19 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
+    if (observation.observationId) {
+        return numOfSections;
+    }
+    return numOfSections - 1;}
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [arrayKeys count];
+    switch (section) {
+        case 0: return numOfRowInSectionNull; break;
+        case 1: return numOfRowInSectionOne; break;
+        case 2: return numOfRowInSectionTwo; break;
+        case 3: return numOfRowInSectionThree; break;
+    }
+    return 1;
 }
 
 #pragma mark
@@ -406,6 +425,157 @@ extern int UNKNOWN_ORGANISMID;
 - (UITableViewCell *)tableView:(UITableView *)tw cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //static NSString *cellIdentifier = @"CustomCell";
     UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:nil];
+    DeleteCell *deleteCell;
+    
+    // use CustomCell layout
+    CustomCell *customCell;
+    CustomDateCell *customDateCell;
+    
+    NSArray *topLevelObjects;
+    NSLog(@"section: %i and row %i", indexPath.section, indexPath.row);
+    
+    switch (indexPath.section) {
+            // Species
+        case 0:
+            if(cell == nil) {
+                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
+                
+                for (id currentObject in topLevelObjects){
+                    if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                        customCell =  (CustomCell *)currentObject;
+                        break;
+                    }
+                }
+                
+                if (observation.observationId) {
+                    customCell.key.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
+                    customCell.value.text = observation.organism.organismGroupName;
+                    customCell.image.image = nil;
+                    return customCell;
+                } else {
+                    // Use normal cell layout
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    }
+                    
+                    // Set up the cell...
+                    cell.textLabel.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
+                    NSLog(@"%i", indexPath.row);
+                    //cell.detailTextLabel.text = [arrayValuesSectionOne objectAtIndex:indexPath.row];
+                    cell.detailTextLabel.text = observation.organism.organismGroupName;
+                    cell.editing = NO;
+                    cell.userInteractionEnabled = NO;
+                    
+                    return cell;
+                }
+            }
+            break;
+            // Date and Observator
+        case 1:
+            switch (indexPath.row) {
+                case 0: //DATE
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
+                    
+                    for (id currentObject in topLevelObjects){
+                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                            customDateCell =  (CustomDateCell *)currentObject;
+                            break;
+                        }
+                    }
+                    
+                    customDateCell.key.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
+                    customDateCell.value.text = [dateFormatter stringFromDate:observation.date];
+                    return customDateCell;
+                    break;
+                    
+                case 1: //OBSERVER
+                    // Use normal cell layout
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    }
+                    
+                    // Set up the cell...
+                    cell.textLabel.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
+                    //cell.detailTextLabel.text = [arrayValuesSectionOne objectAtIndex:indexPath.row];
+                    cell.detailTextLabel.text = (observation.author.length > 0) ? observation.author : @"-";
+                    cell.userInteractionEnabled = NO;
+                    return cell;
+                    break;
+            }
+            break;
+            // Amount, Comment, Photograph and Accuracy
+        case 2:
+            topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
+            
+            for (id currentObject in topLevelObjects){
+                if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                    customCell =  (CustomCell *)currentObject;
+                    break;
+                }
+            }
+            
+            switch (indexPath.row) {
+                case 0: // AMOUNT
+                {
+                    customCell.key.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
+                    customCell.value.text = observation.amount;
+                    customCell.image.image = nil;
+                }
+                    break;
+                    
+                case 1: // COMMENT
+                {
+                    customCell.key.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
+                    customCell.value.text = (observation.comment.length > 0) ? @"..." : @"-";
+                    customCell.image.image = nil;
+                }
+                    break;
+                    
+                case 2: // PHOTO
+                {
+                    customCell.key.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
+                    
+                    NSString *picCount = [[NSString alloc] initWithFormat:@"%d", observation.pictures.count];
+                    
+                    customCell.value.text = picCount;
+                    customCell.image.image = nil;
+                    
+                }
+                    break;
+                    
+                case 3: // ACCURACY
+                {
+                    [self updateAccuracyIcon:observation.accuracy];
+                    
+                    customCell.key.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
+                    customCell.image.image = accuracyImage; // --------->
+                    customCell.value.text = accuracyText;
+                }
+                    break;
+            }
+            return customCell;
+            break;
+            
+            // Delete Button
+        case 3: // DELETE
+            if(cell == nil) {
+                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DeleteCell" owner:self options:nil];
+                
+                for (id currentObject in topLevelObjects){
+                    if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                        deleteCell =  (DeleteCell *)currentObject;
+                        break;
+                    }
+                }
+                deleteCell.deleteLabel.text = NSLocalizedString(@"areaObservationDelete", nil);
+                return deleteCell;
+            }
+            break;
+    }
+    return cell;
+    
+    //static NSString *cellIdentifier = @"CustomCell";
+    /*UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:nil];
     
     if(indexPath.row != 2) {
         // use CustomCell layout 
@@ -523,7 +693,7 @@ extern int UNKNOWN_ORGANISMID;
         cell.userInteractionEnabled = NO;
     }
     
-    return cell;
+    return cell;*/
 }
 
 - (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {

@@ -31,8 +31,9 @@
     CLLocationManager *locationManager;
     NSDateFormatter *dateFormatter;
     
-    NSArray *arrayKeys;
-    NSArray *arrayValues;
+    NSArray *arrayKeysSectionNull;
+    NSArray *arrayKeysSectionOne;
+    NSArray *arrayKeysSectionTwo;
     
     PersistenceManager *persistenceManager;
     
@@ -58,9 +59,6 @@
 @property (nonatomic) UIImage *accuracyImage;
 @property (nonatomic) NSString *accuracyText;
 @property (nonatomic) CLLocationManager *locationManager;
-
-@property (nonatomic) NSArray *arrayKeys;
-@property (nonatomic) NSArray *arrayValues;
 
 @property (nonatomic) PersistenceManager *persistenceManager;
 

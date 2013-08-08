@@ -32,7 +32,7 @@ extern int UNKNOWN_ORGANISMID;
 #define numOfSections             4
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, dateFormatter, organismButton, organismDataView, organismGroup, firstLineOrganismButton, secondLineOrganismButton;
+@synthesize nameDe, nameLat, organism, observation, tableView, accuracyImage, locationManager, accuracyText, family, persistenceManager, review, observationChanged, comeFromOrganism, dateFormatter, organismButton, organismDataView, organismGroup, firstLineOrganismButton, secondLineOrganismButton, organismView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,6 +42,8 @@ extern int UNKNOWN_ORGANISMID;
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        
+        persistenceManager = [[PersistenceManager alloc] init];
     }
     return self;
 }
@@ -129,7 +131,7 @@ extern int UNKNOWN_ORGANISMID;
     organismButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     organismButton.frame = CGRectMake(60, 5, 200, 55);
     organismButton.hidden = YES;
-    [self.view addSubview:organismButton];
+    [organismView addSubview:organismButton];
 
     firstLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 20)];
     [firstLineOrganismButton setTextAlignment:UITextAlignmentCenter];
@@ -230,9 +232,6 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void) saveObservation
 {
-    if (!persistenceManager) {
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
     [persistenceManager establishConnection];
     
     // Save observation
@@ -251,20 +250,22 @@ extern int UNKNOWN_ORGANISMID;
     [persistenceManager closeConnection];
     [observation setObservation:nil];
     
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
-    [self.navigationController.parentViewController.view addSubview:hud];
-    
-    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    hud.customView = image;
-    
-    // Set custom view mode
-    hud.mode = MBProgressHUDModeCustomView;
-    
-    //hud.delegate = self;
-    hud.labelText = NSLocalizedString(@"observationSuccessMessage", nil);
-    
-    [hud show:YES];
-    [hud hide:YES afterDelay:1];
+    if (!review) {
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
+        [self.navigationController.parentViewController.view addSubview:hud];
+        
+        UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+        hud.customView = image;
+        
+        // Set custom view mode
+        hud.mode = MBProgressHUDModeCustomView;
+        
+        //hud.delegate = self;
+        hud.labelText = NSLocalizedString(@"observationSuccessMessage", nil);
+        
+        [hud show:YES];
+        [hud hide:YES afterDelay:1];
+    }
     
     // Set review flag
     review = true;
@@ -324,6 +325,7 @@ extern int UNKNOWN_ORGANISMID;
 {
     [self setOrganismButton:nil];
     [self setOrganismDataView:nil];
+    [self setOrganismView:nil];
     [super viewDidUnload];
 
     if(locationManager){
@@ -567,133 +569,30 @@ extern int UNKNOWN_ORGANISMID;
                         break;
                     }
                 }
+                
+
                 deleteCell.deleteLabel.text = NSLocalizedString(@"areaObservationDelete", nil);
                 return deleteCell;
             }
             break;
     }
     return cell;
-    
-    //static NSString *cellIdentifier = @"CustomCell";
-    /*UITableViewCell *cell = [tw dequeueReusableCellWithIdentifier:nil];
-    
-    if(indexPath.row != 2) {
-        // use CustomCell layout 
-        CustomCell *customCell;
+
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 3) {
+        CAGradientLayer *gradientLayerUnselected;
+        UIColor *lighterColorUnselected = [UIColor colorWithRed:126/255.0 green:172/255.0 blue:255/255.0 alpha:1];
+        UIColor *darkerColorUnselected = [UIColor colorWithRed:0 green:0 blue:255/255.0 alpha:1];
         
-        if(cell == nil) {
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
-            
-            for (id currentObject in topLevelObjects){
-                if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                    customCell =  (CustomCell *)currentObject;
-                    break;
-                }
-            }
-            
-            switch(indexPath.row) {
-                case 0: {
-                    if (observation.observationId) {
-                        customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                        customCell.value.text = observation.organism.organismGroupName;
-                        customCell.image.image = nil;
-                    } else {
-                        // Use normal cell layout
-                        if (cell == nil) {
-                            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-                        }
-                        
-                        // Set up the cell...
-                        cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];
-                        NSLog(@"%i", indexPath.row);
-                        cell.detailTextLabel.text = [arrayValues objectAtIndex:indexPath.row];
-                        cell.editing = NO;
-                        cell.userInteractionEnabled = NO;
-                        
-                        return cell;
-                    }
-                }
-                    break;
-                    
-                case 1: {
-                    CustomDateCell *customDateCell;
-                    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
-                    
-                    for (id currentObject in topLevelObjects){
-                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                            customDateCell =  (CustomDateCell *)currentObject;
-                            break;
-                        }
-                    }
-                    
-                    customDateCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                    customDateCell.value.text = [dateFormatter stringFromDate:observation.date];
-                    return customDateCell;
-                }
-                case 3:
-                {
-                    customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                    customCell.value.text = observation.amount;    
-                    customCell.image.image = nil;
-                }
-                    break;
-                    
-                case 4:
-                {
-                    customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                    customCell.value.text = (observation.comment.length > 0) ? @"..." : @"";
-                    customCell.image.image = nil;
-                }   
-                    break;
-                    
-                case 5:
-                {
-                    customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                    
-                    NSString *picCount = [[NSString alloc] initWithFormat:@"%d", observation.pictures.count];
-                    
-                    customCell.value.text = picCount;
-                    customCell.image.image = nil;
-                    
-                }   
-                    break;
-                    
-                case 6:
-                {
-                    [self updateAccuracyIcon:observation.accuracy];
-                    
-                    customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                    customCell.image.image = accuracyImage; // --------->
-                    customCell.value.text = accuracyText;
-                }
-                    break;
-                    
-                default:
-                {
-                    customCell.key.text = [arrayKeys objectAtIndex:indexPath.row];
-                    customCell.value.text = @"";
-                    customCell.image.image = nil;
-                }
-                    break;
-            }
-            
-            return customCell;
-        }
-    } else {
-        // Use normal cell layout
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-        }
-        
-        // Set up the cell...
-        cell.textLabel.text = [arrayKeys objectAtIndex:indexPath.row];
-        NSLog(@"%i", indexPath.row);
-        cell.detailTextLabel.text = [arrayValues objectAtIndex:indexPath.row];
-        cell.editing = NO;
-        cell.userInteractionEnabled = NO;
+        gradientLayerUnselected = [CAGradientLayer layer];
+        gradientLayerUnselected.cornerRadius = 8;
+        gradientLayerUnselected.frame = CGRectMake(10, 0, 300, 44);        gradientLayerUnselected.colors = [NSArray arrayWithObjects:(id)[lighterColorUnselected CGColor], (id)[darkerColorUnselected CGColor], nil];
+        //[deleteCell setBackgroundColor:gradientLayerUnselected];
+        [cell.layer insertSublayer:gradientLayerUnselected atIndex:0];
+
     }
-    
-    return cell;*/
 }
 
 - (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
@@ -706,101 +605,164 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void) rowClicked:(NSIndexPath *) indexPath {
     
-    switch (indexPath.row) {
-        case 0:
-        {
+    currIndexPath = indexPath;
+    
+    ObservationOrganismSubmitOrganismGroupController *organismSubmitOrganismGroupController;
+    ObservationsOrganismSubmitDateController *organismSubmitDateController;
+    ObservationsOrganismSubmitAmountController *organismSubmitAmountController;
+    ObservationsOrganismSubmitCommentController *organismSubmitCommentController;
+    CameraViewController *organismSubmitCameraController;
+    ObservationsOrganismSubmitMapController *organismSubmitMapController;
+    
+    switch (indexPath.section) {
+        case 0: {
             // ORGANISM
             // Create the ObservationOrganismSubmitOrganismGroupController
-            ObservationOrganismSubmitOrganismGroupController *organismSubmitOrganismGroupController = [[ObservationOrganismSubmitOrganismGroupController alloc] initWithNibName:@"ObservationOrganismSubmitOrganismGroupController" bundle:[NSBundle mainBundle]];
+            organismSubmitOrganismGroupController = [[ObservationOrganismSubmitOrganismGroupController alloc] initWithNibName:@"ObservationOrganismSubmitOrganismGroupController" bundle:[NSBundle mainBundle]];
             
             organismSubmitOrganismGroupController.observation = observation;
             
             // Switch the View & Controller
             [self.navigationController pushViewController:organismSubmitOrganismGroupController animated:TRUE];
             organismSubmitOrganismGroupController = nil;
-            break;
         }
-        case 1:
-        {
+            break;
+            
+        case 1: {
             // DATE
             // Create the ObservationsOrganismSubmitDateController
-            ObservationsOrganismSubmitDateController *organismSubmitDateController = [[ObservationsOrganismSubmitDateController alloc] initWithNibName:@"ObservationsOrganismSubmitDateController" bundle:[NSBundle mainBundle]];
+            organismSubmitDateController = [[ObservationsOrganismSubmitDateController alloc] initWithNibName:@"ObservationsOrganismSubmitDateController" bundle:[NSBundle mainBundle]];
             
             organismSubmitDateController.observation = observation;
             
             // Switch the View & Controller
             [self.navigationController pushViewController:organismSubmitDateController animated:TRUE];
             organismSubmitDateController = nil;
-            break;
-        }
-        case 3:
-        {
-            // AMOUNT
-            // Create the ObservationsOrganismSubmitCameraController
-            ObservationsOrganismSubmitAmountController *organismSubmitAmountController = [[ObservationsOrganismSubmitAmountController alloc]
-                                                                                          initWithNibName:@"ObservationsOrganismSubmitAmountController"
-                                                                                          bundle:[NSBundle mainBundle]];
-            
-            
-            organismSubmitAmountController.observation = observation;
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:organismSubmitAmountController animated:TRUE];
-            organismSubmitAmountController = nil;
-            break;
-        }
-        case 4:
-        {
-            // COMMENT
-            // Create the ObservationsOrganismSubmitCameraController
-            ObservationsOrganismSubmitCommentController *organismSubmitCommentController = [[ObservationsOrganismSubmitCommentController alloc]
-                                                                                            initWithNibName:@"ObservationsOrganismSubmitCommentController"
-                                                                                            bundle:[NSBundle mainBundle]];
-            
-            organismSubmitCommentController.observation = observation;
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:organismSubmitCommentController animated:TRUE];
-            organismSubmitCommentController = nil;
 
-            break;
         }
-        case 5:
-        {
-            // CAMERA
-            // Create the ObservationsOrganismSubmitCameraController
-            CameraViewController *organismSubmitCameraController = [[CameraViewController alloc]
-                                                                    initWithNibName:@"CameraViewController"
-                                                                    bundle:[NSBundle mainBundle]];
-            
-            
-            organismSubmitCameraController.observation = observation;
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:organismSubmitCameraController animated:TRUE];
-            organismSubmitCameraController = nil;
             break;
+        case 2: {
+            switch (indexPath.row) {
+                case 0: {// Amount
+                    // AMOUNT
+                    // Create the ObservationsOrganismSubmitCameraController
+                    organismSubmitAmountController = [[ObservationsOrganismSubmitAmountController alloc]
+                                                                                                  initWithNibName:@"ObservationsOrganismSubmitAmountController"
+                                                                                                  bundle:[NSBundle mainBundle]];
+                    
+                    
+                    organismSubmitAmountController.observation = observation;
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:organismSubmitAmountController animated:TRUE];
+                    organismSubmitAmountController = nil;
+                }
+                    break;
+                    
+                case 1: {// Comment
+                    // COMMENT
+                    // Create the ObservationsOrganismSubmitCameraController
+                    organismSubmitCommentController = [[ObservationsOrganismSubmitCommentController alloc]
+                                                                                                    initWithNibName:@"ObservationsOrganismSubmitCommentController"
+                                                                                                    bundle:[NSBundle mainBundle]];
+                    
+                    organismSubmitCommentController.observation = observation;
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:organismSubmitCommentController animated:TRUE];
+                    organismSubmitCommentController = nil;
+
+                }
+                    break;
+                
+                case 2: {// Photograph
+                    // CAMERA
+                    // Create the ObservationsOrganismSubmitCameraController
+                    organismSubmitCameraController = [[CameraViewController alloc]
+                                                                            initWithNibName:@"CameraViewController"
+                                                                            bundle:[NSBundle mainBundle]];
+                    
+                    
+                    organismSubmitCameraController.observation = observation;
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:organismSubmitCameraController animated:TRUE];
+                    organismSubmitCameraController = nil;
+                }
+                    break;
+                
+                case 3: {// Accuracy
+                    // MAP
+                    // Create the ObservationsOrganismSubmitMapController
+                    organismSubmitMapController = [[ObservationsOrganismSubmitMapController alloc]
+                                                                                            initWithNibName:@"ObservationsOrganismSubmitMapController"
+                                                                                            bundle:[NSBundle mainBundle]];
+                    
+                    organismSubmitMapController.observation = observation;
+                    organismSubmitMapController.review = review;
+                    
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:organismSubmitMapController animated:TRUE];
+                    organismSubmitMapController = nil;
+                }
+                    break;
+            }
         }
-        case 6:
-        {
-            // MAP
-            // Create the ObservationsOrganismSubmitMapController
-            ObservationsOrganismSubmitMapController *organismSubmitMapController = [[ObservationsOrganismSubmitMapController alloc]
-                                                                                    initWithNibName:@"ObservationsOrganismSubmitMapController"
-                                                                                    bundle:[NSBundle mainBundle]];
-            
-            organismSubmitMapController.observation = observation;
-            organismSubmitMapController.review = review;
-            
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:organismSubmitMapController animated:TRUE];
-            organismSubmitMapController = nil;
             break;
+        case 3: {
+            if (!deleteObservationSheet) {
+                deleteObservationSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil) destructiveButtonTitle:NSLocalizedString(@"areaObservationDelete", nil) otherButtonTitles: nil];
+                
+                deleteObservationSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+            }
+            [deleteObservationSheet showFromTabBar:self.tabBarController.tabBar];
+
         }
-        default:
             break;
     }
 }
+
+#pragma mark
+#pragma UIAlertViewDelegate Methods
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        //ok pressed
+        NSLog(@"delete Observation");
+        [persistenceManager establishConnection];
+        [persistenceManager deleteObservation:observation.observationId];
+        [persistenceManager closeConnection];
+        
+        [observation setObservation:nil];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [tableView deselectRowAtIndexPath:currIndexPath animated:YES];
+    }
+}
+
+#pragma mark
+#pragma UIActionSheetDelegate Methods
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    switch (buttonIndex) {
+        case 0:
+        {
+            UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"areaObservationDelete", nil)
+                                                                message:NSLocalizedString(@"areaObservationDeleteMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil)
+                                                      otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
+            [areaAlert show];
+            break;
+        }
+        case 1:
+        {
+            NSLog(@"cancel delete Area");
+            [tableView deselectRowAtIndexPath:currIndexPath animated:NO];
+            break;
+        }
+    }
+}
+
+
 
 @end

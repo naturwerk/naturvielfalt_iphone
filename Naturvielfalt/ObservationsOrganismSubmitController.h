@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "PersistenceManager.h"
 
-@interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>  {
+@interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>  {
     Organism * organism;
     Observation * observation;
     OrganismGroup * organismGroup;
@@ -25,15 +25,18 @@
     IBOutlet UILabel *firstLineOrganismButton;
     IBOutlet UILabel *secondLineOrganismButton;
     
+    IBOutlet UIView *orgnaismView;
     IBOutlet UIView *organismDataView;
     UIImage *accuracyImage;
     NSString *accuracyText;
     CLLocationManager *locationManager;
     NSDateFormatter *dateFormatter;
     
+    NSIndexPath *currIndexPath;
     NSArray *arrayKeysSectionNull;
     NSArray *arrayKeysSectionOne;
     NSArray *arrayKeysSectionTwo;
+    UIActionSheet *deleteObservationSheet;
     
     PersistenceManager *persistenceManager;
     
@@ -64,6 +67,7 @@
 
 @property (nonatomic, assign) BOOL review;
 @property (nonatomic, assign) BOOL comeFromOrganism;
+@property (nonatomic) IBOutlet UIView *organismView;
 
 - (void) updateAccuracyIcon:(int)accuracy;
 - (void) prepareData;

@@ -123,11 +123,11 @@
 // Area inventory
 "areaInventoryDelete"			= "Delete inventory";
 "areaInventoryEmptyTitle"		= "No inventory name";
-"areaInventoryDeleteMessage"	= "Are you sure you to delete the inventory with its observations?";
+"areaInventoryDeleteMessage"	= "Are you sure to delete the inventory with its observations?";
 
 // Area observation
 "areaObservationDelete"			= "Delete observation";
-"areaObservationDeleteMessage"	= "Are you sure you to delete the observation?";
+"areaObservationDeleteMessage"	= "Are you sure to delete the observation?";
 
 /** Collection **/
 "collectionSingelObsTitle"		= "Singel Observations";
@@ -145,7 +145,7 @@
 "collectionAlertInvTitle"		= "Submit inventories?";
 "collectionAlertAreaTitle"		= "Submit areas?";
 "collectionAlertObsDetail"		= "Are you sure to submit the observations over cellular network? It takes a while and could use a lot of data volume.";
-"collectionAlertInvDetail"		= "Are you sure you to submit inventories over cellular network? It takes a while and could use a lot of data volume.";
+"collectionAlertInvDetail"		= "Are you sure to submit inventories over cellular network? It takes a while and could use a lot of data volume.";
 "collectionAlertAreaDetail"	= "Are you sure to submit areas over cellular network? It takes a while and could use a lot of data volume.";
 "collectionAlertErrorObs"		= "There is no observation saved or selected";
 "collectionAlertErrorInv"		= "There is no inventory saved or selected";

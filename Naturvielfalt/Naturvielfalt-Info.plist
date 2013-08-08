@@ -12,7 +12,7 @@
 	<string>Icon.png</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>logo_LITE_57x57.png</string>
+		<string>logo_PRO_57x57.png</string>
 		<string>logo_PRO_114x114.png</string>
 		<string>Icon-Small.png</string>
 		<string>Icon-Small@2x.png</string>
@@ -26,7 +26,7 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>logo_LITE_57x57.png</string>
+				<string>logo_PRO_57x57.png</string>
 				<string>logo_PRO_114x114.png</string>
 				<string>Icon-Small.png</string>
 				<string>Icon-Small@2x.png</string>

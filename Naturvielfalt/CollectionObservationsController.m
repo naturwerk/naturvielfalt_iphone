@@ -437,7 +437,6 @@ extern int UNKNOWN_ORGANISMID;
     totalRequests = observationCounter;
     
     if(observationCounter == 0) {
-        [loadingHUD removeFromSuperview];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
         [alert show];
         return;

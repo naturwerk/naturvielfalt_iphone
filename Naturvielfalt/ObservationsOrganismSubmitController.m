@@ -656,6 +656,20 @@ extern int UNKNOWN_ORGANISMID;
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 3) {
+        CAGradientLayer *gradientLayerUnselected;
+        UIColor *lighterColorUnselected = [UIColor colorWithRed:225/255.0 green:132/255.0 blue:133/255.0 alpha:1];
+        UIColor *darkerColorUnselected = [UIColor colorWithRed:175/255.0 green:10/255.0 blue:12/255.0 alpha:1];
+        
+        gradientLayerUnselected = [CAGradientLayer layer];
+        gradientLayerUnselected.cornerRadius = 8;
+        gradientLayerUnselected.frame = CGRectMake(10, 0, 300, 44);
+        gradientLayerUnselected.colors = [NSArray arrayWithObjects:(id)[lighterColorUnselected CGColor], (id)[darkerColorUnselected CGColor], nil];
+        [cell.layer insertSublayer:gradientLayerUnselected atIndex:0];
+    }
+}
+
 - (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     [self rowClicked:indexPath];    
 }

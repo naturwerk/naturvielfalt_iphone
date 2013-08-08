@@ -17,6 +17,7 @@
 #import "CustomDateCell.h"
 #import "DeleteCell.h"
 #import "CustomAddCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define numOfRowInSectionNull     2
 #define numOfRowInSectionOne      3
@@ -225,21 +226,23 @@
     }
     
     area.submitted = NO;
+    
+    if (!review) {
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
+        [self.navigationController.parentViewController.view addSubview:hud];
         
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
-    [self.navigationController.parentViewController.view addSubview:hud];
-    
-    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    hud.customView = image;
-    
-    // Set custom view mode
-    hud.mode = MBProgressHUDModeCustomView;
-    
-    //hud.delegate = self;
-    hud.labelText = NSLocalizedString(@"areaInventoryHudSuccess", nil);
-    
-    [hud show:YES];
-    [hud hide:YES afterDelay:1];
+        UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+        hud.customView = image;
+        
+        // Set custom view mode
+        hud.mode = MBProgressHUDModeCustomView;
+        
+        //hud.delegate = self;
+        hud.labelText = NSLocalizedString(@"areaInventoryHudSuccess", nil);
+        
+        [hud show:YES];
+        [hud hide:YES afterDelay:1];
+    }
     
     // Set review flag
     review = YES;
@@ -458,6 +461,20 @@
             break;
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 3) {
+        CAGradientLayer *gradientLayerUnselected;
+        UIColor *lighterColorUnselected = [UIColor colorWithRed:225/255.0 green:132/255.0 blue:133/255.0 alpha:1];
+        UIColor *darkerColorUnselected = [UIColor colorWithRed:175/255.0 green:10/255.0 blue:12/255.0 alpha:1];
+        
+        gradientLayerUnselected = [CAGradientLayer layer];
+        gradientLayerUnselected.cornerRadius = 8;
+        gradientLayerUnselected.frame = CGRectMake(10, 0, 300, 44);
+        gradientLayerUnselected.colors = [NSArray arrayWithObjects:(id)[lighterColorUnselected CGColor], (id)[darkerColorUnselected CGColor], nil];
+        [cell.layer insertSublayer:gradientLayerUnselected atIndex:0];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {

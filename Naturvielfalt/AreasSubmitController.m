@@ -20,6 +20,7 @@
 #import "CustomAddCell.h"
 #import "CustomAreaCell.h"
 #import "DeleteCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define numOfRowInSectionNull     2
 #define numOfRowInSectionOne      3
@@ -212,21 +213,22 @@
     [persistenceManager persistArea:area];
     [persistenceManager closeConnection];
     
-    
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
-    [self.navigationController.parentViewController.view addSubview:hud];
-    
-    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    hud.customView = image;
-    
-    // Set custom view mode
-    hud.mode = MBProgressHUDModeCustomView;
-    
-    //hud.delegate = self;
-    hud.labelText = NSLocalizedString(@"areaSubmitHudSuccess", nil);
-    
-    [hud show:YES];
-    [hud hide:YES afterDelay:1];
+    if (!review) {
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
+        [self.navigationController.parentViewController.view addSubview:hud];
+        
+        UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+        hud.customView = image;
+        
+        // Set custom view mode
+        hud.mode = MBProgressHUDModeCustomView;
+        
+        //hud.delegate = self;
+        hud.labelText = NSLocalizedString(@"areaSubmitHudSuccess", nil);
+        
+        [hud show:YES];
+        [hud hide:YES afterDelay:1];
+    }
     
     // Set review flag
     review = YES;
@@ -485,6 +487,20 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 3) {
+        CAGradientLayer *gradientLayerUnselected;
+        UIColor *lighterColorUnselected = [UIColor colorWithRed:225/255.0 green:132/255.0 blue:133/255.0 alpha:1];
+        UIColor *darkerColorUnselected = [UIColor colorWithRed:175/255.0 green:10/255.0 blue:12/255.0 alpha:1];
+        
+        gradientLayerUnselected = [CAGradientLayer layer];
+        gradientLayerUnselected.cornerRadius = 8;
+        gradientLayerUnselected.frame = CGRectMake(10, 0, 300, 44);
+        gradientLayerUnselected.colors = [NSArray arrayWithObjects:(id)[lighterColorUnselected CGColor], (id)[darkerColorUnselected CGColor], nil];
+        [cell.layer insertSublayer:gradientLayerUnselected atIndex:0];
+    }
+}
+
 - (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     [self rowClicked:indexPath];
 }
@@ -602,106 +618,6 @@
         }
             break;
     }
-    
-    
-    /*if (indexPath.section == 0) {
-        switch (indexPath.row) {
-            case 0:
-            {
-            // DATE
-            // Create the ObservationsOrganismSubmitDateController
-            areasSubmitDateController = [[AreasSubmitDateController alloc] initWithNibName:@"AreasSubmitDateController" bundle:[NSBundle mainBundle]];
-            
-            areasSubmitDateController.area = area;
-            
-            // Switch the View & Controller
-            [self.navigationController pushViewController:areasSubmitDateController animated:YES];
-            areasSubmitDateController = nil;
-                break;
-            }
-            case 2:
-            {
-                // NAME
-                // Create the AreasSubmitNameController
-                areasSubmitNameController = [[AreasSubmitNameController alloc]
-                                                                        initWithNibName:@"AreasSubmitNameController"
-                                                                        bundle:[NSBundle mainBundle]];
-                
-                
-                areasSubmitNameController.area = area;
-                
-                // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitNameController animated:YES];
-                areasSubmitNameController = nil;
-
-                break;
-            }
-            case 3:
-            {
-                // DESCRIPTION
-                // Create the AreasSubmitDescriptionController
-                areasSubmitDescriptionController = [[AreasSubmitDescriptionController alloc]
-                                                                                      initWithNibName:@"AreasSubmitDescriptionController"
-                                                                                      bundle:[NSBundle mainBundle]];
-                
-                areasSubmitDescriptionController.area = area;
-                
-                // Switch the View & Controller
-                [self.navigationController pushViewController:areasSubmitDescriptionController animated:YES];
-                areasSubmitDescriptionController = nil;
-
-                break;
-            }
-            case 4:
-            {
-                // CAMERA
-                // Create the AreaSubmitCameraController
-                areaSubmitCameraController = [[CameraViewController alloc]
-                                                                    initWithNibName:@"CameraViewController"
-                                                                    bundle:[NSBundle mainBundle]];
-                
-                
-                areaSubmitCameraController.area = area;
-                
-                // Switch the View & Controller
-                [self.navigationController pushViewController:areaSubmitCameraController animated:YES];
-                areaSubmitCameraController = nil;
-                break;
-            }
-            default:
-                break;
-        }
-    } else if (indexPath.section == 1) {
-        
-    // INVENTORY
-        if ([area.name compare:@""] == 0) {
-            UIAlertView *areaAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"alertMessageAreaNameTitle", nil)
-                                                                message:NSLocalizedString(@"alertMessageAreaName", nil) delegate:self cancelButtonTitle:nil
-                                                      otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
-            [areaAlert show];
-            return;
-        }
-
-
-
-        // Create the AreasSubmitInventoryController
-        areasSubmitInventoryController = [[AreasSubmitInventoryController alloc]
-                                                                                initWithNibName:@"AreasSubmitInventoryController"
-                                                                                bundle:[NSBundle mainBundle]];
-        
-        areasSubmitInventoryController.area = area;
-        
-        // Switch the View & Controller
-        [self.navigationController pushViewController:areasSubmitInventoryController animated:YES];
-        areasSubmitInventoryController = nil;
-    } else {
-        if (!deleteAreaSheet) {
-            deleteAreaSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"areaCancelMod", nil) destructiveButtonTitle:NSLocalizedString(@"areaDelete", nil) otherButtonTitles: nil];
-            
-            deleteAreaSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        }
-        [deleteAreaSheet showFromTabBar:self.tabBarController.tabBar];
-    }*/
 }
 
 #pragma mark

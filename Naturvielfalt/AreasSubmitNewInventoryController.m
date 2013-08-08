@@ -334,7 +334,6 @@
     CustomAddCell *customAddCell;
     CustomDateCell *customDateCell;
     NSArray *topLevelObjects;
-    NSLog(@"section: %i row: %i", indexPath.section, indexPath.row);
     
     switch (indexPath.section) {
         case 0:

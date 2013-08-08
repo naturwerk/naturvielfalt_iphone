@@ -66,7 +66,6 @@
     self.navigationItem.leftBarButtonItem = relocate;*/
     
     if(review || observation.locationLocked) {
-
         observation.locationLocked = YES;
         MKCoordinateRegion mapRegion = mapView.region;
         mapRegion.center = observation.location.coordinate;
@@ -88,7 +87,7 @@
         if ([CLLocationManager locationServicesEnabled]) {
             locationManager.delegate = self;
             locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-            locationManager.distanceFilter = 1000.0f;
+            locationManager.distanceFilter = 10.0f;
             [locationManager startUpdatingLocation];
         }
         self.mapView.showsUserLocation = YES;        
@@ -210,7 +209,7 @@
         
         [mapView removeAnnotations:mapView.annotations];
         [self.mapView addAnnotation:annotation];
-        review = YES;
+        //review = YES;
     } else {
         shouldAdjustZoom = NO;
         [self zoomToAnnotation];
@@ -231,8 +230,9 @@
         accuracyImage = red;
     }
     accuracyText = [[NSString alloc] initWithFormat:@"%dm %@", accuracyValue, NSLocalizedString(@"observationAcc", nil)];
-    accuracyLabel.text = accuracyText;
-    accuracyImageView.image = accuracyImage;
+    NSLog(@"%@: updateAccuracyIcon with accuracy: %@", self.class, accuracyText);
+    [accuracyLabel setText:accuracyText];
+    [accuracyImageView setImage:accuracyImage];
 }
 
 - (void) loadArea {
@@ -282,8 +282,6 @@
 - (IBAction) setPin:(id) sender {
     // Sets the pin in the middle of the hairline cross
     MKCoordinateRegion mapRegion = mapView.region;
-    NSLog(@"New coordinates: longitude - %g latitude - %g", mapRegion.center.longitude, mapRegion.center.latitude);
-    
     [annotation setCoordinate:mapRegion.center];
     
     // Get annotation and update the observation
@@ -311,21 +309,18 @@
     switch (mapSegmentControl.selectedSegmentIndex) {
         case 0:
         {
-            NSLog(@"satelite");
             mapView.mapType = MKMapTypeSatellite;
             [appSettings setObject:@"1" forKey:@"mapType"];
             break;
         }
         case 1:
         {
-            NSLog(@"hybride");
             mapView.mapType = MKMapTypeHybrid;
             [appSettings setObject:@"2" forKey:@"mapType"];
             break;
         }
         case 2:
         {
-            NSLog(@"map");
             mapView.mapType = MKMapTypeStandard;
             [appSettings setObject:@"3" forKey:@"mapType"];
             break;
@@ -335,7 +330,6 @@
 
 - (DDAnnotation *) adaptPinSubtitle:(CLLocationCoordinate2D)theCoordinate
 {
-    NSLog(@"adaptPinSubtitle");
     // Calculate swiss coordinates
     SwissCoordinates *swissCoordinates = [[SwissCoordinates alloc] init];
     NSMutableArray *arrayCoordinates = [swissCoordinates calculate:theCoordinate.longitude latitude:theCoordinate.latitude];
@@ -371,26 +365,7 @@
     
     self.mapView.showsUserLocation = YES;
 }
-/*
-- (void) GPSrelocate{
-    NSLog(@"GPSrelocate");
-    [locationManager stopUpdatingLocation];
-    
-    review = false;
-    observation.locationLocked = false;
-    
-    if ([CLLocationManager locationServicesEnabled]) {
-        NSLog( @"start relocate");
-        locationManager.delegate = self;
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        locationManager.distanceFilter = 1000.0f;
-        
-        [locationManager startUpdatingLocation];
-    }
-    
-    self.mapView.showsUserLocation = YES;
-    
-}*/
+
 - (void) zoomToAnnotation {
     MKCoordinateRegion region;
     MKCoordinateSpan span;
@@ -418,29 +393,17 @@
     [persistenceManager persistObservation:observation];
     [persistenceManager closeConnection];
     
-    // Change view back to submitController
-    /*ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
-                                                                      initWithNibName:@"ObservationsOrganismSubmitController" 
-                                                                      bundle:[NSBundle mainBundle]];
-    
-    // Set the current displayed organism
-    organismSubmitController.organism = observation.organism;*/
-    
+    review = YES;
     // Switch the View & Controller
     // POP
     [self.navigationController popViewControllerAnimated:YES];
-    
-    // PUSH
-    //[self.navigationController pushViewController:organismSubmitController animated:YES];
 }
 
 
 // Listen to change in the userLocation
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context 
 {    
-    NSLog(@"observeValueForKeyPath");
     if(shouldAdjustZoom) {
-        NSLog(@"zoom to user location");
         MKCoordinateRegion region;
         region.center = self.mapView.userLocation.coordinate;  
         
@@ -453,11 +416,6 @@
         
         shouldAdjustZoom = NO;
     }
-
-    /*if(!observation.locationLocked){
-        [annotation setCoordinate:self.mapView.userLocation.coordinate];
-        NSLog( @"set the pin to new pos");
-    }*/
 }
 
 - (void)viewDidUnload
@@ -467,6 +425,11 @@
     accuracyImageView = nil;
     [self setAccuracyLabel:nil];
     [self setMapSegmentControl:nil];
+    
+    if(locationManager){
+        [locationManager stopUpdatingLocation];
+        locationManager = nil;
+    }
     [super viewDidUnload];
 }
 
@@ -474,6 +437,10 @@
 - (void) dealloc 
 {
     [self.mapView.userLocation removeObserver:self forKeyPath:@"location"];
+
+    if(locationManager){
+        [locationManager stopUpdatingLocation];
+    }
 }
 
 
@@ -487,8 +454,7 @@
 #pragma mark CLLocationManagerDelegate Methods
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    NSLog(@"locationManager didUpdateToLocation");
-     if(!observation.locationLocked && !review) {
+     if(!observation.locationLocked && !review && observation.inventory == nil) {
         // update observation value
         observation.location = newLocation;
         observation.accuracy = (int)newLocation.horizontalAccuracy;
@@ -498,15 +464,10 @@
         mapRegion.center = newLocation.coordinate;
         self.mapView.region = mapRegion;
         [self updateAccuracyIcon: (int)observation.accuracy];
-        NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
-    }
-    
-    
-}
-
-- (void) viewDidDisappear:(BOOL)animated 
-{
-    [locationManager stopUpdatingHeading];
+         NSLog(@"%@: accuracy is: %ld", self.class,  (long)observation.accuracy);
+     } else {
+         [self updateAccuracyIcon: (int) observation.accuracy];
+     }
 }
 
 - (void)locationManager: (CLLocationManager *)manager
@@ -563,12 +524,8 @@
     
     observation.location = newLocation;
     observation.locationLocked = YES;
-    
     observation.accuracy = 0;
-    
-    NSLog( @"set new location from annotation; accuracy: %d", observation.accuracy);
     pinMoved = YES;
-    
     
     if (oldState == MKAnnotationViewDragStateDragging) {
 		annotation = (DDAnnotation *)annotationView.annotation;
@@ -579,7 +536,6 @@
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annot {
-	NSLog(@"viewForAnnotation");
     
     if ([annot isKindOfClass:[MKUserLocation class]]) {
         return nil;		
@@ -594,18 +550,6 @@
         } else {
             draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier mapView:mapView];
         }
-        //draggablePinView.animatesDrop = YES;
-        //draggablePinView.pinColor = MKPinAnnotationColorRed;
-        //draggablePinView.draggable = YES;
-        /*MKAnnotationView *draggablePinView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];*/
-        
-        /*if (draggablePinView) {
-         draggablePinView.annotation = annot;
-         } else {
-         // Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
-         draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annot reuseIdentifier:kPinAnnotationIdentifier mapView:self.mapView];
-         }*/		
-        
         return draggablePinView;
     } else {
         static NSString * const kPinAnnotationIdentifier = @"PinAreaIdentifier";
@@ -618,17 +562,13 @@
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
     MKOverlayView *overlayView;
     
-    NSLog(@"test %@", [overlay class]);
-    
     if ([overlay class] == MKPolyline.class) {
-        NSLog(@"overlay LINE");
         MKPolylineView *lineView = [[MKPolylineView alloc] initWithPolyline:overlay];
         lineView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:pAlpha];
         lineView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
         lineView.lineWidth = pWidth;
         overlayView = lineView;
     } else if ([overlay class] == MKPolygon.class) {
-        NSLog(@"overlay POLYGON");
         MKPolygonView *polyView = [[MKPolygonView alloc] initWithPolygon:overlay];
         polyView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:pAlpha];
         polyView.strokeColor = [[UIColor greenColor] colorWithAlphaComponent:0.3];
@@ -641,7 +581,6 @@
 #pragma mark -
 #pragma mark UISearchBarDelegate
 - (void) searchBarSearchButtonClicked:(UISearchBar *)sb {
-    NSLog(@"search");
     [searchBar resignFirstResponder];
     
     CLLocationCoordinate2D sLocation;

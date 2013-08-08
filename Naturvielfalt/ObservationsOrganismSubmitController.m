@@ -65,7 +65,6 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void) viewDidAppear:(BOOL)animated 
 {
-    NSLog(@"didAppear");
     
     if (observation.observationId) {
         [persistenceManager establishConnection];
@@ -176,9 +175,7 @@ extern int UNKNOWN_ORGANISMID;
             locationManager.delegate = self;
             locationManager.desiredAccuracy = kCLLocationAccuracyBest;
             locationManager.distanceFilter = 10.0f;
-            
-            //if(!review)
-                [locationManager startUpdatingLocation];
+            [locationManager startUpdatingLocation];
         }
     }
     
@@ -342,7 +339,6 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 - (IBAction)chooseOrganism:(id)sender {
-    NSLog(@"chooseOrganism %@", organismButton.titleLabel.text);
     
     if (observation.organismGroup.organismGroupId != UNKNOWN_ORGANISMGROUPID) {
         // Create the ObservationsOrganismViewController
@@ -457,12 +453,7 @@ extern int UNKNOWN_ORGANISMID;
 {
     
     if(!observation.locationLocked && !review && observation.inventory == nil) {
-        if ([newLocation.timestamp timeIntervalSinceDate:oldLocation.timestamp] > 8)
-            NSLog(@"LocationManager timeout");
-        else if ((newLocation.horizontalAccuracy <= manager.desiredAccuracy) && (newLocation.verticalAccuracy <= manager.desiredAccuracy))
-            NSLog(@"Desired accuracy reached!");
-        
-        
+        NSLog(@"test");
         // Update the Accuracy Image
         [self updateAccuracyIcon: (int)newLocation.horizontalAccuracy];
 
@@ -470,7 +461,7 @@ extern int UNKNOWN_ORGANISMID;
         //if (!observation.inventory) {
             observation.location = newLocation;
             observation.accuracy = (int)newLocation.horizontalAccuracy;
-            NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
+            //NSLog( @"set new location from locationmanager; accuracy: %d", observation.accuracy);
         //}
     } else {
         // Update the Accuracy Image
@@ -494,7 +485,7 @@ extern int UNKNOWN_ORGANISMID;
     CustomDateCell *customDateCell;
     
     NSArray *topLevelObjects;
-    NSLog(@"section: %i and row %i", indexPath.section, indexPath.row);
+
     
     switch (indexPath.section) {
         // Species
@@ -522,8 +513,6 @@ extern int UNKNOWN_ORGANISMID;
                     
                     // Set up the cell...
                     cell.textLabel.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
-                    NSLog(@"%i", indexPath.row);
-                    //cell.detailTextLabel.text = [arrayValuesSectionOne objectAtIndex:indexPath.row];
                     cell.detailTextLabel.text = observation.organism.organismGroupName;
                     cell.editing = NO;
                     cell.userInteractionEnabled = NO;
@@ -779,7 +768,7 @@ extern int UNKNOWN_ORGANISMID;
                     
                     organismSubmitMapController.observation = observation;
                     
-                    NSLog(@"longi: %f and lati: %f", observation.location.coordinate.longitude, observation.location.coordinate.latitude);
+                    //NSLog(@"longi: %f and lati: %f", observation.location.coordinate.longitude, observation.location.coordinate.latitude);
                     
                     
                     // Switch the View & Controller
@@ -806,7 +795,6 @@ extern int UNKNOWN_ORGANISMID;
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         //ok pressed
-        NSLog(@"delete Observation");
         [persistenceManager establishConnection];
         [persistenceManager deleteObservation:observation.observationId];
         [persistenceManager closeConnection];
@@ -836,7 +824,6 @@ extern int UNKNOWN_ORGANISMID;
         }
         case 1:
         {
-            NSLog(@"cancel delete Area");
             [tableView deselectRowAtIndexPath:currIndexPath animated:NO];
             break;
         }

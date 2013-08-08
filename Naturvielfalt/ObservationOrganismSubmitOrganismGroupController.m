@@ -76,7 +76,6 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 - (void) saveOrganismGroup {
-    NSLog(@"save new organismGroup");
     if (selectedOrganismGroup.organismGroupId != oldOrganismGroup.organismGroupId) {
         
         //Unknown organism

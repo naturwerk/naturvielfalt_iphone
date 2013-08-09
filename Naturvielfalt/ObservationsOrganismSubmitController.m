@@ -129,21 +129,21 @@ extern int UNKNOWN_ORGANISMID;
         organismLatName = NSLocalizedString(@"toBeDetermined", nil);
     }
     
-    organismButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    /*organismButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     organismButton.frame = CGRectMake(60, 5, 200, 55);
     organismButton.hidden = YES;
-    [organismView addSubview:organismButton];
+    [organismView addSubview:organismButton];*/
 
     firstLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 20)];
     [firstLineOrganismButton setTextAlignment:UITextAlignmentCenter];
-    firstLineOrganismButton.text = organismName;
+    //firstLineOrganismButton.text = organismName;
     firstLineOrganismButton.backgroundColor = [UIColor clearColor];
     firstLineOrganismButton.font = [UIFont boldSystemFontOfSize:15];
     [organismButton addSubview:firstLineOrganismButton];
     
     secondLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 180, 20)];
     [secondLineOrganismButton setTextAlignment:UITextAlignmentCenter];
-    secondLineOrganismButton.text = organismLatName;
+    //secondLineOrganismButton.text = organismLatName;
     secondLineOrganismButton.backgroundColor = [UIColor clearColor];
     secondLineOrganismButton.textColor = [UIColor grayColor];
     secondLineOrganismButton.font = [UIFont italicSystemFontOfSize:13];
@@ -327,6 +327,7 @@ extern int UNKNOWN_ORGANISMID;
     [self setOrganismButton:nil];
     [self setOrganismDataView:nil];
     [self setOrganismView:nil];
+    [self setOrganismButton:nil];
     [super viewDidUnload];
 
     if(locationManager){

@@ -46,8 +46,8 @@
 }
 
 @property (nonatomic) IBOutlet UIView *organismDataView;
-
 @property (nonatomic) IBOutlet UIButton *organismButton;
+
 @property (nonatomic) IBOutlet UILabel *firstLineOrganismButton;
 @property (nonatomic) IBOutlet UILabel *secondLineOrganismButton;
 @property (nonatomic) NSDateFormatter *dateFormatter;

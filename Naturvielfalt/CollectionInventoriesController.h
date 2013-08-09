@@ -24,9 +24,11 @@
     NSOperationQueue *operationQueue;
     NSIndexPath *curIndex;
     BOOL doSubmit;
+    IBOutlet UILabel *noEntryFoundLabel;
 }
 
 @property (nonatomic) IBOutlet UITableView *table;
 @property (nonatomic) NSMutableArray *inventories;
+@property (nonatomic) IBOutlet UILabel *noEntryFoundLabel;
 
 @end

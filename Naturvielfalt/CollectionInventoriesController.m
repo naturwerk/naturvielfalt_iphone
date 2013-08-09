@@ -19,7 +19,7 @@
 @end
 
 @implementation CollectionInventoriesController
-@synthesize table, inventories;
+@synthesize table, inventories, noEntryFoundLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +41,8 @@
     self.navigationItem.title = title;
 
     table.delegate = self;
+    
+    noEntryFoundLabel.text = NSLocalizedString(@"noEntryFound", nil);
     
     // Reload the inventories
     operationQueue = [[NSOperationQueue alloc] init];
@@ -68,6 +70,7 @@
 
 - (void)viewDidUnload {
     [self setTable:nil];
+    [self setNoEntryFoundLabel:nil];
     [super viewDidUnload];
 }
 
@@ -136,6 +139,11 @@
     // If there aren't any inventories in the list. Stop the editing mode.
     if([inventories count] < 1) {
         table.editing = NO;
+        table.hidden = YES;
+        noEntryFoundLabel.hidden = NO;
+    } else {
+        table.hidden = NO;
+        noEntryFoundLabel.hidden = YES;
     }
     
     [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
@@ -173,6 +181,11 @@
         [inventories removeObjectAtIndex:indexPath.row];
         [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:UITableViewRowAnimationFade];
         
+        if ([inventories count] < 1) {
+            table.editing = NO;
+            table.hidden = YES;
+            noEntryFoundLabel.hidden = NO;
+        }
         // Reload the observations from the database and refresh the TableView
         //[self reloadInventories];
     }

@@ -26,6 +26,7 @@
     NSOperationQueue *operationQueue;
     MBProgressHUD *loadingHUD;
     IBOutlet UISegmentedControl *mapSegmentControl;
+    IBOutlet UILabel *noEntryFoundLabel;
 }
 
 @property (nonatomic) IBOutlet UITableView *table;
@@ -38,6 +39,7 @@
 @property (nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (nonatomic) IBOutlet UISegmentedControl *mapSegmentControl;
+@property (nonatomic) IBOutlet UILabel *noEntryFoundLabel;
 
 - (IBAction)segmentChanged:(id)sender;
 - (IBAction)mapSegmentChanged:(id)sender;

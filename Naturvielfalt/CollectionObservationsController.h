@@ -39,8 +39,10 @@
     IBOutlet UIButton *checkAllButton;
     IBOutlet UISegmentedControl *mapSegmentControl;
     IBOutlet UIImageView *checkAllView;
+    IBOutlet UILabel *noEntryFoundLabel;
 }
 
+@property (nonatomic) IBOutlet UILabel *noEntryFoundLabel;
 @property (nonatomic) IBOutlet UIImageView *checkAllView;
 @property (nonatomic) IBOutlet UISegmentedControl *mapSegmentControl;
 @property (nonatomic) IBOutlet MKMapView *mapView;

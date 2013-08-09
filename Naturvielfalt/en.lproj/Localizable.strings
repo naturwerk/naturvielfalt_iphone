@@ -134,6 +134,7 @@
 "collectionSingelObsTitle"		= "Singel Observations";
 "collectionAreaObsTitle"		= "Area Observations";
 "collectionNavTitle"            = "Collection";
+"noEntryFound"					= "No entries found...";
 
 // Collection segment control
 "collectionTableControl"		= "Table";

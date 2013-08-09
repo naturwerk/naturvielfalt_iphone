@@ -19,7 +19,7 @@
 @end
 
 @implementation CollectionAreasController
-@synthesize table, areas, checkAllButton, checkAllView;
+@synthesize table, areas, checkAllButton, checkAllView, noEntryFoundLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,6 +52,8 @@
     table.delegate = self;
     [checkAllButton setTag:1];
     
+    noEntryFoundLabel.text = NSLocalizedString(@"noEntryFound", nil);
+    
     // Reload the areas
     operationQueue = [[NSOperationQueue alloc] init];
     [operationQueue setMaxConcurrentOperationCount:1];
@@ -80,6 +82,7 @@
     [self setTable:nil];
     [self setCheckAllButton:nil];
     [self setCheckAllView:nil];
+    [self setNoEntryFoundLabel:nil];
     [super viewDidUnload];
 }
 
@@ -282,6 +285,11 @@
     // If there aren't any observations in the list. Stop the editing mode.
     if([areas count] < 1) {
         table.editing = NO;
+        table.hidden = YES;
+        noEntryFoundLabel.hidden = NO;
+    } else {
+        table.hidden = NO;
+        noEntryFoundLabel.hidden = YES;
     }
     
     [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
@@ -314,6 +322,12 @@
         // Reload the areas from the database and refresh the TableView
         [areas removeObjectAtIndex:indexPath.row];
         [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:UITableViewRowAnimationFade];
+        
+        if ([areas count] < 1) {
+            table.editing = NO;
+            table.hidden = YES;
+            noEntryFoundLabel.hidden = NO;
+        }
         //[self reloadAreas];
     }
 }

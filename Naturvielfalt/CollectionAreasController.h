@@ -31,12 +31,14 @@
     MBProgressHUD *loadingHUD;
     IBOutlet UIButton *checkAllButton;
     IBOutlet UIImageView *checkAllView;
+    IBOutlet UILabel *noEntryFoundLabel;
 }
 
 @property (nonatomic) IBOutlet UITableView *table;
 @property (nonatomic) NSMutableArray *areas;
 @property (nonatomic) IBOutlet UIButton *checkAllButton;
 @property (nonatomic) IBOutlet UIImageView *checkAllView;
+@property (nonatomic) IBOutlet UILabel *noEntryFoundLabel;
 
 
 - (IBAction)checkAllAreas:(id)sender;

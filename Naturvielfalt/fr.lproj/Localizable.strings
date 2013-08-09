@@ -134,6 +134,7 @@
 "collectionSingelObsTitle"		= "Observation unique";
 "collectionAreaObsTitle"		= "Observation domaine";
 "collectionNavTitle"            = "Enquête";
+"noEntryFound"					= "Pas d'entrées...";
 
 // Collection segment control
 "collectionTableControl"		= "Tableau";

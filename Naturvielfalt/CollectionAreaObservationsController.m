@@ -24,7 +24,7 @@
 extern int UNKNOWN_ORGANISMID;
 
 @implementation CollectionAreaObservationsController
-@synthesize table, persistenceManager, observations, operationQueue, countObservations, curIndex, areaObservationsView, mapView, segmentControl, mapSegmentControl;
+@synthesize table, persistenceManager, observations, operationQueue, countObservations, curIndex, areaObservationsView, mapView, segmentControl, mapSegmentControl, noEntryFoundLabel;
 
 - (void)didReceiveMemoryWarning
 {
@@ -37,6 +37,7 @@ extern int UNKNOWN_ORGANISMID;
     [self setAreaObservationsView:nil];
     [self setMapView:nil];
     [self setMapSegmentControl:nil];
+    [self setNoEntryFoundLabel:nil];
     [super viewDidUnload];
 }
 
@@ -73,7 +74,7 @@ extern int UNKNOWN_ORGANISMID;
     mapView.delegate = self;
     table.delegate = self;
     
-    
+    noEntryFoundLabel.text = NSLocalizedString(@"noEntryFound", nil);
     
     // Reload the observations
     operationQueue = [[NSOperationQueue alloc] init];
@@ -198,6 +199,11 @@ extern int UNKNOWN_ORGANISMID;
     // If there aren't any observations in the list. Stop the editing mode.
     if([observations count] < 1) {
         table.editing = NO;
+        table.hidden = YES;
+        noEntryFoundLabel.hidden = NO;
+    } else {
+        table.hidden = NO;
+        noEntryFoundLabel.hidden = YES;
     }
     [self reloadAnnotations];
     
@@ -330,6 +336,12 @@ extern int UNKNOWN_ORGANISMID;
         
         [observations removeObjectAtIndex:indexPath.row];
         [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:UITableViewRowAnimationFade];
+        
+        if ([observations count] < 1) {
+            table.editing = NO;
+            table.hidden = YES;
+            noEntryFoundLabel.hidden = NO;
+        }
         
         // Reload the observations from the database and refresh the TableView
         //[self reloadAreaObservations];

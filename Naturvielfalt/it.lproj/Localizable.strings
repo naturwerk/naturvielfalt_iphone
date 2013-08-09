@@ -133,6 +133,7 @@
 "collectionSingelObsTitle"		= "Singel Observations";
 "collectionAreaObsTitle"		= "Area Observations";
 "collectionNavTitle"            = "Collection";
+"noEntryFound"					= "Nessuna voce trovata...";
 
 // Collection segment control
 "collectionTableControl"		= "Table";

@@ -137,6 +137,7 @@
 "collectionSingelObsTitle"		= "Einzelbeobachtungen";
 "collectionAreaObsTitle"		= "Gebietsbeobachtungen";
 "collectionNavTitle"            = "Erfassungen";
+"noEntryFound"					= "Keine Einträge gefunden...";
 
 // Collection segment control
 "collectionTableControl"		= "Tabelle";

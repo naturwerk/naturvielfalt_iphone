@@ -35,8 +35,10 @@
     BOOL cancelSubmission;
     IBOutlet UIButton *checkAllButton;
     IBOutlet UIImageView *checkAllView;
+    IBOutlet UILabel *noEntryFoundLabel;
 }
 
+@property (nonatomic) IBOutlet UILabel *noEntryFoundLabel;
 @property (nonatomic) PersistenceManager *persistenceManager;
 @property (nonatomic) NSMutableArray *observations;
 @property (nonatomic) NSMutableArray *observationsToSubmit;

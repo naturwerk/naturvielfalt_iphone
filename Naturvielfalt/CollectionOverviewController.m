@@ -18,7 +18,7 @@ extern int UNKNOWN_ORGANISMGROUPID;
 extern int UNKNOWN_ORGANISMID;
 
 @implementation CollectionOverviewController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, checkAllButton, checkAllView;
+@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, checkAllButton, checkAllView, noEntryFoundLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,6 +67,8 @@ extern int UNKNOWN_ORGANISMID;
     self.navigationItem.leftBarButtonItem = editButton;
     
     [checkAllButton setTag:1];
+    
+    noEntryFoundLabel.text = NSLocalizedString(@"noEntryFound", nil);
     
     // Reload the observations
     operationQueue = [[NSOperationQueue alloc] init];
@@ -361,7 +363,12 @@ extern int UNKNOWN_ORGANISMID;
     
     // If there aren't any observations in the list. Stop the editing mode.
     if([observations count] < 1) {
-        table.editing = FALSE;
+        table.editing = NO;
+        table.hidden = YES;
+        noEntryFoundLabel.hidden = NO;
+    } else {
+        table.hidden = NO;
+        noEntryFoundLabel.hidden = YES;
     }
     
     [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
@@ -408,8 +415,17 @@ extern int UNKNOWN_ORGANISMID;
         // Close connection to the database
         [persistenceManager closeConnection];
         
+        [observations removeObjectAtIndex:indexPath.row];
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:UITableViewRowAnimationFade];
+        
+        if ([observations count] < 1) {
+            table.editing = NO;
+            table.hidden = YES;
+            noEntryFoundLabel.hidden = NO;
+        }
+        
         // Reload the observations from the database and refresh the TableView
-        [self reloadObservations];
+        //[self reloadObservations];
     }   
 }
 
@@ -593,6 +609,7 @@ extern int UNKNOWN_ORGANISMID;
 - (void)viewDidUnload {
     [self setCheckAllButton:nil];
     [self setCheckAllView:nil];
+    [self setNoEntryFoundLabel:nil];
     [super viewDidUnload];
 }
 @end

@@ -29,7 +29,8 @@
     UIActionSheet *deleteObservationSheet;
     NSIndexPath *currIndexPath;
     NSDateFormatter *dateFormatter;
-    
+    IBOutlet UILabel *firstLineOrganismButton;
+    IBOutlet UILabel *secondLineOrganismButton;
     
     NSArray *arrayKeysSectionNull;
     NSArray *arrayKeysSectionOne;
@@ -60,9 +61,11 @@
 @property (nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) NSDateFormatter *dateFormatter;
 
+@property (nonatomic) IBOutlet UILabel *firstLineOrganismButton;
+@property (nonatomic) IBOutlet UILabel *secondLineOrganismButton;
+
 @property (nonatomic) Inventory *inventory;
 @property (nonatomic) Observation *persistedObservation;
-
 
 @property (nonatomic, assign) BOOL review;
 @property (nonatomic, assign) BOOL comeFromOrganism;

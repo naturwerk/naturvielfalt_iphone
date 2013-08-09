@@ -34,7 +34,7 @@ extern int UNKNOWN_ORGANISMID;
 #define numOfSections             4
 
 @implementation ObservationsOrganismSubmitController
-@synthesize nameDe, nameLat, organism, observation, tableView, accuracyImage, locationManager, accuracyText, family, review, observationChanged, comeFromOrganism, persistedObservation, inventory, dateFormatter, organismDataView, organismButton, organismGroup, organismView;
+@synthesize nameDe, nameLat, organism, observation, tableView, accuracyImage, locationManager, accuracyText, family, review, observationChanged, comeFromOrganism, persistedObservation, inventory, dateFormatter, organismDataView, organismButton, organismGroup, organismView, firstLineOrganismButton, secondLineOrganismButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -63,12 +63,66 @@ extern int UNKNOWN_ORGANISMID;
     [inventory setInventory:nil];
 }
 
-- (void) viewDidAppear:(BOOL)animated 
-{
-    
+- (void)viewWillAppear:(BOOL)animated {
     if (observation.observationId) {
+        
         [persistenceManager establishConnection];
         persistedObservation = [persistenceManager getObservation:observation.observationId];
+        [persistenceManager closeConnection];
+        
+        organismDataView.hidden = YES;
+        organismButton.hidden = NO;
+        firstLineOrganismButton.hidden = NO;
+        secondLineOrganismButton.hidden = NO;
+        
+        NSString *organismName;
+        NSString *organismLatName;
+        
+        if (persistedObservation.organism.organismId != UNKNOWN_ORGANISMID) {
+            organismName = [persistedObservation.organism getNameDe];
+            organismLatName = [persistedObservation.organism getLatName];
+        } else {
+            organismName = NSLocalizedString(@"unknownOrganism", nil);
+            organismLatName = NSLocalizedString(@"toBeDetermined", nil);
+        }
+        
+        /*CAGradientLayer *gradientLayerUnselected;
+         UIColor *lighterColorUnselected = [UIColor colorWithRed:126/255.0 green:172/255.0 blue:255/255.0 alpha:1];
+         UIColor *darkerColorUnselected = [UIColor colorWithRed:0 green:0 blue:255/255.0 alpha:1];*/
+        
+        //organismButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        //organismButton.frame = CGRectMake(60, 5, 200, 55);
+        /*organismButton.layer.cornerRadius = 8;
+         organismButton.layer.borderWidth = 1;
+         organismButton.tintColor = [UIColor redColor];
+         [organismButton.layer setBorderColor:[[UIColor lightGrayColor]CGColor]];*/
+        //[organismButton setBackgroundColor:[UIColor colorWithRed:209/255.0 green:237/255.0 blue:255/255.0 alpha:1]];
+        
+        /*gradientLayerUnselected = [CAGradientLayer layer];
+         gradientLayerUnselected.cornerRadius = 8;
+         gradientLayerUnselected.frame = organismButton.bounds;
+         gradientLayerUnselected.colors = [NSArray arrayWithObjects:(id)[lighterColorUnselected CGColor], (id)[darkerColorUnselected CGColor], nil];
+         [organismButton.layer insertSublayer:gradientLayerUnselected below:organismButton.layer];*/
+        
+        [firstLineOrganismButton removeFromSuperview];
+        firstLineOrganismButton.text = organismName;
+        [organismButton addSubview:firstLineOrganismButton];
+        
+        [secondLineOrganismButton removeFromSuperview];
+        secondLineOrganismButton.text = organismLatName;
+        [organismButton addSubview:secondLineOrganismButton];
+        
+        //[organismButton addTarget:self action:@selector(chooseOrganism:) forControlEvents:UIControlEventTouchUpInside];
+        //[organismView addSubview:organismButton];
+    }
+}
+
+
+- (void) viewDidAppear:(BOOL)animated 
+{
+    if (observation.observationId) {
+        [persistenceManager establishConnection];
+        //persistedObservation = [persistenceManager getObservation:observation.observationId];
         Area *currentArea = [persistenceManager getArea:persistedObservation.inventory.areaId];
         [persistenceManager closeConnection];
         
@@ -102,64 +156,6 @@ extern int UNKNOWN_ORGANISMID;
     [tableView reloadData];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    if (observation.observationId) {
-        organismDataView.hidden = YES;
-        //organismButton.hidden = NO;
-        
-        NSString *organismName;
-        NSString *organismLatName;
-        
-        if (observation.organism.organismId != UNKNOWN_ORGANISMID) {
-            organismName = [observation.organism getNameDe];
-            organismLatName = [observation.organism getLatName];
-        } else {
-            organismName = NSLocalizedString(@"unknownOrganism", nil);
-            organismLatName = NSLocalizedString(@"toBeDetermined", nil);
-        }
-        
-        /*CAGradientLayer *gradientLayerUnselected;
-        UIColor *lighterColorUnselected = [UIColor colorWithRed:126/255.0 green:172/255.0 blue:255/255.0 alpha:1];
-        UIColor *darkerColorUnselected = [UIColor colorWithRed:0 green:0 blue:255/255.0 alpha:1];*/
-        
-        organismButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        organismButton.frame = CGRectMake(60, 5, 200, 55);
-        /*organismButton.layer.cornerRadius = 8;
-        organismButton.layer.borderWidth = 1;
-        organismButton.tintColor = [UIColor redColor];
-        [organismButton.layer setBorderColor:[[UIColor lightGrayColor]CGColor]];*/
-        //[organismButton setBackgroundColor:[UIColor colorWithRed:209/255.0 green:237/255.0 blue:255/255.0 alpha:1]];
-        [organismView addSubview:organismButton];
-        
-        /*gradientLayerUnselected = [CAGradientLayer layer];
-        gradientLayerUnselected.cornerRadius = 8;
-        gradientLayerUnselected.frame = organismButton.bounds;
-        gradientLayerUnselected.colors = [NSArray arrayWithObjects:(id)[lighterColorUnselected CGColor], (id)[darkerColorUnselected CGColor], nil];
-        [organismButton.layer insertSublayer:gradientLayerUnselected below:organismButton.layer];*/
-        
-        UILabel *firstLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 20)];
-        [firstLineOrganismButton setTextAlignment:UITextAlignmentCenter];
-        firstLineOrganismButton.text = organismName;
-        firstLineOrganismButton.backgroundColor = [UIColor clearColor];
-        firstLineOrganismButton.font = [UIFont boldSystemFontOfSize:15];
-        [organismButton addSubview:firstLineOrganismButton];
-        
-        UILabel *secondLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 180, 20)];
-        [secondLineOrganismButton setTextAlignment:UITextAlignmentCenter];
-        secondLineOrganismButton.text = organismLatName;
-        secondLineOrganismButton.backgroundColor = [UIColor clearColor];
-        secondLineOrganismButton.textColor = [UIColor grayColor];
-        secondLineOrganismButton.font = [UIFont italicSystemFontOfSize:13];
-        [organismButton addSubview:secondLineOrganismButton];
-        
-        [organismButton addTarget:self action:@selector(chooseOrganism:) forControlEvents:UIControlEventTouchUpInside];
-        
-        /*[organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
-         [organismButton.titleLabel setTextAlignment:UITextAlignmentCenter];
-         [organismButton setTitle:buttonTitle forState:UIControlStateNormal];*/
-    }
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -186,13 +182,24 @@ extern int UNKNOWN_ORGANISMID;
     nameDe.text = [organism getNameDe];
     nameLat.text = (organism.organismId == UNKNOWN_ORGANISMID) ? NSLocalizedString(@"toBeDetermined", nil) : [organism getLatName];
     family.text = organism.family;
-    NSString *toBeDetermined = organism.organismId == UNKNOWN_ORGANISMID ? NSLocalizedString(@"toBeDetermined", nil): @"";
-    NSString *buttonTitle = [NSString stringWithFormat:@"%@\n%@", organism.nameDe,toBeDetermined];
     
+    firstLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 20)];
+    [firstLineOrganismButton setTextAlignment:UITextAlignmentCenter];
+    firstLineOrganismButton.backgroundColor = [UIColor clearColor];
+    firstLineOrganismButton.font = [UIFont boldSystemFontOfSize:15];
     
-    [organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
+    secondLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 180, 20)];
+    [secondLineOrganismButton setTextAlignment:UITextAlignmentCenter];
+    secondLineOrganismButton.backgroundColor = [UIColor clearColor];
+    secondLineOrganismButton.textColor = [UIColor grayColor];
+    secondLineOrganismButton.font = [UIFont italicSystemFontOfSize:13];
+    
+    /*NSString *toBeDetermined = organism.organismId == UNKNOWN_ORGANISMID ? NSLocalizedString(@"toBeDetermined", nil): @"";
+    NSString *buttonTitle = [NSString stringWithFormat:@"%@\n%@", organism.nameDe,toBeDetermined];*/
+    
+    /*[organismButton.titleLabel setLineBreakMode:UILineBreakModeWordWrap];
     [organismButton.titleLabel setTextAlignment:UITextAlignmentCenter];
-    [organismButton setTitle:buttonTitle forState:UIControlStateNormal];
+    [organismButton setTitle:buttonTitle forState:UIControlStateNormal];*/
 
     
     // Set top navigation bar button  

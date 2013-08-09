@@ -69,7 +69,7 @@
 								<int key="NSvFlags">-2147483380</int>
 								<string key="NSFrameSize">{320, 320}</string>
 								<reference key="NSSuperview" ref="1003505906"/>
-								<reference key="NSNextKeyView" ref="151731713"/>
+								<reference key="NSNextKeyView" ref="392058826"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -115,7 +115,7 @@
 									<reference ref="4"/>
 								</array>
 							</object>
-							<object class="IBUILabel" id="151731713">
+							<object class="IBUILabel" id="392058826">
 								<reference key="NSNextResponder" ref="1003505906"/>
 								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{10, 10}, {300, 21}}</string>
@@ -129,9 +129,8 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">Label</string>
 								<object class="NSColor" key="IBUITextColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MCAwIDAAA</bytes>
-									<string key="IBUIColorCocoaTouchKeyPath">darkTextColor</string>
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 								</object>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
@@ -4667,7 +4666,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">noEntryFoundLabel</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="151731713"/>
+						<reference key="destination" ref="392058826"/>
 					</object>
 					<int key="connectionID">27</int>
 				</object>
@@ -4741,7 +4740,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<reference ref="718267776"/>
 							<reference ref="301823381"/>
 							<reference ref="536636038"/>
-							<reference ref="151731713"/>
+							<reference ref="392058826"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -4767,7 +4766,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">26</int>
-						<reference key="object" ref="151731713"/>
+						<reference key="object" ref="392058826"/>
 						<reference key="parent" ref="1003505906"/>
 					</object>
 				</array>

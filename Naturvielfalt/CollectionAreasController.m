@@ -408,12 +408,12 @@
         
         
         if (area.submitted && [area checkAllInventoriesFromAreaSubmitted]) {
-            checkboxAreaCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.6f];
+            checkboxAreaCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxAreaCell.submitted.hidden = NO;
             checkboxAreaCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
-            [checkboxAreaCell.count setAlpha:0.2f];
-            [checkboxAreaCell.date setAlpha:0.2f];
-            [checkboxAreaCell.image setAlpha:0.2f];
+            [checkboxAreaCell.count setAlpha:0.4f];
+            [checkboxAreaCell.date setAlpha:0.4f];
+            [checkboxAreaCell.image setAlpha:0.4f];
             checkboxAreaCell.checkbox.hidden = YES;
             checkboxAreaCell.checkboxView.hidden = YES;
             area.submitToServer = NO;

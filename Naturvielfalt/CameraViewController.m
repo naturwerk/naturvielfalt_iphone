@@ -211,6 +211,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
         } else {
             [observation setObservation:observation];
         }*/
+        observation.submitted = NO;
         [persistenceManager persistObservation:observation];
     }
     [persistenceManager closeConnection];

@@ -433,12 +433,12 @@ extern int UNKNOWN_ORGANISMID;
         [checkboxAreaObsCell.remove setTag:observation.observationId];
         
         if (observation.submitted) {
-            checkboxAreaObsCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.6f];
+            checkboxAreaObsCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxAreaObsCell.submitted.hidden = NO;
             checkboxAreaObsCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
-            [checkboxAreaObsCell.amount setAlpha:0.2f];
-            [checkboxAreaObsCell.date setAlpha:0.2f];
-            [checkboxAreaObsCell.image setAlpha:0.2f];
+            [checkboxAreaObsCell.amount setAlpha:0.4f];
+            [checkboxAreaObsCell.date setAlpha:0.4f];
+            [checkboxAreaObsCell.image setAlpha:0.4f];
             //checkboxAreaObsCell.checkbox.hidden = YES;
             observation.submitToServer = NO;
         } else {

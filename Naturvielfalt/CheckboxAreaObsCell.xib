@@ -46,6 +46,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{47, 2}, {130, 21}}</string>
 								<reference key="NSSuperview" ref="684520492"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="526968919"/>
 								<object class="NSColor" key="IBUIBackgroundColor" id="307415573">
 									<int key="NSColorSpace">3</int>
@@ -80,6 +81,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{247, 1}, {65, 23}}</string>
 								<reference key="NSSuperview" ref="684520492"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="432691848"/>
 								<reference key="IBUIBackgroundColor" ref="307415573"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -111,6 +113,8 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{285, 18}, {27, 25}}</string>
 								<reference key="NSSuperview" ref="684520492"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<reference key="IBUIBackgroundColor" ref="307415573"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -140,6 +144,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{47, 20}, {130, 21}}</string>
 								<reference key="NSSuperview" ref="684520492"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="497512896"/>
 								<reference key="IBUIBackgroundColor" ref="307415573"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -159,6 +164,7 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{217, 11}, {22, 22}}</string>
 								<reference key="NSSuperview" ref="684520492"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="161838775"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">4</int>
@@ -174,6 +180,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{7, 7}, {30, 30}}</string>
 								<reference key="NSSuperview" ref="684520492"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="558111747"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -184,6 +191,7 @@
 								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{0, 2}, {44, 40}}</string>
 								<reference key="NSSuperview" ref="684520492"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="723426810"/>
 								<int key="IBUIContentMode">4</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -218,8 +226,9 @@
 							<object class="IBUILabel" id="497512896">
 								<reference key="NSNextResponder" ref="684520492"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{150, 5}, {160, 35}}</string>
+								<string key="NSFrame">{{180, 20}, {130, 20}}</string>
 								<reference key="NSSuperview" ref="684520492"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="224548626"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="307415573"/>
@@ -229,19 +238,19 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">Submitted</string>
 								<object class="NSColor" key="IBUITextColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MSAwIDAAA</bytes>
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
 								</object>
 								<reference key="IBUIHighlightedColor" ref="77216218"/>
 								<int key="IBUIBaselineAdjustment">0</int>
-								<int key="IBUITextAlignment">2</int>
+								<int key="IBUITextAlignment">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">3</int>
-									<double key="pointSize">20</double>
+									<double key="pointSize">17</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica-Oblique</string>
-									<double key="NSSize">20</double>
+									<double key="NSSize">17</double>
 									<int key="NSfFlags">16</int>
 								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -249,6 +258,7 @@
 						</array>
 						<string key="NSFrameSize">{320, 43}</string>
 						<reference key="NSSuperview" ref="87487097"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="770316809"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<reference key="IBUIBackgroundColor" ref="307415573"/>
@@ -261,6 +271,7 @@
 				</array>
 				<string key="NSFrameSize">{320, 44}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="684520492"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -434,7 +445,67 @@
 			<nil key="sourceID"/>
 			<int key="maxID">60</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">CheckboxAreaObsCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="amount">UILabel</string>
+						<string key="areaImage">UIImageView</string>
+						<string key="checkbox">UIButton</string>
+						<string key="date">UILabel</string>
+						<string key="image">UIImageView</string>
+						<string key="latName">UILabel</string>
+						<string key="name">UILabel</string>
+						<string key="remove">UIButton</string>
+						<string key="submitted">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="amount">
+							<string key="name">amount</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="areaImage">
+							<string key="name">areaImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="checkbox">
+							<string key="name">checkbox</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="date">
+							<string key="name">date</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="image">
+							<string key="name">image</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="latName">
+							<string key="name">latName</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="name">
+							<string key="name">name</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="remove">
+							<string key="name">remove</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="submitted">
+							<string key="name">submitted</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CheckboxAreaObsCell.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

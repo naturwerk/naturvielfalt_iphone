@@ -236,11 +236,11 @@
         [checkboxInventoryCell.remove setTag:inventory.inventoryId];
         
         if (inventory.submitted && [inventory checkAllObservationsFromInventorySubmitted]) {
-            checkboxInventoryCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.6f];
+            checkboxInventoryCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
             checkboxInventoryCell.submitted.hidden = NO;
             checkboxInventoryCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
-            [checkboxInventoryCell.count setAlpha:0.2f];
-            [checkboxInventoryCell.date setAlpha:0.2f];
+            [checkboxInventoryCell.count setAlpha:0.4f];
+            [checkboxInventoryCell.date setAlpha:0.4f];
             //Images are not implemented yet
             //[checkboxInventoryCell.image setAlpha:0.5f];
             checkboxInventoryCell.checkbox.hidden = YES;

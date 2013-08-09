@@ -72,8 +72,6 @@ extern int UNKNOWN_ORGANISMID;
         
         organismDataView.hidden = YES;
         organismButton.hidden = NO;
-        firstLineOrganismButton.hidden = NO;
-        secondLineOrganismButton.hidden = NO;
         
         NSString *organismName;
         NSString *organismLatName;
@@ -104,13 +102,8 @@ extern int UNKNOWN_ORGANISMID;
          gradientLayerUnselected.colors = [NSArray arrayWithObjects:(id)[lighterColorUnselected CGColor], (id)[darkerColorUnselected CGColor], nil];
          [organismButton.layer insertSublayer:gradientLayerUnselected below:organismButton.layer];*/
         
-        [firstLineOrganismButton removeFromSuperview];
         firstLineOrganismButton.text = organismName;
-        [organismButton addSubview:firstLineOrganismButton];
-        
-        [secondLineOrganismButton removeFromSuperview];
         secondLineOrganismButton.text = organismLatName;
-        [organismButton addSubview:secondLineOrganismButton];
         
         //[organismButton addTarget:self action:@selector(chooseOrganism:) forControlEvents:UIControlEventTouchUpInside];
         //[organismView addSubview:organismButton];
@@ -187,12 +180,14 @@ extern int UNKNOWN_ORGANISMID;
     [firstLineOrganismButton setTextAlignment:UITextAlignmentCenter];
     firstLineOrganismButton.backgroundColor = [UIColor clearColor];
     firstLineOrganismButton.font = [UIFont boldSystemFontOfSize:15];
+    [organismButton addSubview:firstLineOrganismButton];
     
     secondLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 180, 20)];
     [secondLineOrganismButton setTextAlignment:UITextAlignmentCenter];
     secondLineOrganismButton.backgroundColor = [UIColor clearColor];
     secondLineOrganismButton.textColor = [UIColor grayColor];
     secondLineOrganismButton.font = [UIFont italicSystemFontOfSize:13];
+    [organismButton addSubview:secondLineOrganismButton];
     
     /*NSString *toBeDetermined = organism.organismId == UNKNOWN_ORGANISMID ? NSLocalizedString(@"toBeDetermined", nil): @"";
     NSString *buttonTitle = [NSString stringWithFormat:@"%@\n%@", organism.nameDe,toBeDetermined];*/

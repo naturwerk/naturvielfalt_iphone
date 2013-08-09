@@ -29,6 +29,9 @@
     self.settingsTabItem.title = NSLocalizedString(@"settingsTabLabel", nil);
     [self.window makeKeyAndVisible];
     
+    UIColor *myBarButtonColor = [UIColor colorWithRed:60/255.0 green:120/255.0 blue:100/255.0 alpha:1];
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTintColor:myBarButtonColor];
+    
     // Store default settings in the appSettings
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     //[appSettings setObject:@"waebi07" forKey:@"username"];

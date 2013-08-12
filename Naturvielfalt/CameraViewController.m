@@ -118,11 +118,12 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
         if (!tmpObservation) {
             [self.navigationController popViewControllerAnimated:YES];
         } else {
-            for (ObservationImage *oImg in observation.pictures) {
+            /*for (ObservationImage *oImg in observation.pictures) {
                 if (!oImg.observationImageId) {
                     [tmpObservation.pictures addObject:oImg];
                 }
-            }
+            }*/
+            tmpObservation.pictures = observation.pictures;
             observation = tmpObservation;
         }
         tmpObservation = nil;
@@ -233,17 +234,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
             UIImageWriteToSavedPhotosAlbum(chosenImage, nil, nil, nil);
         }
-        
         if (area) {
             AreaImage *aImg = [[AreaImage alloc] getAreaImage];
             aImg.image = shrunkenImage;
             [area.pictures addObject:aImg];
             [aImg setAreaImage:nil];
+            currentPage = area.pictures.count;
         } else if(observation) {
             ObservationImage *oImg = [[ObservationImage alloc] getObservationImage];
             oImg.image = shrunkenImage;
             [observation.pictures addObject:oImg];
             [oImg setObservationImage:nil];
+            currentPage = observation.pictures.count;
         }
     } else if ([lastChosenMediaType isEqual:(NSString *)kUTTypeMovie]) {
         self.movieURL = [info objectForKey:UIImagePickerControllerMediaURL];
@@ -279,14 +281,12 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
         if (imageViewer) {
             [imageViewer removeFromSuperview];
         }
-        
         imageViewer = [[AFImageViewer alloc] initWithFrame:CGRectMake(0, 0, 320, 270)];
         
         imageViewer.images = [[NSMutableArray alloc] initWithArray:[self images]];
         imageViewer.contentMode = UIViewContentModeScaleAspectFit;
         imageViewer.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
         [self.view addSubview:imageViewer];
-        
     } else if ([lastChosenMediaType isEqual:(NSString *)kUTTypeMovie]) {
         [self.moviePlayerController.view removeFromSuperview];
         MPMoviePlayerController *mpController = [[MPMoviePlayerController alloc] initWithContentURL:movieURL];

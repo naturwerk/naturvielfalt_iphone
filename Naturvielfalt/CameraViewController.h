@@ -25,6 +25,7 @@
     Observation *observation;
     Area *area;
     AFImageViewer *imageViewer;
+    int currentPage;
     
     IBOutlet UIButton *takePhotoButton;
     IBOutlet UIButton *chooseExistingButton;

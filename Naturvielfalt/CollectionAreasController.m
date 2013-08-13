@@ -136,7 +136,7 @@
             [areaUploadHelper cancel];
         }
         loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        loadingHUD.labelText = @"test cancel";
+        loadingHUD.labelText = NSLocalizedString(@"collectionCancelMessage", nil);
         loadingHUD.mode = MBProgressHUDModeCustomView;
     } else {
         if(doSubmit){
@@ -173,19 +173,7 @@
      [uploadView addSubview:pv];*/
     [uploadView show];
     
-    /*loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-     [self.navigationController.view addSubview:loadingHUD];
-     
-     loadingHUD.delegate = self;
-     loadingHUD.mode = MBProgressHUDModeCustomView;
-     loadingHUD.labelText = NSLocalizedString(@"collectionHudWaitMessage", nil);
-     loadingHUD.detailsLabelText = NSLocalizedString(@"collectionHudSubmitMessage", nil);
-     
-     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-     [loadingHUD show:YES];*/
     [self sendRequestToServer];
-    
-    //[loadingHUD showWhileExecuting:@selector(sendRequestToServer) onTarget:self withObject:nil animated:YES];
 
 }
 

@@ -191,7 +191,6 @@ int UNKNOWN_ORGANISMID      =   -1;
     areaToSave.persisted = YES;
     
     // Save area, inventories and observations
-    /*if(review) {*/
     if (areaToSave.areaId) {
         [self updateArea:areaToSave];
         for (Inventory *inventory in areaToSave.inventories) {

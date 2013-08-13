@@ -143,16 +143,19 @@
 
 - (void) cancel {
     if (request) {
-        [request cancel];
+        //[request cancel];
+        cancelSubmission = YES;
         for (InventoryUploadHelper *iuh in inventoryUploadHelpers) {
             [iuh cancel];
         }
+    } else {
+        [listener notifyListener:area response:@"cancel" observer:self];
     }
 }
 
 - (void) notifyListener:(NSObject *)object response:(NSString *)response observer:(id<Observer>)observer {
     [observer unregisterListener];
-    if ((object.class != [Area class] && object.class != [Inventory class])) {
+    if ((object.class != [Area class] && object.class != [Inventory class]) || [response isEqualToString:@"cancel"]) {
         return;
     }
     
@@ -187,7 +190,7 @@
             NSLog(@"received area guid: %@", guidString);
             
             // update area (guid)
-            @synchronized (self) {
+            @synchronized ([[UIApplication sharedApplication] delegate]) {
                 [persistenceManager establishConnection];
                 [persistenceManager updateArea:area];
                 [persistenceManager closeConnection];
@@ -195,7 +198,7 @@
 
             
             // If area submit was successful, start to submit the inventories if recursion is true
-            if (withRecursion) {
+            if (withRecursion && !cancelSubmission) {
                 if (area.inventories.count == 0) {
                     [listener notifyListener:area response:response observer:self];
                     return;
@@ -203,6 +206,7 @@
                 if (!inventoryUploadHelpers) {
                     inventoryUploadHelpers = [[NSMutableArray alloc] init];
                 }
+                
                 for (Inventory *inventory in area.inventories) {
                     InventoryUploadHelper *inventoryUploadHelper = [[InventoryUploadHelper alloc] init];
                     [inventoryUploadHelper registerListener:self];

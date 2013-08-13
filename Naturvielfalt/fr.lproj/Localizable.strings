@@ -141,6 +141,7 @@
 "collectionMapControl"			= "Plan";
 
 // Collection alert messages
+"collectionCancelMessage"		= "Übermittlung beenden…";
 "collectionCheckAll"			= "Tout sélectionner";
 "collectionUncheckAll"			= "Annuler la sélection";
 "collectionAlertObsTitle"		= "Transmettre les observations?";

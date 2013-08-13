@@ -112,9 +112,8 @@
 }
 
 - (void) cancel {
-    if (request) {
-        [request cancel];
-    }
+ // Do nothing
+    [listener notifyListener:observation response:@"cancel" observer:self];
 }
 
 - (void)notifyListener:(NSObject *)object response:(NSString *)response observer:(id<Observer>)observer{
@@ -147,7 +146,7 @@
             NSLog(@"received observation guid: %@", guidString);
             
             // update observation (guid)
-            @synchronized (self) {
+            @synchronized ([[UIApplication sharedApplication] delegate]) {
                 [persistenceManager establishConnection];
                 [persistenceManager updateObservation:observation];
                 [persistenceManager closeConnection];

@@ -21,6 +21,7 @@
     NSMutableArray *observationUploadHelpers;
     int observationCounter;
     PersistenceManager *persistenceManager;
+    BOOL cancelSubmission;
 }
 
 @end

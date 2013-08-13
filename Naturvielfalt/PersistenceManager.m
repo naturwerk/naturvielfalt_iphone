@@ -1299,7 +1299,7 @@ int UNKNOWN_ORGANISMID      =   -1;
     char *sql = "UPDATE areaImage SET AREA_ID = ?, SUBMITTED = ?, IMAGE = ? WHERE ID = ?";
     
     sqlite3_stmt *stmt;
-    
+    NSLog(@"%i", sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil));
     // Put the data into the insert statement
     if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
         sqlite3_bind_int(stmt, 1, areaImage.areaId);

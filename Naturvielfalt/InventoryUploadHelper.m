@@ -123,10 +123,13 @@
 
 - (void) cancel {
     if (request) {
-        [request cancel];
+        //[request cancel];
+        cancelSubmission = YES;
         for (ObservationUploadHelper *ouh in observationUploadHelpers) {
             [ouh cancel];
         }
+    } else {
+        [listener notifyListener:inventory response:@"cancel" observer:self];
     }
 }
 
@@ -161,13 +164,13 @@
             NSLog(@"received inventory guid: %@", guidString);
             
             // update inventory (guid)
-            @synchronized (self) {
+            @synchronized ([[UIApplication sharedApplication] delegate]) {
                 [persistenceManager establishConnection];
                 [persistenceManager updateInventory:inventory];
                 [persistenceManager closeConnection];
             }
             
-            if (withRecursion) {
+            if (withRecursion && !cancelSubmission) {
                 if (inventory.observations.count == 0) {
                     [listener notifyListener:inventory response:response observer:self];
                 }

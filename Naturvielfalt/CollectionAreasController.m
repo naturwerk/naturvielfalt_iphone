@@ -83,6 +83,9 @@
     [self setCheckAllButton:nil];
     [self setCheckAllView:nil];
     [self setNoEntryFoundLabel:nil];
+    areas = nil;
+    areaUploadHelpers = nil;
+    areasToSubmit = nil;
     [super viewDidUnload];
 }
 
@@ -127,11 +130,21 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(doSubmit){
-        if (buttonIndex == 1){
-            [self sendAreas];
+    if (alertView == uploadView) {
+        cancelSubmission = YES;
+        for (AreaUploadHelper *areaUploadHelper in areaUploadHelpers) {
+            [areaUploadHelper cancel];
         }
-        doSubmit = NO;
+        loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        loadingHUD.labelText = @"test cancel";
+        loadingHUD.mode = MBProgressHUDModeCustomView;
+    } else {
+        if(doSubmit){
+            if (buttonIndex == 1){
+                [self sendAreas];
+            }
+            doSubmit = NO;
+        }
     }
 }
 
@@ -218,11 +231,13 @@
         areaUploadHelpers = [[NSMutableArray alloc] init];
     }
     
-    for (Area *area in areasToSubmit) {
+    if (!cancelSubmission) {
+        for (Area *area in areasToSubmit) {
             AreaUploadHelper *areaUploadHelper = [[AreaUploadHelper alloc] init];
             [areaUploadHelper registerListener:self];
             [areaUploadHelpers addObject:areaUploadHelper];
             [areaUploadHelper submit:area withRecursion:YES];
+        }
     }
 }
 
@@ -488,36 +503,47 @@
     }
     Area *area = (Area *) object;
     
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     float percent = (100 / totalRequests) * (totalRequests - (--areasCounter));
     NSLog(@"requestcounter: %d progress: %f",areasCounter + 1,  percent / 100);
     uploadView.progressView.progress = percent / 100;
     
-    //Save received guid in object, not persisted yet
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"success=[0 || 1]" options:0 error:nil];
-    NSArray *matches = [regex matchesInString:response options:0 range:NSMakeRange(0, [response length])];
-    NSString *successString;
-    if ([matches count] > 0) {
-        successString = [response substringWithRange:[[matches objectAtIndex:0] range]];
-    } else {
-        NSLog(@"ERROR: NO GUID received!! response: %@", response);
-    }
-    
-    if ([successString isEqualToString:@"success=1"]) {
-        
-        // Reload observations
-        [self reloadAreas];
+    if ([response isEqualToString:@"cancel"]) {
         [areasToSubmit removeObject:area];
+        
+    } else {
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"success=[0 || 1]" options:0 error:nil];
+        NSArray *matches = [regex matchesInString:response options:0 range:NSMakeRange(0, [response length])];
+        NSString *successString;
+        if ([matches count] > 0) {
+            successString = [response substringWithRange:[[matches objectAtIndex:0] range]];
+        } else {
+            NSLog(@"ERROR: NO GUID received!! response: %@", response);
+        }
+        
+        if ([successString isEqualToString:@"success=1"]) {
+            [areasToSubmit removeObject:area];
+            // Reload observations
+            [self reloadAreas];
+            
+        }
     }
-    
+        
     if (areasCounter == 0) {
         [areaUploadHelpers removeAllObjects];
         
         if (areasToSubmit.count == 0) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessAreaDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
-            [alert show];
+            if (!cancelSubmission) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessAreaDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+                [alert show];
+            } else {
+                cancelSubmission = NO;
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+            }
         } else {
-            
+            cancelSubmission = NO;
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorAreSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
             [alert show];
         }
@@ -525,9 +551,9 @@
         //[loadingHUD removeFromSuperview];
         [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+        [self reloadAreas];
     }
 }
-
 
 - (IBAction)checkAllAreas:(id)sender {
     int currentTag = checkAllButton.tag;

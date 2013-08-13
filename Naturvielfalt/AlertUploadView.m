@@ -32,7 +32,6 @@ static const float kProgressWidth      = 200.0;
     progressView.frame = CGRectMake(40, labelFrame.origin.y+labelFrame.size.height + 10.0, kProgressWidth, kProgressHeight);
     [self addSubview:progressView];
     self.frame = CGRectMake(myFrame.origin.x, myFrame.origin.y, myFrame.size.width, myFrame.size.height);
-    
 }
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle okButtonTitle:(NSString *)okayButtonTitle

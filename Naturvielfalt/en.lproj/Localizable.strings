@@ -141,6 +141,7 @@
 "collectionMapControl"			= "Map";
 
 // Collection alert messages
+"collectionCancelMessage"		= "Finishing requests…";
 "collectionCheckAll"			= "Select all";
 "collectionUncheckAll"			= "Remove selections";
 "collectionAlertObsTitle"		= "Submit observations?";

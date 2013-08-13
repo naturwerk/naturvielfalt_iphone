@@ -140,6 +140,7 @@
 "collectionMapControl"			= "Map";
 
 // Collection alert messages
+"collectionCancelMessage"		= "Übermittlung beenden…";
 "collectionCheckAll"			= "Select all";
 "collectionUncheckAll"			= "Remove selections";
 "collectionAlertObsTitle"		= "Submit observations?";

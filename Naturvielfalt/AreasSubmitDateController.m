@@ -21,7 +21,7 @@
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-        
+        persistenceManager  = [[PersistenceManager alloc] init];
     }
     return self;
 }

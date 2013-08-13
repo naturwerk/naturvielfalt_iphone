@@ -22,6 +22,7 @@
     NSMutableArray *inventoryUploadHelpers;
     int inventoryCounter;
     PersistenceManager *persistenceManager;
+    BOOL cancelSubmission;
 }
 
 

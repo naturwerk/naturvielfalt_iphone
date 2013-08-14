@@ -268,12 +268,15 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 - (void) loadArea {
-    NSMutableArray *areasToDraw = [[NSMutableArray alloc] init];
+    
+    NSMutableDictionary *aToDraw = [[NSMutableDictionary alloc] init];
+    //NSMutableArray *areasToDraw = [[NSMutableArray alloc] init];
     [mapView removeOverlays:mapView.overlays];
     for (Observation *obs in observations) {
         Area *area = obs.inventory.area;
-        if (![areasToDraw containsObject:area]) {
-            [areasToDraw addObject:area];
+        if (/*![areasToDraw containsObject:area]*/ ![aToDraw objectForKey:[NSString stringWithFormat:@"%lli", area.areaId]]) {
+            //[areasToDraw addObject:area];
+            [aToDraw setObject:area forKey:[NSString stringWithFormat:@"%lli",area.areaId]];
             NSMutableArray *locationPoints = [[NSMutableArray alloc] initWithArray:area.locationPoints];
             
             MKMapPoint *points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
@@ -315,6 +318,7 @@ extern int UNKNOWN_ORGANISMID;
             }
         }
     }
+    aToDraw = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

@@ -103,8 +103,8 @@
 
 // Organisms
 - (NSMutableArray *) getOrganisms:(int) groupId withCustomFilter:(NSString *)filter;
-- (NSMutableArray *) getOrganismsSortByDE:(int) groupId withCustomFilter:(NSString*) filter;
+- (NSMutableArray *) getOrganismsSortByLanguage:(int) groupId withCustomFilter:(NSString*) filter;
 - (NSMutableArray *) getOrganismsSortByLAT:(int) groupId withCustomFilter: (NSString*) filter;
-- (NSMutableArray *) getAllOrganisms:(int) groupId sortByDe:(BOOL) sortByDe;
+- (NSMutableArray *) getAllOrganisms:(int) groupId sortByDe:(BOOL) sortByLanguage;
 
 @end

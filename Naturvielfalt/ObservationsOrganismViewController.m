@@ -167,6 +167,9 @@ extern int UNKNOWN_ORGANISMID;
     unknown.organismId = UNKNOWN_ORGANISMID;
     unknown.organismGroupId = organismGroupId;
     unknown.nameDe = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+    unknown.nameEn = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+    unknown.nameFr = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+    unknown.nameIt = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
     unknown.nameLat = NSLocalizedString(@"toBeDetermined", nil);
     
     [organisms addObject:unknown];
@@ -213,8 +216,8 @@ extern int UNKNOWN_ORGANISMID;
 - (void) appendToDictionary:(Organism *)organism
 {
     // GERMAN NAME
-    if([organism getNameDe].length > 0) {
-        NSString *firstLetterDE = [[organism getNameDe] substringToIndex:1];
+    if([organism getName].length > 0) {
+        NSString *firstLetterDE = [[organism getName] substringToIndex:1];
         
         // Put all "umlaute" under there belonging character
         // ä => a, ö => o, ü => u
@@ -430,7 +433,7 @@ extern int UNKNOWN_ORGANISMID;
     
     // German/Lat names
     if (displayGermanNames) {
-        cell.textLabel.text = [organism getNameDe];
+        cell.textLabel.text = [organism getName];
         
         //if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
             cell.detailTextLabel.text = organism.nameLat;            
@@ -439,7 +442,7 @@ extern int UNKNOWN_ORGANISMID;
         cell.textLabel.text = organism.nameLat;
         
         //if(![[organism getNameDe] isEqualToString:organism.nameLat]) {
-            cell.detailTextLabel.text = [organism getNameDe];            
+            cell.detailTextLabel.text = [organism getName];            
         //}
     }
     
@@ -595,14 +598,14 @@ extern int UNKNOWN_ORGANISMID;
                 
                 // if only the german name is available
                 if([organism.genus length] == 0 && [organism.species length] == 0) {
-                    if([[organism getNameDe] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
+                    if([[organism getName] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
                         [toRemove addObject:organism];
                         continue;
                     }
                 }
                 
                 // Check if found in DE
-                if ([[organism getNameDe] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
+                if ([[organism getName] rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
                     // if in searchterm is more than 1 term check genus&species
                     if([chunks count] > 1 && [[chunks objectAtIndex:0] length] > 1 && [[chunks objectAtIndex:1] length] > 1) {
                         if([organism.genus rangeOfString:[chunks objectAtIndex:0] options:NSCaseInsensitiveSearch].location == NSNotFound ||

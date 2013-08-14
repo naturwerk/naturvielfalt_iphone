@@ -184,7 +184,7 @@ extern int UNKNOWN_ORGANISMID;
             CGContextRelease(context);
             CGImageRelease(shrunken);
             cell.photo.image = final;
-            NSLog(@"Image!: %@", [observation.organism getNameDe]);
+            NSLog(@"Image!: %@", [observation.organism getName]);
         }
         else {
             cell.photo.image = [UIImage imageNamed:@"blank.png"];
@@ -200,7 +200,7 @@ extern int UNKNOWN_ORGANISMID;
             cell.latName.textColor = [UIColor blackColor];
         }
 
-        cell.name.text = observation.organism.getNameDe;
+        cell.name.text = [observation.organism getName];
         cell.latName.text = observation.organism.getLatName;
         cell.date.text = nowString;
         cell.count.text = [NSString stringWithFormat:@"%@",observation.amount];

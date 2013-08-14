@@ -538,7 +538,6 @@
             [areasToSubmit removeObject:area];
             // Reload observations
             [self reloadAreas];
-            
         }
     }
         

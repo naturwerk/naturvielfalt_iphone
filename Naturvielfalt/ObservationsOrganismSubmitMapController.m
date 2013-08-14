@@ -128,7 +128,7 @@
 
 	
 	annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
-	annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getNameDe]];
+	annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getName]];
     
     shouldAdjustZoom = YES;
     
@@ -198,7 +198,7 @@
         }
         
         annotation = [[DDAnnotation alloc] initWithCoordinate:theCoordinate addressDictionary:nil];
-        annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getNameDe]];
+        annotation.title = [NSString stringWithFormat:@"%@", [observation.organism getName]];
         
         shouldAdjustZoom = YES;
         

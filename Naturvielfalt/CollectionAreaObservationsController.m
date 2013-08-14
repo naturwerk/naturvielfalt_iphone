@@ -420,7 +420,7 @@ extern int UNKNOWN_ORGANISMID;
             checkboxAreaObsCell.name.textColor = [UIColor grayColor];
             checkboxAreaObsCell.latName.textColor = [UIColor grayColor];
         } else {
-            checkboxAreaObsCell.name.text = [observation.organism getNameDe];
+            checkboxAreaObsCell.name.text = [observation.organism getName];
             checkboxAreaObsCell.latName.text = [observation.organism getLatName];
             checkboxAreaObsCell.name.textColor = [UIColor blackColor];
             checkboxAreaObsCell.latName.textColor = [UIColor blackColor];

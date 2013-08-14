@@ -597,7 +597,7 @@ extern int UNKNOWN_ORGANISMID;
             checkboxCell.latName.textColor = [UIColor blackColor];
         }
 
-        checkboxCell.name.text = [observation.organism getNameDe];
+        checkboxCell.name.text = [observation.organism getName];
         checkboxCell.latName.text = [observation.organism getLatName];
         checkboxCell.date.text = nowString;
         checkboxCell.amount.text = observation.amount;

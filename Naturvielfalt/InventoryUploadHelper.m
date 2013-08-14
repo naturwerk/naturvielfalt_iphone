@@ -187,6 +187,8 @@
             }else {
                 [listener notifyListener:inventory response:response observer:self];
             }
+        } else {
+            [listener notifyListener:inventory response:response observer:self];
         }
     } else if (object.class == [Observation class]) {
         observationCounter--;

@@ -216,6 +216,8 @@
             } else {
                 [listener notifyListener:area response:response observer:self];
             }
+        } else {
+            [listener notifyListener:area response:response observer:self];
         }
     } else if (object.class == [Inventory class]) {
         inventoryCounter--;

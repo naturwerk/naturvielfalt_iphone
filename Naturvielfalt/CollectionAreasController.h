@@ -13,7 +13,7 @@
 #import "AreaUploadHelper.h"
 #import "AlertUploadView.h"
 
-@interface CollectionAreasController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate, Listener, UIAlertViewDelegate> {
+@interface CollectionAreasController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate, Listener, UIAlertViewDelegate, ASIHTTPRequestDelegate> {
     
     PersistenceManager *persistenceManager;
     NSMutableArray *areas;
@@ -28,6 +28,7 @@
     NSIndexPath *curIndex;
     BOOL doSubmit;
     BOOL cancelSubmission;
+    BOOL authorized;
     AlertUploadView *uploadView;
     MBProgressHUD *loadingHUD;
     IBOutlet UIButton *checkAllButton;

@@ -14,9 +14,7 @@
 #import "Reachability.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface CollectionAreasController ()
-
-@end
+#define SUCCESS 200
 
 @implementation CollectionAreasController
 @synthesize table, areas, checkAllButton, checkAllView, noEntryFoundLabel;
@@ -219,14 +217,40 @@
         areaUploadHelpers = [[NSMutableArray alloc] init];
     }
     
-    if (!cancelSubmission) {
+    if (/*!cancelSubmission &&*/ [self checkLoginData:username andPWD:password]) {
         for (Area *area in areasToSubmit) {
             AreaUploadHelper *areaUploadHelper = [[AreaUploadHelper alloc] init];
             [areaUploadHelper registerListener:self];
             [areaUploadHelpers addObject:areaUploadHelper];
             [areaUploadHelper submit:area withRecursion:YES];
         }
+    } else {
+        [loadingHUD removeFromSuperview];
+        [uploadView dismissWithClickedButtonIndex:0 animated:YES];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:@"keine Autorisierung" delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+        [alert show];
+        return;
     }
+}
+
+- (BOOL) checkLoginData: (NSString *)username andPWD: (NSString *)pwd {
+    NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api/login"];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request setUsername:username];
+    [request setPassword:pwd];
+    [request setValidatesSecureCertificate: YES];
+    request.delegate = self;
+    
+    [request startSynchronous];
+    return authorized;
+}
+
+- (void) requestFinished:(ASIHTTPRequest *)request {
+    authorized = (request.responseStatusCode == 200) ? YES: NO;
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request {
+    authorized = NO;
 }
 
 - (int) getTotalObjectOfSubmission:(NSMutableArray *) array {
@@ -520,7 +544,6 @@
         
     if (areasCounter == 0) {
         [areaUploadHelpers removeAllObjects];
-        
         if (areasToSubmit.count == 0) {
             if (!cancelSubmission) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessAreaDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];

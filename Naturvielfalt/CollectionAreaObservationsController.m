@@ -24,7 +24,7 @@
 extern int UNKNOWN_ORGANISMID;
 
 @implementation CollectionAreaObservationsController
-@synthesize table, persistenceManager, observations, operationQueue, countObservations, curIndex, areaObservationsView, mapView, segmentControl, mapSegmentControl, noEntryFoundLabel;
+@synthesize table, areaObservationsView, mapView, segmentControl, mapSegmentControl, noEntryFoundLabel;
 
 - (void)didReceiveMemoryWarning
 {
@@ -38,6 +38,13 @@ extern int UNKNOWN_ORGANISMID;
     [self setMapView:nil];
     [self setMapSegmentControl:nil];
     [self setNoEntryFoundLabel:nil];
+    [self setSegmentControl:nil];
+    observations = nil;
+    areaObservationAnnotations = nil;
+    persistenceManager = nil;
+    loadingHUD = nil;
+    operationQueue = nil;
+    curIndex = nil;
     [super viewDidUnload];
 }
 
@@ -189,10 +196,10 @@ extern int UNKNOWN_ORGANISMID;
         observations = arrNewObservations;
     }
     
-    countObservations = (int *)self.observations.count;
+    countObservations = (int *)observations.count;
     
     if(table.editing)
-        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.curIndex] withRowAnimation:YES];
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
     
     [table reloadData];
     
@@ -356,7 +363,7 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.observations count];
+    return [observations count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

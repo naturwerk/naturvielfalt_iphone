@@ -25,6 +25,10 @@
     [listener notifyListener:object response:response observer:self];
 }
 
+- (void) requestFailed:(ASIHTTPRequest *)request {
+    [listener notifyListener:object response:@"" observer:self];
+}
+
 - (void)registerListener:(id)l {
     listener = l;
 }

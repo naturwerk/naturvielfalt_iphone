@@ -145,7 +145,7 @@
                     
                     // Switch the View & Controller
                     [self.navigationController pushViewController:collectionInventoriesController animated:YES];
-                    //collectionInventoriesController = nil;
+                    collectionInventoriesController = nil;
                     
                     break;
                 }

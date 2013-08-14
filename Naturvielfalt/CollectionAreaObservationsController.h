@@ -30,11 +30,6 @@
 }
 
 @property (nonatomic) IBOutlet UITableView *table;
-@property (nonatomic) PersistenceManager *persistenceManager;
-@property (nonatomic) NSMutableArray *observations;
-@property (nonatomic) NSOperationQueue *operationQueue;
-@property (nonatomic, assign) int *countObservations;
-@property (nonatomic) NSIndexPath *curIndex;
 @property (nonatomic) IBOutlet UIView *areaObservationsView;
 @property (nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) IBOutlet UISegmentedControl *segmentControl;

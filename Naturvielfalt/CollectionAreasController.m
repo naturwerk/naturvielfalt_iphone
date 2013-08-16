@@ -543,16 +543,18 @@
         
     if (areasCounter == 0) {
         [areaUploadHelpers removeAllObjects];
-        if (areasToSubmit.count == 0) {
+        if (areasToSubmit.count == 0 && submissionFail) {
             if (!cancelSubmission) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessAreaDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
                 [alert show];
             } else {
                 cancelSubmission = NO;
+                submissionFail = NO;
                 [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             }
         } else {
             cancelSubmission = NO;
+            submissionFail = NO;
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorAreSubmit", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)  otherButtonTitles:nil, nil];
             [alert show];
@@ -563,6 +565,11 @@
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
         [self reloadAreas];
     }
+}
+
+- (void)notifyCollectionListener:(BOOL)fail observer:(id<Observer>)observer {
+    [observer unregisterCollectionListener];
+    submissionFail = fail;
 }
 
 - (IBAction)checkAllAreas:(id)sender {

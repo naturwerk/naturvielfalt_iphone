@@ -9,7 +9,12 @@
 
 @protocol Observer <NSObject>
 
+@required
 - (void) registerListener:(id<Listener>) l;
 - (void) unregisterListener;
+
+@optional
+- (void) registerCollectionListener: (id<Listener>) l;
+- (void) unregisterCollectionListener;
 
 @end

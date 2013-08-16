@@ -121,6 +121,14 @@
     listener = nil;
 }
 
+- (void)registerCollectionListener:(id<Listener>)l {
+    collectionListener = l;
+}
+
+- (void)unregisterCollectionListener {
+    collectionListener = nil;
+}
+
 - (void) cancel {
     if (request) {
         //[request cancel];
@@ -130,6 +138,7 @@
         }
     } else {
         [listener notifyListener:inventory response:@"cancel" observer:self];
+        [collectionListener notifyCollectionListener:YES observer:self];
     }
 }
 
@@ -189,6 +198,7 @@
             }
         } else {
             [listener notifyListener:inventory response:response observer:self];
+            [collectionListener notifyCollectionListener:YES observer:self];
         }
     } else if (object.class == [Observation class]) {
         observationCounter--;

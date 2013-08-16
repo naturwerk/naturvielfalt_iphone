@@ -17,6 +17,7 @@
     
     Observation *observation;
     id<Listener> listener;
+    id<Listener> collectionListener;
     AsyncRequestDelegate *asyncRequestDelegate;
     ASIFormDataRequest *request;
     PersistenceManager *persistenceManager;

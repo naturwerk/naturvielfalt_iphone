@@ -68,11 +68,13 @@
         // Upload image
         if([observation.pictures count] > 0) {
             for (ObservationImage *obsImg in observation.pictures) {
-                // Create PNG image
-                NSData *imageData = UIImagePNGRepresentation(obsImg.image);
-                
-                // And add the png image into the request
-                [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+                if (!obsImg.submitted) {
+                    // Create PNG image
+                    NSData *imageData = UIImagePNGRepresentation(obsImg.image);
+                    
+                    // And add the png image into the request
+                    [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
+                }
             }
         }
         [request setPostValue:guid forKey:@"guid"];
@@ -111,9 +113,18 @@
     listener = nil;
 }
 
+- (void)registerCollectionListener:(id<Listener>)l {
+    collectionListener = l;
+}
+
+- (void)unregisterCollectionListener {
+    collectionListener = nil;
+}
+
 - (void) cancel {
  // Do nothing
     [listener notifyListener:observation response:@"cancel" observer:self];
+    [collectionListener notifyCollectionListener:YES observer:self];
 }
 
 - (void)notifyListener:(NSObject *)object response:(NSString *)response observer:(id<Observer>)observer{
@@ -133,6 +144,11 @@
     }
 
     if ([successString isEqualToString:@"success=1"]) {
+        
+        //Set submitted flag of all observation images
+        for (ObservationImage *obsImg in observation.pictures) {
+            obsImg.submitted = YES;
+        }
         
         //Save received guid in object, not persisted yet
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"guid=[0-9]*" options:0 error:nil];
@@ -154,6 +170,8 @@
         } else {
             NSLog(@"ERROR: NO GUID received!! response: %@", response);
         }
+    } else {
+        [collectionListener notifyCollectionListener:YES observer:self];
     }
     [listener notifyListener:observation response:response observer:self];
 }

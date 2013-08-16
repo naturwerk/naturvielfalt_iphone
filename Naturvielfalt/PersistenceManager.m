@@ -542,7 +542,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             organism.nameEn = organismNameEn;
             organism.nameFr = organismNameFr;
             organism.nameIt = organismNameIt;
-            organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
+            //organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
             
             if (organismGroupId == UNKNOWN_ORGANISMGROUPID) {
                 organism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
@@ -799,7 +799,13 @@ int UNKNOWN_ORGANISMID      =   -1;
     // All observations are stored in here
     NSMutableArray *observations = [[NSMutableArray alloc] init];
     
-    NSString *query = @"SELECT * FROM observation WHERE INVENTORY_ID = 0 ORDER BY DATE DESC";
+    NSString *query = @"SELECT o.*, MIN(oi.ID) AS obsImgID, oi.SUBMITTED AS imgSubmitted, oi.IMAGE \
+    FROM observation AS o \
+    LEFT JOIN observationImage AS oi ON oi.Observation_ID = o.ID \
+    WHERE o.INVENTORY_ID = 0 \
+    GROUP BY o.ID \
+    ORDER BY DATE DESC";
+    
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
         
@@ -840,6 +846,26 @@ int UNKNOWN_ORGANISMID      =   -1;
                 comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 18)];
             }
             
+            // ObservationImage data
+            ObservationImage *obsImage;
+            int observationImageID;
+            BOOL observationImageSubmitted;
+            NSData *data;
+            UIImage *observationImageImg;
+            if (sqlite3_column_text(statement, 20) != NULL) {
+                observationImageID = sqlite3_column_int(statement, 20);
+                observationImageSubmitted = sqlite3_column_int(statement, 21);
+                // Get the image
+                data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 22) length:sqlite3_column_bytes(statement, 22)];
+                observationImageImg = [UIImage imageWithData:data];
+                
+                obsImage = [[ObservationImage alloc] init];
+                obsImage.observationImageId = observationImageID;
+                obsImage.submitted = observationImageSubmitted;
+                obsImage.image = observationImageImg;
+            }
+
+            
             // Create organism and set the id
             Organism *organism = [[Organism alloc] init];
             organism.organismId = organismId;
@@ -848,7 +874,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             organism.nameEn = organismNameEn;
             organism.nameFr = organismNameFr;
             organism.nameIt = organismNameIt;
-            organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
+            //organism.organismGroupName = [self getOrganismGroupTranslationName:organismGroupId];
             
             if (organismGroupId == UNKNOWN_ORGANISMGROUPID) {
                 organism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
@@ -897,7 +923,8 @@ int UNKNOWN_ORGANISMID      =   -1;
             observation.comment = comment;
             observation.locationLocked = locationLocked;
             observation.submitToServer = YES;
-            observation.pictures = [self getObservationImagesFromObservation:observationId];
+            //observation.pictures = [self getObservationImagesFromObservation:observationId];
+            observation.pictures = [[NSMutableArray alloc] initWithObjects:obsImage, nil];
             
             // Get OrganismGroup
             int classlevel = 1;
@@ -1241,7 +1268,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             area.date = date;
             area.description = description;
             area.submitToServer = YES;
-            //area.pictures = [self getAreaImagesFromArea:areaId];
+            area.pictures = [self getAreaImagesFromArea:areaId];
             area.persisted = YES;
             area.submitted = submitted;
             
@@ -1304,7 +1331,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             area.date = date;
             area.description = description;
             area.submitToServer = YES;
-            //area.pictures = [self getAreaImagesFromArea:areaId];
+            area.pictures = [self getAreaImagesFromArea:areaId];
             area.submitted = submitted;
         
             switch (mode) {
@@ -1611,7 +1638,6 @@ int UNKNOWN_ORGANISMID      =   -1;
     sqlite3_finalize(stmt);
     
     return sqlite3_last_insert_rowid(dbUser);
-
 }
 
 - (void) updateInventory:(Inventory *) inventory {

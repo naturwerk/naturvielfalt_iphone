@@ -16,6 +16,7 @@
     Inventory *inventory;
     BOOL withRecursion;
     id<Listener> listener;
+    id<Listener> collectionListener;
     ASIFormDataRequest *request;
     AsyncRequestDelegate *asyncRequestDelegate;
     NSMutableArray *observationUploadHelpers;

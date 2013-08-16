@@ -28,6 +28,7 @@
     NSIndexPath *curIndex;
     BOOL doSubmit;
     BOOL cancelSubmission;
+    BOOL submissionFail;
     BOOL authorized;
     AlertUploadView *uploadView;
     MBProgressHUD *loadingHUD;

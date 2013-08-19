@@ -398,7 +398,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             if(sqlite3_column_text(statement, 18) == NULL) {
                 comment = @"";
             } else {
-                comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 15)];
+                comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 18)];
             }
             
             // Create organism and set the id

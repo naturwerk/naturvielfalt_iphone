@@ -115,6 +115,7 @@
 
 //fires an alert if not connected to WiFi
 - (void) alertOnSendAreasDialog{
+
     doSubmit = YES;
     if([self connectedToWiFi]){
         [self sendAreas];
@@ -217,7 +218,14 @@
         areaUploadHelpers = [[NSMutableArray alloc] init];
     }
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        loadingHUD.labelText = NSLocalizedString(@"Check for autorisation", nil);
+        loadingHUD.mode = MBProgressHUDModeCustomView;
+    });
+    
     if (/*!cancelSubmission &&*/ [self checkLoginData:username andPWD:password]) {
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         for (Area *area in areasToSubmit) {
             AreaUploadHelper *areaUploadHelper = [[AreaUploadHelper alloc] init];
             [areaUploadHelper registerListener:self];
@@ -234,6 +242,7 @@
 }
 
 - (BOOL) checkLoginData: (NSString *)username andPWD: (NSString *)pwd {
+    
     NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api/login"];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
     [request setUsername:username];
@@ -543,7 +552,7 @@
         
     if (areasCounter == 0) {
         [areaUploadHelpers removeAllObjects];
-        if (areasToSubmit.count == 0 && submissionFail) {
+        if (areasToSubmit.count == 0 && !submissionFail) {
             if (!cancelSubmission) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navSuccess", nil) message:NSLocalizedString(@"collectionSuccessAreaDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
                 [alert show];

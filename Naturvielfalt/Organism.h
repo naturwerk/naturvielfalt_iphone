@@ -12,6 +12,9 @@
     NSInteger organismId;
     NSInteger organismGroupId;
     NSString *nameDe;
+    NSString *nameIt;
+    NSString *nameEn;
+    NSString *nameFr;
     NSString *genus;
     NSString *species;
     NSString *family;
@@ -22,6 +25,9 @@
 @property (nonatomic, assign) NSInteger organismId;
 @property (nonatomic, assign) NSInteger organismGroupId;
 @property (nonatomic) NSString *nameDe;
+@property (nonatomic) NSString *nameFr;
+@property (nonatomic) NSString *nameIt;
+@property (nonatomic) NSString *nameEn;
 @property (nonatomic) NSString *genus;
 @property (nonatomic) NSString *species;
 @property (nonatomic) NSString *family;
@@ -29,6 +35,6 @@
 @property (nonatomic) NSString *organismGroupName;
 
 - (NSString *) getLatName;
-- (NSString *) getNameDe;
+- (NSString *) getName;
 
 @end

@@ -483,7 +483,7 @@ extern int UNKNOWN_ORGANISMID;
             CGContextRelease(context);
             CGImageRelease(shrunken);
             checkboxCell.image.image = final;
-            NSLog(@"Image!: %@", [observation.organism getNameDe]);
+            NSLog(@"Image!: %@", [observation.organism getName]);
         }
         else {
             checkboxCell.image.image = [UIImage imageNamed:@"blank.png"];
@@ -495,7 +495,7 @@ extern int UNKNOWN_ORGANISMID;
             checkboxCell.name.textColor = [UIColor grayColor];
             checkboxCell.latName.textColor = [UIColor grayColor];
         } else {
-            checkboxCell.name.text = [observation.organism getNameDe];
+            checkboxCell.name.text = [observation.organism getName];
             checkboxCell.latName.text = [observation.organism getLatName];
             checkboxCell.name.textColor = [UIColor blackColor];
             checkboxCell.latName.textColor = [UIColor blackColor];

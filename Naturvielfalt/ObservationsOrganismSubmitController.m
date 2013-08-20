@@ -66,7 +66,7 @@ extern int UNKNOWN_ORGANISMID;
         NSString *organismLatName;
         
         if (observation.organism.organismId != UNKNOWN_ORGANISMID) {
-            organismName = [observation.organism getNameDe];
+            organismName = [observation.organism getName];
             organismLatName = [observation.organism getLatName];
         } else {
             organismName = NSLocalizedString(@"unknownOrganism", nil);
@@ -115,14 +115,14 @@ extern int UNKNOWN_ORGANISMID;
     
     // Do any additional setup after loading the view from its nib.
     
-    nameDe.text = [organism getNameDe];
+    nameDe.text = [organism getName];
     nameLat.text = (organism.organismId == UNKNOWN_ORGANISMID) ? NSLocalizedString(@"toBeDetermined", nil) : [organism getLatName];
     family.text = organism.family;
     
     NSString *organismName;
     NSString *organismLatName;
     if (observation.organism.organismId != UNKNOWN_ORGANISMID) {
-        organismName = [observation.organism getNameDe];
+        organismName = [observation.organism getName];
         organismLatName = [observation.organism getLatName];
     } else {
         organismName = NSLocalizedString(@"unknownOrganism", nil);

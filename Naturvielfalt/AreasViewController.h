@@ -23,7 +23,6 @@
     MKOverlayView *overlayView;
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
-    MKMapPoint *points;
     UIBezierPath *currentPath;
     CustomAnnotation *startPoint;
     CustomAnnotation *pinAnnotation;

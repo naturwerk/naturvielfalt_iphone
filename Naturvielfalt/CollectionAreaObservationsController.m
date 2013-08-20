@@ -261,6 +261,7 @@ extern int UNKNOWN_ORGANISMID;
             [UIView transitionWithView:areaObservationsView duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                 table.hidden = YES;
                 mapView.hidden = NO;
+                noEntryFoundLabel.hidden = YES;
                 mapSegmentControl.hidden = NO;
             }completion:nil];
         }
@@ -268,15 +269,16 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 - (void) loadArea {
+    if (!areasToDraw) {
+         areasToDraw = [[NSMutableDictionary alloc] init];
+    }
     
-    NSMutableDictionary *aToDraw = [[NSMutableDictionary alloc] init];
-    //NSMutableArray *areasToDraw = [[NSMutableArray alloc] init];
     [mapView removeOverlays:mapView.overlays];
     for (Observation *obs in observations) {
         Area *area = obs.inventory.area;
-        if (/*![areasToDraw containsObject:area]*/ ![aToDraw objectForKey:[NSString stringWithFormat:@"%lli", area.areaId]]) {
+        if (/*![areasToDraw containsObject:area]*/ ![areasToDraw objectForKey:[NSString stringWithFormat:@"%lli", area.areaId]]) {
             //[areasToDraw addObject:area];
-            [aToDraw setObject:area forKey:[NSString stringWithFormat:@"%lli",area.areaId]];
+            [areasToDraw setObject:area forKey:[NSString stringWithFormat:@"%lli",area.areaId]];
             NSMutableArray *locationPoints = [[NSMutableArray alloc] initWithArray:area.locationPoints];
             
             MKMapPoint *points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
@@ -316,9 +318,9 @@ extern int UNKNOWN_ORGANISMID;
                     }
                 }
             }
+            free(points);
         }
     }
-    aToDraw = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -528,9 +530,11 @@ extern int UNKNOWN_ORGANISMID;
     CustomObservationAnnotation *observationAnnotation = (CustomObservationAnnotation*) annotation;
     
     NSString *identifier = @"AnnotationId";
-    CustomObservationAnnotationView *newAnnotationView = (CustomObservationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-    newAnnotationView = [[CustomObservationAnnotationView alloc] initWithAnnotation:observationAnnotation  navigationController:self.navigationController observationsOrganismSubmitController:nil reuseIdentifier:identifier];
-    CustomObservationAnnotationView *customObservationAnnotationView = newAnnotationView;
+    CustomObservationAnnotationView *customObservationAnnotationView = (CustomObservationAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    if (!customObservationAnnotationView) {
+         customObservationAnnotationView = [[CustomObservationAnnotationView alloc] initWithAnnotation:observationAnnotation  navigationController:self.navigationController observationsOrganismSubmitController:nil reuseIdentifier:identifier];
+    }
+   
     [customObservationAnnotationView setEnabled:YES];
     
     return customObservationAnnotationView;

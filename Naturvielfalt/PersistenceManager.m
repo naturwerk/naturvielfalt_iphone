@@ -435,17 +435,6 @@ int UNKNOWN_ORGANISMID      =   -1;
 
             organism.family = organismFamily;
             
-            // Split the lat name into two pieces
-            /*NSArray *latNames = [organismNameLat componentsSeparatedByString:@" "];
-            
-            if([latNames count] == 2) {
-                organism.genus = [latNames objectAtIndex:0];
-                organism.species = [latNames objectAtIndex:1];
-            } else {
-                organism.genus = @"";
-                organism.species = @"";
-            }*/
-            
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
@@ -521,7 +510,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             
             
             // Check if the comment is null
-            if(sqlite3_column_text(statement, 8) == NULL) {
+            if(sqlite3_column_text(statement, 11) == NULL) {
                 organismFamily = @"";
             } else {
                 organismFamily = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 11)];
@@ -531,7 +520,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             if(sqlite3_column_text(statement, 18) == NULL) {
                 comment = @"";
             } else {
-                comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 15)];
+                comment = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 18)];
             }
             
             // Create organism and set the id
@@ -1284,6 +1273,7 @@ int UNKNOWN_ORGANISMID      =   -1;
             
             // Add area to the areas array
             [areas addObject:area];
+            area = nil;
 		}
         sqlite3_finalize(statement);
     }
@@ -1470,7 +1460,6 @@ int UNKNOWN_ORGANISMID      =   -1;
         sqlite3_finalize(statement);
     }
     return areaImages;
-
 }
 
 - (void) saveLocationPoints: (NSMutableArray *)locationPoints areaId:(long long)aId{
@@ -1597,7 +1586,6 @@ int UNKNOWN_ORGANISMID      =   -1;
         sqlite3_finalize(statement);
     }
     return inventories;
-
 }
 
 // INVENTORIES
@@ -2139,7 +2127,6 @@ int UNKNOWN_ORGANISMID      =   -1;
                 organism.species = @"";
             }
             [organisms addObject:organism];
-            organism = nil;
             numbersOfOrgansim++;
 		}
         sqlite3_finalize(statement);

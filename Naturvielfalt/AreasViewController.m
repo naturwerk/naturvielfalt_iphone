@@ -259,7 +259,7 @@
         area.persisted = YES;
         currentDrawMode = area.typeOfArea;
         
-        points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
+        MKMapPoint *points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
         
         for (int index = 0; index < locationPoints.count; index++) {
             CLLocationCoordinate2D coordinate;
@@ -308,6 +308,7 @@
             }
         }
         [self showPersistedAppearance];
+        free(points);
     }
 }
 
@@ -577,7 +578,7 @@
 - (void) drawLine {
     
     if (locationPoints.count > 1) {
-        points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
+        MKMapPoint *points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
         
         for (int index = 0; index < locationPoints.count; index++) {
             CLLocationCoordinate2D coordinate;
@@ -600,16 +601,15 @@
         }
         [customLine setType:currentDrawMode];
         [mapView addOverlay:customLine];
+        free(points);
     }
-    
     [self drawStartPoint];
-    
     undo = NO;
 }
 
 // draw a polygon, it must have three points at least
 - (void) drawPolygon {
-    points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
+    MKMapPoint *points = malloc(sizeof(CLLocationCoordinate2D) * locationPoints.count);
         
     for (int index = 0; index < locationPoints.count; index++) {
         CLLocationCoordinate2D coordinate;
@@ -658,9 +658,8 @@
             [mapView addOverlay:customPolygon];
         }
     }
-    
     [self drawStartPoint];
-    
+    free(points);
     undo = NO;
 }
 

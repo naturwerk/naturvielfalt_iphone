@@ -22,6 +22,7 @@
     int *countObservations;
     NSIndexPath *curIndex;
     NSMutableArray *areaObservationAnnotations;
+    NSMutableDictionary *areasToDraw;
     
     NSOperationQueue *operationQueue;
     MBProgressHUD *loadingHUD;

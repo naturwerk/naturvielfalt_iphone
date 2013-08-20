@@ -125,7 +125,7 @@ extern int UNKNOWN_ORGANISMID;
 
 - (IBAction)newObservation:(id)sender {
     NSLog(@"new inventory pressed");
-    // new INVENTORY
+    // new Observation
     ObservationsViewController *observationsViewController = [[ObservationsViewController alloc]
                                                                             initWithNibName:@"ObservationsViewController"
                                                                             bundle:[NSBundle mainBundle]];

@@ -58,11 +58,6 @@ extern int UNKNOWN_ORGANISMID;
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
-    [observation setObservation:nil];
-    [inventory setInventory:nil];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     if (observation.observationId) {
         
@@ -116,11 +111,11 @@ extern int UNKNOWN_ORGANISMID;
     if (observation.observationId) {
         [persistenceManager establishConnection];
         //persistedObservation = [persistenceManager getObservation:observation.observationId];
-        Area *currentArea = [persistenceManager getArea:persistedObservation.inventory.areaId];
+        area = [persistenceManager getArea:persistedObservation.inventory.areaId];
         [persistenceManager closeConnection];
         
         if (persistedObservation) {
-            persistedObservation.inventory.area = currentArea;
+            persistedObservation.inventory.area = area;
             observation = persistedObservation;
         } else {
             [observation setObservation:nil];
@@ -130,9 +125,9 @@ extern int UNKNOWN_ORGANISMID;
         }
     } else if (inventory){
         [persistenceManager establishConnection];
-        Area *tmpArea = [persistenceManager getArea:inventory.areaId];
+        area = [persistenceManager getArea:inventory.areaId];
         inventory = [persistenceManager getInventory:inventory.inventoryId];
-        inventory.area = tmpArea;
+        inventory.area = area;
         [persistenceManager closeConnection];
         
         if (inventory) {

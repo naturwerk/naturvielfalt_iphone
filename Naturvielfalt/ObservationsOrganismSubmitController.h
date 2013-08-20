@@ -15,7 +15,6 @@
 @interface ObservationsOrganismSubmitController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UIActionSheetDelegate, UIAlertViewDelegate>  {
     Organism *organism;
     OrganismGroup *organismGroup;
-    Area *area;
     Observation *observation;
     IBOutlet UILabel *nameDe;
     IBOutlet UILabel *nameLat;

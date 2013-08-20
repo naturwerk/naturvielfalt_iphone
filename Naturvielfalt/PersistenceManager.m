@@ -1273,7 +1273,6 @@ int UNKNOWN_ORGANISMID      =   -1;
             
             // Add area to the areas array
             [areas addObject:area];
-            area = nil;
 		}
         sqlite3_finalize(statement);
     }

@@ -20,7 +20,7 @@
     NSMutableArray *observations;
     NSMutableArray *pictures;
     BOOL submitToServer;
-    __weak Area *area;
+    Area *area;
     int guid;
     BOOL submitted;
 }
@@ -35,7 +35,7 @@
 @property (nonatomic) NSMutableArray *pictures;
 @property (nonatomic) NSMutableArray *observations;
 @property (nonatomic, assign) BOOL submitToServer;
-@property (nonatomic, weak) Area *area;
+@property (nonatomic) Area *area;
 @property (nonatomic) int guid;
 
 - (Inventory *) getInventory;

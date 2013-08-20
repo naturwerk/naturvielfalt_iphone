@@ -105,17 +105,21 @@ extern int UNKNOWN_ORGANISMID;
     }
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+    [observation setObservation:nil];
+    [inventory setInventory:nil];
+}
 
 - (void) viewDidAppear:(BOOL)animated 
 {
     if (observation.observationId) {
         [persistenceManager establishConnection];
         //persistedObservation = [persistenceManager getObservation:observation.observationId];
-        area = [persistenceManager getArea:persistedObservation.inventory.areaId];
+        Area *currentArea = [persistenceManager getArea:persistedObservation.inventory.areaId];
         [persistenceManager closeConnection];
         
         if (persistedObservation) {
-            persistedObservation.inventory.area = area;
+            persistedObservation.inventory.area = currentArea;
             observation = persistedObservation;
         } else {
             [observation setObservation:nil];
@@ -125,7 +129,7 @@ extern int UNKNOWN_ORGANISMID;
         }
     } else if (inventory){
         [persistenceManager establishConnection];
-        area = [persistenceManager getArea:inventory.areaId];
+        Area *area = [persistenceManager getArea:inventory.areaId];
         inventory = [persistenceManager getInventory:inventory.inventoryId];
         inventory.area = area;
         [persistenceManager closeConnection];

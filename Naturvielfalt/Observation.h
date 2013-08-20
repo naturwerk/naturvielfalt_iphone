@@ -23,7 +23,7 @@
     NSInteger accuracy;
     NSMutableArray *pictures;
     NSString *comment;
-    __weak Inventory *inventory;
+    Inventory *inventory;
     BOOL submitToServer;
     BOOL locationLocked;
     int guid;
@@ -43,7 +43,7 @@
 @property (nonatomic, assign) NSInteger accuracy;
 @property (nonatomic) NSMutableArray *pictures;
 @property (nonatomic) NSString *comment;
-@property (nonatomic, weak) Inventory *inventory;
+@property (nonatomic) Inventory *inventory;
 @property (nonatomic, assign) BOOL submitToServer;
 @property (nonatomic, assign) BOOL locationLocked;
 @property (nonatomic) int guid;

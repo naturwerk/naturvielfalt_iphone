@@ -155,6 +155,8 @@
 "collectionAlertErrorObsSubmit"	= "Not all observations are submitted successfully. Please check your settings. Eventually you have not an account on our internet portal yet.";
 "collectionAlertErrorInvSubmit"	= "Not all inventories are submitted successfully. Please check the settings. Maybe you don't have a user account on the www.naturvielfalt.ch yet?";
 "collectionAlertErrorAreSubmit"	= "Not all areas are submitted successfully. Please check the settings. Maybe you don't have a user account on the www.naturvielfalt.ch yet?";
+"collectionAlertNoInternetTitle"= "Nessun collegamento a Internet";
+"collectionAlertNoInternetDetail"= "Si prega di attivare o wifi o la rete mobile del dispositivo.";
 
 // Collection success message
 "collectionSuccessObsDetail"	= "All observations are submitted successfully.";

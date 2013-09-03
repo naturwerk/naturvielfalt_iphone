@@ -58,6 +58,7 @@
 - (void) reloadObservations;
 - (void) removeObservations;
 - (BOOL) connectedToWiFi;
+- (BOOL) connectedToInternet;
 - (void) checkboxEvent:(UIButton *)sender;
 - (void) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request;
 

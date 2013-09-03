@@ -186,10 +186,33 @@ extern int UNKNOWN_ORGANISMID;
 	return result;
 }
 
+//Check if there is an active internet connection (3G OR WIFI)
+- (BOOL) connectedToInternet{
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.google.com"];
+	
+	NetworkStatus internetStatus = [r currentReachabilityStatus];
+	
+	bool result = false;
+	
+	if (internetStatus != NotReachable)
+	{
+	    result = true;
+	}
+	
+	return result;
+}
+
+
 //fires an alert if not connected to WiFi
 - (void) alertOnSendObservationsDialog{
-    doSubmit = YES;
-    if([self connectedToWiFi]){
+    doSubmit = TRUE;
+    if(![self connectedToInternet]) {
+        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"collectionAlertNoInternetTitle", nil)
+                                                              message:NSLocalizedString(@"collectionAlertNoInternetDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)
+                                                    otherButtonTitles:nil , nil];
+        [submitAlert show];
+    }
+    else if([self connectedToWiFi]){
         [self sendObservations];
     }
     else {
@@ -202,11 +225,13 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(doSubmit){
-        if (buttonIndex == 1){
-            [self sendObservations];
-        } else{
-            for (ObservationUploadHelper *ouh in observationUploadHelpers) {
-                [ouh cancel];
+        if([alertView.title isEqualToString:NSLocalizedString(@"collectionAlertObsTitle", nil)]) {
+            if (buttonIndex == 1){
+                [self sendObservations];
+            } else{
+                for (ObservationUploadHelper *ouh in observationUploadHelpers) {
+                    [ouh cancel];
+                }
             }
         }
         doSubmit = NO;

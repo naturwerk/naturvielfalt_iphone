@@ -45,4 +45,7 @@
 
 
 - (IBAction)checkAllAreas:(id)sender;
+- (BOOL) connectedToInternet;
+- (BOOL) connectedToWiFi;
+
 @end

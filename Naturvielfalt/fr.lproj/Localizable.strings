@@ -157,6 +157,8 @@
 "collectionAlertErrorObsSubmit"	= "Pas tous les observations sont transmis avec succès. Contrôlez les réglages s.v.p. Eventuellement vous n'avez pas encore un compte sur notre website www.naturvielfalt.ch.";
 "collectionAlertErrorInvSubmit"	= "Pas tous les inventaires sont transmis avec succès. Contrôlez les réglages s.v.p. Eventuellement vous n'avez pas encore un compte sur notre website www.naturvielfalt.ch.";
 "collectionAlertErrorAreSubmit"	= "Pas tous les domaines sont transmis avec succès. Contrôlez les réglages s.v.p. Eventuellement vous n'avez pas encore un compte sur notre website www.naturvielfalt.ch.";
+"collectionAlertNoInternetTitle"= "Pas de connexion internet";
+"collectionAlertNoInternetDetail"= "S'il vous plaît activer wifi ou téleéphonée mobile sur votre appareil.";
 
 // Collection success message
 "collectionSuccessObsDetail"	= "Tous les observations sont transmis avec succès.";

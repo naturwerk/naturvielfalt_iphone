@@ -160,6 +160,8 @@
 "collectionAlertErrorObsSubmit"	= "Nicht alle Beobachtungen wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
 "collectionAlertErrorInvSubmit"	= "Nicht alle Inventare wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
 "collectionAlertErrorAreSubmit"	= "Nicht alle Gebiete wurden erfolgreich übertragen. Bitte überprüfen Sie die Einstellungen. Eventuell haben Sie noch kein Konto auf unserem Internetportal erstellt.";
+"collectionAlertNoInternetTitle"= "Keine Internet Verbindung";
+"collectionAlertNoInternetDetail"= "Bitte aktivieren Sie entweder Wifi oder ihr Mobilfunknetz auf ihrem Gerät.";
 
 // Collection success message
 "collectionSuccessObsDetail"	= "Alle Beobachtungen wurden erfolgreich übertragen.";

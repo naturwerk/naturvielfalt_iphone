@@ -113,16 +113,37 @@
 	return result;
 }
 
+//Check if there is an active internet connection (3G OR WIFI)
+- (BOOL) connectedToInternet{
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.google.com"];
+	
+	NetworkStatus internetStatus = [r currentReachabilityStatus];
+	
+	bool result = false;
+	
+	if (internetStatus != NotReachable)
+	{
+	    result = true;
+	}
+	
+	return result;
+}
+
 //fires an alert if not connected to WiFi
 - (void) alertOnSendAreasDialog{
-
-    doSubmit = YES;
-    if([self connectedToWiFi]){
+    doSubmit = TRUE;
+    if(![self connectedToInternet]) {
+        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"collectionAlertNoInternetTitle", nil)
+                                                              message:NSLocalizedString(@"collectionAlertNoInternetDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil)
+                                                    otherButtonTitles:nil , nil];
+        [submitAlert show];
+    }
+    else if([self connectedToWiFi]){
         [self sendAreas];
     }
     else {
-        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"collectionAlertAreaTitle", nil)
-                                                              message:NSLocalizedString(@"collectionAlertAreaDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil)
+        UIAlertView *submitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"collectionAlertObsTitle", nil)
+                                                              message:NSLocalizedString(@"collectionAlertObsDetail", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil)
                                                     otherButtonTitles:NSLocalizedString(@"navOk", nil) , nil];
         [submitAlert show];
     }
@@ -137,13 +158,13 @@
         loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         loadingHUD.labelText = NSLocalizedString(@"collectionCancelMessage", nil);
         loadingHUD.mode = MBProgressHUDModeCustomView;
-    } else {
-        if(doSubmit){
-            if (buttonIndex == 1){
-                [self sendAreas];
+    } else if([alertView.title isEqualToString:NSLocalizedString(@"collectionAlertObsTitle", nil)]) {
+            if(doSubmit){
+                if (buttonIndex == 1){
+                    [self sendAreas];
+                }
+                doSubmit = NO;
             }
-            doSubmit = NO;
-        }
     }
 }
 

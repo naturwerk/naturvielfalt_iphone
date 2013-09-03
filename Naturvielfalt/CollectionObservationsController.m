@@ -610,6 +610,28 @@ extern int UNKNOWN_ORGANISMID;
         [checkboxCell.remove addTarget:self action:@selector(removeEvent:) forControlEvents:UIControlEventTouchUpInside];
         [checkboxCell.remove setTag:observation.observationId];
         
+        if (observation.submitted) {
+            checkboxCell.contentView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5f];
+            checkboxCell.submitted.hidden = NO;
+            checkboxCell.submitted.text = NSLocalizedString(@"navSubmitted", nil);
+            [checkboxCell.amount setAlpha:0.4f];
+            [checkboxCell.date setAlpha:0.4f];
+            [checkboxCell.image setAlpha:0.4f];
+            checkboxCell.checkbox.hidden = YES;
+            checkboxCell.checkboxView.hidden = YES;
+            observation.submitToServer = NO;
+        } else {
+            checkboxCell.contentView.backgroundColor = [UIColor clearColor];
+            checkboxCell.submitted.hidden = YES;
+            [checkboxCell.amount setAlpha:1];
+            [checkboxCell.date setAlpha:1];
+            [checkboxCell.image setAlpha:1];
+            checkboxCell.checkbox.hidden = NO;
+            checkboxCell.checkboxView.hidden = NO;
+            //area.submitToServer = YES;
+        }
+
+    
         // Set checkbox icon
         if(observation.submitToServer) {
             //checkboxCell.checkbox.imageView.image = [UIImage imageNamed:@"checkbox_checked.png"];
@@ -711,29 +733,7 @@ extern int UNKNOWN_ORGANISMID;
     }
     
     if ([successString isEqualToString:@"success=1"]) {
-        /*if (observation.guid == 0 && response.guid != 0) {
-            //It's an area observation
-            //save response.guid in oberservation.guid and persist in DB.
-        } else {*/
-            //It's a singel observation, no connection to an area object.
-            // And Delete the singel observation from the database
-        @synchronized (self) {
-            [persistenceManager establishConnection];
-            [persistenceManager deleteObservation:observation.observationId];
-            [persistenceManager closeConnection];
-        }
-        //}
-
-        /*
-        // update observation (guid)
-        @synchronized (self) {
-            [persistenceManager establishConnection];
-            [persistenceManager updateObservation:observation];
-            [persistenceManager closeConnection];
-        }*/
-        
         // Reload observations
-        [self reloadObservations];
         [obsToSubmit removeObject:observation];
     }
     
@@ -751,6 +751,7 @@ extern int UNKNOWN_ORGANISMID;
         //[loadingHUD removeFromSuperview];
         [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+        [self reloadObservations];
     }
 }
 

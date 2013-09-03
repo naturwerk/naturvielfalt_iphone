@@ -293,7 +293,7 @@ extern int UNKNOWN_ORGANISMID;
     
     arrayKeysSectionOne = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationTime", nil), NSLocalizedString(@"observationAuthor", nil), nil];
                            
-    arrayKeysSectionTwo = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationAcc", nil), NSLocalizedString(@"observationCoordinates", nil), nil];
+    arrayKeysSectionTwo = [[NSArray alloc] initWithObjects:NSLocalizedString(@"observationCtn", nil), NSLocalizedString(@"observationImg", nil), NSLocalizedString(@"observationDescr", nil), NSLocalizedString(@"observationAcc", nil), NSLocalizedString(@"observationCoordinates", nil), nil];
 }
 
 - (void) saveObservation 
@@ -575,21 +575,21 @@ extern int UNKNOWN_ORGANISMID;
                 }
                     break;
                     
-                case 1: // COMMENT
-                {
-                    customCell.key.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
-                    customCell.value.text = (observation.comment.length > 0) ? @"..." : @"-";
-                    customCell.image.image = nil;
-                }
-                    break;
-                    
-                case 2: // PHOTO
+                case 1: // Photo
                 {
                     customCell.key.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
                     
                     NSString *picCount = [[NSString alloc] initWithFormat:@"%d", observation.pictures.count];
                     
                     customCell.value.text = picCount;
+                    customCell.image.image = nil;
+                }
+                    break;
+                    
+                case 2: // Comment
+                {
+                    customCell.key.text = [arrayKeysSectionTwo objectAtIndex:indexPath.row];
+                    customCell.value.text = (observation.comment.length > 0) ? @"..." : @"-";
                     customCell.image.image = nil;
                     
                 }
@@ -732,25 +732,11 @@ extern int UNKNOWN_ORGANISMID;
                     break;
                     
                 case 1:
-                    // COMMENT
-                    // Create the ObservationsOrganismSubmitCommentController
-                    organismSubmitCommentController = [[ObservationsOrganismSubmitCommentController alloc]
-                                                                                                    initWithNibName:@"ObservationsOrganismSubmitCommentController"
-                                                                                                    bundle:[NSBundle mainBundle]];
-                    
-                    organismSubmitCommentController.observation = observation;
-                    
-                    // Switch the View & Controller
-                    [self.navigationController pushViewController:organismSubmitCommentController animated:YES];
-                    organismSubmitCommentController = nil;
-                    break;
-                    
-                case 2:
                     // CAMERA
                     // Create the ObservationsOrganismSubmitCameraController
                     organismSubmitCameraController = [[CameraViewController alloc]
-                                                                            initWithNibName:@"CameraViewController"
-                                                                            bundle:[NSBundle mainBundle]];
+                                                      initWithNibName:@"CameraViewController"
+                                                      bundle:[NSBundle mainBundle]];
                     
                     
                     organismSubmitCameraController.observation = observation;
@@ -758,6 +744,20 @@ extern int UNKNOWN_ORGANISMID;
                     // Switch the View & Controller
                     [self.navigationController pushViewController:organismSubmitCameraController animated:YES];
                     organismSubmitCameraController = nil;
+                    break;
+                    
+                case 2:
+                    // COMMENT
+                    // Create the ObservationsOrganismSubmitCommentController
+                    organismSubmitCommentController = [[ObservationsOrganismSubmitCommentController alloc]
+                                                       initWithNibName:@"ObservationsOrganismSubmitCommentController"
+                                                       bundle:[NSBundle mainBundle]];
+                    
+                    organismSubmitCommentController.observation = observation;
+                    
+                    // Switch the View & Controller
+                    [self.navigationController pushViewController:organismSubmitCommentController animated:YES];
+                    organismSubmitCommentController = nil;
                     break;
                     
                 case 3:

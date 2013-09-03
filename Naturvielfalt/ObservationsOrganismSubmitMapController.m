@@ -73,8 +73,8 @@
         mapRegion.center = observation.location.coordinate;
         
         MKCoordinateSpan span; 
-        span.latitudeDelta  = 0.005; // Change these values to change the zoom
-        span.longitudeDelta = 0.005; 
+        span.latitudeDelta  = 0.0005; // Change these values to change the zoom
+        span.longitudeDelta = 0.0005;
         mapRegion.span = span;
         
         [self.mapView setRegion:mapRegion animated:YES];
@@ -200,8 +200,8 @@
         region.center = self.mapView.userLocation.coordinate;
         
         MKCoordinateSpan span;
-        span.latitudeDelta  = 0.005; // Change these values to change the zoom
-        span.longitudeDelta = 0.005;
+        span.latitudeDelta  = 0.0005; // Change these values to change the zoom
+        span.longitudeDelta = 0.0005;
         region.span = span;
         
         [self.mapView setRegion:region animated:YES];
@@ -258,8 +258,8 @@
 - (void) zoomToAnnotation {
     MKCoordinateRegion region;
     MKCoordinateSpan span;
-    span.latitudeDelta = 0.005;
-    span.longitudeDelta = 0.005;
+    span.latitudeDelta = 0.0005;
+    span.longitudeDelta = 0.0005;
     CLLocationCoordinate2D location;
     location.latitude = annotation.coordinate.latitude;
     location.longitude = annotation.coordinate.longitude;
@@ -325,8 +325,8 @@
         region.center = self.mapView.userLocation.coordinate;  
         
         MKCoordinateSpan span; 
-        span.latitudeDelta  = 0.005; // Change these values to change the zoom
-        span.longitudeDelta = 0.005; 
+        span.latitudeDelta  = 0.0005; // Change these values to change the zoom
+        span.longitudeDelta = 0.0005;
         region.span = span;
         
         [self.mapView setRegion:region animated:YES];

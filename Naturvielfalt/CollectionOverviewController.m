@@ -217,7 +217,7 @@ extern int UNKNOWN_ORGANISMID;
 - (void) sendRequestToServer
 {
     //new portal
-    NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api"];
+    NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api/observation"];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
@@ -268,15 +268,20 @@ extern int UNKNOWN_ORGANISMID;
         [request setValidatesSecureCertificate: YES];
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+        dateFormatter.dateFormat = @"dd.MM.yyyy";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         NSString *dateString = [dateFormatter stringFromDate:ob.date];
+        
+        dateFormatter.dateFormat = @"HH:mm";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        NSString *timeString = [dateFormatter stringFromDate:ob.date];
         
         // Prepare data
         NSString *organism = [NSString stringWithFormat:@"%d", ob.organism.organismId];
         NSString *organismGroupId = [NSString stringWithFormat:@"%d", ob.organism.organismGroupId];
         NSString *count = [NSString stringWithFormat:@"%@", ob.amount];
         NSString *date = [NSString stringWithFormat:@"%@", dateString];
+        NSString *time = [NSString stringWithFormat:@"%@", timeString];
         NSString *accuracy = [NSString stringWithFormat:@"%d", ob.accuracy];
         NSString *author = [NSString stringWithString:ob.author];
         NSString *longitude = [NSString stringWithFormat:@"%f", ob.location.coordinate.longitude];
@@ -293,10 +298,13 @@ extern int UNKNOWN_ORGANISMID;
                 [request addData:imageData withFileName:@"iphoneimage.png" andContentType:@"image/png" forKey:@"files[]"];
             }
         }
-        [request setPostValue:organism forKey:@"organismn_id"];
+        [request setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"guid"];
+        [request setPostValue:[NSString stringWithFormat:@"%d", 0] forKey:@"inventory_id"];
+        [request setPostValue:organism forKey:@"organism_id"];
         [request setPostValue:organismGroupId forKey:@"organism_artgroup_id"];
         [request setPostValue:count forKey:@"count"];
         [request setPostValue:date forKey:@"date"];
+        [request setPostValue:time forKey:@"time"];
         [request setPostValue:accuracy forKey:@"accuracy"];
         [request setPostValue:author forKey:@"observer"];
         [request setPostValue:longitude forKey:@"longitude"];
@@ -318,26 +326,6 @@ extern int UNKNOWN_ORGANISMID;
     
     [request startAsynchronous];
     
-    /*NSError *error = [request error];
-     if (!error) {
-     NSString *response = [request responseString];
-     
-     NSLog(@"Response: '%@'", response);
-     
-     if([response isEqualToString:@"SUCCESS"]) {
-     
-     // And Delete the observation form the database
-     [persistenceManager establishConnection];
-     [persistenceManager deleteObservation:ob.observationId];
-     [persistenceManager closeConnection];
-     // Reload observations
-     [self reloadObservations];
-     return true;
-     }
-     return false;
-     } else {
-     return false;
-     }*/
 }
 
 - (void) removeObservations
@@ -599,7 +587,17 @@ extern int UNKNOWN_ORGANISMID;
     NSLog(@"requestcounter: %d progress: %f",requestCounter + 1,  percent / 100);
     uploadView.progressView.progress = percent / 100;
     
-    if ([response isEqualToString:@"SUCCESS"]) {
+    //Save received guid in object, not persisted yet
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"success=[0 || 1]" options:0 error:nil];
+    NSArray *matches = [regex matchesInString:response options:0 range:NSMakeRange(0, [response length])];
+    NSString *successString;
+    if ([matches count] > 0) {
+        successString = [response substringWithRange:[[matches objectAtIndex:0] range]];
+    } else {
+        NSLog(@"ERROR: NO GUID received!! response: %@", response);
+    }
+    
+    if ([successString isEqualToString:@"success=1"]) {
         // And Delete the observation form the database
         @synchronized (self) {
             [persistenceManager establishConnection];

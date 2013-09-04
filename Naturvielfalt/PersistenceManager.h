@@ -56,6 +56,7 @@
 - (NSMutableArray *) getAllOrganismGroups:(int) parentId withClasslevel:(int) classlevel;
 - (BOOL) organismGroupHasChild:(int) groupId;
 - (OrganismGroup *) getOrganismGroup:(int) parentId withClasslevel:(int) classlevel andOrganismGroupId:(int) organismGroupId;
+- (OrganismGroup *) getOrganismGroupOfOrganism:(int) organismId;
 
 // Organisms
 - (NSMutableArray *) getOrganisms:(int) groupId withCustomFilter:(NSString *)filter;

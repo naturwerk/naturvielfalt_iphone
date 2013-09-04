@@ -15,6 +15,7 @@
 #import "CustomOrganismCell.h"
 
 extern int UNKNOWN_ORGANISMID;
+extern int UNKNOWN_ORGANISMGROUPID;
 
 @implementation ObservationsOrganismViewController
 @synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, organismGroup, observation, comeFromSubmitController;
@@ -137,6 +138,9 @@ extern int UNKNOWN_ORGANISMID;
     unknown.organismId = UNKNOWN_ORGANISMID;
     unknown.organismGroupId = organismGroupId;
     unknown.nameDe = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+    unknown.nameEn = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+    unknown.nameFr = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+    unknown.nameIt = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
     unknown.nameLat = NSLocalizedString(@"toBeDetermined", nil);
     
     [organisms addObject:unknown];
@@ -484,8 +488,19 @@ extern int UNKNOWN_ORGANISMID;
         
         // Get the selected row
         Organism *currentSelectedOrganism = [nameSection objectAtIndex:row];
-        currentSelectedOrganism.organismGroupId = organismGroupId;
-        currentSelectedOrganism.organismGroupName = organismGroupName;
+        if(organismGroupId == 1) { //All OrganismGroup, determine organism group of organism
+            if(currentSelectedOrganism.organismId == UNKNOWN_ORGANISMID) {
+                //All Artgroup and unkown organism => Unkown Artgroup
+                organismGroup = [persistenceManager getOrganismGroup:0 withClasslevel:0 andOrganismGroupId:UNKNOWN_ORGANISMGROUPID];
+            } else {
+                [persistenceManager establishConnection];
+                organismGroup = [persistenceManager getOrganismGroupOfOrganism:currentSelectedOrganism.organismId];
+                [persistenceManager closeConnection];
+
+            }
+        }
+        currentSelectedOrganism.organismGroupId = organismGroup.organismGroupId;
+        currentSelectedOrganism.organismGroupName = organismGroup.name;
         
         // If observation isn't nil go back
         if (observation) {

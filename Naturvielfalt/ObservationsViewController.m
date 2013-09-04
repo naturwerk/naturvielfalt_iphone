@@ -214,7 +214,10 @@ extern int UNKNOWN_ORGANISMID;
                 
                 Organism *notYetDefinedOrganism = [[Organism alloc] init];
                 notYetDefinedOrganism.organismId = UNKNOWN_ORGANISMID;
-                notYetDefinedOrganism.nameDe = NSLocalizedString(@"unknownOrganism", nil);
+                notYetDefinedOrganism.nameDe = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+                notYetDefinedOrganism.nameEn = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+                notYetDefinedOrganism.nameFr = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+                notYetDefinedOrganism.nameIt = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
                 notYetDefinedOrganism.nameLat = NSLocalizedString(@"toBeDetermined", nil);
                 notYetDefinedOrganism.organismGroupId = currentSelectedOrganismGroup.organismGroupId;
                 notYetDefinedOrganism.organismGroupName = currentSelectedOrganismGroup.name;

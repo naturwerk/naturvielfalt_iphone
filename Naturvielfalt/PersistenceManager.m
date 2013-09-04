@@ -847,6 +847,48 @@ int UNKNOWN_ORGANISMID      =   -1;
     
     return (count > 0);
 }
+- (OrganismGroup *) getOrganismGroupOfOrganism:(int) organismId {
+    OrganismGroup *organismGroup;
+    
+    if (organismId > 0) {
+        NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.name_%@, c.class_level \
+                           FROM classification as c \
+                           LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
+                           WHERE ct.taxon_id = %d \
+                           ", sLanguage, organismId];
+        sqlite3_stmt *statement;
+        
+        if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+            
+            while (sqlite3_step(statement) == SQLITE_ROW) {
+                
+                int classificationId = sqlite3_column_int(statement, 0);
+                NSString *groupName;
+                if (!(char *)sqlite3_column_text(statement, 1)) {
+                    groupName = NSLocalizedString(@"organismNoTransAvailable", nil);
+                } else {
+                    groupName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+                    if (groupName.length == 0) {
+                        groupName = NSLocalizedString(@"organismNoTransAvailable", nil);
+                    }
+                }
+                
+                int class_level = sqlite3_column_int(statement, 2);
+                
+                // Create OrganismGroup
+                organismGroup = [[OrganismGroup alloc] init];
+                
+                organismGroup.organismGroupId = classificationId;
+                organismGroup.name = groupName;
+                organismGroup.classlevel = class_level;
+            }
+            
+            sqlite3_finalize(statement);
+        }
+    }
+    return organismGroup;
+
+}
 
 - (OrganismGroup *) getOrganismGroup:(int)parentId withClasslevel:(int)classlevel andOrganismGroupId:(int)organismGroupId{
     //[self authUser];

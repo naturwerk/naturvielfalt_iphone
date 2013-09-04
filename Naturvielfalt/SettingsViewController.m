@@ -42,11 +42,8 @@
     [titlesSectionOne addObject:NSLocalizedString(@"settingsUsername", nil)];
     [titlesSectionOne addObject:NSLocalizedString(@"settingsPwd", nil)];
     [titlesSectionOne addObject:NSLocalizedString(@"settingsAccountInfo", nil)];
-    //[titlesSectionOne addObject:NSLocalizedString(@"settingsWikiImg", nil)];
-    //[titlesSectionOne addObject:NSLocalizedString(@"settingsWikiArt", nil)];
+    [titlesSectionOne addObject:NSLocalizedString(@"settingsVisitHomepage", nil)];
     
-    /*titlesSectionTwo = [[NSMutableArray alloc] init];
-     [titlesSectionTwo addObject:NSLocalizedString(@"settingsMap", nil)];*/
     
     [super viewDidLoad];
     
@@ -93,6 +90,12 @@
         // Switch the View & Controller
         [self.navigationController pushViewController:settingsPasswordController animated:YES];
         settingsPasswordController = nil;
+    }
+    else if(indexPath.row == 3) {
+        // Link to naturvielfalt.ch
+        // Create the ObservationsOrganismSubmitCameraController
+        NSURL *url = [ [ NSURL alloc ] initWithString: @"http://naturvielfalt.ch" ];
+        [[UIApplication sharedApplication] openURL:url];
     }
 }
 
@@ -165,10 +168,27 @@
                 infoCell.textLabel.textColor = [UIColor lightGrayColor];
                 infoCell.textLabel.font = [UIFont italicSystemFontOfSize:14.0];
                 infoCell.textLabel.numberOfLines = 8;
+                
                 return infoCell;
+            }
+                break;
+                
+            case 3: {
+                if(infoCell == nil) {
+                    infoCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"test"];
+                }
+                infoCell.textLabel.text = [titlesSectionOne objectAtIndex:indexPath.row];
+                infoCell.userInteractionEnabled = YES;
+                infoCell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+                infoCell.textLabel.textColor = [UIColor blueColor];
+                infoCell.textLabel.font = [UIFont italicSystemFontOfSize:14.0];
+                return infoCell;
+                
+                
                 
             }
                 break;
+                
         }
         
         /*} else {

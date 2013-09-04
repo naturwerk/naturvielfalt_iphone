@@ -298,6 +298,7 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void) saveObservation 
 {
+    observation.submitted = NO;
     if (observation.inventory) {
         observation.inventory.area.submitted = NO;
     }

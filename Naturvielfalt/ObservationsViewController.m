@@ -137,9 +137,9 @@ extern int UNKNOWN_ORGANISMID;
         cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:24.0];
     } else {
         //changing icons for custom artgroups
-        if (organismGroup.organismGroupId == 29) {
-            cell.imageView.image = [UIImage imageNamed:@"15-warning.png"];
-        }
+//        if (organismGroup.organismGroupId == 29) {
+//            cell.imageView.image = [UIImage imageNamed:@"15-warning.png"];
+//        }
         detailTextLabel = [NSString stringWithFormat:@"%d %@", organismGroup.count, NSLocalizedString(@"naturSpecies", nil)];
     }
     

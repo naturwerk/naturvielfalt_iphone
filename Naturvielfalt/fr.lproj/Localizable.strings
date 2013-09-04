@@ -17,6 +17,7 @@
 "navCancel"						= "Annuler";
 "navDel"						= "Supprimer";
 "navSubmit"						= "transmettre";
+"navSubmitted"					= "transmis";
 "navOk"							= "OK";
 "navError"						= "Erreur";
 "navSuccess"					= "À succès";

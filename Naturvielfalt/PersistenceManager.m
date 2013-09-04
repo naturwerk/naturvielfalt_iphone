@@ -1889,7 +1889,7 @@ int UNKNOWN_ORGANISMID      =   -1;
                        FROM classification as c \
                        LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
                        WHERE (c.parent = %d) AND (ct.display_level = 1 OR ct.display_level is NULL) \
-                       GROUP BY c.classification_id, c.name_%@ ORDER BY c.position", sLanguage, parentId, sLanguage];
+                       GROUP BY c.classification_id ORDER BY c.position DESC, c.name_%@", sLanguage, parentId, sLanguage];
     
     sqlite3_stmt *statement;
     

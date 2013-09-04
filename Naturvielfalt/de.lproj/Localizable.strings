@@ -183,7 +183,8 @@
 "settingsMapSatellite"			= "Satellit";
 "settingsMapHybrid"				= "Hybrid";
 "settingsMapStandard"			= "Standard";
-"settingsAccountInfo"			= "Damit Sie diese App vollständig verwenden können, benötigen Sie ein Benutzerkonto auf der Webplattform naturvielfalt.ch. Die Logindaten können Sie hier eintragen.";
+"settingsAccountInfo"			= "Damit Sie diese App vollständig verwenden können, benötigen Sie ein Benutzerkonto auf der Webplattform naturvielfalt.ch. Falls Sie bereits über ein Konto verfügen, können Sie Ihre Logindaten hier eintragen.";
+"settingsVisitHomepage"         = "Besuchen Sie uns auf www.naturvielfalt.ch";
 
 /** Info **/
 "infoNavTitle"                  = "Naturvielfalt";

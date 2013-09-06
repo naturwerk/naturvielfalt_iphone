@@ -11,7 +11,6 @@
 #import "ObservationImage.h"
 
 @interface CameraViewController ()
-static UIImage *shrinkImage(UIImage *original, CGSize size);
 - (void)updateDisplay;
 - (void)getMediaFromSource:(UIImagePickerControllerSourceType)sourceType;
 @end
@@ -136,8 +135,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     self.lastChosenMediaType = [info objectForKey:UIImagePickerControllerMediaType];
     if ([lastChosenMediaType isEqual:(NSString *)kUTTypeImage]) {
         UIImage *chosenImage = [info objectForKey:UIImagePickerControllerEditedImage];
-        UIImage *shrunkenImage = shrinkImage(chosenImage, imageFrame.size);
-        self.image = shrunkenImage;
+        self.image = chosenImage;
         
         
         // Save the taken photo to photo library
@@ -147,7 +145,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         
         if (observation) {
             ObservationImage *oImg = [[ObservationImage alloc] getObservationImage];
-            oImg.image = shrunkenImage;
+            oImg.image = chosenImage;
             //[observation.pictures addObject:oImg];
             [tmpImages addObject:oImg];
             [oImg setObservationImage:nil];
@@ -166,25 +164,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {    
     [picker dismissModalViewControllerAnimated:YES];
-}
-
-#pragma mark  -
-static UIImage *shrinkImage(UIImage *original, CGSize size) {
-    CGFloat scale = [UIScreen mainScreen].scale;
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    CGContextRef context = CGBitmapContextCreate(NULL, size.width * scale,
-												 size.height * scale, 8, 0, colorSpace, kCGImageAlphaPremultipliedFirst);
-    CGContextDrawImage(context,
-					   CGRectMake(0, 0, size.width * scale, size.height * scale),
-					   original.CGImage);
-    CGImageRef shrunken = CGBitmapContextCreateImage(context);
-    UIImage *final = [UIImage imageWithCGImage:shrunken];
-    
-    CGContextRelease(context);
-    CGImageRelease(shrunken);	
-	
-    return final;
 }
 
 - (void)updateDisplay {

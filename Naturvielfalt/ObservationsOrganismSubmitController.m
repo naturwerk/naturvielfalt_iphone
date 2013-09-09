@@ -454,11 +454,16 @@ extern int UNKNOWN_ORGANISMID;
         case 0:
             if(cell == nil) {
                 NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
-                customCell =  (CustomCell *)topLevelObjects[0];
+                for (id currentObject in topLevelObjects){
+                    if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                        customCell =  (CustomCell *)currentObject;
+                        break;
+                    }
+                }
                 
                 if (observation.observationId) {
                     customCell.key.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
-                    customCell.value.text = observation.organism.organismGroupName;
+                    customCell.value.text = observation.organismGroup.name;
                     customCell.image.image = nil;
                     return customCell;
                 } else {

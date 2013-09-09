@@ -109,7 +109,8 @@ extern int UNKNOWN_ORGANISMID;
     
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [loadingHUD showWhileExecuting:@selector(reloadObservations) onTarget:self withObject:nil animated:YES];*/
-
+    
+    [table registerNib:[UINib nibWithNibName:@"CheckboxCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CheckboxCell"];
     
     // Reload table
     [table reloadData];
@@ -565,8 +566,7 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"CheckboxCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CheckboxCell" forIndexPath:indexPath];
     
     // use CustomCell layout
     CheckboxCell *checkboxCell;
@@ -574,12 +574,8 @@ extern int UNKNOWN_ORGANISMID;
     if(cell == nil) {
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CheckboxCell" owner:self options:nil];
         
-        for (id currentObject in topLevelObjects){
-            if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                checkboxCell =  (CheckboxCell *)currentObject;
-                break;
-            }
-        }
+        checkboxCell =  (CheckboxCell *)topLevelObjects[0];
+
     } else {
         checkboxCell = (CheckboxCell *)cell;
     }

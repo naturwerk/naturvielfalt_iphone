@@ -66,6 +66,7 @@
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [loadingHUD showWhileExecuting:@selector(reloadAreas) onTarget:self withObject:nil animated:YES];*/
     
+    [table registerNib:[UINib nibWithNibName:@"CheckboxAreaCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CheckboxAreaCell"];
     [table reloadData];
 }
 
@@ -399,9 +400,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *cellIdentifier = @"CheckboxAreaCell";
-    UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:@"CheckboxAreaCell" forIndexPath:indexPath];
     
     // use CustomCell layout
     CheckboxAreaCell *checkboxAreaCell;
@@ -409,12 +408,7 @@
     if(cell == nil) {
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CheckboxAreaCell" owner:self options:nil];
         
-        for (id currentObject in topLevelObjects){
-            if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                checkboxAreaCell =  (CheckboxAreaCell *)currentObject;
-                break;
-            }
-        }
+        checkboxAreaCell =  (CheckboxAreaCell *)topLevelObjects[0];
     } else {
         checkboxAreaCell = (CheckboxAreaCell *)cell;
     }

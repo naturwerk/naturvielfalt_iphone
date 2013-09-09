@@ -112,7 +112,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{139, 16}, {16, 16}}</string>
 								<reference key="NSSuperview" ref="629512194"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">

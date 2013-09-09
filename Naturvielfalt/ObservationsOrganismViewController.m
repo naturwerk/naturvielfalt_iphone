@@ -64,6 +64,8 @@ extern int UNKNOWN_ORGANISMGROUPID;
     NSString *title = [[NSString alloc] initWithFormat:@"%@", organismGroupName];
     self.navigationItem.title = title;
     
+    [table registerNib:[UINib nibWithNibName:@"CustomOrganismCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CustomOrganismCell"];
+    
     // reload data again
     [table reloadData];
     
@@ -383,25 +385,17 @@ extern int UNKNOWN_ORGANISMGROUPID;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //static NSString *cellIdentifier = @"CustomOrganismCell";
-    //UITableViewCell *oCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
     
     //CustomOrganismCell *cell;
-    CustomOrganismCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomOrganismCell"];
+    CustomOrganismCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CustomOrganismCell" forIndexPath:indexPath];
     
     if(cell == nil) {
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomOrganismCell" owner:self options:nil];
         
-        for (id currentObject in topLevelObjects){
-            if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                cell =  (CustomOrganismCell *)currentObject;
-                break;
-            }
-        }
+        cell =  (CustomOrganismCell *)topLevelObjects[0];
     }
     
     //show empty message

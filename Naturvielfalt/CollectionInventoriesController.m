@@ -58,6 +58,8 @@
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [loadingHUD showWhileExecuting:@selector(reloadInventories) onTarget:self withObject:nil animated:YES];*/
     
+    [table registerNib:[UINib nibWithNibName:@"CheckboxInventoryCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CheckboxInventoryCell"];
+    
     // Reload table
     [table reloadData];
 }
@@ -192,9 +194,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *cellIdentifier = @"CheckboxInventoryCell";
-    UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:@"CheckboxInventoryCell" forIndexPath:indexPath];
     
     // use CustomCell layout
     CheckboxInventoryCell *checkboxInventoryCell;
@@ -202,12 +202,8 @@
     if(cell == nil) {
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CheckboxInventoryCell" owner:self options:nil];
         
-        for (id currentObject in topLevelObjects){
-            if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                checkboxInventoryCell =  (CheckboxInventoryCell *)currentObject;
-                break;
-            }
-        }
+        checkboxInventoryCell =  (CheckboxInventoryCell *)topLevelObjects[0];
+
     } else {
         checkboxInventoryCell = (CheckboxInventoryCell *)cell;
     }

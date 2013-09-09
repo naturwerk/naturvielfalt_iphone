@@ -79,6 +79,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{77, 11}, {183, 21}}</string>
 								<reference key="NSSuperview" ref="1056383689"/>
+								<reference key="NSNextKeyView"/>
 								<reference key="IBUIBackgroundColor" ref="1041531350"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -125,6 +126,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUIAccessoryType">1</int>
 				<reference key="IBUIContentView" ref="1056383689"/>
+				<string key="IBUIReuseIdentifier">CustomDateCell</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">

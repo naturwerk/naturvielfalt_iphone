@@ -454,13 +454,7 @@ extern int UNKNOWN_ORGANISMID;
         case 0:
             if(cell == nil) {
                 NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
-                
-                for (id currentObject in topLevelObjects){
-                    if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                        customCell =  (CustomCell *)currentObject;
-                        break;
-                    }
-                }
+                customCell =  (CustomCell *)topLevelObjects[0];
                 
                 if (observation.observationId) {
                     customCell.key.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
@@ -490,13 +484,7 @@ extern int UNKNOWN_ORGANISMID;
             switch (indexPath.row) {
                 case 0: //DATE
                     topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomDateCell" owner:self options:nil];
-                    
-                    for (id currentObject in topLevelObjects){
-                        if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                            customDateCell =  (CustomDateCell *)currentObject;
-                            break;
-                        }
-                    }
+                    customDateCell =  (CustomDateCell *)topLevelObjects[0];
                     
                     customDateCell.key.text = [arrayKeysSectionOne objectAtIndex:indexPath.row];
                     customDateCell.value.text = [dateFormatter stringFromDate:observation.date];
@@ -521,13 +509,7 @@ extern int UNKNOWN_ORGANISMID;
             // Amount, Comment, Photograph and Accuracy
         case 2:
             topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomCell" owner:self options:nil];
-            
-            for (id currentObject in topLevelObjects){
-                if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                    customCell =  (CustomCell *)currentObject;
-                    break;
-                }
-            }
+            customCell =  (CustomCell *)topLevelObjects[0];
             
             switch (indexPath.row) {
                 case 0: // AMOUNT
@@ -592,14 +574,7 @@ extern int UNKNOWN_ORGANISMID;
         case 3: // DELETE
             if(cell == nil) {
                 NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DeleteCell" owner:self options:nil];
-                
-                for (id currentObject in topLevelObjects){
-                    if ([currentObject isKindOfClass:[UITableViewCell class]]){
-                        deleteCell =  (DeleteCell *)currentObject;
-                        break;
-                    }
-                }
-                
+                deleteCell =  (DeleteCell *)topLevelObjects[0];
 
                 deleteCell.deleteLabel.text = NSLocalizedString(@"areaObservationDelete", nil);
                 return deleteCell;

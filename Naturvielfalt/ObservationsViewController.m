@@ -108,7 +108,6 @@ extern int UNKNOWN_ORGANISMID;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *simpleTableIdentifier = @"SimpleTableIdentifier";
-    //static NSString *cautionIconIdentifier = @"CautionIconIdentifier";
     
     UITableViewCell *cell;
     

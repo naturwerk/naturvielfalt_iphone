@@ -169,10 +169,10 @@ extern int UNKNOWN_ORGANISMGROUPID;
     Organism *unknown = [[Organism alloc] init];
     unknown.organismId = UNKNOWN_ORGANISMID;
     unknown.organismGroupId = organismGroupId;
-    unknown.nameDe = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
-    unknown.nameEn = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
-    unknown.nameFr = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
-    unknown.nameIt = [NSString stringWithFormat:@" %@", NSLocalizedString(@"unknownOrganism", nil)];
+    unknown.nameDe = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
+    unknown.nameEn = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
+    unknown.nameFr = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
+    unknown.nameIt = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
     unknown.nameLat = NSLocalizedString(@"toBeDetermined", nil);
     
     [organisms addObject:unknown];

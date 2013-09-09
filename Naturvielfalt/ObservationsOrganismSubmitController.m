@@ -504,7 +504,7 @@ extern int UNKNOWN_ORGANISMID;
 
                 if (observation.observationId) {
                     customCell.key.text = [arrayKeysSectionNull objectAtIndex:indexPath.row];
-                    customCell.value.text = observation.organism.organismGroupName;
+                    customCell.value.text = observation.organismGroup.name;
                     customCell.image.image = nil;
                     return customCell;
                 } else {

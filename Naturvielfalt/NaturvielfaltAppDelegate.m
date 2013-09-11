@@ -19,6 +19,7 @@
 
 
 @synthesize window=_window;
+@synthesize observationsChanged;
 
 @synthesize tabBarController=_tabBarController;
 
@@ -44,6 +45,7 @@
     
     NSLog(@"language is: %@", [[NSLocale preferredLanguages] objectAtIndex:0]);
     
+    observationsChanged = TRUE;
     return YES;
 }
 

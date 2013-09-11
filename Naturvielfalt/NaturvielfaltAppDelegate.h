@@ -18,5 +18,6 @@
 @property (nonatomic) IBOutlet UITabBarItem *observationTabItem;
 @property (nonatomic) IBOutlet UITabBarItem *collectionTabItem;
 @property (nonatomic) IBOutlet UITabBarItem *settingsTabItem;
+@property (nonatomic) BOOL observationsChanged;
 
 @end

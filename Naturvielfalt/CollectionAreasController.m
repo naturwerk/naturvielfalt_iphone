@@ -186,6 +186,29 @@
         return;
     }
     
+    areasToSubmit = [[NSMutableArray alloc] init];
+    for (Area *area in areas) {
+        if (area.submitToServer) {
+            [areasToSubmit addObject:area];
+        }
+    }
+    
+    areasToSubmit = [[NSMutableArray alloc] init];
+    for (Area *area in areas) {
+        if (area.submitToServer) {
+            [areasToSubmit addObject:area];
+        }
+    }
+    areasCounter = areasToSubmit.count;
+    
+    if(areasCounter == 0) {
+        [loadingHUD removeFromSuperview];
+        [uploadView dismissWithClickedButtonIndex:0 animated:YES];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+
     uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
     /*UIProgressView *pv = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
      pv.frame = CGRectMake(40, 67, 200, 15);
@@ -218,23 +241,9 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
     
-    areasToSubmit = [[NSMutableArray alloc] init];
-    for (Area *area in areas) {
-        if (area.submitToServer) {
-            [areasToSubmit addObject:area];
-        }
-    }
     totalObjectsToSubmit = [self getTotalObjectOfSubmission:areasToSubmit];
     areasCounter = areasToSubmit.count;
     totalRequests = areasCounter;
-    
-    if(areasCounter == 0) {
-        [loadingHUD removeFromSuperview];
-        [uploadView dismissWithClickedButtonIndex:0 animated:YES];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
     
     if (!areaUploadHelpers) {
         areaUploadHelpers = [[NSMutableArray alloc] init];
@@ -422,25 +431,12 @@
         NSString *nowString = [dateFormatter stringFromDate:area.date];
         
         if(area.pictures.count > 0){
-            UIImage *original = ((AreaImage *)[area.pictures objectAtIndex:0]).image;
-            CGFloat scale = [UIScreen mainScreen].scale;
-            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-            
-            CGContextRef context = CGBitmapContextCreate(NULL, 26, 26, 8, 0, colorSpace, kCGImageAlphaPremultipliedFirst);
-            CGContextDrawImage(context,
-                               CGRectMake(0, 0, 26, 26 * scale),
-                               original.CGImage);
-            CGImageRef shrunken = CGBitmapContextCreateImage(context);
-            UIImage *final = [UIImage imageWithCGImage:shrunken];
-            
-            CGContextRelease(context);
-            CGImageRelease(shrunken);
-            checkboxAreaCell.image.image = final;
+            checkboxAreaCell.image.contentMode = UIViewContentModeScaleAspectFit;
+            checkboxAreaCell.image.image = ((ObservationImage *)[area.pictures objectAtIndex:0]).image;
         }
         else {
             checkboxAreaCell.image.image = [UIImage imageNamed:@"blank.png"];
         }
-
         checkboxAreaCell.title.text = area.name;
         checkboxAreaCell.date.text = nowString;
         checkboxAreaCell.count.text = [NSString stringWithFormat:@"%i", area.inventories.count];

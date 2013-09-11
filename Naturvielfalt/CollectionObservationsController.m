@@ -305,27 +305,27 @@ extern int UNKNOWN_ORGANISMID;
         return;
     }
     
+    obsToSubmit = [[NSMutableArray alloc] init];
+    for (Observation *obs in observations) {
+        if (obs.submitToServer) {
+            [obsToSubmit addObject:obs];
+        }
+    }
+    observationCounter = obsToSubmit.count;
+    totalRequests = observationCounter;
+    
+    if(observationCounter == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+
     uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
-    /*UIProgressView *pv = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
-     pv.frame = CGRectMake(40, 67, 200, 15);
-     CGAffineTransform myTransform = CGAffineTransformMakeScale(1.0, 2.0f);
-     pv.progress = 0.5;
-     [uploadView addSubview:pv];*/
+
     [uploadView show];
     
-    /*loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-     [self.navigationController.view addSubview:loadingHUD];
-     
-     loadingHUD.delegate = self;
-     loadingHUD.mode = MBProgressHUDModeCustomView;
-     loadingHUD.labelText = NSLocalizedString(@"collectionHudWaitMessage", nil);
-     loadingHUD.detailsLabelText = NSLocalizedString(@"collectionHudSubmitMessage", nil);
-     
-     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-     [loadingHUD show:YES];*/
     [self sendRequestToServer];
     
-    //[loadingHUD showWhileExecuting:@selector(sendRequestToServer) onTarget:self withObject:nil animated:YES];
 }
 
 - (void) sendRequestToServer
@@ -342,21 +342,8 @@ extern int UNKNOWN_ORGANISMID;
     //new portal
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
-    
-    obsToSubmit = [[NSMutableArray alloc] init];
-    for (Observation *obs in observations) {
-        if (obs.submitToServer) {
-            [obsToSubmit addObject:obs];
-        }
-    }
     observationCounter = obsToSubmit.count;
     totalRequests = observationCounter;
-    
-    if(observationCounter == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
     
     if (!observationUploadHelpers) {
         observationUploadHelpers = [[NSMutableArray alloc] init];
@@ -589,25 +576,12 @@ extern int UNKNOWN_ORGANISMID;
         NSString *nowString = [dateFormatter stringFromDate:observation.date];
         
         if(observation.pictures.count > 0){
-            UIImage *original = ((ObservationImage *)[observation.pictures objectAtIndex:0]).image;
-            CGFloat scale = [UIScreen mainScreen].scale;
-            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-            
-            CGContextRef context = CGBitmapContextCreate(NULL, 26, 26, 8, 0, colorSpace, kCGImageAlphaPremultipliedFirst);
-            CGContextDrawImage(context,
-                               CGRectMake(0, 0, 26, 26 * scale),
-                               original.CGImage);
-            CGImageRef shrunken = CGBitmapContextCreateImage(context);
-            UIImage *final = [UIImage imageWithCGImage:shrunken];
-            
-            CGContextRelease(context);
-            CGImageRelease(shrunken);
-            checkboxCell.image.image = final;
+            checkboxCell.image.contentMode = UIViewContentModeScaleAspectFit;
+            checkboxCell.image.image = ((ObservationImage *)[observation.pictures objectAtIndex:0]).image;
         }
         else {
             checkboxCell.image.image = [UIImage imageNamed:@"blank.png"];
         }
-        
         if (observation.organism.organismId == UNKNOWN_ORGANISMID) {
             //checkboxCell.name.text = NSLocalizedString(@"unknownOrganism", nil);
             //checkboxCell.latName.text = NSLocalizedString(@"toBeDetermined", nil);

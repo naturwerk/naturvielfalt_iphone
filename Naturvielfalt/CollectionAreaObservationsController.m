@@ -397,20 +397,8 @@ extern int UNKNOWN_ORGANISMID;
         NSString *nowString = [dateFormatter stringFromDate:observation.date];
         
         if(observation.pictures.count > 0){
-            UIImage *original = ((ObservationImage *)[observation.pictures objectAtIndex:0]).image;
-            CGFloat scale = [UIScreen mainScreen].scale;
-            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-            
-            CGContextRef context = CGBitmapContextCreate(NULL, 26, 26, 8, 0, colorSpace, kCGImageAlphaPremultipliedFirst);
-            CGContextDrawImage(context,
-                               CGRectMake(0, 0, 26, 26 * scale),
-                               original.CGImage);
-            CGImageRef shrunken = CGBitmapContextCreateImage(context);
-            UIImage *final = [UIImage imageWithCGImage:shrunken];
-            
-            CGContextRelease(context);
-            CGImageRelease(shrunken);
-            checkboxAreaObsCell.image.image = final;
+            checkboxAreaObsCell.image.contentMode = UIViewContentModeScaleAspectFit;
+            checkboxAreaObsCell.image.image = ((ObservationImage *)[observation.pictures objectAtIndex:0]).image;
         }
         else {
             checkboxAreaObsCell.image.image = [UIImage imageNamed:@"blank.png"];

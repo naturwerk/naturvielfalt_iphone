@@ -16,6 +16,8 @@
 
 extern int UNKNOWN_ORGANISMID;
 extern int UNKNOWN_ORGANISMGROUPID;
+extern int INVASIVE_SPECIES;
+extern int RECENT_OBSERVED_ORGANISMS;
 
 @implementation ObservationsViewController
 @synthesize listData, table, spinner, groupId, classlevel, inventory, persistenceManager, observation;
@@ -169,10 +171,10 @@ extern int UNKNOWN_ORGANISMGROUPID;
         detailTextLabel = @"→";
         cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:24.0];
     } else {
-//        //changing icons for custom artgroups
-//        if (organismGroup.organismGroupId == 29) {
-//            cell.imageView.image = [UIImage imageNamed:@"15-warning.png"];
-//        }
+        //changing icons for custom artgroups
+        if (organismGroup.organismGroupId == INVASIVE_SPECIES) {
+            cell.imageView.image = [UIImage imageNamed:@"15-warning.png"];
+        }
         detailTextLabel = [NSString stringWithFormat:@"%d %@", organismGroup.count, NSLocalizedString(@"naturSpecies", nil)];
     }
     

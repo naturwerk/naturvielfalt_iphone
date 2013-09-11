@@ -108,4 +108,8 @@
 - (NSMutableArray *) getOrganismsSortByLAT:(int) groupId withCustomFilter: (NSString*) filter;
 - (NSMutableArray *) getAllOrganisms:(int) groupId sortByDe:(BOOL) sortByLanguage;
 
+//Recent observed organisms
+- (NSMutableArray *) getRecentObservedOrganismsSortedByDe:(BOOL) sorteByDe;
+- (void) deleteRecentObservationsWithOrganism:(int) organismId;
+
 @end

@@ -18,6 +18,8 @@
 
 extern int UNKNOWN_ORGANISMID;
 extern int UNKNOWN_ORGANISMGROUPID;
+extern int RECENT_OBSERVED_ORGANISMS;
+extern int INVASIVE_SPECIES;
 
 @implementation ObservationsOrganismViewController
 @synthesize organismGroupId, listData, organismGroupName, dictOrganismsDE, dictOrganismsLAT, keysDE, keysLAT, isSearching, displayGermanNames, search, dictAllOrganismsDE, dictAllOrganismsLAT, keysAllDE, keysAllLAT, currKeys, currDict, spinner, inventory, organismGroup, observation, comeFromSubmitController;
@@ -162,20 +164,26 @@ extern int UNKNOWN_ORGANISMGROUPID;
     
     NSMutableArray *organisms;
     
-    organisms = [persistenceManager getAllOrganisms:organismGroupId sortByDe:displayGermanNames];
-    [persistenceManager closeConnection];
-    
-    // add unknown organism to the array
-    Organism *unknown = [[Organism alloc] init];
-    unknown.organismId = UNKNOWN_ORGANISMID;
-    unknown.organismGroupId = organismGroupId;
-    unknown.nameDe = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
-    unknown.nameEn = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
-    unknown.nameFr = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
-    unknown.nameIt = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
-    unknown.nameLat = NSLocalizedString(@"toBeDetermined", nil);
-    
-    [organisms addObject:unknown];
+    if(organismGroupId == RECENT_OBSERVED_ORGANISMS) {
+        organisms = [persistenceManager getRecentObservedOrganismsSortedByDe:displayGermanNames];
+    }
+    else {
+        organisms = [persistenceManager getAllOrganisms:organismGroupId sortByDe:displayGermanNames];
+        
+        if(organismGroupId != INVASIVE_SPECIES) {
+            // add unknown organism to the array
+            Organism *unknown = [[Organism alloc] init];
+            unknown.organismId = UNKNOWN_ORGANISMID;
+            unknown.organismGroupId = organismGroupId;
+            unknown.nameDe = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
+            unknown.nameEn = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
+            unknown.nameFr = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
+            unknown.nameIt = [NSString stringWithFormat:@" %@ (%@)", NSLocalizedString(@"unknownOrganism", nil), organismGroupName];
+            unknown.nameLat = NSLocalizedString(@"toBeDetermined", nil);
+            
+            [organisms addObject:unknown];
+        }
+    }
 
     
     for(Organism *organism in organisms) {
@@ -384,6 +392,48 @@ extern int UNKNOWN_ORGANISMGROUPID;
     return indexPath;	
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        if ([[self getCurrentKey] count] == 0){
+            NSLog(@"click on no data");
+            return;
+        }
+        
+        NSLog(@"click on a organism");
+        NSUInteger section = [indexPath section];
+        NSUInteger row = [indexPath row];
+        
+        NSString *key = [[self getCurrentKey] objectAtIndex:section];
+        NSMutableArray *nameSection = [[self getCurrentDict] objectForKey:key];
+        Organism *currentSelectedOrganism = [nameSection objectAtIndex:row];
+        
+        // Also delete it from the Database
+        // Establish a connection
+        [persistenceManager establishConnection];
+        
+        [persistenceManager deleteRecentObservationsWithOrganism:currentSelectedOrganism.organismId];
+        
+        // Close connection to the database
+        [persistenceManager closeConnection];
+        
+        [nameSection removeObjectAtIndex:indexPath.row];
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        if ([nameSection count] < 1) {
+            table.editing = NO;
+        }
+    }
+    else table.editing = NO;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //only entries in the recent organism table can be deleted.
+    return organismGroupId == RECENT_OBSERVED_ORGANISMS;
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
         
     NSUInteger section = [indexPath section];
@@ -476,7 +526,9 @@ extern int UNKNOWN_ORGANISMGROUPID;
         
         // Get the selected row
         Organism *currentSelectedOrganism = [nameSection objectAtIndex:row];
-        if(organismGroupId == 1) { //All OrganismGroup, determine organism group of organism
+        
+        if(organismGroupId == 1 || organismGroupId > UNKNOWN_ORGANISMGROUPID) {
+            //All, Invasive Species or recent observed OrganismGroup, determine organism group of organism
             if(currentSelectedOrganism.organismId == UNKNOWN_ORGANISMID) {
                 //All Artgroup and unkown organism => Unkown Artgroup
                 organismGroup = [persistenceManager getOrganismGroup:0 withClasslevel:0 andOrganismGroupId:UNKNOWN_ORGANISMGROUPID];

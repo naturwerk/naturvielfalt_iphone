@@ -15,6 +15,8 @@
 @synthesize dbStatic, dbUser, sLanguage;
 int UNKNOWN_ORGANISMGROUPID = 1000;
 int UNKNOWN_ORGANISMID      =   -1;
+int INVASIVE_SPECIES = 1001;
+int RECENT_OBSERVED_ORGANISMS = 1002;
 
 - (NSString *)userDataFilePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -80,6 +82,26 @@ int UNKNOWN_ORGANISMID      =   -1;
                                                                      COMMENT TEXT,                         \
                                                                      LOCATION_LOCKED INTEGER);";
     
+    // Create TABLE RECENT_OBSERVED_ORGANISM
+    NSString *createSQLRecentObservation = @"CREATE TABLE IF NOT EXISTS recent_observed_organism (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
+    INVENTORY_ID INTEGER,                 \
+    ORGANISM_ID INTEGER,                  \
+    ORGANISMGROUP_ID INTEGER,             \
+    ORGANISM_NAME TEXT,                   \
+    ORGANISM_NAME_EN TEXT,                \
+    ORGANISM_NAME_FR TEXT,                \
+    ORGANISM_NAME_IT TEXT,                \
+    ORGANISM_NAME_LAT TEXT,               \
+    ORGANISM_FAMILY TEXT,                 \
+    AUTHOR TEXT,                          \
+    DATE TEXT,                            \
+    AMOUNT INTEGER,                       \
+    LOCATION_LAT REAL,                    \
+    LOCATION_LON REAL,                    \
+    ACCURACY INTEGER,                     \
+    COMMENT TEXT,                         \
+    LOCATION_LOCKED INTEGER);";
+    
     // Create TABLE INVENTORY (At the moment IMAGE BLOB is missing..)
     NSString *createSQLInventory = @"CREATE TABLE IF NOT EXISTS inventory (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
                                                                      GUID INTEGER,                         \
@@ -122,6 +144,11 @@ int UNKNOWN_ORGANISMID      =   -1;
     if (sqlite3_exec (dbUser, [createSQLObservation UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
         sqlite3_close(dbUser);
         NSAssert1(0, @"Error creating table OBSERVATION: %s", errorMsg);
+    }
+    
+    if (sqlite3_exec (dbUser, [createSQLRecentObservation UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
+        sqlite3_close(dbUser);
+        NSAssert1(0, @"Error creating table: %s", errorMsg);
     }
     
     if (sqlite3_exec (dbUser, [createSQLInventory UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
@@ -256,6 +283,7 @@ int UNKNOWN_ORGANISMID      =   -1;
 }
 
 // OBSERVATIONS
+//insert observation also into table recent_observed_organism (so user can delete them later on)
 - (long long int) saveObservation:(Observation *) observation
 {
     char *sql = "INSERT INTO observation (GUID, SUBMITTED, INVENTORY_ID, ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_EN, ORGANISM_NAME_FR, ORGANISM_NAME_IT, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, LOCATION_LOCKED) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -266,6 +294,36 @@ int UNKNOWN_ORGANISMID      =   -1;
     dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     NSString *formattedDate = [dateFormatter stringFromDate:observation.date];
+    
+    if(observation.organism.organismId != UNKNOWN_ORGANISMID) {
+        char *sql_recent = "INSERT INTO recent_observed_organism (INVENTORY_ID, ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_EN, ORGANISM_NAME_FR, ORGANISM_NAME_IT, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, LOCATION_LOCKED) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        sqlite3_stmt *stmt_recent;
+        
+        // Put the data into the insert statement (recent_observed_organism)
+        if (sqlite3_prepare_v2(dbUser, sql_recent, -1, &stmt_recent, nil) == SQLITE_OK) {
+            sqlite3_bind_int(stmt_recent, 1, observation.inventoryId);
+            sqlite3_bind_int(stmt_recent, 2, observation.organism.organismId);
+            sqlite3_bind_int(stmt_recent, 3, observation.organism.organismGroupId);
+            sqlite3_bind_text(stmt_recent, 4, [observation.organism.nameDe UTF8String], -1, NULL);
+            sqlite3_bind_text(stmt_recent, 5, [observation.organism.nameEn UTF8String], -1, NULL);
+            sqlite3_bind_text(stmt_recent, 6, [observation.organism.nameFr UTF8String], -1, NULL);
+            sqlite3_bind_text(stmt_recent, 7, [observation.organism.nameIt UTF8String], -1, NULL);
+            sqlite3_bind_text(stmt_recent, 8, [[observation.organism getLatName] UTF8String], -1, NULL);
+            sqlite3_bind_text(stmt_recent, 9, [observation.organism.family UTF8String], -1, NULL);
+            sqlite3_bind_text(stmt_recent, 10, [observation.author UTF8String], -1, NULL);
+            sqlite3_bind_text(stmt_recent, 11, [formattedDate UTF8String], -1, NULL);
+            sqlite3_bind_int(stmt_recent, 12, [observation.amount intValue]);
+            sqlite3_bind_double(stmt_recent, 13, observation.location.coordinate.latitude);
+            sqlite3_bind_double(stmt_recent, 14, observation.location.coordinate.longitude);
+            sqlite3_bind_int(stmt_recent, 15, observation.accuracy);
+            sqlite3_bind_text(stmt_recent, 16, [observation.comment UTF8String], -1, NULL);
+            sqlite3_bind_int(stmt_recent, 17, (observation.locationLocked ? 1:0));
+        }
+        if (sqlite3_step(stmt_recent) != SQLITE_DONE) {
+            NSAssert1(0, @"Error inserting into table: %@", observation);
+        }
+        sqlite3_finalize(stmt_recent);
+    }
     
     // Put the data into the insert statement
     if (sqlite3_prepare_v2(dbUser, sql, -1, &stmt, nil) == SQLITE_OK) {
@@ -987,8 +1045,8 @@ int UNKNOWN_ORGANISMID      =   -1;
         NSString *query = [NSString stringWithFormat:@"SELECT c.classification_id, c.name_%@, c.class_level \
                            FROM classification as c \
                            LEFT JOIN classification_taxon as ct ON ct.classification_id = c.classification_id \
-                           WHERE ct.taxon_id = %d \
-                           ", sLanguage, organismId];
+                           WHERE ct.taxon_id = %d AND ct.classification_id < %d\
+                           ", sLanguage, organismId, UNKNOWN_ORGANISMGROUPID];
         sqlite3_stmt *statement;
         
         if (sqlite3_prepare_v2(dbStatic, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
@@ -2446,5 +2504,126 @@ int UNKNOWN_ORGANISMID      =   -1;
     return allOrganisms;
 }
 
+//RECENT OBSERVED ORGANISMS
+- (NSMutableArray *) getRecentObservedOrganismsSortedByDe:(BOOL)sorteByDe {
+    NSMutableArray *recentObservedOrganisms = [[NSMutableArray alloc] init];
+    
+    NSMutableString *query;
+    query = [NSString stringWithFormat:@"SELECT organism_id, organismgroup_id, organism_name organism_name_de, organism_name_en, organism_name_fr, organism_name_it, organism_name_lat \
+             FROM recent_observed_organism \
+             GROUP BY organism_id \
+             ORDER BY organism_name_%@ DESC", sLanguage];
+    
+    sqlite3_stmt *statement;
+    NSInteger numbersOfOrgansim = 0;
+    
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+		while (sqlite3_step(statement) == SQLITE_ROW) {
+            
+            
+            // need to check if they are Null!
+            NSString *nameDe;
+            NSString *nameEn;
+            NSString *nameFr;
+            NSString *nameIt;
+            NSString *nameLat;
+            
+            if(sqlite3_column_text(statement, 6) == NULL) {
+                //nameLat = [NSString stringWithString:@""];
+                // if no lat name, skip this
+                continue;
+            } else {
+                nameLat = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+            }
+            
+            //DE
+            if(sqlite3_column_text(statement, 2) == NULL) {
+                nameDe = nameLat;
+            } else {
+                nameDe = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+                if([nameDe length] == 0) nameDe = NSLocalizedString(@"organismNoTransAvailable", nil);
+            }
+            
+            //EN
+            if(sqlite3_column_text(statement, 3) == NULL) {
+                nameEn = nameLat;
+            } else {
+                nameEn = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
+                if([nameEn length] == 0) nameEn = NSLocalizedString(@"organismNoTransAvailable", nil);
+            }
+            
+            //FR
+            if(sqlite3_column_text(statement, 4) == NULL) {
+                nameFr = nameLat;
+            } else {
+                nameFr = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+                if([nameFr length] == 0) nameFr = NSLocalizedString(@"organismNoTransAvailable", nil);
+            }
+            
+            //IT
+            if(sqlite3_column_text(statement, 5) == NULL) {
+                nameIt = nameLat;
+            } else {
+                nameIt = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+                if([nameIt length] == 0) nameIt = NSLocalizedString(@"organismNoTransAvailable", nil);
+            }
+            
+            // Create OrganismGroup
+            Organism *organism = [[Organism alloc] init];
+            
+            organism.organismId = sqlite3_column_int(statement, 0);
+            organism.organismGroupId = sqlite3_column_int(statement, 1);
+            organism.nameDe = nameDe;
+            organism.nameEn = nameEn;
+            organism.nameFr = nameFr;
+            organism.nameIt = nameIt;
+            organism.nameLat = nameLat;
+            
+            // Split into species, genus
+            NSArray *firstSplit = [organism.nameLat componentsSeparatedByString:@" "];
+            
+            if([firstSplit count] >= 2) {
+                NSString *genus = (NSString*)[firstSplit objectAtIndex:0];
+                NSString *species = (NSString*)[firstSplit objectAtIndex:1];
+                
+                organism.genus = genus;
+                organism.species = species;
+            }else {
+                organism.genus = @"";
+                organism.species = @"";
+            }
+            [recentObservedOrganisms addObject:organism];
+            organism = nil;
+            numbersOfOrgansim++;
+		}
+        sqlite3_finalize(statement);
+    } else {
+        NSLog( @"Get recent organisms: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbStatic));
+    }
+    
+    return recentObservedOrganisms;
+    
+    
+}
+
+- (void) deleteRecentObservationsWithOrganism:(int) organismId {
+    sqlite3_stmt* statement;
+    
+    // Create Query String.
+    NSString* sqlStatement = [NSString stringWithFormat:@"DELETE FROM recent_observed_organism WHERE ORGANISM_ID = '%i'", organismId];
+    
+    if( sqlite3_prepare_v2(dbUser, [sqlStatement UTF8String], -1, &statement, NULL) == SQLITE_OK ) {
+        
+        if( sqlite3_step(statement) == SQLITE_DONE) {
+            NSLog(@"Recent observed organism deleted!");
+        } else {
+            NSLog(@"DeleteFromDataBase: Failed from sqlite3_step. Error is:  %s", sqlite3_errmsg(dbUser) );
+        }
+    } else {
+        NSLog( @"DeleteFromDataBase: Failed from sqlite3_prepare_v2. Error is:  %s", sqlite3_errmsg(dbUser) );
+    }
+    // Finalize and close database.
+    sqlite3_finalize(statement);
+}
 
 @end

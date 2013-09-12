@@ -167,6 +167,7 @@
 
 
 // Collection HUD messages
+"collectionHudFinishingRequests" = "Completare le trasmissioni in corso…";
 "collectionHudWaitMessage"		= "Please wait";
 "collectionHudSubmitMessage"	= "Submit data…";
 "collectionHudLoadMessage"		= "Loading…";

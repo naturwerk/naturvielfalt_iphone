@@ -235,6 +235,13 @@ extern int UNKNOWN_ORGANISMID;
                 }
             }
         }
+        if(alertView == uploadView) {
+            ((AlertUploadView*) alertView).keepAlive = YES;
+            
+            alertView.title = NSLocalizedString(@"collectionHudWaitMessage", nil);
+            alertView.message = NSLocalizedString(@"collectionHudFinishingRequests", nil);
+            
+        }
         doSubmit = NO;
     }
 }
@@ -351,6 +358,7 @@ extern int UNKNOWN_ORGANISMID;
     
     for (Observation *obs in obsToSubmit) {
         // single observation
+        if(!doSubmit) break;
         if (obs.inventoryId == 0) {
             ObservationUploadHelper *observationUploadHelper = [[ObservationUploadHelper alloc] init];
             [observationUploadHelper registerListener:self];
@@ -358,37 +366,6 @@ extern int UNKNOWN_ORGANISMID;
             [observationUploadHelper submit:obs withRecursion:NO];
         }
     }
-}
-
-- (void) submitData:(Observation *)ob withRequest:(ASIFormDataRequest *)request {
-    
-    /*AsyncRequestDelegate *asyncDelegate = [[AsyncRequestDelegate alloc] initWithObject:ob];
-    [asyncDelegate registerListener:self];
-    request.delegate = asyncDelegate;
-    [asyncDelegates addObject:asyncDelegate];
-    
-    [request startAsynchronous];
-    
-    NSError *error = [request error];
-    if (!error) {
-        NSString *response = [request responseString];
-        
-        NSLog(@"Response: '%@'", response);
-        
-        if([response isEqualToString:@"SUCCESS"]) {
-            
-            // And Delete the observation form the database
-            [persistenceManager establishConnection];
-            [persistenceManager deleteObservation:ob.observationId];
-            [persistenceManager closeConnection];
-            // Reload observations
-            [self reloadObservations];
-            return true;
-        }
-        return false;
-    } else {
-        return false;
-    }*/
 }
 
 - (IBAction)segmentChanged:(id)sender {
@@ -744,6 +721,7 @@ extern int UNKNOWN_ORGANISMID;
             [alert show];
         }
         //[loadingHUD removeFromSuperview];
+        uploadView.keepAlive = NO;
         [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
         [self reloadObservations];

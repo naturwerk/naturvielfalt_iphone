@@ -161,6 +161,7 @@
 "collectionAlertNoInternetDetail"= "Please activate either 3G or wifi network on your device.";
 
 // Collection success message
+"collectionHudFinishingRequests" = "Complete ongoing transmissions…";
 "collectionSuccessObsDetail"	= "All observations are submitted
 successfully.";
 "collectionSuccessInvDetail"	= "All inventories are submitted successfully.";

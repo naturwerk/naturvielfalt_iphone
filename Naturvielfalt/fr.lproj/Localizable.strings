@@ -168,6 +168,7 @@
 
 
 // Collection HUD messages
+"collectionHudFinishingRequests" = "Remplissez transmissions en cours…";
 "collectionHudWaitMessage"		= "Attendez s.v.p";
 "collectionHudSubmitMessage"	= "Les données sont transmettre..";
 "collectionHudLoadMessage"		= "Charger..";

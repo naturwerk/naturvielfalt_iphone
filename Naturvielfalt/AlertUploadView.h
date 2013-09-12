@@ -14,6 +14,7 @@
 }
 
 @property (nonatomic) UIProgressView *progressView;
+@property (nonatomic) BOOL keepAlive;
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle okButtonTitle:(NSString *)okButtonTitle;
 

@@ -169,6 +169,7 @@
 "collectionSuccessAreaDetail"	= "Alle Gebiete wurden erfolgreich übertragen.";
 
 // Collection HUD messages
+"collectionHudFinishingRequests" = "Beende aktuelle Übermittlungen…";
 "collectionHudWaitMessage"		= "Bitte warten";
 "collectionHudSubmitMessage"	= "Daten werden übermittelt…";
 "collectionHudLoadMessage"		= "Lädt…";

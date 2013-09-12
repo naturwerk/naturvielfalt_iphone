@@ -156,9 +156,12 @@
         for (AreaUploadHelper *areaUploadHelper in areaUploadHelpers) {
             [areaUploadHelper cancel];
         }
-        loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        loadingHUD.labelText = NSLocalizedString(@"collectionCancelMessage", nil);
-        loadingHUD.mode = MBProgressHUDModeCustomView;
+        
+        ((AlertUploadView*) alertView).keepAlive = YES;
+        
+        alertView.title = NSLocalizedString(@"collectionHudWaitMessage", nil);
+        alertView.message = NSLocalizedString(@"collectionHudFinishingRequests", nil);
+        
     } else if([alertView.title isEqualToString:NSLocalizedString(@"collectionAlertObsTitle", nil)]) {
             if(doSubmit){
                 if (buttonIndex == 1){
@@ -202,9 +205,9 @@
     areasCounter = areasToSubmit.count;
     
     if(areasCounter == 0) {
-        [loadingHUD removeFromSuperview];
+        uploadView.keepAlive = NO;
         [uploadView dismissWithClickedButtonIndex:0 animated:YES];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorObs", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionAlertErrorAreas", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
@@ -580,7 +583,8 @@
             [alert show];
         }
         [areasToSubmit removeAllObjects];
-        //[loadingHUD removeFromSuperview];
+        
+        uploadView.keepAlive = NO;
         [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
         [self reloadAreas];

@@ -39,14 +39,15 @@
     if ([curLanguage isEqualToString:@"de"]) {
         name = ([nameDe isEqual: @""]) ? nameLat : [nameDe capitalizedString];
     } else if ([curLanguage isEqualToString:@"fr"]) {
-        ([nameFr isEqual: @""]) ? nameLat : [nameDe capitalizedString];
+        name = ([nameFr isEqual: @""]) ? nameLat : [nameFr capitalizedString];
     } else if ([curLanguage isEqualToString:@"en"]) {
-        ([nameEn isEqual: @""]) ? nameLat : [nameDe capitalizedString];
+        name = ([nameEn isEqual: @""]) ? nameLat : [nameEn capitalizedString];
     } else if ([curLanguage isEqualToString:@"it"]) {
-        ([nameIt isEqual: @""]) ? nameLat : [nameDe capitalizedString];
+        name = ([nameIt isEqual: @""]) ? nameLat : [nameIt capitalizedString];
     } else {
-        ([nameEn isEqual: @""]) ? nameLat : [nameDe capitalizedString];
+        name = ([nameEn isEqual: @""]) ? nameLat : [nameEn capitalizedString];
     }
+
     
     return name;
 }

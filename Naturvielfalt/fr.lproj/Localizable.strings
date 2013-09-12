@@ -166,7 +166,8 @@
 "collectionSuccessAreaDetail"	= "Tous les domaines sont transmis avec succès.";
 
 
-// Collection HUD messages
+// Collection HUD messages 
+"collectionHudFinishingRequests" = "Remplissez transmissions en cours…";
 "collectionHudWaitMessage"		= "Attendez s.v.p";
 "collectionHudSubmitMessage"	= "Les données sont transmettre..";
 "collectionHudLoadMessage"		= "Charger..";

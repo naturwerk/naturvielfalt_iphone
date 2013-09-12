@@ -9,7 +9,7 @@
 #import "AlertUploadView.h"
 
 @implementation AlertUploadView
-@synthesize progressView;
+@synthesize progressView, keepAlive;
 
 static const float kProgressHeight     = 15.0;
 static const float kProgressWidth      = 200.0;
@@ -41,11 +41,15 @@ static const float kProgressWidth      = 200.0;
     if (self = [super initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:okayButtonTitle, nil])
     {
         
-        // CGAffineTransform translate = CGAffineTransformMakeTranslation(0.0, 20.0);
-        //  [self setTransform:translate];
+        keepAlive = NO;
     }
     return self;
 }
 
+//override dismissWithClickedButtonIndex to avoid dismission of alertview once a button is clicked (controled by self.keepAlive)
+- (void) dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated {
+    if(self.keepAlive) return;
+    [super dismissWithClickedButtonIndex:buttonIndex animated:animated];
+}
 @end
 

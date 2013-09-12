@@ -151,6 +151,12 @@ NaturvielfaltAppDelegate *app;
             if (buttonIndex == 1){
                 [self sendObservations];
             }
+        }
+        if(alertView == uploadView) {
+            ((AlertUploadView*) alertView).keepAlive = YES;
+            
+            alertView.title = NSLocalizedString(@"collectionHudWaitMessage", nil);
+            alertView.message = NSLocalizedString(@"collectionHudFinishingRequests", nil);
 
         }
         doSubmit = FALSE;
@@ -239,6 +245,7 @@ NaturvielfaltAppDelegate *app;
     
     
     for(Observation *ob in obsToSubmit) {
+        if(!doSubmit) break;
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         // Get username and password from the UserDefaults
         NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
@@ -599,7 +606,9 @@ NaturvielfaltAppDelegate *app;
             [alert show];
         }
         //[loadingHUD removeFromSuperview];
+        uploadView.keepAlive = NO;
         [uploadView dismissWithClickedButtonIndex:0 animated:YES];
+
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     }
 }

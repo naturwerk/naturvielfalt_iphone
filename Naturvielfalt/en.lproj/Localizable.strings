@@ -167,6 +167,7 @@ successfully.";
 
 
 // Collection HUD messages
+"collectionHudFinishingRequests" = "Complete ongoing transmissions…";
 "collectionHudWaitMessage"		= "Please wait";
 "collectionHudSubmitMessage"	= "Submit data…";
 "collectionHudLoadMessage"		= "Loading…";

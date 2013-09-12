@@ -165,14 +165,15 @@
 "collectionSuccessAreaDetail"	= "All areas are submitted successfully.";
 
 
-// Collection HUD messages
+// Collection HUD messages 
+"collectionHudFinishingRequests" = "Completare le trasmissioni in corso…";
 "collectionHudWaitMessage"		= "Please wait";
 "collectionHudSubmitMessage"	= "Submit data…";
 "collectionHudLoadMessage"		= "Loading…";
 "collectionHudSaveMessage"		= "Saving…";
 
 
-/** Settings **/
+/** Settings **/ 
 "settingsNavTitle"              = "Settings";
 "settingsUsername"              = "Username";
 "settingsPwd"                   = "Password";

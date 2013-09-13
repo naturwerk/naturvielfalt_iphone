@@ -383,8 +383,13 @@ extern int UNKNOWN_ORGANISMID;
     // Calculate swiss coordinates
     SwissCoordinates *swissCoordinates = [[SwissCoordinates alloc] init];
     NSMutableArray *arrayCoordinates = [swissCoordinates calculate:theCoordinate.longitude latitude:theCoordinate.latitude];
+    NSMutableString *tmp = [NSMutableString	stringWithFormat:@"%.0f", [[arrayCoordinates objectAtIndex:0] doubleValue]];
+    if(tmp.length > 3) [tmp insertString:@"'" atIndex:3];
+    NSMutableString *tmp2 = [NSMutableString stringWithFormat:@"%.0f", [[arrayCoordinates objectAtIndex:1] doubleValue]];
+    if(tmp2.length > 3) [tmp2 insertString:@"'" atIndex:3];
     
-    NSString *resString = [NSString	stringWithFormat:@"CH03 %.0f / %.0f", [[arrayCoordinates objectAtIndex:0] doubleValue], [[arrayCoordinates objectAtIndex:1] doubleValue]];
+    
+    NSString *resString = [NSString	stringWithFormat:@"CH03 %@ / %@", tmp, tmp2];
     
     return resString;
 }

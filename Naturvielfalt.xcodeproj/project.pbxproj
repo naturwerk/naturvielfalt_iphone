@@ -1069,7 +1069,7 @@
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2ED2C35F-460D-48C6-9F7B-A064BB81F313";
@@ -1160,7 +1160,7 @@
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2ED2C35F-460D-48C6-9F7B-A064BB81F313";
@@ -1188,7 +1188,7 @@
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "2ED2C35F-460D-48C6-9F7B-A064BB81F313";

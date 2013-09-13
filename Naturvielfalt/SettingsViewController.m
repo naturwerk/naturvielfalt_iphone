@@ -164,7 +164,7 @@
                 }
                 infoCell.textLabel.text = [titlesSectionOne objectAtIndex:indexPath.row];
                 infoCell.userInteractionEnabled = NO;
-                infoCell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+                infoCell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
                 infoCell.textLabel.textColor = [UIColor lightGrayColor];
                 infoCell.textLabel.font = [UIFont italicSystemFontOfSize:14.0];
                 infoCell.textLabel.numberOfLines = 8;
@@ -179,7 +179,7 @@
                 }
                 infoCell.textLabel.text = [titlesSectionOne objectAtIndex:indexPath.row];
                 infoCell.userInteractionEnabled = YES;
-                infoCell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+                infoCell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
                 infoCell.textLabel.textColor = [UIColor blueColor];
                 infoCell.textLabel.font = [UIFont italicSystemFontOfSize:14.0];
                 return infoCell;

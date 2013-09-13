@@ -181,6 +181,14 @@
     
     shouldAdjustZoom = YES;
     
+    //add hairelinecross to map center
+    UIImage *cross = [UIImage imageNamed:@"hairelinecross.png"];
+    
+    int imageSize = 24;
+    UIImageView *crossImageView = [[UIImageView alloc] initWithFrame:CGRectMake((mapView.center.x)-(imageSize/2), (mapView.center.y)-(imageSize/2), imageSize, imageSize)];
+    crossImageView.image = cross;
+    [mapView addSubview:crossImageView];
+    
     [self loadAreas];
 }
 

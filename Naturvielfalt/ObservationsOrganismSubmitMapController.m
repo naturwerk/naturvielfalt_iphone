@@ -131,7 +131,7 @@
     UIImage *cross = [UIImage imageNamed:@"hairelinecross.png"];
     
     int imageSize = 24;
-    UIImageView *crossImageView = [[UIImageView alloc] initWithFrame:CGRectMake((mapView.bounds.size.width/2)-(imageSize/2), (mapView.bounds.size.height/2)-(imageSize/2), imageSize, imageSize)];
+    UIImageView *crossImageView = [[UIImageView alloc] initWithFrame:CGRectMake((mapView.center.x)-(imageSize/2), (mapView.center.y)-(imageSize/2), imageSize, imageSize)];
     crossImageView.image = cross;
     [mapView addSubview:crossImageView];
     

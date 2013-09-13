@@ -127,6 +127,14 @@
     pinMoved = false;
     [setButton setTitle:NSLocalizedString(@"observationAdd", nil) forState:UIControlStateNormal];
     
+    //add hairelinecross to map center
+    UIImage *cross = [UIImage imageNamed:@"hairelinecross.png"];
+    
+    int imageSize = 24;
+    UIImageView *crossImageView = [[UIImageView alloc] initWithFrame:CGRectMake((mapView.bounds.size.width/2)-(imageSize/2), (mapView.bounds.size.height/2)-(imageSize/2), imageSize, imageSize)];
+    crossImageView.image = cross;
+    [mapView addSubview:crossImageView];
+    
     self.mapView.mapType = MKMapTypeHybrid;
 	[self.mapView addAnnotation:annotation];	
 }

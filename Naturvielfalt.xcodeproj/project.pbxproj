@@ -1146,9 +1146,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CBB7F622142B0409000150AF /* NaturvielfaltLite */ = {
+		CBB7F622142B0409000150AF /* NaturvielfaltPro */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CBB7F64A142B040A000150AF /* Build configuration list for PBXNativeTarget "NaturvielfaltLite" */;
+			buildConfigurationList = CBB7F64A142B040A000150AF /* Build configuration list for PBXNativeTarget "NaturvielfaltPro" */;
 			buildPhases = (
 				CBB7F61F142B0409000150AF /* Sources */,
 				CBB7F620142B0409000150AF /* Frameworks */,
@@ -1158,7 +1158,7 @@
 			);
 			dependencies = (
 			);
-			name = NaturvielfaltLite;
+			name = NaturvielfaltPro;
 			productName = Naturvielfalt;
 			productReference = CBB7F623142B0409000150AF /* NaturvielfaltPro.app */;
 			productType = "com.apple.product-type.application";
@@ -1186,7 +1186,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CBB7F622142B0409000150AF /* NaturvielfaltLite */,
+				CBB7F622142B0409000150AF /* NaturvielfaltPro */,
 			);
 		};
 /* End PBXProject section */
@@ -1479,7 +1479,7 @@
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = NaturvielfaltPro;
 				PROVISIONING_PROFILE = "";
@@ -1569,7 +1569,7 @@
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = NaturvielfaltPro;
 				PROVISIONING_PROFILE = "";
@@ -1596,7 +1596,7 @@
 				GCC_PREFIX_HEADER = "Naturvielfalt/Naturvielfalt-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Naturvielfalt/Naturvielfalt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = NaturvielfaltPro;
 				PROVISIONING_PROFILE = "";
@@ -1621,7 +1621,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CBB7F64A142B040A000150AF /* Build configuration list for PBXNativeTarget "NaturvielfaltLite" */ = {
+		CBB7F64A142B040A000150AF /* Build configuration list for PBXNativeTarget "NaturvielfaltPro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CBB7F64B142B040A000150AF /* Debug */,

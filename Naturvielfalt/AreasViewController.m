@@ -185,8 +185,19 @@
     UIImage *cross = [UIImage imageNamed:@"hairelinecross.png"];
     
     int imageSize = 24;
-    UIImageView *crossImageView = [[UIImageView alloc] initWithFrame:CGRectMake((mapView.center.x)-(imageSize/2), (mapView.center.y)-(imageSize/2), imageSize, imageSize)];
-    crossImageView.image = cross;
+    NSLog(@"mapcenter: %f/%f", mapView.center.x, mapView.center.y);
+    
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    UIImageView *crossImageView;
+    
+    if (screenSize.height > 480.0f) {
+        //iphone 5 (Retina 4)
+        crossImageView = [[UIImageView alloc] initWithFrame:CGRectMake((mapView.center.x)-(imageSize/2), (mapView.center.y)-(imageSize/2), imageSize, imageSize)];
+        crossImageView.image = cross;
+    } else {
+        crossImageView = [[UIImageView alloc] initWithFrame:CGRectMake((mapView.bounds.size.width/2)-(imageSize/2), (mapView.bounds.size.height/2)-(imageSize/2), imageSize, imageSize)];
+        crossImageView.image = cross;
+    }
     [mapView addSubview:crossImageView];
     
     [self loadAreas];

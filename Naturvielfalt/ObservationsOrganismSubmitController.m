@@ -176,13 +176,13 @@ extern int UNKNOWN_ORGANISMID;
     family.text = organism.family;
     
     firstLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 20)];
-    [firstLineOrganismButton setTextAlignment:UITextAlignmentCenter];
+    [firstLineOrganismButton setTextAlignment:NSTextAlignmentCenter];
     firstLineOrganismButton.backgroundColor = [UIColor clearColor];
     firstLineOrganismButton.font = [UIFont boldSystemFontOfSize:15];
     [organismButton addSubview:firstLineOrganismButton];
     
     secondLineOrganismButton = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 180, 20)];
-    [secondLineOrganismButton setTextAlignment:UITextAlignmentCenter];
+    [secondLineOrganismButton setTextAlignment:NSTextAlignmentCenter];
     secondLineOrganismButton.backgroundColor = [UIColor clearColor];
     secondLineOrganismButton.textColor = [UIColor grayColor];
     secondLineOrganismButton.font = [UIFont italicSystemFontOfSize:13];

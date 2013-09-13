@@ -248,11 +248,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     } else if ([lastChosenMediaType isEqual:(NSString *)kUTTypeMovie]) {
         self.movieURL = [info objectForKey:UIImagePickerControllerMediaURL];
     }
-    [picker dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {    
-    [picker dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -308,7 +308,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         picker.delegate = self;
         picker.allowsEditing = YES;
         picker.sourceType = sourceType;
-        [self presentModalViewController:picker animated:YES];
+        [self presentViewController:picker animated:YES completion:nil];
     }
     else {
         UIAlertView *alert = [[UIAlertView alloc] 

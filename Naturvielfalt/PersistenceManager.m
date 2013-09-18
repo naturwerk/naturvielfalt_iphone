@@ -10,6 +10,7 @@
 #import "OrganismGroup.h"
 #import "Organism.h"
 #import "sys/xattr.h"
+#import "NaturvielfaltAppDelegate.h"
 
 @implementation PersistenceManager
 @synthesize dbStatic, dbUser, sLanguage;
@@ -17,6 +18,8 @@ int UNKNOWN_ORGANISMGROUPID = 1000;
 int UNKNOWN_ORGANISMID      =   -1;
 int INVASIVE_SPECIES = 1001;
 int RECENT_OBSERVED_ORGANISMS = 1002;
+
+NaturvielfaltAppDelegate *app;
 
 - (NSString *)userDataFilePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -32,6 +35,8 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 // CONNECTION
 - (void) establishConnection
 {
+    app = (NaturvielfaltAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
     // Create link to user database
     if (sqlite3_open([[self userDataFilePath] UTF8String], &dbUser) != SQLITE_OK) {
         sqlite3_close(dbUser);
@@ -217,6 +222,8 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 
 // PERSISTENCE METHODES
 - (void) persistArea:(Area *)areaToSave {
+    app.areasChanged = YES;
+    
     areaToSave.persisted = YES;
     
     // Save area, inventories and observations
@@ -286,6 +293,12 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 //insert observation also into table recent_observed_organism (so user can delete them later on)
 - (long long int) saveObservation:(Observation *) observation
 {
+    if(observation.inventory) {
+        app.areaObservationsChanged = YES;
+        app.inventoriesChanged = YES;
+    }
+    else app.observationsChanged = YES;
+    
     char *sql = "INSERT INTO observation (GUID, SUBMITTED, INVENTORY_ID, ORGANISM_ID, ORGANISMGROUP_ID, ORGANISM_NAME, ORGANISM_NAME_EN, ORGANISM_NAME_FR, ORGANISM_NAME_IT, ORGANISM_NAME_LAT, ORGANISM_FAMILY, AUTHOR, DATE, AMOUNT, LOCATION_LAT, LOCATION_LON, ACCURACY, COMMENT, LOCATION_LOCKED) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt;
 
@@ -361,6 +374,9 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 
 - (void) updateObservation:(Observation *) observation
 {
+    if(observation.inventory) app.areaObservationsChanged = YES;
+    else app.observationsChanged = YES;
+    
     // Delete all images from observation first
     [self deleteObservationImagesFromObservation:observation.observationId];
     
@@ -666,18 +682,36 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
     return observations;
 }
 
-- (NSMutableArray *) getAllAreaObservations {
+- (int) getAreaObservationsCount {
+    NSString *query = @"SELECT COUNT(*) \
+    FROM observation AS o \
+    WHERE o.INVENTORY_ID > 0 ";
+    
+    sqlite3_stmt *statement;
+    int count = 0;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            count = sqlite3_column_int(statement, 0);
+        }
+    }
+    return count;
+
+}
+
+- (NSMutableArray *) getAllAreaObservationsWithOffset:(int) offset andLimit:(int) limit {
     // All observations are stored in here
     NSMutableArray *observations = [[NSMutableArray alloc] init];
     
-    NSString *query = @"SELECT o.*, MIN(oi.ID) AS obsImgID, oi.SUBMITTED AS imgSubmitted, oi.IMAGE, i.NAME AS inventoryName, a.ID AS areaID, a.NAME AS areaName, a.MODE AS areaType \
+    NSString *query = [NSString stringWithFormat: @"SELECT o.*, MIN(oi.ID) AS obsImgID, oi.SUBMITTED AS imgSubmitted, oi.IMAGE, i.NAME AS inventoryName, a.ID AS areaID, a.NAME AS areaName, a.MODE AS areaType \
         FROM observation AS o \
         LEFT JOIN observationImage AS oi ON oi.OBSERVATION_ID = o.ID \
         LEFT JOIN inventory AS i ON o.INVENTORY_ID = i.ID \
         LEFT JOIN area AS a ON i.AREA_ID = a.ID \
         WHERE o.INVENTORY_ID > 0 \
         GROUP BY o.ID \
-        ORDER BY DATE DESC";
+        ORDER BY DATE DESC \
+        LIMIT %i OFFSET %i", limit, offset];
+    
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
         
@@ -842,16 +876,32 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
     return observations;
 }
 
-- (NSMutableArray *) getAllSingelObservations {
+- (int) getSingleObservationsCount {
+    NSString *query = @"SELECT COUNT(*) \
+                       FROM observation AS o \
+                       WHERE o.INVENTORY_ID = 0 ";
+    
+    sqlite3_stmt *statement;
+    int count = 0;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            count = sqlite3_column_int(statement, 0);
+        }
+    }
+    return count;
+}
+
+- (NSMutableArray *) getAllSingelObservationsWithOffset:(int) offset andLimit:(int) limit {
     // All observations are stored in here
     NSMutableArray *observations = [[NSMutableArray alloc] init];
     
-    NSString *query = @"SELECT o.*, MIN(oi.ID) AS obsImgID, oi.SUBMITTED AS imgSubmitted, oi.IMAGE \
+    NSString *query = [NSString stringWithFormat:@"SELECT o.*, MIN(oi.ID) AS obsImgID, oi.SUBMITTED AS imgSubmitted, oi.IMAGE \
     FROM observation AS o \
     LEFT JOIN observationImage AS oi ON oi.Observation_ID = o.ID \
     WHERE o.INVENTORY_ID = 0 \
     GROUP BY o.ID \
-    ORDER BY DATE DESC";
+    ORDER BY DATE DESC \
+    LIMIT %i OFFSET %i", limit, offset];
     
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
@@ -905,6 +955,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
                 // Get the image
                 data = [[NSData alloc] initWithBytes:sqlite3_column_blob(statement, 22) length:sqlite3_column_bytes(statement, 22)];
                 observationImageImg = [UIImage imageWithData:data];
+                data = nil;
                 
                 obsImage = [[ObservationImage alloc] init];
                 obsImage.observationImageId = observationImageID;
@@ -973,6 +1024,11 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
             //observation.pictures = [self getObservationImagesFromObservation:observationId];
             observation.pictures = [[NSMutableArray alloc] initWithObjects:obsImage, nil];
             
+            dateFormatter = nil;
+            obsImage = nil;
+            location = nil;
+            organism = nil;
+            
             // Get OrganismGroup
             int classlevel = 1;
             int parentId = 1;
@@ -980,14 +1036,21 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
             
             // Add observation to the observation array
             [observations addObject:observation];
+            observation = nil;
 		}
-        sqlite3_finalize(statement);
     }
     return observations;
 }
 
 - (void) deleteObservation:(long long int)observationId
 {
+    Observation *obs = [self getObservation:observationId];
+    if(obs.inventoryId) {
+        app.areaObservationsChanged = YES;
+        app.inventoriesChanged = YES;
+    }
+    else app.observationsChanged = YES;
+    
     sqlite3_stmt* statement;
 
     // Create Query String.
@@ -1105,6 +1168,9 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 
 // ObservationImages
 - (long long int) saveObservationImage:(ObservationImage *) observationImage {
+    Observation *obs = [self getObservation:observationImage.observationId];
+    if(obs.inventoryId) app.areaObservationsChanged = YES;
+    else app.observationsChanged = YES;
     
     char *sql = "INSERT INTO observationImage (OBSERVATION_ID, SUBMITTED, IMAGE) VALUES (?, ?, ?)";
     sqlite3_stmt *stmt;
@@ -1131,6 +1197,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 }
 
 - (void) deleteObservationImage:(long long int) observationImageId {
+    
     sqlite3_stmt* statement;
     
     // Create Query String.
@@ -1206,7 +1273,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 
 // AREAS
 - (long long int) saveArea:(Area *) area {
-    
+    app.areasChanged = YES;
     char *sql = "INSERT INTO area (GUID, SUBMITTED, NAME, MODE, AUTHOR, DATE, DESCRIPTION) VALUES (?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt;
     
@@ -1256,6 +1323,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 }
 
 - (void) updateArea:(Area *) area {
+    app.areasChanged = YES;
     char *sql = "UPDATE area SET GUID = ?, SUBMITTED = ?, NAME = ?, MODE = ?, AUTHOR = ?, DATE = ?, DESCRIPTION = ? WHERE ID = ?";
     
     sqlite3_stmt *stmt;
@@ -1299,6 +1367,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 }
 
 - (void) deleteArea:(long long int) areaId {
+    app.areasChanged = YES;
     sqlite3_stmt* statement;
     
     // Create Query String.
@@ -1319,11 +1388,30 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
     sqlite3_finalize(statement);
 }
 
-- (NSMutableArray *) getAreas {
+- (int) getAreasCount {
+    NSString *query = @"SELECT COUNT(*) FROM area";
+    
+    sqlite3_stmt *statement;
+    int count = 0;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            count = sqlite3_column_int(statement, 0);
+        }
+    }
+    return count;
+}
+
+- (NSMutableArray *) getAreasWithOffset:(int)offset andLimit:(int)limit {
     // All observations are stored in here
     NSMutableArray *areas = [[NSMutableArray alloc] init];
     
-    NSString *query = @"SELECT * FROM area ORDER BY DATE DESC";
+    NSString *query;
+    if(limit >= 0 && offset >= 0) {
+        query = [NSString stringWithFormat:@"SELECT * FROM area ORDER BY DATE DESC LIMIT %i OFFSET %i", limit, offset];
+    }
+    else {
+        query = @"SELECT * FROM area ORDER BY DATE DESC";
+    }
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
         
@@ -1441,7 +1529,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 
 // AreaImages
 - (long long int) saveAreaImage:(AreaImage *) areaImage {
-    
+    app.areasChanged = YES;
     char *sql = "INSERT INTO areaImage (AREA_ID, SUBMITTED, IMAGE) VALUES (?, ?, ?)";
     sqlite3_stmt *stmt;
     
@@ -1564,6 +1652,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 }
 
 - (void) saveLocationPoints: (NSMutableArray *)locationPoints areaId:(long long)aId{
+    app.areasChanged = YES;
     char *sql = "INSERT INTO locationPoint (AREA_ID, LAT, LON) VALUES (?, ?, ?)";
     sqlite3_stmt *stmt;
     
@@ -1590,6 +1679,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 }
 
 - (void) deleteLocationPoints:(long long int)aId{
+    app.areasChanged = YES;
     sqlite3_stmt* statement;
     
 
@@ -1691,6 +1781,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 
 // INVENTORIES
 - (long long int) saveInventory:(Inventory *) inventory {
+    app.inventoriesChanged = YES;
     char *sql = "INSERT INTO inventory (GUID, SUBMITTED, AREA_ID, NAME, AUTHOR, DATE, DESCRIPTION) VALUES (?, ?, ?, ?, ?, ?, ?)";
     sqlite3_stmt *stmt;
     
@@ -1730,6 +1821,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 }
 
 - (void) updateInventory:(Inventory *) inventory {
+    app.inventoriesChanged = YES;
     char *sql = "UPDATE inventory SET GUID = ?, SUBMITTED = ?, AREA_ID = ?, NAME = ?, AUTHOR = ?, DATE = ?, DESCRIPTION = ? WHERE ID = ?";
     
     sqlite3_stmt *stmt;
@@ -1762,6 +1854,7 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
 }
 
 - (void) deleteInventory:(long long int) inventoryId {
+    app.inventoriesChanged = YES;
     sqlite3_stmt* statement;
     
     // Create Query String.
@@ -1788,15 +1881,74 @@ int RECENT_OBSERVED_ORGANISMS = 1002;
     }
 }
 
-- (NSMutableArray *) getInventories {
+- (int) getInventoriesCount {
+    NSString *query = @"SELECT COUNT(*) FROM inventory";
+    
+    sqlite3_stmt *statement;
+    int count = 0;
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            count = sqlite3_column_int(statement, 0);
+        }
+    }
+    return count;
+}
+
+- (NSMutableArray *) getInventoriesWithOffset:(int)offset andLimit:(int)limit {
     // All inventories are stored in here
     NSMutableArray *inventories = [[NSMutableArray alloc] init];
     
-    // Get all Areas for right connection between area, inventory and observation objects
-    NSMutableArray *areas = [self getAreas];
+    NSString *query;
+    if(limit >= 0 && offset >= 0) {
+        query = [NSString stringWithFormat:@"SELECT * FROM inventory ORDER BY date DESC LIMIT %i OFFSET %i", limit, offset];
+    }
+    else {
+        query = @"SELECT * FROM inventory ORDER BY date DESC";
+    }
+    sqlite3_stmt *statement;
     
-    for (Area *area in areas) {
-        [inventories addObjectsFromArray:area.inventories];
+    if (sqlite3_prepare_v2(dbUser, [query UTF8String], -1, &statement, nil) == SQLITE_OK) {
+        
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            
+            int id = sqlite3_column_int(statement, 0);
+            int guid = sqlite3_column_int(statement, 1);
+            BOOL submitted = sqlite3_column_int(statement, 2);
+            int areaId = sqlite3_column_int(statement, 3);
+            NSString *name = [NSString stringWithUTF8String:(char *) sqlite3_column_text(statement, 4)];
+            NSString *author = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
+            NSString *dateString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 6)];
+            
+            NSString *description;
+            
+            // Check if description is null
+            if(sqlite3_column_text(statement, 7) == NULL) {
+                description = @"";
+            } else {
+                description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 7)];
+            }
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd.MM.yyyy, HH:mm:ss";
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            
+            // Create Inventory
+            Inventory *inventory = [[Inventory alloc] init];
+            inventory.area = [self getArea:areaId];
+            inventory.guid = guid;
+            inventory.submitted = submitted;
+            inventory.areaId = areaId;
+            inventory.inventoryId = id;
+            inventory.name = name;
+            inventory.author = author;
+            inventory.date = date;
+            inventory.description = description;
+            inventory.submitToServer = YES;
+            inventory.observations = [self getObservationsFromInventory:inventory];
+           
+            [inventories addObject:inventory];
+        }
+        sqlite3_finalize(statement);
     }
     
     return inventories;

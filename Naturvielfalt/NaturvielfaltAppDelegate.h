@@ -22,4 +22,8 @@
 @property (nonatomic) IBOutlet UITabBarItem *collectionTabItem;
 @property (nonatomic) IBOutlet UITabBarItem *settingsTabItem;
 
+@property (nonatomic) BOOL observationsChanged;
+@property (nonatomic) BOOL areaObservationsChanged;
+@property (nonatomic) BOOL inventoriesChanged;
+@property (nonatomic) BOOL areasChanged;
 @end

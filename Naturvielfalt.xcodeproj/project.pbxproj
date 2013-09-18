@@ -14,6 +14,8 @@
 		270D390117393DE600D94568 /* CustomObservationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D390017393DE600D94568 /* CustomObservationAnnotation.m */; };
 		270D3904173940C300D94568 /* CustomObservationAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 270D3903173940C200D94568 /* CustomObservationAnnotationView.m */; };
 		2711A52F1769EB19005A6C32 /* AsyncRequestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2711A52E1769EB19005A6C32 /* AsyncRequestDelegate.m */; };
+		2727F56D17E745BB00024BF9 /* NMPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2727F56C17E745BB00024BF9 /* NMPaginator.m */; };
+		2727F57017E7470100024BF9 /* SingleObservationPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2727F56F17E7470100024BF9 /* SingleObservationPager.m */; };
 		272D3A671714172300588328 /* AreasSubmitNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A651714172300588328 /* AreasSubmitNameController.m */; };
 		272D3A681714172300588328 /* AreasSubmitNameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 272D3A661714172300588328 /* AreasSubmitNameController.xib */; };
 		272D3A6C1714176D00588328 /* AreasSubmitDescriptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 272D3A6A1714176D00588328 /* AreasSubmitDescriptionController.m */; };
@@ -26,6 +28,10 @@
 		2730A12715A31AF400F416D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12615A31AF300F416D9 /* Security.framework */; };
 		2730A12915A31AFC00F416D9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730A12815A31AFC00F416D9 /* CoreFoundation.framework */; };
 		273D519117268B8300377227 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 273D518F17268B8300377227 /* Localizable.strings */; };
+		274D95EA17E84E1F001ED58E /* AreaObservationsPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 274D95E917E84E1F001ED58E /* AreaObservationsPager.m */; };
+		274D95ED17E84E2C001ED58E /* InventoriesPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 274D95EC17E84E2C001ED58E /* InventoriesPager.m */; };
+		274D95F017E84E35001ED58E /* AreasPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 274D95EF17E84E35001ED58E /* AreasPager.m */; };
+		274D95F317E8948D001ED58E /* ACollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 274D95F217E8948C001ED58E /* ACollectionController.m */; };
 		27746D0B159B103900672970 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 27746D06159B103900672970 /* iTunesArtwork */; };
 		278E0354178429A400EE7368 /* CustomDateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 278E0353178429A400EE7368 /* CustomDateCell.m */; };
 		278E035617842B2D00EE7368 /* CustomDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 278E035517842B2D00EE7368 /* CustomDateCell.xib */; };
@@ -236,6 +242,10 @@
 		2711A52E1769EB19005A6C32 /* AsyncRequestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncRequestDelegate.m; sourceTree = "<group>"; };
 		2711A5311769ED2B005A6C32 /* Listener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Listener.h; sourceTree = "<group>"; };
 		2711A5321769F960005A6C32 /* Observer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Observer.h; sourceTree = "<group>"; };
+		2727F56B17E745BB00024BF9 /* NMPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMPaginator.h; sourceTree = "<group>"; };
+		2727F56C17E745BB00024BF9 /* NMPaginator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMPaginator.m; sourceTree = "<group>"; };
+		2727F56E17E7470100024BF9 /* SingleObservationPager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleObservationPager.h; sourceTree = "<group>"; };
+		2727F56F17E7470100024BF9 /* SingleObservationPager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleObservationPager.m; sourceTree = "<group>"; };
 		272D3A641714172300588328 /* AreasSubmitNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasSubmitNameController.h; sourceTree = "<group>"; };
 		272D3A651714172300588328 /* AreasSubmitNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasSubmitNameController.m; sourceTree = "<group>"; };
 		272D3A661714172300588328 /* AreasSubmitNameController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AreasSubmitNameController.xib; sourceTree = "<group>"; };
@@ -254,6 +264,14 @@
 		2730A12815A31AFC00F416D9 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		273D519017268B8300377227 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		273D519217268B8F00377227 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		274D95E817E84E1F001ED58E /* AreaObservationsPager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaObservationsPager.h; sourceTree = "<group>"; };
+		274D95E917E84E1F001ED58E /* AreaObservationsPager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaObservationsPager.m; sourceTree = "<group>"; };
+		274D95EB17E84E2C001ED58E /* InventoriesPager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoriesPager.h; sourceTree = "<group>"; };
+		274D95EC17E84E2C001ED58E /* InventoriesPager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoriesPager.m; sourceTree = "<group>"; };
+		274D95EE17E84E35001ED58E /* AreasPager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreasPager.h; sourceTree = "<group>"; };
+		274D95EF17E84E35001ED58E /* AreasPager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreasPager.m; sourceTree = "<group>"; };
+		274D95F117E8948B001ED58E /* ACollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACollectionController.h; sourceTree = "<group>"; };
+		274D95F217E8948C001ED58E /* ACollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACollectionController.m; sourceTree = "<group>"; };
 		27746D06159B103900672970 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = SOURCE_ROOT; };
 		278E0352178429A300EE7368 /* CustomDateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDateCell.h; sourceTree = "<group>"; };
 		278E0353178429A400EE7368 /* CustomDateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDateCell.m; sourceTree = "<group>"; };
@@ -647,6 +665,8 @@
 		27F0337817300625009217B7 /* collections */ = {
 			isa = PBXGroup;
 			children = (
+				274D95F117E8948B001ED58E /* ACollectionController.h */,
+				274D95F217E8948C001ED58E /* ACollectionController.m */,
 				27F0337E173006BD009217B7 /* CollectionObservationsController.h */,
 				27F0337F173006BE009217B7 /* CollectionObservationsController.m */,
 				27F03380173006BE009217B7 /* CollectionObservationsController.xib */,
@@ -919,6 +939,16 @@
 				CB1432331486642200BBA78D /* SwissCoordinates.m */,
 				CB1EE5D814893F3400FF286F /* Settings.h */,
 				CB1EE5D914893F3400FF286F /* Settings.m */,
+				2727F56B17E745BB00024BF9 /* NMPaginator.h */,
+				2727F56C17E745BB00024BF9 /* NMPaginator.m */,
+				2727F56E17E7470100024BF9 /* SingleObservationPager.h */,
+				2727F56F17E7470100024BF9 /* SingleObservationPager.m */,
+				274D95E817E84E1F001ED58E /* AreaObservationsPager.h */,
+				274D95E917E84E1F001ED58E /* AreaObservationsPager.m */,
+				274D95EB17E84E2C001ED58E /* InventoriesPager.h */,
+				274D95EC17E84E2C001ED58E /* InventoriesPager.m */,
+				274D95EE17E84E35001ED58E /* AreasPager.h */,
+				274D95EF17E84E35001ED58E /* AreasPager.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -1045,8 +1075,8 @@
 		CBDDB535144D7586007E48AB /* SubmitHelper */ = {
 			isa = PBXGroup;
 			children = (
-				27F287F6179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.h */,
 				27F287F7179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.m */,
+				27F287F6179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.h */,
 				27F287F8179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.xib */,
 				27FCAACA1782F85B007D10F1 /* ObservationsOrganismSubmitDateController.h */,
 				27FCAACB1782F85C007D10F1 /* ObservationsOrganismSubmitDateController.m */,
@@ -1403,6 +1433,12 @@
 				27F287F9179EBD7400554AF9 /* ObservationOrganismSubmitOrganismGroupController.m in Sources */,
 				27FBAE4717B3799A00895AFE /* SettingsViewController.m in Sources */,
 				27FBAE4C17B379D300895AFE /* SettingsViewRootController.m in Sources */,
+				2727F56D17E745BB00024BF9 /* NMPaginator.m in Sources */,
+				2727F57017E7470100024BF9 /* SingleObservationPager.m in Sources */,
+				274D95EA17E84E1F001ED58E /* AreaObservationsPager.m in Sources */,
+				274D95ED17E84E2C001ED58E /* InventoriesPager.m in Sources */,
+				274D95F017E84E35001ED58E /* AreasPager.m in Sources */,
+				274D95F317E8948D001ED58E /* ACollectionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

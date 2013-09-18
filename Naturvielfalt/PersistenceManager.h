@@ -48,14 +48,16 @@
 - (void) persistObservation:(Observation *)obsToSave;
 
 // Observations
+- (int) getSingleObservationsCount;
+- (int) getAreaObservationsCount;
 - (long long int) saveObservation:(Observation *) observation;
 - (void) updateObservation:(Observation *) observation;
 - (void) deleteObservation:(long long int)observationId;
 - (void) deleteObservations:(NSMutableArray *)observations;
 - (Observation *) getObservation:(long long int) observationId;
 - (NSMutableArray *) getObservations;
-- (NSMutableArray *) getAllAreaObservations;
-- (NSMutableArray *) getAllSingelObservations;
+- (NSMutableArray *) getAllAreaObservationsWithOffset:(int) offset andLimit:(int) limit;
+- (NSMutableArray *) getAllSingelObservationsWithOffset:(int) offset andLimit:(int) limit;
 
 // Organismname with right translation
 - (NSString *) getOrganismTranslationName:(int )organismId;
@@ -68,10 +70,11 @@
 - (NSMutableArray *) getObservationImagesFromObservation: (long long int) observationId;
 
 // Areas
+- (int) getAreasCount;
 - (long long int) saveArea:(Area *) area;
 - (void) updateArea:(Area *) area;
 - (void) deleteArea:(long long int) areaId;
-- (NSMutableArray *) getAreas;
+- (NSMutableArray *) getAreasWithOffset:(int) offset andLimit:(int) limit;
 - (Area *) getArea:(long long int)areaId;
 - (NSMutableArray *) getInventoriesFromArea:(Area *) area;
 
@@ -83,11 +86,12 @@
 - (NSMutableArray *) getAreaImagesFromArea: (long long int) areaId;
 
 //Inventories
+- (int) getInventoriesCount;
 - (long long int) saveInventory:(Inventory *) inventory;
 - (void) updateInventory:(Inventory *) inventory;
 - (void) deleteInventory:(long long int) inventoryId;
 - (void) deleteInventories:(NSMutableArray *)inventories;
-- (NSMutableArray *) getInventories;
+- (NSMutableArray *) getInventoriesWithOffset:(int) offset andLimit:(int) limit;
 - (Inventory *) getInventory:(long long int) inventoryId;
 - (NSMutableArray *) getObservationsFromInventory:(Inventory *)inventory;
 

@@ -293,7 +293,7 @@
         [persistenceManager closeConnection];
     }
     
-    // new INVENTORY
+    // new Observation
     ObservationsViewController *observationsViewController = [[ObservationsViewController alloc]
                                                               initWithNibName:@"ObservationsViewController"
                                                               bundle:[NSBundle mainBundle]];

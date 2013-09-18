@@ -12,7 +12,6 @@
 #import "CustomObservationAnnotation.h"
 #import "CustomObservationAnnotationView.h"
 #import "AreasSubmitController.h"
-#import "MBProgressHUD.h"
 #import "ASIFormDataRequest.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -21,26 +20,11 @@
 #define MAX_DEGREES_ARC 360
 
 extern int UNKNOWN_ORGANISMID;
+NaturvielfaltAppDelegate *app;
 
 @implementation CollectionObservationsController
-@synthesize observations, persistenceManager, observationsToSubmit, table, countObservations, queue, operationQueue, curIndex, doSubmit, segmentControl, mapView, observationsView, obsToSubmit, checkAllButton, mapSegmentControl, checkAllView, noEntryFoundLabel;
+@synthesize observationsToSubmit, table, countObservations, doSubmit, segmentControl, mapView, observationsView, obsToSubmit, checkAllButton, mapSegmentControl, checkAllView, noEntryFoundLabel, persistenceManager, pager, loadingHUD, uploadView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        doSubmit = NO;
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
-    return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-}
 
 - (void)viewDidUnload {
     [self setSegmentControl:nil];
@@ -88,38 +72,29 @@ extern int UNKNOWN_ORGANISMID;
     
     [checkAllButton setTag:1];
     
-    // Create filter button and add it to the NavigationBar
-    /*UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:NSLocalizedString(@"navDel", nil)
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action: @selector(removeObservations)];
-    
-    self.navigationItem.leftBarButtonItem = editButton;*/
-    
-    // Reload the observations
-    operationQueue = [[NSOperationQueue alloc] init];
-    [operationQueue setMaxConcurrentOperationCount:1];
-    
-    /*loadingHUD = [[MBProgressHUD alloc] initWithView:self.view];
-    loadingHUD.delegate = self;
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    [self.navigationController.view addSubview:loadingHUD];
-    
-    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [loadingHUD showWhileExecuting:@selector(reloadObservations) onTarget:self withObject:nil animated:YES];*/
-    
     [table registerNib:[UINib nibWithNibName:@"CheckboxCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CheckboxCell"];
     
-    // Reload table
-    [table reloadData];
+    [self setupTableViewFooter];
+    
+    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+    [pager fetchFirstPage];
+    app.observationsChanged = NO;
+    
+}
+
+- (void)paginator:(id)paginator didReceiveResults:(NSArray *)results
+{
+    [super paginator:paginator didReceiveResults:results];
+    [self reloadAnnotations];
+    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
 }
 
 - (void) reloadAnnotations {
     observationAnnotations = [[NSMutableArray alloc] init];
     
-    for (Observation *observation in observations) {
+    for (Observation *observation in pager.results) {
         CLLocationCoordinate2D cll;
         cll.latitude = observation.location.coordinate.latitude;
         cll.longitude = observation.location.coordinate.longitude;
@@ -170,39 +145,6 @@ extern int UNKNOWN_ORGANISMID;
     }
     [mapView setRegion:region animated:animated];
 }
-
-//Check if there is an active WiFi connection
-- (BOOL) connectedToWiFi{
-    Reachability *r = [Reachability reachabilityWithHostName:@"www.google.com"];
-	
-	NetworkStatus internetStatus = [r currentReachabilityStatus];
-	
-	bool result = NO;
-	
-	if (internetStatus == ReachableViaWiFi)
-	{
-	    result = YES;
-	}
-	
-	return result;
-}
-
-//Check if there is an active internet connection (3G OR WIFI)
-- (BOOL) connectedToInternet{
-    Reachability *r = [Reachability reachabilityWithHostName:@"www.google.com"];
-	
-	NetworkStatus internetStatus = [r currentReachabilityStatus];
-	
-	bool result = false;
-	
-	if (internetStatus != NotReachable)
-	{
-	    result = true;
-	}
-	
-	return result;
-}
-
 
 //fires an alert if not connected to WiFi
 - (void) alertOnSendObservationsDialog{
@@ -280,14 +222,14 @@ extern int UNKNOWN_ORGANISMID;
     if (currentTag == 0) {
         //[checkAllButton setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal];
         [checkAllView setImage:[UIImage imageNamed:@"checkbox_checked.png"]];
-        for (Observation *obs in observations) {
+        for (Observation *obs in pager.results) {
             obs.submitToServer = YES;
         }
         checkAllButton.tag = 1;
     } else {
         //[checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
         [checkAllView setImage:[UIImage imageNamed:@"checkbox.png"]];
-        for (Observation *obs in observations) {
+        for (Observation *obs in pager.results) {
             obs.submitToServer = NO;
         }
         checkAllButton.tag = 0;
@@ -313,7 +255,7 @@ extern int UNKNOWN_ORGANISMID;
     }
     
     obsToSubmit = [[NSMutableArray alloc] init];
-    for (Observation *obs in observations) {
+    for (Observation *obs in pager.results) {
         if (obs.submitToServer) {
             [obsToSubmit addObject:obs];
         }
@@ -398,74 +340,17 @@ extern int UNKNOWN_ORGANISMID;
     [self.table setEditing:!self.table.editing animated:YES];
 }
 
-- (void)beginLoadingObservations
-{
-    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(synchronousLoadObservations) object:nil];
-    [operationQueue addOperation:operation];
-}
-
-- (void)synchronousLoadObservations
-{
-    NSMutableArray *arrNewObservations;
-    @synchronized (self) {
-        // Establish a connection
-        [persistenceManager establishConnection];
-        
-        // Get all observations
-        arrNewObservations = [persistenceManager getAllSingelObservations];
-        
-        [persistenceManager closeConnection];
-    }
-    
-    [self performSelectorOnMainThread:@selector(didFinishLoadingObservations:) withObject:arrNewObservations waitUntilDone:YES];
-}
-
-- (void)didFinishLoadingObservations:(NSMutableArray *)arrNewObservations
-{
-    if(observations != nil) {
-        if([observations count] != [arrNewObservations count]){
-            observations = arrNewObservations;
-        }
-    }
-    else {
-        observations = arrNewObservations;
-    }
-    
-    countObservations = self.observations.count;
-    
-    if(table.editing)
-        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.curIndex] withRowAnimation:YES];
-    
-    [table reloadData];
-    
-    // If there aren't any observations in the list. Stop the editing mode.
-    if([observations count] < 1) {
-        table.editing = NO;
-        table.hidden = YES;
-        noEntryFoundLabel.hidden = NO;
-    } else {
-        table.hidden = NO;
-        noEntryFoundLabel.hidden = YES;
-    }
-    [self reloadAnnotations];
-    
-    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-}
-
-- (void) reloadObservations
-{
-    // Reset observations
-    observations = nil;
-    [self beginLoadingObservations];
-}
-
 - (void) viewWillAppear:(BOOL)animated
 {
-    table.editing = NO;
-    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    [self reloadObservations];
+    if(app.observationsChanged) {
+        [pager reset];
+        table.editing = NO;
+        loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+        loadingHUD.mode = MBProgressHUDModeCustomView;
+        [pager fetchFirstPage];
+        app.observationsChanged = NO;
+    }
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
     
@@ -479,19 +364,11 @@ extern int UNKNOWN_ORGANISMID;
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         CheckboxCell *cell = (CheckboxCell *)[tableView cellForRowAtIndexPath:indexPath];
         UIButton *button = cell.checkbox;
-        curIndex = indexPath;
         
         // Also delete it from the Database
         // Establish a connection
@@ -503,31 +380,28 @@ extern int UNKNOWN_ORGANISMID;
         // Close connection to the database
         [persistenceManager closeConnection];
         
-        [observations removeObjectAtIndex:indexPath.row];
-        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:UITableViewRowAnimationFade];
+        [pager.results removeObjectAtIndex:indexPath.row];
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         // If there aren't any observations in the list. Stop the editing mode.
-        if([observations count] < 1) {
+        if([pager.results count] < 1) {
             table.editing = NO;
             table.hidden = YES;
             noEntryFoundLabel.hidden = NO;
         }
         
-        // Reload the observations from the database and refresh the TableView
-        //[self reloadObservations];
+        //update map
+        [self reloadAnnotations];
+        
+        //update tablefooter
+        pager.total--;
+        [self updateTableViewFooter];
     }
 }
 
-
 // MARK: -
 // MARK: TableViewDelegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
 
--(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.observations count];
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CheckboxCell" forIndexPath:indexPath];
@@ -544,7 +418,7 @@ extern int UNKNOWN_ORGANISMID;
         checkboxCell = (CheckboxCell *)cell;
     }
     
-    Observation *observation = [observations objectAtIndex:indexPath.row];
+    Observation *observation = [pager.results objectAtIndex:indexPath.row];
     
     if(observation != nil) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -625,7 +499,7 @@ extern int UNKNOWN_ORGANISMID;
     UIButton *button = (UIButton *)sender;
     NSNumber *number = [NSNumber numberWithInt:button.tag];
     
-    for(Observation *ob in observations) {
+    for(Observation *ob in pager.results) {
         if(ob.observationId == [number longLongValue]) {
             ob.submitToServer = !ob.submitToServer;
         }
@@ -635,11 +509,12 @@ extern int UNKNOWN_ORGANISMID;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Create the ObservationsOrganismViewController
-    ObservationsOrganismSubmitController *organismSubmitController = [[ObservationsOrganismSubmitController alloc]
+    if(!organismSubmitController)
+    organismSubmitController = [[ObservationsOrganismSubmitController alloc]
                                                                       initWithNibName:@"ObservationsOrganismSubmitController"
                                                                       bundle:[NSBundle mainBundle]];
     
-    Observation *observation = [observations objectAtIndex:indexPath.row];
+    Observation *observation = [pager.results objectAtIndex:indexPath.row];
     
     // Store the current observation object
     /*Observation *observationShared = [[Observation alloc] getObservation];
@@ -655,7 +530,6 @@ extern int UNKNOWN_ORGANISMID;
     
     // Switch the View & Controller
     [self.navigationController pushViewController:organismSubmitController animated:YES];
-    organismSubmitController = nil;
 }
 
 #pragma MKMapViewDelegate methods
@@ -724,7 +598,7 @@ extern int UNKNOWN_ORGANISMID;
         uploadView.keepAlive = NO;
         [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-        [self reloadObservations];
+        [self.table reloadData];
     }
 }
 

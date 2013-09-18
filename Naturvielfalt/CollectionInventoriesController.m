@@ -13,24 +13,16 @@
 #import "AreasSubmitNewInventoryController.h"
 #import "AreasSubmitController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "NaturvielfaltAppDelegate.h"
 
 @interface CollectionInventoriesController ()
 
 @end
 
+NaturvielfaltAppDelegate *app;
 @implementation CollectionInventoriesController
-@synthesize table, inventories, noEntryFoundLabel;
+@synthesize table, pager, persistenceManager, loadingHUD, noEntryFoundLabel;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        doSubmit = NO;
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -41,28 +33,25 @@
     self.navigationItem.title = title;
 
     table.delegate = self;
-    
     noEntryFoundLabel.text = NSLocalizedString(@"noEntryFound", nil);
-    
-    // Reload the inventories
-    operationQueue = [[NSOperationQueue alloc] init];
-    [operationQueue setMaxConcurrentOperationCount:1];
-    
-    /*loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-    [self.navigationController.view addSubview:loadingHUD];
-    
-    loadingHUD.delegate = self;
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    
-    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [loadingHUD showWhileExecuting:@selector(reloadInventories) onTarget:self withObject:nil animated:YES];*/
     
     [table registerNib:[UINib nibWithNibName:@"CheckboxInventoryCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CheckboxInventoryCell"];
     
-    // Reload table
-    [table reloadData];
+    [self setupTableViewFooter];
+    
+    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+    [pager fetchFirstPage];
+    app.inventoriesChanged = NO;
 }
+
+- (void)paginator:(id)paginator didReceiveResults:(NSArray *)results
+{
+    [super paginator:paginator didReceiveResults:results];
+    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -78,11 +67,15 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    table.editing = NO;
-    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    [self reloadInventories];
+    if(app.inventoriesChanged){
+        [pager reset];
+        table.editing = NO;
+        loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+        loadingHUD.mode = MBProgressHUDModeCustomView;
+        [pager fetchFirstPage];
+        app.inventoriesChanged = NO;
+    }
 }
 
 - (void) removeInventories
@@ -90,106 +83,34 @@
     [table setEditing:!table.editing animated:YES];
 }
 
-- (void) reloadInventories {
-    NSLog(@"reload inventories");
-    
-    // Reset inventories
-    inventories = nil;
-
-    [self beginLoadingInventories];
-}
-
-- (void) beginLoadingInventories {
-    NSLog(@"begin loading inventories");
-    
-    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(synchronousLoadInventories) object:nil];
-    [operationQueue addOperation:operation];
-}
-
-- (void) synchronousLoadInventories {
-    NSLog(@"synchronousLoadInventories");
-    // Establish a connection
-    [persistenceManager establishConnection];
-    
-    // Get all inventories
-    NSMutableArray *arrNewInventories = [persistenceManager getInventories];
-    
-    [persistenceManager closeConnection];
-    
-    [self performSelectorOnMainThread:@selector(didFinishLoadingInventories:) withObject:arrNewInventories waitUntilDone:YES];
-}
-
-- (void)didFinishLoadingInventories:(NSMutableArray *)arrNewInventories
-{
-    if(inventories != nil){
-        if([inventories count] != [arrNewInventories count]){
-            inventories = arrNewInventories;
-        }
-    }
-    else {
-        inventories = arrNewInventories;
-    }
-    
-    countInventories = (int *)self.inventories.count;
-    
-    if(table.editing) {
-        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
-    }
-    
-    [table reloadData];
-    
-    // If there aren't any inventories in the list. Stop the editing mode.
-    if([inventories count] < 1) {
-        table.editing = NO;
-        table.hidden = YES;
-        noEntryFoundLabel.hidden = NO;
-    } else {
-        table.hidden = NO;
-        noEntryFoundLabel.hidden = YES;
-    }
-    
-    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-}
-
-#pragma UITableViewDelegates methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
--(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [inventories count];
-}
-
 - (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        CheckboxInventoryCell *cell = (CheckboxInventoryCell *)[tv cellForRowAtIndexPath:indexPath];
-        UIButton *button = cell.checkbox;
-        curIndex = indexPath;
         
         // Also delete it from the Database
         // Establish a connection
         [persistenceManager establishConnection];
         
-        Inventory *inventory = [persistenceManager getInventory:button.tag];
+        Inventory *inventory = [pager.results objectAtIndex:indexPath.row];
         
         // If Yes, delete the observation and inventory with the persistence manager
         [persistenceManager deleteObservations:inventory.observations];
-        [persistenceManager deleteInventory:button.tag];
+        [persistenceManager deleteInventory:inventory.inventoryId];
         
         // Close connection to the database
         [persistenceManager closeConnection];
         
-        [inventories removeObjectAtIndex:indexPath.row];
-        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:UITableViewRowAnimationFade];
+        [pager.results removeObjectAtIndex:indexPath.row];
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
-        if ([inventories count] < 1) {
+        if ([pager.results count] < 1) {
             table.editing = NO;
             table.hidden = YES;
             noEntryFoundLabel.hidden = NO;
         }
-        // Reload the observations from the database and refresh the TableView
-        //[self reloadInventories];
+    
+    //update tablefooter
+    pager.total--;
+    [self updateTableViewFooter];
     }
 }
 
@@ -208,7 +129,7 @@
         checkboxInventoryCell = (CheckboxInventoryCell *)cell;
     }
     
-    Inventory *inventory = [inventories objectAtIndex:indexPath.row];
+    Inventory *inventory = [pager.results objectAtIndex:indexPath.row];
     
     if(inventory != nil) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -269,7 +190,7 @@
     UIButton *button = (UIButton *)sender;
     NSNumber *number = [NSNumber numberWithInt:button.tag];
     
-    for(Inventory *iv in inventories) {
+    for(Inventory *iv in pager.results) {
         if(iv.inventoryId == [number longLongValue]) {
             iv.submitToServer = !iv.submitToServer;
         }
@@ -280,11 +201,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     // Create the ObservationsOrganismViewController
-    AreasSubmitNewInventoryController *areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
+    if(!areasSubmitNewInventoryController)
+    areasSubmitNewInventoryController = [[AreasSubmitNewInventoryController alloc]
                                                                       initWithNibName:@"AreasSubmitNewInventoryController"
                                                                       bundle:[NSBundle mainBundle]];
     
-    Inventory *inventory = [inventories objectAtIndex:indexPath.row];
+    Inventory *inventory = [pager.results objectAtIndex:indexPath.row];
     
     // Store the current observation object
     Inventory *inventoryShared = [[Inventory alloc] getInventory];
@@ -299,6 +221,5 @@
     
     // Switch the View & Controller
     [self.navigationController pushViewController:areasSubmitNewInventoryController animated:YES];
-    areasSubmitNewInventoryController = nil;
 }
 @end

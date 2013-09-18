@@ -219,6 +219,7 @@
     for (id<MKAnnotation> annotation in mapView.selectedAnnotations) {
         [mapView deselectAnnotation:annotation animated:NO];
     }
+    
     [self loadAreas];
     
     NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
@@ -268,7 +269,7 @@
     }
     [persistenceManager establishConnection];
     
-    NSMutableArray *areas = [persistenceManager getAreas];
+    NSMutableArray *areas = [persistenceManager getAreasWithOffset:-1 andLimit:-1];
     // Close connection
     [persistenceManager closeConnection];
 

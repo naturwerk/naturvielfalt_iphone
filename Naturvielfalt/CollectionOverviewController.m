@@ -11,6 +11,10 @@
 #import "CollectionInventoriesController.h"
 #import "CollectionAreasController.h"
 #import "CollectionAreaObservationsController.h"
+#import "SingleObservationPager.h"
+#import "AreaObservationsPager.h"
+#import "AreasPager.h"
+#import "InventoriesPager.h"
 
 @implementation CollectionOverviewController
 @synthesize table;
@@ -19,7 +23,21 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        observationsController = [[CollectionObservationsController alloc]initWithNibName:@"CollectionObservationsController" bundle:[NSBundle mainBundle]];
+        NMPaginator *pagerObsSingle = [[SingleObservationPager alloc] initWithPageSize:10 delegate:observationsController];
+        [observationsController setPager:pagerObsSingle];
+        
+        areaObservationsController = [[CollectionAreaObservationsController alloc]initWithNibName:@"CollectionAreaObservationsController" bundle:[NSBundle mainBundle]];
+        NMPaginator *pagerObsArea = [[AreaObservationsPager alloc] initWithPageSize:10 delegate:areaObservationsController];
+        [areaObservationsController setPager:pagerObsArea];
+        
+        inventoriesController = [[CollectionInventoriesController alloc]initWithNibName:@"CollectionInventoriesController" bundle:[NSBundle mainBundle]];
+        NMPaginator *pagerInv = [[InventoriesPager alloc] initWithPageSize:10 delegate:inventoriesController];
+        [inventoriesController setPager:pagerInv];
+        
+        areasController = [[CollectionAreasController alloc]initWithNibName:@"CollectionAreasController" bundle:[NSBundle mainBundle]];
+        NMPaginator *pagerArea = [[AreasPager alloc] initWithPageSize:10 delegate:areasController];
+        [areasController setPager:pagerArea];
     }
     return self;
 }
@@ -99,10 +117,6 @@
 
 - (void) rowClicked:(NSIndexPath *) indexPath {
     NSLog(@"index Path: %i", indexPath.row);
-    CollectionObservationsController *collectionObservationsController;
-    CollectionInventoriesController *collectionInventoriesController;
-    CollectionAreasController *collectionAreasController;
-    CollectionAreaObservationsController *collectionAreaObservationsController;
     
     if (indexPath.section == 0) {
         switch (indexPath.row) {
@@ -110,13 +124,7 @@
                 case 0:
                     {
                         // SINGEL OBSERVATIONS
-                        // Create the CollectionObservationsController
-                        collectionObservationsController = [[CollectionObservationsController alloc]initWithNibName:@"CollectionObservationsController" bundle:[NSBundle mainBundle]];
-                        
-                        
-                        // Switch the View & Controller
-                        [self.navigationController pushViewController:collectionObservationsController animated:YES];
-                        collectionObservationsController = nil;
+                        [self.navigationController pushViewController:observationsController animated:YES];
                         
                         break;
                     }
@@ -126,42 +134,21 @@
             case 0:
             {
                 // AREA OBSERVATIONS
-                // Create the CollectionAreaObservationsController
-                collectionAreaObservationsController = [[CollectionAreaObservationsController alloc]initWithNibName:@"CollectionAreaObservationsController" bundle:[NSBundle mainBundle]];
-                
-                
-                // Switch the View & Controller
-                [self.navigationController pushViewController:collectionAreaObservationsController animated:YES];
-                collectionAreaObservationsController = nil;
-                
+                [self.navigationController pushViewController:areaObservationsController animated:YES];
                 break;
             }
 
             case 1:
                 {
                     // INVENTORIES
-                    // Create the CollectionInventoriesController
-                    collectionInventoriesController = [[CollectionInventoriesController alloc]initWithNibName:@"CollectionInventoriesController" bundle:[NSBundle mainBundle]];
-                    
-                    // Switch the View & Controller
-                    [self.navigationController pushViewController:collectionInventoriesController animated:YES];
-                    collectionInventoriesController = nil;
-                    
+                    [self.navigationController pushViewController:inventoriesController animated:YES];
                     break;
                 }
                 
             case 2:
                 {
                     // AREAS
-                    // Create the CollectionAreasController
-                    collectionAreasController = [[CollectionAreasController alloc]
-                                                 initWithNibName:@"CollectionAreasController"
-                                                 bundle:[NSBundle mainBundle]];
-                    
-                    // Switch the View & Controller
-                    [self.navigationController pushViewController:collectionAreasController animated:YES];
-                    collectionAreasController = nil;
-                    
+                    [self.navigationController pushViewController:areasController animated:YES];
                     break;
                 }
         }

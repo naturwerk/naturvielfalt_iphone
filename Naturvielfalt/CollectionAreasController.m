@@ -13,22 +13,14 @@
 #import "Area.h"
 #import "Reachability.h"
 #import <QuartzCore/QuartzCore.h>
+#import "NaturvielfaltAppDelegate.h"
 
 #define SUCCESS 200
+NaturvielfaltAppDelegate *app;
 
 @implementation CollectionAreasController
-@synthesize table, areas, checkAllButton, checkAllView, noEntryFoundLabel;
+@synthesize table, checkAllButton, checkAllView, pager, persistenceManager, loadingHUD, doSubmit, uploadView, noEntryFoundLabel;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        doSubmit = NO;
-        persistenceManager = [[PersistenceManager alloc] init];
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -47,34 +39,26 @@
     
     self.navigationItem.rightBarButtonItem = filterButton;
     
+    noEntryFoundLabel.text = NSLocalizedString(@"noEntryFound", nil);
+    
     table.delegate = self;
     [checkAllButton setTag:1];
     
-    noEntryFoundLabel.text = NSLocalizedString(@"noEntryFound", nil);
-    
-    // Reload the areas
-    operationQueue = [[NSOperationQueue alloc] init];
-    [operationQueue setMaxConcurrentOperationCount:1];
-    
-    /*loadingHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //[self.navigationController.view addSubview:loadingHUD];
-    
-    loadingHUD.delegate = self;
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    
-    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [loadingHUD showWhileExecuting:@selector(reloadAreas) onTarget:self withObject:nil animated:YES];*/
-    
     [table registerNib:[UINib nibWithNibName:@"CheckboxAreaCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CheckboxAreaCell"];
-    [table reloadData];
+    
+    [self setupTableViewFooter];
+    
+    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+    [pager fetchFirstPage];
+    app.areasChanged = NO;
 }
 
-
-- (void)didReceiveMemoryWarning
+- (void)paginator:(id)paginator didReceiveResults:(NSArray *)results
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super paginator:paginator didReceiveResults:results];
+    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
 }
 
 - (void)viewDidUnload {
@@ -82,7 +66,6 @@
     [self setCheckAllButton:nil];
     [self setCheckAllView:nil];
     [self setNoEntryFoundLabel:nil];
-    areas = nil;
     areaUploadHelpers = nil;
     areasToSubmit = nil;
     [super viewDidUnload];
@@ -90,44 +73,15 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    table.editing = NO;
-
-    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    [self reloadAreas];
-}
-
-//Check if there is an active WiFi connection
-- (BOOL) connectedToWiFi{
-    Reachability *r = [Reachability reachabilityWithHostName:@"www.google.com"];
-	
-	NetworkStatus internetStatus = [r currentReachabilityStatus];
-	
-	bool result = NO;
-	
-	if (internetStatus == ReachableViaWiFi)
-	{
-	    result = YES;
-	}
-	
-	return result;
-}
-
-//Check if there is an active internet connection (3G OR WIFI)
-- (BOOL) connectedToInternet{
-    Reachability *r = [Reachability reachabilityWithHostName:@"www.google.com"];
-	
-	NetworkStatus internetStatus = [r currentReachabilityStatus];
-	
-	bool result = false;
-	
-	if (internetStatus != NotReachable)
-	{
-	    result = true;
-	}
-	
-	return result;
+    if(app.areasChanged) {
+        [pager reset];
+        table.editing = NO;
+        loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
+        loadingHUD.mode = MBProgressHUDModeCustomView;
+        [pager fetchFirstPage];
+        app.areasChanged = NO;
+    }
 }
 
 //fires an alert if not connected to WiFi
@@ -190,14 +144,14 @@
     }
     
     areasToSubmit = [[NSMutableArray alloc] init];
-    for (Area *area in areas) {
+    for (Area *area in pager.results) {
         if (area.submitToServer) {
             [areasToSubmit addObject:area];
         }
     }
     
     areasToSubmit = [[NSMutableArray alloc] init];
-    for (Area *area in areas) {
+    for (Area *area in pager.results) {
         if (area.submitToServer) {
             [areasToSubmit addObject:area];
         }
@@ -308,70 +262,12 @@
     return totalObjects;
 }
 
-- (void) reloadAreas
-{
-
-    // Reset areas
-    areas = nil;
-    
-    [self beginLoadingAreas];
-}
-
-- (void)beginLoadingAreas
-{
-    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(synchronousLoadAreas) object:nil];
-    [operationQueue addOperation:operation];
-}
-
-- (void)synchronousLoadAreas
-{
-    // Establish a connection
-    [persistenceManager establishConnection];
-    
-    // Get all observations
-    NSMutableArray *arrNewAreas = [persistenceManager getAreas];
-    
-    [persistenceManager closeConnection];
-    
-    [self performSelectorOnMainThread:@selector(didFinishLoadingAreas:) withObject:arrNewAreas waitUntilDone:YES];
-}
-
-- (void)didFinishLoadingAreas:(NSMutableArray *)arrNewAreas {
-    
-    if(areas != nil){
-        if([areas count] != [arrNewAreas count]){
-            areas = arrNewAreas;
-        }
-    }
-    else {
-        areas = arrNewAreas;
-    }
-    
-    if(table.editing)
-        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:YES];
-    
-    [table reloadData];
-    
-    // If there aren't any observations in the list. Stop the editing mode.
-    if([areas count] < 1) {
-        table.editing = NO;
-        table.hidden = YES;
-        noEntryFoundLabel.hidden = NO;
-    } else {
-        table.hidden = NO;
-        noEntryFoundLabel.hidden = YES;
-    }
-    
-    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-}
-
 - (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         CheckboxAreaCell *cell = (CheckboxAreaCell *)[tv cellForRowAtIndexPath:indexPath];
         UIButton *button = cell.checkbox;
-        curIndex = indexPath;
         
         // Also delete it from the Database
         // Establish a connection
@@ -390,25 +286,20 @@
         [persistenceManager closeConnection];
         
         // Reload the areas from the database and refresh the TableView
-        [areas removeObjectAtIndex:indexPath.row];
-        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:curIndex] withRowAnimation:UITableViewRowAnimationFade];
+        [pager.results removeObjectAtIndex:indexPath.row];
+        [table deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
-        if ([areas count] < 1) {
+        // If there aren't any observations in the list. Stop the editing mode.
+        if([pager.results count] < 1) {
             table.editing = NO;
             table.hidden = YES;
             noEntryFoundLabel.hidden = NO;
         }
-        //[self reloadAreas];
+        
+        //update tablefooter
+        pager.total--;
+        [self updateTableViewFooter];
     }
-}
-
-#pragma UITableViewDelegates methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
--(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [areas count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -425,7 +316,7 @@
         checkboxAreaCell = (CheckboxAreaCell *)cell;
     }
     
-    Area *area = [areas objectAtIndex:indexPath.row];
+    Area *area = [pager.results objectAtIndex:indexPath.row];
     
     if(area != nil) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -498,7 +389,7 @@
     UIButton *button = (UIButton *)sender;
     NSNumber *number = [NSNumber numberWithInt:button.tag];
     
-    for(Area *area in areas) {
+    for(Area *area in pager.results) {
         if(area.areaId == [number longLongValue]) {
             area.submitToServer = !area.submitToServer;
         }
@@ -509,11 +400,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Create the ObservationsOrganismViewController
-    AreasSubmitController *areasSubmitController = [[AreasSubmitController alloc]
-                                                                      initWithNibName:@"AreasSubmitController"
-                                                                      bundle:[NSBundle mainBundle]];
+    if(!areasSubmitController)
+    areasSubmitController = [[AreasSubmitController alloc] initWithNibName:@"AreasSubmitController" bundle:[NSBundle mainBundle]];
     
-    Area *area = [areas objectAtIndex:indexPath.row];
+    Area *area = [pager.results objectAtIndex:indexPath.row];
     
     // Store the current observation object
     Area *areaShared = [[Area alloc] getArea];
@@ -527,7 +417,6 @@
     
     // Switch the View & Controller
     [self.navigationController pushViewController:areasSubmitController animated:YES];
-    areasSubmitController = nil;
 }
 
 # pragma Listener methods
@@ -560,7 +449,7 @@
         if ([successString isEqualToString:@"success=1"]) {
             [areasToSubmit removeObject:area];
             // Reload observations
-            [self reloadAreas];
+            [self.table reloadData];
         }
     }
         
@@ -587,7 +476,7 @@
         uploadView.keepAlive = NO;
         [uploadView dismissWithClickedButtonIndex:0 animated:YES];
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-        [self reloadAreas];
+        [self.table reloadData];
     }
 }
 
@@ -603,18 +492,18 @@
         //[checkAllButton setImage:[UIImage imageNamed:@"checkbox_checked.png"] forState:UIControlStateNormal];
         [checkAllView setImage:[UIImage imageNamed:@"checkbox_checked.png"]];
 
-        for (Area *area in areas) {
+        for (Area *area in pager.results) {
             area.submitToServer = YES;
         }
         checkAllButton.tag = 1;
     } else {
         //[checkAllButton setImage:[UIImage imageNamed:@"checkbox.png"] forState:UIControlStateNormal];
         [checkAllView setImage:[UIImage imageNamed:@"checkbox.png"]];
-        for (Area *area in areas) {
+        for (Area *area in pager.results) {
             area.submitToServer = NO;
         }
         checkAllButton.tag = 0;
     }
-    [table reloadData];
+    [self.table reloadData];
 }
 @end

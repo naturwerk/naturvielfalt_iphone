@@ -11,24 +11,16 @@
 #import "PersistenceManager.h"
 #import "ASINetworkQueue.h"
 #import "AreaUploadHelper.h"
+#import "AreasSubmitNewInventoryController.h"
+#import "InventoriesPager.h"
+#import "ACollectionController.h"
 
-@interface CollectionInventoriesController : UIViewController <UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate> {
+@interface CollectionInventoriesController :  ACollectionController {
     
-    MBProgressHUD *loadingHUD;
-    PersistenceManager *persistenceManager;
-    NSMutableArray *inventories;
     NSMutableArray *inventoriesToSubmit;
     int *countInventories;
-    IBOutlet UITableView *table;
-    ASINetworkQueue *queue;
-    NSOperationQueue *operationQueue;
-    NSIndexPath *curIndex;
-    BOOL doSubmit;
-    IBOutlet UILabel *noEntryFoundLabel;
+    
+    AreasSubmitNewInventoryController *areasSubmitNewInventoryController;
 }
-
-@property (nonatomic) IBOutlet UITableView *table;
-@property (nonatomic) NSMutableArray *inventories;
-@property (nonatomic) IBOutlet UILabel *noEntryFoundLabel;
 
 @end

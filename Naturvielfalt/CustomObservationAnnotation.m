@@ -22,7 +22,7 @@
 }
 
 - (NSString*)title {
-    return observation.organism.nameDe;
+    return [observation.organism getName];
 }
 
 - (NSString*)subtitle {

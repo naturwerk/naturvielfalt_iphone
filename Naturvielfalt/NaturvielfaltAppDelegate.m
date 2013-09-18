@@ -16,7 +16,7 @@
 @end
 
 @implementation NaturvielfaltAppDelegate
-@synthesize window=_window, tabBarController=_tabBarController, observationTabItem = _observationTabItem;
+@synthesize window=_window, tabBarController=_tabBarController, observationTabItem = _observationTabItem, observationsChanged, areaObservationsChanged, inventoriesChanged, areasChanged;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
@@ -37,6 +37,11 @@
     //[appSettings setObject:@"waebi07" forKey:@"username"];
     [appSettings setObject:@"2" forKey:@"mapType"];
     [appSettings synchronize];
+    
+    observationsChanged = YES;
+    areaObservationsChanged = YES;
+    inventoriesChanged = YES;
+    areasChanged = YES;
     
     return YES;
 }

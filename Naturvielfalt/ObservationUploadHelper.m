@@ -67,6 +67,13 @@
         
         // Upload image
         if([observation.pictures count] > 0) {
+            if(observation.inventory == 0) {
+                    //because only one image of singleobservations has been loaded so far (collectionview), fetch all again..
+                    //this is a workaround.. better would be to load other images only if there really are additional available..
+                    [persistenceManager establishConnection];
+                    observation.pictures = [persistenceManager getObservationImagesFromObservation:observation.observationId];
+                    [persistenceManager closeConnection];
+                }
             for (ObservationImage *obsImg in observation.pictures) {
                 if (!obsImg.submitted) {
                     // Create PNG image

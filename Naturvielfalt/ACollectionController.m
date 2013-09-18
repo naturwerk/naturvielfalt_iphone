@@ -23,9 +23,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        doSubmit = NO;
-        persistenceManager = [[PersistenceManager alloc] init];
-        app = (NaturvielfaltAppDelegate*)[[UIApplication sharedApplication] delegate];
+        self.doSubmit = NO;
+        self.persistenceManager = [[PersistenceManager alloc] init];
+        self.app = (NaturvielfaltAppDelegate*)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -100,15 +100,6 @@
 
 - (void)paginator:(id)paginator didReceiveResults:(NSArray *)results
 {
-    // If there aren't any observations in the list. Stop the editing mode.
-    if([self.pager.results count] < 1) {
-        table.editing = NO;
-        table.hidden = YES;
-        noEntryFoundLabel.hidden = NO;
-    } else {
-        table.hidden = NO;
-        noEntryFoundLabel.hidden = YES;
-    }
     
     // update tableview footer
     [self updateTableViewFooter];

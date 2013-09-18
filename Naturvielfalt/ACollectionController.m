@@ -43,7 +43,7 @@
 
 - (void) setPager:(NMPaginator *)paginator
 {
-    self->pager = paginator;
+    self.pager = paginator;
 }
 
 - (void)setupTableViewFooter

@@ -55,7 +55,6 @@
 - (void) deleteObservation:(long long int)observationId;
 - (void) deleteObservations:(NSMutableArray *)observations;
 - (Observation *) getObservation:(long long int) observationId;
-- (NSMutableArray *) getObservations;
 - (NSMutableArray *) getAllAreaObservationsWithOffset:(int) offset andLimit:(int) limit;
 - (NSMutableArray *) getAllSingelObservationsWithOffset:(int) offset andLimit:(int) limit;
 

@@ -67,7 +67,7 @@
         
         // Upload image
         if([observation.pictures count] > 0) {
-            if(observation.inventory == 0) {
+            if(!observation.inventory) {
                     //because only one image of singleobservations has been loaded so far (collectionview), fetch all again..
                     //this is a workaround.. better would be to load other images only if there really are additional available..
                     [persistenceManager establishConnection];

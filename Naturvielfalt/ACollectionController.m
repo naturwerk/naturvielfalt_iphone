@@ -72,6 +72,7 @@
 
 - (void)updateTableViewFooter
 {
+    NSLog(@"%i", [self.pager.results count]);
     if ([self.pager.results count] != 0)
     {
         self.footerLabel.text = [NSString stringWithFormat:@"%d results out of %d", [self.pager.results count], self.pager.total];

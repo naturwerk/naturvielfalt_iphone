@@ -84,7 +84,6 @@ NaturvielfaltAppDelegate *app;
 - (void) viewWillAppear:(BOOL)animated
 {
     if(app.areasChanged) {
-        [pager reset];
         table.editing = NO;
         loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);

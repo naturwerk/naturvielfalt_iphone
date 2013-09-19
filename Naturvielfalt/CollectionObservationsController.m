@@ -76,12 +76,6 @@ NaturvielfaltAppDelegate *app;
     
     [self setupTableViewFooter];
     
-    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    [pager fetchFirstPage];
-    app.observationsChanged = NO;
-    
 }
 
 - (void)paginator:(id)paginator didReceiveResults:(NSArray *)results
@@ -352,7 +346,7 @@ NaturvielfaltAppDelegate *app;
 - (void) viewWillAppear:(BOOL)animated
 {
     if(app.observationsChanged) {
-        [pager reset];
+        //new, edited or deleted observations, fetch observations again (show first page)
         table.editing = NO;
         loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
@@ -370,6 +364,11 @@ NaturvielfaltAppDelegate *app;
         case 2:{mapView.mapType = MKMapTypeHybrid; [mapSegmentControl setSelectedSegmentIndex:1]; break;}
         case 3:{mapView.mapType = MKMapTypeStandard; [mapSegmentControl setSelectedSegmentIndex:2]; break;}
     }
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    //when user double tabs collection tab, it is possible that the loadingHud is still displayed. So remove it whenever the view dispears.
+    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
 }
 
 

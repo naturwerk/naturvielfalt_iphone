@@ -168,14 +168,6 @@ NaturvielfaltAppDelegate *app;
         [alert show];
         return;
     }
-
-    uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
-    /*UIProgressView *pv = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
-     pv.frame = CGRectMake(40, 67, 200, 15);
-     CGAffineTransform myTransform = CGAffineTransformMakeScale(1.0, 2.0f);
-     pv.progress = 0.5;
-     [uploadView addSubview:pv];*/
-    [uploadView show];
     
     [self sendRequestToServer];
 
@@ -208,32 +200,40 @@ NaturvielfaltAppDelegate *app;
     if (!areaUploadHelpers) {
         areaUploadHelpers = [[NSMutableArray alloc] init];
     }
-    
+        
+
+    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    loadingHUD.labelText = NSLocalizedString(@"collectionHudAuthentication", nil);
+    loadingHUD.mode = MBProgressHUDModeCustomView;
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        loadingHUD.labelText = NSLocalizedString(@"Check for autorisation", nil);
-        loadingHUD.mode = MBProgressHUDModeCustomView;
-    });
-    
-    if (/*!cancelSubmission &&*/ [self checkLoginData:username andPWD:password]) {
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-        for (Area *area in areasToSubmit) {
-            AreaUploadHelper *areaUploadHelper = [[AreaUploadHelper alloc] init];
-            [areaUploadHelper registerListener:self];
-            [areaUploadHelpers addObject:areaUploadHelper];
-            [areaUploadHelper submit:area withRecursion:YES];
+        if (/*!cancelSubmission &&*/ [self checkLoginData:username andPWD:password]) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
+                
+                [uploadView show];
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                for (Area *area in areasToSubmit) {
+                    AreaUploadHelper *areaUploadHelper = [[AreaUploadHelper alloc] init];
+                    [areaUploadHelper registerListener:self];
+                    [areaUploadHelpers addObject:areaUploadHelper];
+                    [areaUploadHelper submit:area withRecursion:YES];
+                }
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionHudAuthenticationFailed", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
+                [alert show];
+                return;
+            });
         }
-    } else {
-        [loadingHUD removeFromSuperview];
-        [uploadView dismissWithClickedButtonIndex:0 animated:YES];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:@"keine Autorisierung" delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
+    });
 }
 
 - (BOOL) checkLoginData: (NSString *)username andPWD: (NSString *)pwd {
-    
+    if(![self connectedToInternet]) return false;
     NSURL *url = [NSURL URLWithString:@"https://naturvielfalt.ch/webservice/api/login"];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
     [request setUsername:username];

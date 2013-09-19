@@ -271,10 +271,6 @@ NaturvielfaltAppDelegate *app;
         [alert show];
         return;
     }
-
-    uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
-
-    [uploadView show];
     
     [self sendRequestToServer];
     
@@ -291,6 +287,10 @@ NaturvielfaltAppDelegate *app;
         return;
     }
 
+    uploadView = [[AlertUploadView alloc] initWithTitle:NSLocalizedString(@"collectionHudWaitMessage", nil) message:NSLocalizedString(@"collectionHudSubmitMessage", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navCancel", nil) otherButtonTitles:nil];
+    
+    [uploadView show];
+    
     //new portal
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     

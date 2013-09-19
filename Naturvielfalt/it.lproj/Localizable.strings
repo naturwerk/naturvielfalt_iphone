@@ -172,6 +172,8 @@
 "collectionHudSubmitMessage"	= "Submit data…";
 "collectionHudLoadMessage"		= "Loading…";
 "collectionHudSaveMessage"		= "Saving…";
+"collectionHudAuthentication"    = "Autenticazione..";
+"collectionHudAuthenticationFailed" = "Autenticazione non riuscita. Si prega di verificare le credenziali.";
 
 
 /** Settings **/

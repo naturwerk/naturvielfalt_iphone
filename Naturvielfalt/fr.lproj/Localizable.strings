@@ -173,6 +173,8 @@
 "collectionHudSubmitMessage"	= "Les données sont transmettre..";
 "collectionHudLoadMessage"		= "Charger..";
 "collectionHudSaveMessage"		= "Enregistrer…";
+"collectionHudAuthentication"    = "Authentification..";
+"collectionHudAuthenticationFailed" = "L'authentification a échoué. S'il vous plaît vérifier vos informations d'identification.";
 
 
 /** Settings **/

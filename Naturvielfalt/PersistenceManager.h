@@ -36,6 +36,7 @@
 @property (nonatomic) NSString *sLanguage;
 
 // Connection
+- (void) setUpTables;
 - (void) establishConnection;
 - (void) closeConnection;
 

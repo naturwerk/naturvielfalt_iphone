@@ -174,6 +174,8 @@
 "collectionHudSubmitMessage"	= "Daten werden übermittelt…";
 "collectionHudLoadMessage"		= "Lädt…";
 "collectionHudSaveMessage"		= "Speichert…";
+"collectionHudAuthentication"    = "Authentifizierung..";
+"collectionHudAuthenticationFailed" = "Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Ihre Logindaten.";
 
 /** Settings **/
 "settingsNavTitle"              = "Einstellungen";

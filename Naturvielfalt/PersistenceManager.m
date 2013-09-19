@@ -32,60 +32,29 @@ NaturvielfaltAppDelegate *app;
     return filePath;
 }
 
-// CONNECTION
-- (void) establishConnection
-{
-    app = (NaturvielfaltAppDelegate*)[[UIApplication sharedApplication] delegate];
-    
-    // Create link to user database
-    if (sqlite3_open([[self userDataFilePath] UTF8String], &dbUser) != SQLITE_OK) {
-        sqlite3_close(dbUser);
-        NSAssert(0, @"Failed to open user database");
-    }
-    
-    sLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
-    
-    if (![sLanguage isEqualToString:@"en"] && ![sLanguage isEqualToString:@"de"] &&
-        ![sLanguage isEqualToString:@"fr"] && ![sLanguage isEqualToString:@"it"]) {
-        // English if unsupported system language is setted
-        sLanguage = @"en";
-    }
-    
-    // Store the language in the appSettings
-    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
-    [appSettings setObject:sLanguage forKey:@"language"];
-    [appSettings synchronize];
-    
-    // create link to static database
-    NSString *staticPath = [self staticDataFilePath];
-    NSLog(@"%s", [staticPath UTF8String]);
-    int state = sqlite3_open([staticPath UTF8String], &dbStatic);
-    if (state != SQLITE_OK) {
-        sqlite3_close(dbStatic);
-        NSAssert(0, @"Failed to open static database");
-    }
+- (void) setUpTables {
     
     // Create TABLE OBSERVATION
     NSString *createSQLObservation = @"CREATE TABLE IF NOT EXISTS observation (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
-                                                                     GUID INTEGER,                         \
-                                                                     SUBMITTED INTEGER,                    \
-                                                                     INVENTORY_ID INTEGER,                 \
-                                                                     ORGANISM_ID INTEGER,                  \
-                                                                     ORGANISMGROUP_ID INTEGER,             \
-                                                                     ORGANISM_NAME TEXT,                   \
-                                                                     ORGANISM_NAME_EN TEXT,                \
-                                                                     ORGANISM_NAME_FR TEXT,                \
-                                                                     ORGANISM_NAME_IT TEXT,                \
-                                                                     ORGANISM_NAME_LAT TEXT,               \
-                                                                     ORGANISM_FAMILY TEXT,                 \
-                                                                     AUTHOR TEXT,                          \
-                                                                     DATE TEXT,                            \
-                                                                     AMOUNT INTEGER,                       \
-                                                                     LOCATION_LAT REAL,                    \
-                                                                     LOCATION_LON REAL,                    \
-                                                                     ACCURACY INTEGER,                     \
-                                                                     COMMENT TEXT,                         \
-                                                                     LOCATION_LOCKED INTEGER);";
+    GUID INTEGER,                         \
+    SUBMITTED INTEGER,                    \
+    INVENTORY_ID INTEGER,                 \
+    ORGANISM_ID INTEGER,                  \
+    ORGANISMGROUP_ID INTEGER,             \
+    ORGANISM_NAME TEXT,                   \
+    ORGANISM_NAME_EN TEXT,                \
+    ORGANISM_NAME_FR TEXT,                \
+    ORGANISM_NAME_IT TEXT,                \
+    ORGANISM_NAME_LAT TEXT,               \
+    ORGANISM_FAMILY TEXT,                 \
+    AUTHOR TEXT,                          \
+    DATE TEXT,                            \
+    AMOUNT INTEGER,                       \
+    LOCATION_LAT REAL,                    \
+    LOCATION_LON REAL,                    \
+    ACCURACY INTEGER,                     \
+    COMMENT TEXT,                         \
+    LOCATION_LOCKED INTEGER);";
     
     // Create TABLE RECENT_OBSERVED_ORGANISM
     NSString *createSQLRecentObservation = @"CREATE TABLE IF NOT EXISTS recent_observed_organism (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
@@ -109,40 +78,40 @@ NaturvielfaltAppDelegate *app;
     
     // Create TABLE INVENTORY (At the moment IMAGE BLOB is missing..)
     NSString *createSQLInventory = @"CREATE TABLE IF NOT EXISTS inventory (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
-                                                                     GUID INTEGER,                         \
-                                                                     SUBMITTED INTEGER,                    \
-                                                                     AREA_ID INTEGER,                      \
-                                                                     NAME TEXT,                            \
-                                                                     AUTHOR TEXT,                          \
-                                                                     DATE TEXT,                            \
-                                                                     DESCRIPTION TEXT);";
+    GUID INTEGER,                         \
+    SUBMITTED INTEGER,                    \
+    AREA_ID INTEGER,                      \
+    NAME TEXT,                            \
+    AUTHOR TEXT,                          \
+    DATE TEXT,                            \
+    DESCRIPTION TEXT);";
     
     // Create TABLE AREA
     NSString *createSQLArea = @"CREATE TABLE IF NOT EXISTS area (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
-                                                                    GUID INTEGER,                          \
-                                                                    SUBMITTED INTEGER,                     \
-                                                                    NAME TEXT,                             \
-                                                                    MODE INT,                              \
-                                                                    AUTHOR TEXT,                           \
-                                                                    DATE TEXT,                             \
-                                                                    DESCRIPTION TEXT);";
+    GUID INTEGER,                          \
+    SUBMITTED INTEGER,                     \
+    NAME TEXT,                             \
+    MODE INT,                              \
+    AUTHOR TEXT,                           \
+    DATE TEXT,                             \
+    DESCRIPTION TEXT);";
     
     // Create TABLE LocationPoint
     NSString *createSQLLocationPoint = @"CREATE TABLE IF NOT EXISTS locationPoint (AREA_ID INTEGER,        \
-                                                                    LAT REAL,                              \
-                                                                    LON REAL);";
+    LAT REAL,                              \
+    LON REAL);";
     
     // Create TABLE areaImage
     NSString *createSQLAreaImage = @"CREATE TABLE IF NOT EXISTS areaImage (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
-                                                                    AREA_ID INTEGER,                             \
-                                                                    SUBMITTED INTEGER,                           \
-                                                                    IMAGE BLOB);";
+    AREA_ID INTEGER,                             \
+    SUBMITTED INTEGER,                           \
+    IMAGE BLOB);";
     
     // Create TABLE observationImage
     NSString *createSQLObservationImage = @"CREATE TABLE IF NOT EXISTS observationImage (ID INTEGER PRIMARY KEY AUTOINCREMENT, \
-                                                                    OBSERVATION_ID INTEGER,                      \
-                                                                    SUBMITTED INTEGER,                           \
-                                                                    IMAGE BLOB);";
+    OBSERVATION_ID INTEGER,                      \
+    SUBMITTED INTEGER,                           \
+    IMAGE BLOB);";
     
     char *errorMsg;
     
@@ -179,6 +148,40 @@ NaturvielfaltAppDelegate *app;
     if (sqlite3_exec (dbUser, [createSQLObservationImage UTF8String], NULL, NULL, &errorMsg) != SQLITE_OK) {
         sqlite3_close(dbUser);
         NSAssert1(0, @"Error creating table OBSERVATIONIMAGE: %s", errorMsg);
+    }
+
+}
+// CONNECTION
+- (void) establishConnection
+{
+    app = (NaturvielfaltAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    // Create link to user database
+    if (sqlite3_open([[self userDataFilePath] UTF8String], &dbUser) != SQLITE_OK) {
+        sqlite3_close(dbUser);
+        NSAssert(0, @"Failed to open user database");
+    }
+    
+    sLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
+    
+    if (![sLanguage isEqualToString:@"en"] && ![sLanguage isEqualToString:@"de"] &&
+        ![sLanguage isEqualToString:@"fr"] && ![sLanguage isEqualToString:@"it"]) {
+        // English if unsupported system language is setted
+        sLanguage = @"en";
+    }
+    
+    // Store the language in the appSettings
+    NSUserDefaults* appSettings = [NSUserDefaults standardUserDefaults];
+    [appSettings setObject:sLanguage forKey:@"language"];
+    [appSettings synchronize];
+    
+    // create link to static database
+    NSString *staticPath = [self staticDataFilePath];
+    NSLog(@"%s", [staticPath UTF8String]);
+    int state = sqlite3_open([staticPath UTF8String], &dbStatic);
+    if (state != SQLITE_OK) {
+        sqlite3_close(dbStatic);
+        NSAssert(0, @"Failed to open static database");
     }
     
     // dont' backup the database files to iCloud

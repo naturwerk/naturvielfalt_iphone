@@ -7,6 +7,7 @@
 //
 
 #import "NaturvielfaltAppDelegate.h"  
+#import "PersistenceManager.h"
 
 @implementation UINavigationBar (CustomImage)
 - (void)drawRect:(CGRect)rect {
@@ -42,6 +43,11 @@
     areaObservationsChanged = YES;
     inventoriesChanged = YES;
     areasChanged = YES;
+    
+    PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
+    [persistenceManager establishConnection];
+    [persistenceManager setUpTables];
+    [persistenceManager closeConnection];
     
     return YES;
 }

@@ -366,11 +366,6 @@ NaturvielfaltAppDelegate *app;
     }
 }
 
-- (void) viewWillDisappear:(BOOL)animated {
-    //when user double tabs collection tab, it is possible that the loadingHud is still displayed. So remove it whenever the view dispears.
-    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-}
-
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {

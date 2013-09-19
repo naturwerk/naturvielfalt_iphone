@@ -75,12 +75,6 @@ NaturvielfaltAppDelegate *app;
     [table registerNib:[UINib nibWithNibName:@"CheckboxAreaObsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CheckboxAreaObsCell"];
     
     [self setupTableViewFooter];
-    
-    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    [pager fetchFirstPage];
-    app.areaObservationsChanged = NO;
 }
 
 
@@ -190,6 +184,7 @@ NaturvielfaltAppDelegate *app;
         {
             [UIView transitionWithView:areaObservationsView duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                 table.hidden = NO;
+                noEntryFoundLabel.hidden = [pager.results count] > 0;
                 mapView.hidden = YES;
                 mapSegmentControl.hidden = YES;
             }completion:nil];
@@ -203,6 +198,7 @@ NaturvielfaltAppDelegate *app;
                 mapView.hidden = NO;
                 noEntryFoundLabel.hidden = YES;
                 mapSegmentControl.hidden = NO;
+                noEntryFoundLabel.hidden = YES;
             }completion:nil];
         }
     }

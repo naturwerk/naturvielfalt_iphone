@@ -38,12 +38,6 @@ NaturvielfaltAppDelegate *app;
     [table registerNib:[UINib nibWithNibName:@"CheckboxInventoryCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CheckboxInventoryCell"];
     
     [self setupTableViewFooter];
-    
-    loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    [pager fetchFirstPage];
-    app.inventoriesChanged = NO;
 }
 
 - (void)paginator:(id)paginator didReceiveResults:(NSArray *)results

@@ -319,6 +319,7 @@ NaturvielfaltAppDelegate *app;
         {
             [UIView transitionWithView:observationsView duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                 table.hidden = NO;
+                noEntryFoundLabel.hidden = [pager.results count] > 0;
                 mapView.hidden = YES;
                 mapSegmentControl.hidden = YES;
                 checkAllButton.hidden = NO;
@@ -333,6 +334,7 @@ NaturvielfaltAppDelegate *app;
                 mapView.hidden = NO;
                 mapSegmentControl.hidden = NO;
                 checkAllButton.hidden = YES;
+                noEntryFoundLabel.hidden = YES;
             }completion:nil];
         }
     }

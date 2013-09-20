@@ -38,7 +38,8 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    //resets pager to only display 10 results;
+    [pager fetchFirstPage];
 }
 
 - (void) setPager:(NMPaginator *)paginator

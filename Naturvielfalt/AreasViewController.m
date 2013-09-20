@@ -43,10 +43,11 @@
     currentDrawMode = annotation.annotationType;
     startPoint = annotation;
     
+    
     // set hairline cross to the last location
     MKCoordinateSpan span;
-    span.latitudeDelta = 0.005;
-    span.longitudeDelta = 0.005;
+    span.latitudeDelta = 0.009;
+    span.longitudeDelta = 0.009;
     CLLocationCoordinate2D cll;
     cll.latitude = ((LocationPoint*)locationPoints.lastObject).latitude;
     cll.longitude = ((LocationPoint*)locationPoints.lastObject).longitude;
@@ -155,14 +156,12 @@
     }
     mapView.showsUserLocation = YES;        
 
-    /*loadingHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-    [self.navigationController.view addSubview:loadingHUD];
-    
-    loadingHUD.delegate = self;
-    loadingHUD.mode = MBProgressHUDModeCustomView;
-    loadingHUD.labelText = NSLocalizedString(@"collectionHudLoadMessage", nil);
-    
-    [loadingHUD showWhileExecuting:@selector(loadAreas) onTarget:self withObject:nil animated:YES];*/
+    // Register event for handling zooming in on users current position
+    [mapView.userLocation addObserver:self
+                                forKeyPath:@"location"
+                                   options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+                                   context:NULL];
+
 
     
     // Set delegation and show users current position
@@ -733,8 +732,8 @@
 
             if (!isOnlyOnePoint) {
                 // set hairline cross to the last location
-                span.latitudeDelta = 0.005;
-                span.longitudeDelta = 0.005;
+                span.latitudeDelta = 0.009;
+                span.longitudeDelta = 0.009;
                 cll.latitude = ((LocationPoint*)locationPoints.lastObject).latitude;
                 cll.longitude = ((LocationPoint*)locationPoints.lastObject).longitude;
                 region.span = span;
@@ -753,8 +752,8 @@
 
             if (!isOnlyOnePoint) {
                 // set hairline cross to the last location
-                span.latitudeDelta = 0.005;
-                span.longitudeDelta = 0.005;
+                span.latitudeDelta = 0.009;
+                span.longitudeDelta = 0.009;
                 cll.latitude = ((LocationPoint*)locationPoints.lastObject).latitude;
                 cll.longitude = ((LocationPoint*)locationPoints.lastObject).longitude;
                 region.span = span;
@@ -880,12 +879,6 @@
 
 - (IBAction)relocate:(id)sender {
     
-    // Register event for handling zooming in on users current position
-    [mapView.userLocation addObserver:self
-     forKeyPath:@"location"
-     options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
-     context:NULL];
-    
     if ([CLLocationManager locationServicesEnabled]) {
         NSLog( @"start relocate");
         locationManager.delegate = self;
@@ -897,8 +890,6 @@
     
     shouldAdjustZoom = YES;
     mapView.showsUserLocation = YES;
-    
-    //searchBar.placeholder = [self getAddressFromLatLon:mapView.userLocation.coordinate.latitude withLongitude:mapView.userLocation.coordinate.longitude];
 }
 
 
@@ -1051,8 +1042,8 @@
     region.center = sLocation;
     
     MKCoordinateSpan span;
-    span.latitudeDelta  = 0.009; // Change these values to change the zoom
-    span.longitudeDelta = 0.009;
+    span.latitudeDelta  = 0.005; // Change these values to change the zoom
+    span.longitudeDelta = 0.005;
     region.span = span;
     
     [mapView setRegion:region animated:YES];

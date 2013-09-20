@@ -18,7 +18,7 @@
     dispatch_async(fetchQ, ^{
         PersistenceManager *persistenceManager = [[PersistenceManager alloc] init];
         [persistenceManager establishConnection];
-        NSArray *results = [persistenceManager getAreasWithOffset:pageSize * (page-1) andLimit:pageSize];
+        NSArray *results = [persistenceManager getAreasWithOffset:pageSize * (page-1) andLimit:pageSize withInventories:YES];
         int total = [persistenceManager getAreasCount];
         [persistenceManager closeConnection];
         

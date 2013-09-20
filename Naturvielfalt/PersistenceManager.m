@@ -1272,7 +1272,7 @@ NaturvielfaltAppDelegate *app;
     return count;
 }
 
-- (NSMutableArray *) getAreasWithOffset:(int)offset andLimit:(int)limit {
+- (NSMutableArray *) getAreasWithOffset:(int)offset andLimit:(int)limit withInventories:(BOOL) withInventories {
     // All observations are stored in here
     NSMutableArray *areas = [[NSMutableArray alloc] init];
     
@@ -1329,7 +1329,8 @@ NaturvielfaltAppDelegate *app;
             }
             
             area.locationPoints = [self getLocationPointsFromArea:areaId];
-            area.inventories = [self getInventoriesFromArea:area];
+            if(withInventories)
+                area.inventories = [self getInventoriesFromArea:area];
 
             
             // Add area to the areas array

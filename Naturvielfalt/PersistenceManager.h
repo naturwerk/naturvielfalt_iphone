@@ -74,7 +74,7 @@
 - (long long int) saveArea:(Area *) area;
 - (void) updateArea:(Area *) area;
 - (void) deleteArea:(long long int) areaId;
-- (NSMutableArray *) getAreasWithOffset:(int) offset andLimit:(int) limit;
+- (NSMutableArray *) getAreasWithOffset:(int)offset andLimit:(int)limit withInventories:(BOOL) withInventories;
 - (Area *) getArea:(long long int)areaId;
 - (NSMutableArray *) getInventoriesFromArea:(Area *) area;
 

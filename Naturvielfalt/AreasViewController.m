@@ -269,7 +269,7 @@
     }
     [persistenceManager establishConnection];
     
-    NSMutableArray *areas = [persistenceManager getAreasWithOffset:-1 andLimit:-1];
+    NSMutableArray *areas = [persistenceManager getAreasWithOffset:-1 andLimit:-1 withInventories:NO];
     // Close connection
     [persistenceManager closeConnection];
 

@@ -302,6 +302,7 @@ NaturvielfaltAppDelegate *app;
     }
     
     for (Observation *obs in obsToSubmit) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         // single observation
         if(!doSubmit) break;
         if (obs.inventoryId == 0) {
@@ -567,8 +568,7 @@ NaturvielfaltAppDelegate *app;
         return;
     }
     Observation *observation = (Observation *) object;
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
     float percent = (100 / totalRequests) * (totalRequests - (--observationCounter));
     NSLog(@"requestcounter: %d progress: %f",observationCounter + 1,  percent / 100);
     uploadView.progressView.progress = percent / 100;
@@ -589,6 +589,7 @@ NaturvielfaltAppDelegate *app;
     }
     
     if (observationCounter == 0) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         [observationUploadHelpers removeAllObjects];
         
         if (obsToSubmit.count == 0) {

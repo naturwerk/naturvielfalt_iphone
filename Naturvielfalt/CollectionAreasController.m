@@ -205,7 +205,7 @@ NaturvielfaltAppDelegate *app;
     loadingHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     loadingHUD.labelText = NSLocalizedString(@"collectionHudAuthentication", nil);
     loadingHUD.mode = MBProgressHUDModeCustomView;
-
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (/*!cancelSubmission &&*/ [self checkLoginData:username andPWD:password]) {
             dispatch_async(dispatch_get_main_queue(), ^(void){
@@ -213,7 +213,9 @@ NaturvielfaltAppDelegate *app;
                 
                 [uploadView show];
                 [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-                for (Area *area in areasToSubmit) {
+                //copy array because of possible NSGenericException
+                NSArray *tmpAreas = [[NSArray alloc] initWithArray:areasToSubmit];
+                for (Area *area in tmpAreas) {
                     AreaUploadHelper *areaUploadHelper = [[AreaUploadHelper alloc] init];
                     [areaUploadHelper registerListener:self];
                     [areaUploadHelpers addObject:areaUploadHelper];
@@ -222,7 +224,7 @@ NaturvielfaltAppDelegate *app;
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^(void){
-
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
                 [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"navError", nil) message:NSLocalizedString(@"collectionHudAuthenticationFailed", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"navOk", nil) otherButtonTitles:nil, nil];
                 [alert show];
@@ -430,8 +432,6 @@ NaturvielfaltAppDelegate *app;
     }
     Area *area = (Area *) object;
     
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     float percent = (100 / totalRequests) * (totalRequests - (--areasCounter));
     NSLog(@"requestcounter: %d progress: %f",areasCounter + 1,  percent / 100);
     uploadView.progressView.progress = percent / 100;
@@ -457,6 +457,7 @@ NaturvielfaltAppDelegate *app;
     }
         
     if (areasCounter == 0) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         [areaUploadHelpers removeAllObjects];
         if (areasToSubmit.count == 0 && !submissionFail) {
             if (!cancelSubmission) {

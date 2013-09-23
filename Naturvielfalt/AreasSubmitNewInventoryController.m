@@ -227,22 +227,20 @@
     
     area.submitted = NO;
     
-    if (!review) {
-        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
-        [self.navigationController.parentViewController.view addSubview:hud];
-        
-        UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-        hud.customView = image;
-        
-        // Set custom view mode
-        hud.mode = MBProgressHUDModeCustomView;
-        
-        //hud.delegate = self;
-        hud.labelText = NSLocalizedString(@"areaInventoryHudSuccess", nil);
-        
-        [hud show:YES];
-        [hud hide:YES afterDelay:1];
-    }
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.navigationController.parentViewController.view];
+    [self.navigationController.parentViewController.view addSubview:hud];
+    
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    hud.customView = image;
+    
+    // Set custom view mode
+    hud.mode = MBProgressHUDModeCustomView;
+    
+    //hud.delegate = self;
+    hud.labelText = NSLocalizedString(@"areaInventoryHudSuccess", nil);
+    
+    [hud show:YES];
+    [hud hide:YES afterDelay:1];
     
     // Set review flag
     review = YES;

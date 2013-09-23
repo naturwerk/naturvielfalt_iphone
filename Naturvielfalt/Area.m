@@ -12,7 +12,7 @@
 
 @class AreasViewController;
 @implementation Area
-@synthesize areaId, author, name, date, pictures, inventories, description, submitToServer, locationLocked, typeOfArea, persisted, locationPoints, guid, submitted;
+@synthesize areaId, author, name, date, pictures, inventories, description, submitToServer, locationLocked, typeOfArea, persisted, locationPoints, guid, submitted, parentArea;
 
 static Area *area;
 

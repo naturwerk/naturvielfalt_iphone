@@ -94,7 +94,8 @@ NaturvielfaltAppDelegate *app;
     MODE INT,                              \
     AUTHOR TEXT,                           \
     DATE TEXT,                             \
-    DESCRIPTION TEXT);";
+    DESCRIPTION TEXT                       \
+    PARENTAREA_ID INTEGER);";
     
     // Create TABLE LocationPoint
     NSString *createSQLLocationPoint = @"CREATE TABLE IF NOT EXISTS locationPoint (AREA_ID INTEGER,        \
